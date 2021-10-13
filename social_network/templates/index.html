@@ -1,0 +1,224 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}US教育问答平台{% endblock title %}
+{% block header_con %}{% endblock header_con %}
+{% block search_bar %}{% endblock search_bar %}
+{% block bodyclass %}class="hold-transition sidebar-mini layout-fixed"
+    data-panel-auto-height-mode="height"{% endblock bodyclass %}
+{% block body %}
+
+    <div class="wrapper">
+
+        <!-- Navbar -->
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+
+            <!-- Left navbar links -->
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+                </li>
+            </ul>
+
+
+            <!-- Right navbar links -->
+            <ul class="navbar-nav ml-auto">
+                <!-- Notifications Dropdown Menu -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link" data-toggle="dropdown" href="#">
+                        <i class="fa fa-user"></i>
+                        <span class="block m-t-xs"><strong class="font-bold">{{ username }}</strong></span>
+                        <span class="text-muted text-xs block">{{ rolename }}<b class="caret"></b></span>
+                        <i class="fas fa-angle-down"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                        <span class="dropdown-item dropdown-header">用户管理</span>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item">
+                            <i class="fas fa-address-book mr-2"></i> 修改信息
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item">
+                            <i class="fas fa-user-lock mr-2"></i> 修改密码
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="{% url 'web:logout' %}" target="_parent" class="dropdown-item">
+                            <i class="fas fa-sign-out-alt mr-2"></i> 安全退出
+
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item dropdown-footer">取    消</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="fullscreen" href="#" role="button">
+                        <i class="fas fa-expand-arrows-alt"></i>
+                    </a>
+                </li>
+{#                <li class="nav-item">#}
+{#                    <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">#}
+{#                        <i class="fas fa-th-large"></i>#}
+{#                    </a>#}
+{#                </li>#}
+            </ul>
+        </nav>
+
+
+        <!-- Main Sidebar Container -->
+        <aside class="main-sidebar sidebar-dark-primary elevation-4">
+            <!-- Brand Logo -->
+            <a href="#" class="brand-link">
+                <img src="{% static 'adminlte/dist/img/AdminLTELogo.png' %}" alt="USoft Logo"
+                     class="brand-image img-circle elevation-3" style="opacity: .8">
+                <span class="brand-text font-weight-light">US教育问答平台</span>
+            </a>
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <!-- Sidebar user panel (optional) -->
+                <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                    <div class="image">
+                        <img src="{% static 'adminlte/dist/img/user2-160x160.jpg' %}" class="img-circle elevation-2"
+                             alt="User Image">
+                    </div>
+                    <div class="info">
+                        <a href="#">
+                <span class="clear">
+                    <span class="block m-t-xs"><strong class="font-bold">{{ username }}</strong></span>
+                    <span class="text-muted text-xs block">{{ rolename }}<b class="caret"></b></span>
+                </span>
+                        </a>
+                    </div>
+                </div>
+                <nav class="mt-2">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+                        data-accordion="false">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-tachometer-alt"></i>
+                                <p>
+                                    系统管理
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>单位维护</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>用户维护</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>用户角色</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    问题推送
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="/web/questionlist" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>问题列表</p>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-table"></i>
+                                <p>
+                                    问题处理
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>问题列表</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </aside>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper iframe-mode" data-widget="iframe" data-loading-screen="750">
+            <div class="nav navbar navbar-expand navbar-white navbar-light border-bottom p-0">
+                <div class="nav-item dropdown">
+                    <a class="nav-link bg-danger dropdown-toggle" data-toggle="dropdown" href="#" role="button"
+                       aria-haspopup="true" aria-expanded="false">关闭窗口</a>
+                    <div class="dropdown-menu mt-0">
+                        <a class="dropdown-item" href="#" data-widget="iframe-close" data-type="all">关闭所有窗口</a>
+                        <a class="dropdown-item" href="#" data-widget="iframe-close" data-type="all-other">关闭其它窗口</a>
+                    </div>
+                </div>
+                <a class="nav-link bg-light" href="#" data-widget="iframe-scrollleft"><i
+                        class="fas fa-angle-double-left"></i></a>
+                <ul class="navbar-nav overflow-hidden" role="tablist"></ul>
+                <a class="nav-link bg-light" href="#" data-widget="iframe-scrollright"><i
+                        class="fas fa-angle-double-right"></i></a>
+                <a class="nav-link bg-light" href="#" data-widget="iframe-fullscreen"><i class="fas fa-expand"></i></a>
+            </div>
+            <div class="tab-content">
+                <div class="tab-empty">
+                    <h2 class="display-4">测试内容</h2>
+                </div>
+                <div class="tab-loading">
+                    <div>
+                        <h2 class="display-4">加载中... <i class="fa fa-sync fa-spin"></i></h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.content-wrapper -->
+        <footer class="main-footer">
+            <strong>Copyright@ 2021 <a href="#">河南利友软件</a>.</strong>
+            <div class="float-right d-none d-sm-inline-block">
+                <b>Version</b> 1.0.0
+            </div>
+        </footer>
+
+        <!-- Control Sidebar -->
+        <aside class="control-sidebar control-sidebar-dark">
+            <!-- Control sidebar content goes here -->
+        </aside>
+        <!-- /.control-sidebar -->
+    </div>
+    <!-- ./wrapper -->
+
+
+{% endblock body %}
+
+{% block bottomfiles %}
+    <script src="{% static 'mine/js/plugins/jquery-ui/jquery-ui.min.js' %}"></script>
+    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+    <script>
+        $.widget.bridge('uibutton', $.ui.button)
+    </script>
+    <!-- Bootstrap 4 -->
+    <script src="{% static 'plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <!-- overlayScrollbars -->
+    <script src="{% static 'plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js' %}"></script>
+{% endblock bottomfiles %}

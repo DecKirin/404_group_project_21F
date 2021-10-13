@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Web Name Placeholder | Login{% endblock title %}
+{% block topfiles %}
+    <link rel="stylesheet" href="{% static 'adminlte/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css' %}">
+{% endblock topfiles %}
+{% block bodyclass %}class="hold-transition login-page"{% endblock bodyclass %}
+{% block header_con %}
+
+{% endblock header_con %}
+
+{# top block search bar #}
+{% block search_bar %}
+
+{% endblock search_bar %}
+{% block body %}
+    <div class="login-box">
+        <div class="login-logo">
+            <a href="#"><b>Social Network</b></a>
+        </div>
+        <!-- /.login-logo -->
+        <div class="card">
+            <div class="card-body login-card-body">
+                <p class="login-box-msg"> welcome back</p>
+                {% csrf_token %}
+
+                <div class="input-group mb-3">
+                    <input id="user_name" type="text" class="form-control" placeholder="username" value="{{ username }}">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-phone-square"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <input id="pwd" type="password" class="form-control" placeholder="password" >
+
+
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-lock"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-8">
+                        <div class="icheck-primary">
+                            <input type="checkbox" id="remember" {{ remember }}>
+                            <label for="remember">
+                                remember me
+                            </label>
+                        </div>
+                    </div>
+                    <!-- /.col -->
+                    <!-- /.col -->
+                </div>
+                <div class="social-auth-links text-center mb-3">
+
+                    <button id="btnlogin" class="btn btn-block btn-primary">
+                        <i class="fab  mr-2"></i> Login
+                    </button>
+                </div>
+                <!-- /.social-auth-links -->
+
+                <p class="mb-1">
+                    <a href="forgot-password.html">Forget Password</a>
+                </p>
+                <p class="mb-0">
+                    <a href="{% url 'Author:register' %}" class="text-center">New user?Register Here</a>
+                </p>
+            </div>
+            <!-- /.login-card-body -->
+        </div>
+    </div>
+    <!-- /.login-box -->
+{% endblock body %}
+{% block bottomfiles %}
+    <!-- SweetAlert2 -->
+    <script src="{% static 'adminlte/plugins/sweetalert2/sweetalert2.min.js' %}"></script>
+    <script src="{% static 'mine/js/login.js' %}"></script>
+{% endblock bottomfiles %}
