@@ -1,6 +1,8 @@
 import re
 import json
-from django.http import HttpResponse
+
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
@@ -83,43 +85,45 @@ class LoginView(View):
         if not all([username, password]):
             # return render(request, 'login.html', {'errmsg': '数据不完整'})
             error_msg_dic["code"] = "500"
-            error_msg_dic["msg"] = "数据不完整"
+            error_msg_dic["msg"] = "data missing"
             json_data.append(error_msg_dic)
             return HttpResponse(json.dumps(json_data))
         # 业务处理:登录校验
         user = authenticate(username=username, password=password)
         if user is not None:
             # 用户名密码正确
+            '''
             if user.is_delete:
                 error_msg_dic["code"] = "700"
                 error_msg_dic["msg"] = "用户未开通"
                 json_data.append(error_msg_dic)
                 return HttpResponse(json.dumps(json_data))
+            '''
             if user.is_active:
-                # 用户已激活
+                # user account is an active one
                 # 记录用户的登录状态
                 login(request, user)
 
                 # 获取登录后所要跳转到的地址
                 # 默认跳转到首页
-                next_url = request.GET.get('next', reverse('web:index'))
+                next_url = request.GET.get('next', reverse('Author:index'))
 
                 # # 跳转到next_url
                 # response = redirect(next_url)  # HttpResponseRedirect
 
                 error_msg_dic["code"] = "200"
-                error_msg_dic["msg"] = "用户验证成功"
+                error_msg_dic["msg"] = "User verified"
                 json_data.append(error_msg_dic)
                 print(json_data)
                 request.session["username"] = username
                 response_index = HttpResponse(json.dumps(json_data))
 
-                # 判断是否需要记住用户名
+                # check if remember user
                 remember = request.POST.get('remember')
 
                 # request.set_signed_cookie('username', username, max_age=7 * 24 * 3600)
                 if remember == 'true':
-                    # 记住用户名
+                    # remember user name
                     response_index.set_signed_cookie('username', username, SECRET_KEY, max_age=7 * 24 * 3600)
                     response_index.set_signed_cookie('remember', 'checked', SECRET_KEY, max_age=7 * 24 * 3600)
                 else:
@@ -130,27 +134,40 @@ class LoginView(View):
                 return response_index
                 # return response
             else:
-                # 用户未激活
+                # User account is not active
                 error_msg_dic["code"] = "700"
-                error_msg_dic["msg"] = "用户暂未激活,请联系管理员"
+                error_msg_dic["msg"] = "Not An Active Account,Please Contact Administrator"
                 json_data.append(error_msg_dic)
                 print(json_data)
                 return HttpResponse(json.dumps(json_data))
         else:
-            # 用户名或密码错误
-            # return render(request, 'login.html', {'errmsg': '用户名或密码错误'})
+            # Username or Password not correct
+            # return render(request, 'login.html', {'errmsg': 'Username or Password not correct'})
             error_msg_dic["code"] = "700"
-            error_msg_dic["msg"] = "用户名或密码不正确"
+            error_msg_dic["msg"] = "Username or Password not correct"
             json_data.append(error_msg_dic)
             print(json_data)
             return HttpResponse(json.dumps(json_data))
 
 # /user/
-class UserInfoView(View):
+class IndexView(LoginRequiredMixin, View):
     def get(self, request):
-        return render(request, 'user_center_info.html', {'page': 'user'})
+        username = request.session.get('username', '')
+        if not username:
+            return HttpResponseRedirect('author:login')
+        else:
+            user = User.objects.get(username=username)
+        return render(request, 'index.html', {'username': username})
+
+    def post(self, request):
+        return render(request, 'index.html')
 
 class LogoutView(View):
     def get(self,request):
         return render(request, '')
 
+class UserPostsView(View):
+    pass
+
+class UserInfoView(View):
+    pass

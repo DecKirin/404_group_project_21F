@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}US教育问答平台{% endblock title %}
+{% block title %}Social Network{% endblock title %}
 {% block header_con %}{% endblock header_con %}
 {% block search_bar %}{% endblock search_bar %}
 {% block bodyclass %}class="hold-transition sidebar-mini layout-fixed"
@@ -31,22 +31,22 @@
                         <i class="fas fa-angle-down"></i>
                     </a>
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                        <span class="dropdown-item dropdown-header">用户管理</span>
+                        <span class="dropdown-item dropdown-header">Account Management</span>
                         <div class="dropdown-divider"></div>
                         <a href="#" class="dropdown-item">
-                            <i class="fas fa-address-book mr-2"></i> 修改信息
+                            <i class="fas fa-address-book mr-2"></i> Edit Info
                         </a>
                         <div class="dropdown-divider"></div>
                         <a href="#" class="dropdown-item">
-                            <i class="fas fa-user-lock mr-2"></i> 修改密码
+                            <i class="fas fa-user-lock mr-2"></i> Change Password
                         </a>
                         <div class="dropdown-divider"></div>
-                        <a href="{% url 'web:logout' %}" target="_parent" class="dropdown-item">
-                            <i class="fas fa-sign-out-alt mr-2"></i> 安全退出
+                        <a href="{% url 'Author:logout' %}" target="_parent" class="dropdown-item">
+                            <i class="fas fa-sign-out-alt mr-2"></i> Logout
 
                         </a>
                         <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item dropdown-footer">取    消</a>
+                        <a href="#" class="dropdown-item dropdown-footer">Cancel</a>
                     </div>
                 </li>
                 <li class="nav-item">
@@ -67,9 +67,9 @@
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             <a href="#" class="brand-link">
-                <img src="{% static 'adminlte/dist/img/AdminLTELogo.png' %}" alt="USoft Logo"
+                <img src="{% static 'adminlte/dist/img/AdminLTELogo.png' %}" alt="Logo Placeholder"
                      class="brand-image img-circle elevation-3" style="opacity: .8">
-                <span class="brand-text font-weight-light">US教育问答平台</span>
+                <span class="brand-text font-weight-light">Welcome</span>
             </a>
 
             <!-- Sidebar -->
@@ -96,7 +96,7 @@
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>
-                                    系统管理
+                                    My Connection
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
@@ -104,19 +104,19 @@
                                 <li class="nav-item">
                                     <a href="#" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>单位维护</p>
+                                        <p>My Following</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="#" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>用户维护</p>
+                                        <p>My Follower</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="#" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>用户角色</p>
+                                        <p>Friends</p>
                                     </a>
                                 </li>
                             </ul>
@@ -126,15 +126,15 @@
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-th"></i>
                                 <p>
-                                    问题推送
+                                    My Posts
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="/web/questionlist" class="nav-link">
+                                    <a href="/Author/myposts" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>问题列表</p>
+                                        <p>My Posts List</p>
                                     </a>
                                 </li>
 
@@ -145,7 +145,7 @@
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-table"></i>
                                 <p>
-                                    问题处理
+                                    Inbox
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
@@ -153,7 +153,15 @@
                                 <li class="nav-item">
                                     <a href="#" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>问题列表</p>
+                                        <p>Notifications</p>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Friend Requests</p>
                                     </a>
                                 </li>
                             </ul>
@@ -194,7 +202,7 @@
         </div>
         <!-- /.content-wrapper -->
         <footer class="main-footer">
-            <strong>Copyright@ 2021 <a href="#">河南利友软件</a>.</strong>
+            <strong>Copyright@ 2021 <a href="#">Zepeng Xiao</a>.</strong>
             <div class="float-right d-none d-sm-inline-block">
                 <b>Version</b> 1.0.0
             </div>

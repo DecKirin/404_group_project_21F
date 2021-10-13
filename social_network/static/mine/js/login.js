@@ -13,7 +13,7 @@ $("#btnlogin").on("click", function () {
     });
     var remember = $('#remember').is(':checked');
     $.ajax({
-        url: "/Author/login/",
+        url: "/author/login/",
         type: "POST",
         headers: {'X-CSRFToken': csrftoken},
         data: {
@@ -30,7 +30,7 @@ $("#btnlogin").on("click", function () {
                     icon: 'success',
                     title: 'Login Success.'
                 })
-                window.location.href = '/author/profile'
+                window.location.href = '/author/index'
             } else {
                 Toast.fire({
                     icon: 'info',
