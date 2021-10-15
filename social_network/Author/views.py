@@ -2,14 +2,16 @@ import re
 import json
 
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.paginator import Paginator
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse
 
+import Author
 from Author.models import User
 # Create your views here.
 from django.views import View
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 
 from social_network.settings import SECRET_KEY
 
@@ -30,7 +32,7 @@ class RegisterView(View):
         userlname = request.POST.get('user_lname')
         password = request.POST.get('pwd')
         email = request.POST.get('email')
-        #allow = request.POST.get('allow')
+        # allow = request.POST.get('allow')
         if not all([username, password, email, userfname, userlname]):
             # missing data
             error_msg_dic["code"] = "400"
@@ -49,7 +51,9 @@ class RegisterView(View):
             error_msg_dic["msg"] = "The Username is already taken."
             json_data.append(error_msg_dic)
             return HttpResponse(json.dumps(json_data))
-        user = User.objects.create_user(username, email, password, first_name=userfname, last_name=userlname)
+
+        user = User.objects.create_user(username=username, email=email, password=password, first_name=userfname,
+                                        last_name=userlname)
         user.is_active = 1
         user.save()
         error_msg_dic["code"] = "200"
@@ -149,6 +153,7 @@ class LoginView(View):
             print(json_data)
             return HttpResponse(json.dumps(json_data))
 
+
 # /user/
 class IndexView(LoginRequiredMixin, View):
     def get(self, request):
@@ -162,12 +167,60 @@ class IndexView(LoginRequiredMixin, View):
     def post(self, request):
         return render(request, 'index.html')
 
+
 class LogoutView(View):
-    def get(self,request):
+    def get(self, request):
+        request.session.delete()  # delete session ，but not cookie
+        logout(request)
+        return redirect(reverse('Author:login'))
+
+
+class UserPostsView(LoginRequiredMixin, View):
+    def get(self, request):
+        user = request.user
         return render(request, '')
 
-class UserPostsView(View):
+
+class UserInfoView(LoginRequiredMixin, View):
     pass
 
-class UserInfoView(View):
-    pass
+
+class UserProfileView(View):
+    def get(self, request, id):
+        # current logged in user
+        curr_user = request.user
+
+        # the author who is viewed
+        view_user = User.objects.get(id=id)
+        # alternative approach, just use username
+        #
+        context = {
+            'id': id,
+            'curr_user': curr_user,
+            'view_user': view_user,
+        }
+        return render(request, 'author_profile.html', context=context)
+
+
+class AllUserProfileView(View):
+    def get(self, request):
+        curr_user = request.user
+        # alternative approach, just use username
+        page = int(request.GET.get("page", 1))
+        per_page = int(request.GET.get("size", 10))
+        # something like only showing active user
+        # user_status = int(request.GET.get("user_status",1))
+
+        authors = User.objects.all()
+
+        paginator = Paginator(authors, per_page)
+        page_object = paginator.page(page)
+
+        # time.sleep(5)
+        context = {
+            'page_object': page_object,
+            'page_range': paginator.page_range,
+        }
+
+        response = render(request, 'all_authors_list.html', context=context)
+        return response
