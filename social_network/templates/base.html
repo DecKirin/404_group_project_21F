@@ -1,0 +1,47 @@
+{# base page, register, login #}
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {# web title content #}
+	<title>{% block title %}{% endblock title %}</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/v4-shims.css">
+    <!--link rel="stylesheet" href="{% static 'adminlte/plugins/fontawesome-free/css/all.min.css' %}"-->
+    <!-- icheck bootstrap -->
+    <link rel="stylesheet" href="{% static 'adminlte/plugins/icheck-bootstrap/icheck-bootstrap.min.css' %}">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{% static 'adminlte/dist/css/adminlte.min.css' %}">
+	{# web top imported files #}
+    {% block topfiles %}{% endblock topfiles %}
+</head>
+<body {% block bodyclass %}{% endblock bodyclass %}>
+{# web top welcome page #}
+{% block header_con %}
+
+{% endblock header_con %}
+
+{# web top search bar #}
+{% block search_bar %}
+
+{% endblock search_bar %}
+
+{# web main body #}
+{% block body %}{% endblock body %}
+
+
+{# web page bottom html part #}
+{% block bottom %}{% endblock bottom %}
+{# web page bottom imported page part #}
+
+<!-- jQuery -->
+<script src="{% static 'adminlte/plugins/jquery/jquery.min.js' %}"></script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'adminlte//plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<!-- AdminLTE App -->
+<script src="{% static 'adminlte/dist/js/adminlte.min.js' %}"></script>
+{% block bottomfiles %}{% endblock bottomfiles %}
+</body>
+</html>

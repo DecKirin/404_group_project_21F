@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Website Name Placeholder | Register{% endblock title %}
+{% block topfiles %}
+    <link rel="stylesheet" href="{% static 'adminlte/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css' %}">
+{% endblock topfiles %}
+{% block header_con %}{% endblock header_con %}
+{% block search_bar %}{% endblock search_bar %}
+{% block bodyclass %} class="hold-transition register-page"{% endblock bodyclass %}
+{% block body %}
+    <div class="register-box">
+        <div class="register-logo">
+            <a href="#"><b>Website Name Placeholder</b></a>
+        </div>
+
+        <div class="card">
+            <div class="card-body register-card-body">
+                <p class="login-box-msg">Register As New Settler</p>
+
+                {#      <form action="{% url 'web:register' %}" method="post">#}
+                {% csrf_token %}
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="Username" id="user_name">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fa fa-phone-square"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="FirstName" id="user_fname">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <i class="fa fa-user"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="LastName" id="user_lname">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <i class="fa fa-user"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="input-group mb-3">
+                    <input type="email" class="form-control" placeholder="Email" id="email">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <i class="fa fa-envelope"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <input type="password" class="form-control" placeholder="Password" id="pwd">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <input type="password" class="form-control" placeholder="re-enter Password"  id="pwd2">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-lock"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-8">
+                        <div class="icheck-primary">
+                            <input type="checkbox" id="agreeTerms" name="terms" value="agree">
+                            <label for="agreeTerms">
+                                Agree <a href="#">User Term</a>
+                            </label>
+                        </div>
+                    </div>
+                    <!-- /.col -->
+                    <button id="btnregister" class="btn btn-block btn-primary">
+                        <i class="fab  mr-2"></i> Confirm Register
+                    </button>
+                    <!-- /.col -->
+                </div>
+
+
+                <a href="{% url 'Author:login' %}" class="text-center">Already have an Account? Login</a>
+            </div>
+            <!-- /.form-box -->
+        </div><!-- /.card -->
+    </div>
+{% endblock body %}
+{% block bottomfiles %}
+    <!-- SweetAlert2 -->
+    <script src="{% static 'adminlte/plugins/sweetalert2/sweetalert2.min.js' %}"></script>
+    <script src="{% static 'mine/js/register.js' %}"></script>
+{% endblock bottomfiles %}
