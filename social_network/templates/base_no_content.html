@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Social Network{% endblock title %}
+{% block bodyclass %}class="hold-transition sidebar-mini layout-fixed"
+    data-panel-auto-height-mode="height"{% endblock bodyclass %}
+
+{% block body %}
+    {% block Left_Sidebar %}{% endblock Left_Sidebar %}
+    {% block Content_Wrapper %}{% endblock Content_Wrapper%}
+    {% block Right_Sidebar %}{% endblock Right_Sidebar %}
+
+{% endblock body %}
+
+
+{% block bottomfiles %}
+
+{% endblock bottomfiles %}

@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'base_no_content.html' %}
 {% load static %}
 {% block title %}Social Network{% endblock title %}
 {% block header_con %}{% endblock header_con %}
@@ -6,22 +6,37 @@
 {% block bodyclass %}class="hold-transition sidebar-mini layout-fixed"
     data-panel-auto-height-mode="height"{% endblock bodyclass %}
 {% block body %}
-
     <div class="wrapper">
-
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-
             <!-- Left navbar links -->
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fa fa-bars"></i></a>
                 </li>
             </ul>
-
-
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                <a class="nav-link" data-widget="navbar-search" href="#" role="button">
+                  <i class="fas fa-search"></i>
+                </a>
+                <div class="navbar-search-block">
+                  <form class="form-inline">
+                    <div class="input-group input-group-sm">
+                      <input class="form-control form-control-navbar" type="search" placeholder="Search Authors" aria-label="Search">
+                      <div class="input-group-append">
+                        <button class="btn btn-navbar" type="submit">
+                          <i class="fas fa-search"></i>
+                        </button>
+                        <button class="btn btn-navbar" type="button" data-widget="navbar-search">
+                          <i class="fas fa-times"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                </li>
                 <!-- Notifications Dropdown Menu -->
                 <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#">
@@ -84,6 +99,7 @@
                         <a href="#">
                 <span class="clear">
                     <span class="block m-t-xs"><strong class="font-bold">{{ username }}</strong></span>
+                    <span class="text-muted text-xs block">{{ rolename }}<b class="caret"></b></span>
                 </span>
                         </a>
                     </div>
@@ -121,6 +137,7 @@
                             </ul>
                         </li>
 
+
                         <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-th"></i>
@@ -131,9 +148,16 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="/Author/myposts" class="nav-link">
+                                    <a href="{% url 'Author:index' %}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>My Posts List</p>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a href="/Author/myposts" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>My Homepage</p>
                                     </a>
                                 </li>
 
@@ -170,49 +194,20 @@
             </div>
         </aside>
 
+
         <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper iframe-mode" data-widget="iframe" data-loading-screen="750">
-            <div class="nav navbar navbar-expand navbar-white navbar-light border-bottom p-0">
-                <div class="nav-item dropdown">
-                    <a class="nav-link bg-danger dropdown-toggle" data-toggle="dropdown" href="#" role="button"
-                       aria-haspopup="true" aria-expanded="false">关闭窗口</a>
-                    <div class="dropdown-menu mt-0">
-                        <a class="dropdown-item" href="#" data-widget="iframe-close" data-type="all">关闭所有窗口</a>
-                        <a class="dropdown-item" href="#" data-widget="iframe-close" data-type="all-other">关闭其它窗口</a>
-                    </div>
-                </div>
-                <a class="nav-link bg-light" href="#" data-widget="iframe-scrollleft"><i
-                        class="fas fa-angle-double-left"></i></a>
-                <ul class="navbar-nav overflow-hidden" role="tablist"></ul>
-                <a class="nav-link bg-light" href="#" data-widget="iframe-scrollright"><i
-                        class="fas fa-angle-double-right"></i></a>
-                <a class="nav-link bg-light" href="#" data-widget="iframe-fullscreen"><i class="fas fa-expand"></i></a>
-            </div>
-            <div class="tab-content">
-                <div class="tab-empty">
-                    <h2 class="display-4">测试内容</h2>
-                </div>
-                <div class="tab-loading">
-                    <div>
-                        <h2 class="display-4">Loading <i class="fa fa-sync fa-spin"></i></h2>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- /.content-wrapper -->
+        {% block Content_Wrapper %}
+        {% endblock Content_Wrapper%}
 
-        {% block footer %}
-
-        {% endblock footer %}
-
+        {% block Right_Slider %}
         <!-- Control Sidebar -->
         <aside class="control-sidebar control-sidebar-dark">
             <!-- Control sidebar content goes here -->
         </aside>
+        {% endblock Right_Slider %}
         <!-- /.control-sidebar -->
     </div>
     <!-- ./wrapper -->
-
 
 {% endblock body %}
 

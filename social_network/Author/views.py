@@ -162,10 +162,10 @@ class IndexView(LoginRequiredMixin, View):
             return HttpResponseRedirect('author:login')
         else:
             user = User.objects.get(username=username)
-        return render(request, 'index.html', {'username': username})
+        return render(request, 'base_index.html', {'username': username})
 
     def post(self, request):
-        return render(request, 'index.html')
+        return render(request, 'base_index.html')
 
 
 class LogoutView(View):
@@ -199,7 +199,10 @@ class UserProfileView(View):
             'curr_user': curr_user,
             'view_user': view_user,
         }
-        return render(request, 'author_profile.html', context=context)
+
+        #used for testing
+        return render(request, 'index2.html',context=context)
+        #return render(request, 'author_profile.html', context=context)
 
 
 class AllUserProfileView(View):
