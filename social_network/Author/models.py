@@ -23,7 +23,7 @@ class User(AbstractUser):
     profile_image = models.URLField(blank=True)
     email = models.CharField(max_length=20, unique=True)
     # url path of user profile images
-    is_active = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now_add=True)
     u_phone = models.CharField(max_length=20, verbose_name='phone_number', default='')
@@ -33,7 +33,7 @@ class User(AbstractUser):
 
     class Meta:
         db_table = 'sys_user_info'
-        verbose_name = 'User_table'
+        verbose_name = 'Author'
         verbose_name_plural = verbose_name
 
 
@@ -95,7 +95,7 @@ class FollowAuthor(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-
+# https://medium.com/analytics-vidhya/add-friends-with-689a2fa4e41d
 class FriendRequest(models.Model):
     status = [
         (1, "SENT"),
@@ -104,7 +104,7 @@ class FriendRequest(models.Model):
     ]
     # sender = models.OneToOneField(Author, on_delete=models.CASCADE, related_name='sender')
     # receiver = models.OneToOneField(Author, on_delete=models.CASCADE, related_name='receiver')
-
+    # sender = models.ForeignKey(
     sender = models.OneToOneField(User, on_delete=models.CASCADE, related_name='sender')
     receiver = models.OneToOneField(User, on_delete=models.CASCADE, related_name='receiver')
     created = models.DateTimeField(auto_now_add=True)

@@ -15,6 +15,7 @@ $("#btnregister").on("click", function () {
         var pwd2 = $("#pwd2").val();
         var email = $("#email").val()
         var myreg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
+        var myregUname = /^[a-z0-9]+$/i;
         if (pwd1 != pwd2) {
             Toast.fire({
                 icon: 'info',
@@ -32,7 +33,6 @@ $("#btnregister").on("click", function () {
                 icon: 'info',
                 title: 'The email format is not valid!'
             });
-
         } else {
             var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
             $.ajax({
