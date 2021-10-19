@@ -17,6 +17,15 @@ class Author(models.Model):
 '''
 
 
+class RegisterControl(models.Model):
+    free_registration = models.BooleanField(default=True)
+
+    def __str__(self):
+        return 'free registration'
+
+
+
+
 class User(AbstractUser):
     id = models.AutoField(primary_key=True)
     username = models.CharField(max_length=20, unique=True)
@@ -26,10 +35,10 @@ class User(AbstractUser):
     is_active = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now_add=True)
-    u_phone = models.CharField(max_length=20, verbose_name='phone_number', default='')
+    u_phone = models.CharField(max_length=20, verbose_name='phone_number', default='', blank=True)
     first_name = models.CharField(max_length=20)
     last_name = models.CharField(max_length=20)
-    github = models.CharField(max_length=100, null=True)
+    github = models.CharField(max_length=100, blank=True)
 
     class Meta:
         db_table = 'sys_user_info'
@@ -55,6 +64,7 @@ class Post(models.Model):
     image = models.URLField(blank=True)
     source = models.URLField(blank=True)
     origin = models.URLField(blank=True)
+    type = models.SmallIntegerField(default=1, choices=visibility)
 
     class Meta:
         ordering = ('created',)
@@ -65,7 +75,7 @@ class Comment(models.Model):
     id = models.AutoField(primary_key=True)
     post = models.ForeignKey(Post, related_name='comments', on_delete=models.CASCADE, null=False)
     # the author make this comment
-    author =  models.ForeignKey(User,related_name='comments', on_delete=models.CASCADE, null=False)
+    author = models.ForeignKey(User, related_name='comments', on_delete=models.CASCADE, null=False)
     name = models.CharField(max_length=80)
     comment = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
@@ -84,6 +94,7 @@ class Like(models.Model):
     post = models.ForeignKey(Post, related_name='likes', on_delete=models.CASCADE, null=False)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now_add=True)
+    owner = models.ForeignKey(User, related_name='likes', on_delete=models.CASCADE, blank=False)
 
 
 # https://stackoverflow.com/questions/65055520/django-user-subscribe-user-relation
@@ -94,6 +105,7 @@ class FollowAuthor(models.Model):
     subscribers = models.ManyToManyField(User, related_name='subscriptions', blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
 
 # https://medium.com/analytics-vidhya/add-friends-with-689a2fa4e41d
 class FriendRequest(models.Model):
@@ -108,3 +120,25 @@ class FriendRequest(models.Model):
     sender = models.OneToOneField(User, on_delete=models.CASCADE, related_name='sender')
     receiver = models.OneToOneField(User, on_delete=models.CASCADE, related_name='receiver')
     created = models.DateTimeField(auto_now_add=True)
+
+
+class Friend(models.Model):
+    users = models.ManyToManyField(User)
+    current_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="owner", null=True)
+
+    @classmethod
+    def make_friend(cls, current_user, new_friend):
+        friend, created = cls.objects.get_or_create(
+            current_user=current_user
+        )
+        friend.users.add(new_friend)
+
+    @classmethod
+    def remove_friend(cls, current_user, new_friend):
+        friend, created = cls.objects.get_or_create(
+            current_user=current_user
+        )
+        friend.users.remove(new_friend)
+
+    def __str__(self):
+        return str(self.current_user)

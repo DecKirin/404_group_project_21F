@@ -8,12 +8,23 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 
 import Author
-from Author.models import User
+from Author.models import User,RegisterControl
 # Create your views here.
 from django.views import View
 from django.contrib.auth import authenticate, login, logout
 
 from social_network.settings import SECRET_KEY
+
+
+def check_if_confirmation_required():
+    try:
+        confirm = RegisterControl.objects.all()
+        assert confirm!=None and list(confirm)!=[],"raise"
+
+    except Exception:
+        registerControl = RegisterControl()
+        registerControl.save()
+
 
 
 class RegisterView(View):
@@ -54,7 +65,7 @@ class RegisterView(View):
 
         user = User.objects.create_user(username=username, email=email, password=password, first_name=userfname,
                                         last_name=userlname)
-        user.is_active = 1
+        # user.is_active = 1
         user.save()
         error_msg_dic["code"] = "200"
         error_msg_dic["msg"] = "Successfully register"
@@ -139,7 +150,7 @@ class LoginView(View):
                 # return response
             else:
                 # User account is not active
-                error_msg_dic["code"] = "700"
+                error_msg_dic["code"] = "403"
                 error_msg_dic["msg"] = "Not An Active Account,Please Contact Administrator"
                 json_data.append(error_msg_dic)
                 print(json_data)
@@ -147,14 +158,15 @@ class LoginView(View):
         else:
             # Username or Password not correct
             # return render(request, 'login.html', {'errmsg': 'Username or Password not correct'})
-            error_msg_dic["code"] = "700"
+            error_msg_dic["code"] = "401"
             error_msg_dic["msg"] = "Username or Password not correct"
             json_data.append(error_msg_dic)
             print(json_data)
             return HttpResponse(json.dumps(json_data))
 
 
-# /user/
+# the main page after user logining in,
+# probably should be stream page later!!!!!
 class IndexView(LoginRequiredMixin, View):
     def get(self, request):
         username = request.session.get('username', '')
@@ -200,9 +212,9 @@ class UserProfileView(View):
             'view_user': view_user,
         }
 
-        #used for testing
-        return render(request, 'index2.html',context=context)
-        #return render(request, 'author_profile.html', context=context)
+        # used for testing
+        return render(request, 'index2.html', context=context)
+        # return render(request, 'author_profile.html', context=context)
 
 
 class AllUserProfileView(View):
@@ -225,5 +237,6 @@ class AllUserProfileView(View):
             'page_range': paginator.page_range,
         }
 
-        response = render(request, 'all_authors_list.html', context=context)
+        response = render(request, 'temp_for_all_authors_list.html', context=context)
+        # response = render(request, 'all_authors_list.html', context=context)
         return response

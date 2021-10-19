@@ -4,6 +4,8 @@ from Author.views import RegisterView, LoginView, UserInfoView, LogoutView, User
 
 app_name = 'Author'
 urlpatterns = [
+
+    path('friend/',)
     path('authors/', AllUserProfileView.as_view(), name='all_authors'),
     path('register/', RegisterView.as_view(), name='register'),
     path('login/', LoginView.as_view(), name='login'),
@@ -17,6 +19,4 @@ urlpatterns = [
     # display all user profiles
     # page to view other user's profile
     path('<id>/', UserProfileView.as_view(), name='profile'),
-
-
 ]
