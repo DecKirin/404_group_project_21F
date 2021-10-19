@@ -21,7 +21,7 @@ class RegisterControl(models.Model):
     free_registration = models.BooleanField(default=True)
 
     def __str__(self):
-        return 'free registration'
+        return 'New User Confirmation Required'
 
 
 

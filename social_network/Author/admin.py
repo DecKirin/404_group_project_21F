@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.utils.html import format_html
 from django.utils.http import urlencode
 
-from .models import User, Post, Comment, Like, Friend
+from .models import User, Post, Comment, Like, Friend, RegisterControl
 
 # https://www.dothedev.com/blog/django-admin-list_filter/
 
@@ -149,8 +149,17 @@ class CommentsAdmin(admin.ModelAdmin):
     view_author_link.short_description = "Author"
 
 
+class RegisterControlAdmin(admin.ModelAdmin):
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
 admin.site.register(User, UserProfileAdmin)
 admin.site.register(Post, PostsAdmin)
 admin.site.register(Comment, CommentsAdmin)
 admin.site.register(Like)
 admin.site.register(Friend)
+admin.site.register(RegisterControl, RegisterControlAdmin)

@@ -4,8 +4,6 @@ from Author.views import RegisterView, LoginView, UserInfoView, LogoutView, User
 
 app_name = 'Author'
 urlpatterns = [
-
-    path('friend/',)
     path('authors/', AllUserProfileView.as_view(), name='all_authors'),
     path('register/', RegisterView.as_view(), name='register'),
     path('login/', LoginView.as_view(), name='login'),

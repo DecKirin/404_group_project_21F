@@ -24,7 +24,9 @@ def check_if_confirmation_required():
     except Exception:
         registerControl = RegisterControl()
         registerControl.save()
-
+        return registerControl.free_registration
+    else:
+        return list(confirm)[0].free_registration
 
 
 class RegisterView(View):
@@ -63,8 +65,11 @@ class RegisterView(View):
             json_data.append(error_msg_dic)
             return HttpResponse(json.dumps(json_data))
 
+        is_active = True
+        if not check_if_confirmation_required():
+            is_active= False
         user = User.objects.create_user(username=username, email=email, password=password, first_name=userfname,
-                                        last_name=userlname)
+                                        last_name=userlname, is_active=is_active)
         # user.is_active = 1
         user.save()
         error_msg_dic["code"] = "200"
