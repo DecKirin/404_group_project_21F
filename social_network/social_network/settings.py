@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'friends.apps.FriendsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
