@@ -17,6 +17,4 @@ urlpatterns = [
     # display all user profiles
     # page to view other user's profile
     path('<id>/', UserProfileView.as_view(), name='profile'),
-
-
 ]

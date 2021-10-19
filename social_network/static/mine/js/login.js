@@ -33,6 +33,7 @@ $("#btnlogin").on("click", function () {
                 window.location.href = '/author/index'
             } else {
                 Toast.fire({
+                    code: code,
                     icon: 'info',
                     title: msg
                 })
