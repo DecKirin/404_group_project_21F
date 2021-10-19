@@ -13,12 +13,12 @@ admin.site.site_header = 'Social Distribution Admin Page'
 admin.site.site_title = 'admin home page'
 
 
-@admin.action(description='allow user to be on the server/activate user')
+# @admin.action(description='allow user to be on the server/activate user')
 def activate_user(modeladmin, request, queryset):
     queryset.update(is_active=True)
 
 
-@admin.action(description='de-activate user')
+# @admin.action(description='de-activate user')
 def deactivate_user(modeladmin, request, queryset):
     queryset.update(is_active=False)
 
