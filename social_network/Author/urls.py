@@ -1,7 +1,8 @@
 from django.urls import path, re_path
 from django.contrib.auth.decorators import login_required
-from Author.views import RegisterView, LoginView, UserInfoView, LogoutView, UserPostsView, IndexView, UserProfileView,AllUserProfileView
+from Author.views import RegisterView, LoginView, UserInfoView, LogoutView, IndexView, UserProfileView,AllUserProfileView
 from friends.views import friends_list_view, send_friend_request, process_friend_request, followers_list_view, follows_list_view, follower_view, un_befriend
+from Post.views import NewPostView
 app_name = 'Author'
 urlpatterns = [
     path('<id>/friends/', friends_list_view, name='friend'),
@@ -23,7 +24,9 @@ urlpatterns = [
     # account page of logged in user
     path('account/', login_required(UserInfoView.as_view()), name='info'),
     # view a my posts as login in user in a list
-    path('myposts/', login_required(UserPostsView.as_view()), name='myposts'),
+    #path('myposts/', MyPostsView.as_view(), name='myposts'),
+    # create new post
+    path('newpost/', NewPostView.as_view(), name='newpost'),
     # display all user profiles
     # page to view other user's profile
     path('<id>/', UserProfileView.as_view(), name='profile'),
