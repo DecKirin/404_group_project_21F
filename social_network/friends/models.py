@@ -4,7 +4,7 @@ from django.conf import settings
 class Friend(models.Model):
 
     friends = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, related_name="friends")
-    owner = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='owner', on_delete=models.CASCADE, null=True)
+    cur_user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='cur_user', on_delete=models.CASCADE, null=True)
 
     def add_friend(self, new_friend):
         if not new_friend in self.friends.all():

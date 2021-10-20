@@ -10,7 +10,7 @@ def friends_list_view(request, *args, **kwargs):
 
     context = {}
     user = request.user
-    friend, create = Friend.objects.get_or_create(owner=user)  # class friend
+    friend, create = Friend.objects.get_or_create(cur_user=user)  # class friend
     if not create:
         friend.add_friend(user)
     else:
