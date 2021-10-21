@@ -1,9 +1,10 @@
 from django.urls import path, re_path
 from django.contrib.auth.decorators import login_required
-from Author.views import RegisterView, LoginView, UserInfoView, LogoutView, UserPostsView, IndexView, UserProfileView,AllUserProfileView
+from Author.views import RegisterView, LoginView, UserInfoView, LogoutView, UserPostsView, IndexView, UserProfileView,AllUserProfileView, SearchUserView
 
 app_name = 'Author'
 urlpatterns = [
+    path('searchAuthor/', SearchUserView.as_view(), name='search_user'),
     path('authors/', AllUserProfileView.as_view(), name='all_authors'),
     path('register/', RegisterView.as_view(), name='register'),
     path('login/', LoginView.as_view(), name='login'),

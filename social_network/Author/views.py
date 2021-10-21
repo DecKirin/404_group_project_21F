@@ -8,7 +8,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 
 import Author
-from Author.models import User,RegisterControl
+from Author.models import User, RegisterControl
 # Create your views here.
 from django.views import View
 from django.contrib.auth import authenticate, login, logout
@@ -19,7 +19,7 @@ from social_network.settings import SECRET_KEY
 def check_if_confirmation_required():
     try:
         confirm = RegisterControl.objects.all()
-        assert confirm!=None and list(confirm)!=[],"raise"
+        assert confirm != None and list(confirm) != [], "raise"
 
     except Exception:
         registerControl = RegisterControl()
@@ -67,7 +67,7 @@ class RegisterView(View):
 
         is_active = True
         if not check_if_confirmation_required():
-            is_active= False
+            is_active = False
         user = User.objects.create_user(username=username, email=email, password=password, first_name=userfname,
                                         last_name=userlname, is_active=is_active)
         # user.is_active = 1
@@ -245,3 +245,25 @@ class AllUserProfileView(View):
         response = render(request, 'temp_for_all_authors_list.html', context=context)
         # response = render(request, 'all_authors_list.html', context=context)
         return response
+
+
+# https://www.youtube.com/watch?v=-Vu7Kh-SxEA
+# https://docs.djangoproject.com/en/3.2/topics/db/search/
+class SearchUserView(View):
+    def get(self, request):
+        authorName = request.GET.get("q")
+        page = int(request.GET.get("page", 1))
+        per_page = int(request.GET.get("size", 10))
+        get_users_by_uname = User.objects.filter(username__icontains=authorName)
+        currentUser = request.user
+
+        paginator = Paginator(get_users_by_uname, per_page)
+        page_object = paginator.page(page)
+
+        # time.sleep(5)
+        context = {
+            'page_object': page_object,
+            'page_range': paginator.page_range,
+            'q': authorName,
+        }
+        return render(request, "search_author_results.html", context=context)
