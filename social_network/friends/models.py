@@ -15,17 +15,25 @@ class Friend(models.Model):
             self.friends.remove(delete_friend)
 
 
-# class FriendRequest(models.Model):
-#     sender = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='sender', on_delete=models.CASCADE, null=True)
-#     receiver = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='receiver', on_delete=models.CASCADE, null=True)
-#     sender_friend = Friend.objects.get(owner=sender)
-#     receiver_friend = Friend.objects.get(owner=receiver)
-#     respond_status = models.BooleanField(blank=False, null=False, default=True)
-#
-#     def accept_request(self):
-#         self.receiver_friend.add_friend(self.sender, self.receiver)
-#         self.sender_friend.add_friend()
-#         self.repond_status = True
-#
-#     def decline_request(self):
-#         self.repond_status = True
+'''
+create new instance when current user trying to send befriend request
+'''
+class FriendRequest(models.Model):
+
+    request_id = models.AutoField(primary_key=True)
+    sender = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='req_sender', on_delete=models.CASCADE, null=True)
+    receiver = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='req_receiver', on_delete=models.CASCADE, null=True)
+    # sender_friend, create_sender = Friend.objects.get_or_create(cur_user=sender)
+    # receiver_friend, create_receiver = Friend.objects.get_or_create(cur_user=receiver)
+
+    respond_status = models.BooleanField(blank=False, null=False, default=True)
+
+    def accept_request(self):
+        sender_friend, create_sender = Friend.objects.get_or_create(cur_user=self.sender)
+        receiver_friend, create_receiver = Friend.objects.get_or_create(cur_user=self.receiver)
+        receiver_friend.add_friend(self.sender, self.receiver)
+        sender_friend.add_friend(self.sender, self.receiver)
+        self.repond_status = True
+
+    def decline_request(self):
+        self.repond_status = True

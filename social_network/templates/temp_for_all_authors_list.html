@@ -35,7 +35,7 @@
                       </div>
                       <div class="card-footer">
                           <div class="text-right">
-                          <a href="#" class="btn btn-sm bg-teal">
+                          <a href="{% url 'Author:friend_request' author.id %}" class="btn btn-sm bg-teal">
                               <i class="fas fa-comments"></i> Be-Friend
                           </a>
                           <a href="{% url 'Author:profile' author.id %}" class="btn btn-sm btn-primary">
