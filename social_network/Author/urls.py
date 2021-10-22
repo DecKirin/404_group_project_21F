@@ -1,10 +1,12 @@
 from django.urls import path, re_path
 from django.contrib.auth.decorators import login_required
 from Author.views import RegisterView, LoginView, UserInfoView, LogoutView, UserPostsView, IndexView, UserProfileView,AllUserProfileView
-from friends.views import friends_list_view, send_friend_request, process_friend_request
+from friends.views import friends_list_view, send_friend_request, process_friend_request, followers_list_view, follows_list_view
 app_name = 'Author'
 urlpatterns = [
     path('friend/', friends_list_view, name='friend'),
+    path('follower/', followers_list_view, name='follower'),
+    path('follow/', follows_list_view, name='follow'),
     path('<id>srequest/', send_friend_request, name='friend_request'),
     path('<id>srequest/#', process_friend_request, name='process_request'),
     path('authors/', AllUserProfileView.as_view(), name='all_authors'),

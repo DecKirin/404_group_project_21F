@@ -5,7 +5,7 @@ import uuid
 class Friend(models.Model):
 
     friends = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, related_name="friends")
-    cur_user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='cur_user', on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='cur_user', on_delete=models.CASCADE, null=True)
 
     def add_friend(self, new_friend):
         if not new_friend in self.friends.all():
@@ -28,6 +28,20 @@ class Follower(models.Model):
     def delete_follower(self, delete_follower):
         if not delete_follower in self.followers.all():
             self.followers.remove(delete_follower)
+
+
+class Follow(models.Model):
+
+    follows = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, related_name="follows")
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='users', on_delete=models.CASCADE, null=True)
+
+    def add_follow(self, new_follow):
+        if not new_follow in self.follows.all():
+            self.follows.add(new_follow)
+
+    def delete_follow(self, delete_follow):
+        if not delete_follow in self.follows.all():
+            self.follows.remove(delete_follow)
 
 
 '''

@@ -20,6 +20,30 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="714eee04-bd8e-40b5-93c8-4886f3cc7ea3" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/social_network/Author/migrations/0007_auto_20211022_0540.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/social_network/Author/migrations/0007_auto_20211022_0620.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/social_network/Author/migrations/0008_auto_20211022_0540.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/social_network/Author/migrations/0009_auto_20211022_0540.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/social_network/Author/migrations/0010_auto_20211022_0543.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/social_network/Author/migrations/0011_auto_20211022_0546.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/social_network/Author/migrations/0012_auto_20211022_0550.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/social_network/Author/migrations/0013_auto_20211022_0554.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/social_network/Author/migrations/0014_auto_20211022_0556.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/social_network/Author/migrations/0015_auto_20211022_0556.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/social_network/Author/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/social_network/Author/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/social_network/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/social_network/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/social_network/friends/migrations/0002_auto_20211022_0522.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/social_network/friends/migrations/0003_auto_20211022_0523.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/social_network/friends/migrations/0004_auto_20211022_0524.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/social_network/friends/migrations/0005_auto_20211022_0530.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/social_network/friends/migrations/0006_auto_20211022_0539.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/social_network/friends/migrations/0007_auto_20211022_0543.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/social_network/friends/migrations/0008_auto_20211022_0546.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/social_network/friends/migrations/0009_auto_20211022_0550.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/social_network/friends/migrations/0010_auto_20211022_0556.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/social_network/friends/migrations/0011_auto_20211022_0601.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/social_network/friends/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/social_network/friends/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/social_network/friends/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/social_network/friends/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
