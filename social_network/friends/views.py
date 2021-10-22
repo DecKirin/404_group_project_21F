@@ -1,16 +1,18 @@
 from django.shortcuts import render
 from .models import Friend, FriendRequest, Follower, Follow
 from Author.models import User
+from django.views import View
 from django.core.paginator import Paginator
 
 # Create your views here.
 
 
-def friends_list_view(request, *args, **kwargs):
+def friends_list_view(request, id, *args, **kwargs):
 
     context = {}
     user = request.user
-    friend, create = Friend.objects.get_or_create(user=user)  # class friend
+    view_user = User.objects.get(id=id)
+    friend, create = Friend.objects.get_or_create(user=view_user)  # class friend
     if create:
         context['friends'] = ['Does not have friend yet']
     else:
@@ -21,10 +23,15 @@ def friends_list_view(request, *args, **kwargs):
     # context = {'friend': 'name'}
     return render(request, 'all_friends_list.html', context=context)
 
-def followers_list_view(request, *args, **kwargs):
+'''
+URL: ://service/author/{AUTHOR_ID}/followers
+GET: get a list of authors who are their followers
+'''
+def followers_list_view(request,id,  *args, **kwargs):
     context = {}
     user = request.user
-    follower, create = Follower.objects.get_or_create(user=user)  # class friend
+    view_user = User.objects.get(id=id)
+    follower, create = Follower.objects.get_or_create(user=view_user)  # class friend
     if create:
         context['friends'] = ['Does not have follow yet']
     else:
@@ -33,10 +40,11 @@ def followers_list_view(request, *args, **kwargs):
     # context = {'friend': 'name'}
     return render(request, 'all_friends_list.html', context=context)
 
-def follows_list_view(request, *args, **kwargs):
+def follows_list_view(request, id, *args, **kwargs):
     context = {}
     user = request.user
-    follower, create = Follow.objects.get_or_create(user=user)  # class friend
+    view_user = User.objects.get(id=id)
+    follower, create = Follow.objects.get_or_create(user=view_user)  # class friend
     if create:
         context['friends'] = ['Does not have follower yet']
     else:
@@ -44,6 +52,42 @@ def follows_list_view(request, *args, **kwargs):
         context['friends'] = friend_list
     # context = {'friend': 'name'}
     return render(request, 'all_friends_list.html', context=context)
+
+'''
+URL: ://service/author/{AUTHOR_ID}/followers/{FOREIGN_AUTHOR_ID}
+DELETE: remove a follower
+PUT: Add a follower (must be authenticated)
+GET check if follower
+'''
+class follower_view(View):
+    def get(self, request, id, foreign_id):
+        context = {}
+        cur_user = User.objects.get(id=id)
+        view_user = User.objects.get(id=foreign_id)
+        follower, create = Follower.objects.get_or_create(user=cur_user)
+        # check if foreign key is follower of author_id
+        exists = False
+        if not create:
+            if view_user in follower.followers.all():
+                exists = True
+                context['author'] = cur_user
+                context['follower'] = view_user
+        context['exists'] = exists
+        return render(request, 'follower.html', context=context)
+
+    def put(self, request, id, foreign_id):
+        cur_user = User.objects.get(id=id)
+        view_user = User.objects.get(id=foreign_id)
+        follower, create = Follower.objects.get_or_create(user=cur_user)
+        if cur_user.is_authenticated:
+            follower.add_follower(view_user)
+
+    def delete(self, request, id, foreign_id):
+        cur_user = User.objects.get(id=id)
+        view_user = User.objects.get(id=foreign_id)
+        follower, create = Follower.objects.get_or_create(user=cur_user)
+        follower.delete_follower(view_user)
+
 
 # todo: add user to tobefriend's follower
 def send_friend_request(request, id, *args, **kwargs):
