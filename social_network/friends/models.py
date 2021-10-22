@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+import uuid
 # Create your models here.
 class Friend(models.Model):
 
@@ -15,17 +16,27 @@ class Friend(models.Model):
             self.friends.remove(delete_friend)
 
 
+class Follower(models.Model):
+
+    followers = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, related_name="followers")
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='user', on_delete=models.CASCADE, null=True)
+
+    def add_follower(self, new_follower):
+        if not new_follower in self.followers.all():
+            self.followers.add(new_follower)
+
+    def delete_follower(self, delete_follower):
+        if not delete_follower in self.followers.all():
+            self.followers.remove(delete_follower)
+
+
 '''
 create new instance when current user trying to send befriend request
 '''
 class FriendRequest(models.Model):
-
-    request_id = models.AutoField(primary_key=True)
+    request_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     sender = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='req_sender', on_delete=models.CASCADE, null=True)
     receiver = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='req_receiver', on_delete=models.CASCADE, null=True)
-    # sender_friend, create_sender = Friend.objects.get_or_create(cur_user=sender)
-    # receiver_friend, create_receiver = Friend.objects.get_or_create(cur_user=receiver)
-
     respond_status = models.BooleanField(blank=False, null=False, default=True)
 
     def accept_request(self):
