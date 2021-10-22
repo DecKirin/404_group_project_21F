@@ -53,3 +53,21 @@ def process_friend_request(request, id):
         context['choice'] = f"You've declined {friend_tobe.username}'s request"
     return render(request, 'request_send.html', context=context)
 
+'''
+come after click on inbox message
+'''
+def process_friend_request(request, id):
+    context = {}
+    user = request.user
+    friend_request_id = FriendRequest.objects.get(id=id)
+    # to_befriend = User.objects.get(id=id)
+    friend_request = FriendRequest.objects.get(request_id=friend_request_id)
+    friend_tobe = friend_request.sender
+    if request.POST['submit'] == 'accept':
+        friend_request.accept_request()
+        context['choice'] = f"You've now {friend_tobe.username}'s friend"
+
+    elif request.POST['submit'] == 'remove':
+        friend_request.decline_request()
+        context['choice'] = f"You've declined {friend_tobe.username}'s request"
+    return render(request, 'request_send.html', context=context)
