@@ -8,9 +8,10 @@ urlpatterns = [
     path('<id>/followers/', followers_list_view, name='follower'),
     path('<id>/followers/<foreign_id>', follower_view.as_view(), name='follower'),
     path('<id>/follows/', follows_list_view, name='follow'),
-
-    path('<id>srequest/', send_friend_request, name='friend_request'),
-    path('<id>srequest/#', process_friend_request, name='process_request'),
+    # author successfully send the friend request
+    path('friendrequest/<foreign_id>', send_friend_request, name='friend_request'),
+    #
+    path('sentrequest/<request_id>', process_friend_request, name='process_request'),
     path('authors/', AllUserProfileView.as_view(), name='all_authors'),
     path('register/', RegisterView.as_view(), name='register'),
     path('login/', LoginView.as_view(), name='login'),
