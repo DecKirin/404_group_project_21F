@@ -6,6 +6,19 @@ from django.core.paginator import Paginator
 
 # Create your views here.
 
+# todo: unbefriend
+def un_befriend(request, id):
+    context = {}
+    user = request.user
+    to_del_friend = User.objects.get(id=id)
+    friend = Friend.objects.get(user=user)
+    del_friend = Friend.objects.get(user=to_del_friend)
+    friend.delete_friend(to_del_friend)
+    del_friend.delete_friend(user)
+    context['user'] = user
+    context['to_del_friend'] = to_del_friend
+    return render(request, 'delete_friend.html', context=context)
+
 
 def friends_list_view(request, id, *args, **kwargs):
 
@@ -16,10 +29,8 @@ def friends_list_view(request, id, *args, **kwargs):
     if create:
         context['friends'] = ['Does not have friend yet']
     else:
-        print(type(friend))
-    friend_list = friend.friends.all() #
-
-    context['friends'] = friend_list
+        friend_list = friend.friends.all() #
+        context['friends'] = friend_list
     # context = {'friend': 'name'}
     return render(request, 'all_friends_list.html', context=context)
 
