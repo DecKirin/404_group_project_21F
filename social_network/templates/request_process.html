@@ -6,7 +6,7 @@
 </head>
 <body>
 {{request_user}} wants to follow {{request_tobe}}
-<form action="#" method="post">
+<form action="{% url 'Author:index' %}" method="POST">
 <input type="submit" name = "Accept" value="Accept">
 <input type="submit" name = "Decline" value="Decline">
 </form>

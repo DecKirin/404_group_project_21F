@@ -12,7 +12,7 @@ class Friend(models.Model):
             self.friends.add(new_friend)
 
     def delete_friend(self, delete_friend):
-        if not delete_friend in self.friends.all():
+        if delete_friend in self.friends.all():
             self.friends.remove(delete_friend)
 
 

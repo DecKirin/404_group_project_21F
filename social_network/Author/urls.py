@@ -1,7 +1,7 @@
 from django.urls import path, re_path
 from django.contrib.auth.decorators import login_required
 from Author.views import RegisterView, LoginView, UserInfoView, LogoutView, UserPostsView, IndexView, UserProfileView,AllUserProfileView
-from friends.views import friends_list_view, send_friend_request, process_friend_request, followers_list_view, follows_list_view, follower_view
+from friends.views import friends_list_view, send_friend_request, process_friend_request, followers_list_view, follows_list_view, follower_view, un_befriend
 app_name = 'Author'
 urlpatterns = [
     path('<id>/friends/', friends_list_view, name='friend'),
@@ -10,7 +10,9 @@ urlpatterns = [
     path('<id>/follows/', follows_list_view, name='follow'),
     # author successfully send the friend request
     path('friendrequest/<foreign_id>', send_friend_request, name='friend_request'),
-    #
+    # Un-befriend
+    path('<id>/unbefriend', un_befriend, name='un_befriend'),
+    # check inbox to get sent request
     path('sentrequest/<request_id>', process_friend_request, name='process_request'),
     path('authors/', AllUserProfileView.as_view(), name='all_authors'),
     path('register/', RegisterView.as_view(), name='register'),
