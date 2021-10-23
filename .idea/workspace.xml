@@ -24,6 +24,8 @@
       <change beforePath="$PROJECT_DIR$/social_network/Author/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/social_network/Author/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/social_network/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/social_network/db.sqlite3" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/social_network/friends/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/social_network/friends/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/social_network/templates/request_process.html" beforeDir="false" afterPath="$PROJECT_DIR$/social_network/templates/request_process.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/social_network/templates/request_send.html" beforeDir="false" afterPath="$PROJECT_DIR$/social_network/templates/request_send.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
