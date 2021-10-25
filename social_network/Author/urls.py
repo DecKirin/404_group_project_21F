@@ -1,8 +1,7 @@
 from django.urls import path, re_path
 from django.contrib.auth.decorators import login_required
-from Author.views import RegisterView, LoginView, UserInfoView, LogoutView, IndexView, UserProfileView,AllUserProfileView
+from Author.views import RegisterView, LoginView, UserInfoView, LogoutView, UserPostsView, IndexView, UserProfileView,AllUserProfileView
 from friends.views import friends_list_view, send_friend_request, process_friend_request, followers_list_view, follows_list_view, follower_view, un_befriend
-from Post.views import NewPostView
 app_name = 'Author'
 urlpatterns = [
     path('<id>/friends/', friends_list_view, name='friend'),
@@ -14,7 +13,7 @@ urlpatterns = [
     # Un-befriend
     path('<id>/unbefriend', un_befriend, name='un_befriend'),
     # check inbox to get sent request
-    path('sentrequest/<request_id>', process_friend_request, name='process_request'),
+    path('sentrequest/<request_id>', process_friend_request.as_view(), name='process_request'),
     path('authors/', AllUserProfileView.as_view(), name='all_authors'),
     path('register/', RegisterView.as_view(), name='register'),
     path('login/', LoginView.as_view(), name='login'),
@@ -24,9 +23,7 @@ urlpatterns = [
     # account page of logged in user
     path('account/', login_required(UserInfoView.as_view()), name='info'),
     # view a my posts as login in user in a list
-    #path('myposts/', MyPostsView.as_view(), name='myposts'),
-    # create new post
-    path('newpost/', NewPostView.as_view(), name='newpost'),
+    path('myposts/', login_required(UserPostsView.as_view()), name='myposts'),
     # display all user profiles
     # page to view other user's profile
     path('<id>/', UserProfileView.as_view(), name='profile'),
