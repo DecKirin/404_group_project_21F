@@ -2,13 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Process Request</title>
 </head>
 <body>
+<form method="POST" >
+    {% csrf_token %}
 {{request_user}} wants to follow {{request_tobe}}
-<form action="{% url 'Author:index' %}" method="POST">
-<input type="submit" name = "Accept" value="Accept">
-<input type="submit" name = "Decline" value="Decline">
+<input type="submit" name = "status" value="Accept">
+<input type="submit" name = "status" value="Decline">
 </form>
+
 </body>
 </html>
