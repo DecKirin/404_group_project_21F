@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User, AbstractUser
-
+from django.utils import timezone
 # for slug and unique id
 # https://www.youtube.com/watch?v=dJqWO-lSgWY
 '''
@@ -25,7 +25,6 @@ class RegisterControl(models.Model):
 
 
 
-
 class User(AbstractUser):
     id = models.AutoField(primary_key=True)
     username = models.CharField(max_length=20, unique=True)
@@ -46,28 +45,33 @@ class User(AbstractUser):
         verbose_name_plural = verbose_name
 
 
-# https://www.youtube.com/watch?v=GcqURKYfv00
 class Post(models.Model):
-    visibility = {
+    visibility_choices = {
         (1, "PUBLIC"),
         (2, "FRIEND ONLY"),
         (3, "PRIVATE"),
-        (4, "UNLISTED"),
+        # (4, "UNLISTED"),
     }
-    # author = models.ForeignKey(Author, on_delete=models.CASCADE, null=True)
-    id = models.AutoField(primary_key=True)
-    author = models.ForeignKey(User, related_name='posts', on_delete=models.CASCADE, null=False)
+    type = 'post'
     title = models.CharField(max_length=128)
-    content = models.TextField(blank=True)
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now_add=True)
-    image = models.URLField(blank=True)
+    id = models.AutoField(primary_key=True)
     source = models.URLField(blank=True)
     origin = models.URLField(blank=True)
-    type = models.SmallIntegerField(default=1, choices=visibility)
-
+    description = models.CharField(max_length=500, blank=True)
+    contentType = models.CharField(max_length=500)
+    content = models.TextField(blank=True)
+    author = models.ForeignKey(User, related_name='posts', on_delete=models.CASCADE, null=False)
+    categories = models.JSONField(null=True)
+    # author = models.ForeignKey(Author, on_delete=models.CASCADE, null=True)
+    count = models.IntegerField()
+    #comments = models.CharField(max_length=500,blank=True)
+    published = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now_add=True)
+    visibility = models.SmallIntegerField(default=1, choices=visibility_choices)
+    unlisted = models.BooleanField()
+    image = models.URLField(blank=True)
     class Meta:
-        ordering = ('created',)
+        ordering = ('published',)
 
 
 class Comment(models.Model):
@@ -79,7 +83,6 @@ class Comment(models.Model):
     name = models.CharField(max_length=80)
     comment = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now_add=True)
     is_active = models.BooleanField(default=True)
 
     class Meta:
@@ -142,3 +145,8 @@ class Friend(models.Model):
 
     def __str__(self):
         return str(self.current_user)
+
+class Inbox(models.Model):
+    type = "inbox"
+    author = models.ForeignKey(User, related_name='inbox', on_delete=models.CASCADE, null=False)
+    items = models.CharField(blank=True, max_length=200)

@@ -106,9 +106,9 @@ class UserProfileAdmin(admin.ModelAdmin):
 
 
 class PostsAdmin(admin.ModelAdmin):
-    list_display = ("type", "id", "author", "title", "created", "view_comments_link", "view_likes_link")
+    list_display = ("type", "id", "author", "title", "published", "view_comments_link", "view_likes_link")
     search_fields = ("title","author__id","author__username")
-    list_filter = ("created", "author")
+    list_filter = ("published", "author")
 
     def view_comments_link(self, obj):
         count = obj.comments.count()

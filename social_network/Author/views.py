@@ -8,7 +8,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 
 import Author
-from Author.models import User,RegisterControl
+from Author.models import User, RegisterControl, Post
 # Create your views here.
 from django.views import View
 from django.contrib.auth import authenticate, login, logout
@@ -191,11 +191,6 @@ class LogoutView(View):
         logout(request)
         return redirect(reverse('Author:login'))
 
-
-class UserPostsView(LoginRequiredMixin, View):
-    def get(self, request):
-        user = request.user
-        return render(request, '')
 
 
 class UserInfoView(LoginRequiredMixin, View):
