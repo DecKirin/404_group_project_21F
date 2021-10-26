@@ -54,10 +54,10 @@ class FriendRequest(models.Model):
     respond_status = models.BooleanField(blank=False, null=False, default=True)
 
     def accept_request(self):
-        sender_friend, create_sender = Friend.objects.get_or_create(cur_user=self.sender)
-        receiver_friend, create_receiver = Friend.objects.get_or_create(cur_user=self.receiver)
-        receiver_friend.add_friend(self.sender, self.receiver)
-        sender_friend.add_friend(self.sender, self.receiver)
+        sender_friend, create_sender = Friend.objects.get_or_create(user=self.sender)
+        receiver_friend, create_receiver = Friend.objects.get_or_create(user=self.receiver)
+        receiver_friend.add_friend(self.sender)
+        sender_friend.add_friend(self.receiver)
         self.repond_status = True
 
     def decline_request(self):

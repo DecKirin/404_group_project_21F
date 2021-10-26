@@ -15,7 +15,7 @@ urlpatterns = [
     # Un-befriend
     path('<id>/unbefriend', un_befriend, name='un_befriend'),
     # check inbox to get sent request
-    path('sentrequest/<request_id>', process_friend_request, name='process_request'),
+    path('sentrequest/<request_id>', process_friend_request.as_view(), name='process_request'),
     path('authors/', AllUserProfileView.as_view(), name='all_authors'),
     path('register/', RegisterView.as_view(), name='register'),
     path('login/', LoginView.as_view(), name='login'),
