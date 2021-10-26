@@ -240,8 +240,41 @@ class AllUserProfileView(View):
         context = {
             'page_object': page_object,
             'page_range': paginator.page_range,
+            'page_size': per_page,
+            'current_page': page,
         }
 
         response = render(request, 'temp_for_all_authors_list.html', context=context)
         # response = render(request, 'all_authors_list.html', context=context)
         return response
+
+
+# https://www.youtube.com/watch?v=-Vu7Kh-SxEA
+# https://docs.djangoproject.com/en/3.2/topics/db/search/
+# the view to list all searched user
+class SearchUserView(View):
+    def get(self, request):
+        authorName = request.GET.get("q")
+        page = int(request.GET.get("page", 1))
+        per_page = int(request.GET.get("size", 10))
+        get_users_by_uname = User.objects.filter(username__icontains=authorName)
+        currentUser = request.user
+
+        paginator = Paginator(get_users_by_uname, per_page)
+        page_object = paginator.page(page)
+
+        # time.sleep(5)
+        context = {
+            'page_object': page_object,
+            'page_range': paginator.page_range,
+            'q': authorName,
+            'page_size': per_page,
+            'current_page':page,
+
+        }
+        return render(request, "temp_for_search_authors_list.html", context=context)
+
+
+
+
+
