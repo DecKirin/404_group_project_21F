@@ -11,7 +11,7 @@ urlpatterns = [
     # author successfully send the friend request
     path('friendrequest/<foreign_id>', send_friend_request, name='friend_request'),
     # Un-befriend
-    path('<id>/unbefriend', un_befriend, name='un_befriend'),
+    path('<id>/<delete>', un_befriend, name='un_befriend'),
     # check inbox to get sent request
     path('sentrequest/<request_id>', process_friend_request.as_view(), name='process_request'),
     path('authors/', AllUserProfileView.as_view(), name='all_authors'),
