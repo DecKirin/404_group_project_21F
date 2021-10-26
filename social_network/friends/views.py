@@ -9,14 +9,24 @@ import logging
 # Create your views here.
 
 # todo: unbefriend
-def un_befriend(request, id):
+def un_befriend(request, id, delete):
     context = {}
     user = request.user
     to_del_friend = User.objects.get(id=id)
-    friend = Friend.objects.get(user=user)
-    del_friend = Friend.objects.get(user=to_del_friend)
-    friend.delete_friend(to_del_friend)
-    del_friend.delete_friend(user)
+    if delete == 'Un-befriend':
+        friend = Friend.objects.get(user=user)
+        del_friend = Friend.objects.get(user=to_del_friend)
+        friend.delete_friend(to_del_friend)
+        del_friend.delete_friend(user)
+        context['type'] = 'friend'
+    elif delete == 'Un-follower':
+        follower = Follower.objects.get(user=user)
+        follower.delete_follower(to_del_friend)
+        context['type'] = 'follower'
+    elif delete == 'Un-follow':
+        follow = Follow.objects.get(user=user)
+        follow.delete_follow(to_del_friend)
+        context['type'] = 'follow'
     context['user'] = user
     context['to_del_friend'] = to_del_friend
     return render(request, 'delete_friend.html', context=context)
@@ -50,7 +60,7 @@ def followers_list_view(request,id,  *args, **kwargs):
     else:
         friend_list = follower.followers.all() #
         context['friends'] = friend_list
-    context['delete'] = 'Un-follow'
+    context['delete'] = 'Un-follower'
     return render(request, 'all_friends_list.html', context=context)
 
 def follows_list_view(request, id, *args, **kwargs):
