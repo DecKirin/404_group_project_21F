@@ -26,7 +26,7 @@ class Follower(models.Model):
             self.followers.add(new_follower)
 
     def delete_follower(self, delete_follower):
-        if not delete_follower in self.followers.all():
+        if delete_follower in self.followers.all():
             self.followers.remove(delete_follower)
 
 
@@ -40,7 +40,7 @@ class Follow(models.Model):
             self.follows.add(new_follow)
 
     def delete_follow(self, delete_follow):
-        if not delete_follow in self.follows.all():
+        if delete_follow in self.follows.all():
             self.follows.remove(delete_follow)
 
 
