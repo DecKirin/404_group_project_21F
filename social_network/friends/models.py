@@ -26,7 +26,7 @@ class Follower(models.Model):
             self.followers.add(new_follower)
 
     def delete_follower(self, delete_follower):
-        if not delete_follower in self.followers.all():
+        if delete_follower in self.followers.all():
             self.followers.remove(delete_follower)
 
 
@@ -40,7 +40,7 @@ class Follow(models.Model):
             self.follows.add(new_follow)
 
     def delete_follow(self, delete_follow):
-        if not delete_follow in self.follows.all():
+        if delete_follow in self.follows.all():
             self.follows.remove(delete_follow)
 
 
@@ -54,10 +54,10 @@ class FriendRequest(models.Model):
     respond_status = models.BooleanField(blank=False, null=False, default=True)
 
     def accept_request(self):
-        sender_friend, create_sender = Friend.objects.get_or_create(cur_user=self.sender)
-        receiver_friend, create_receiver = Friend.objects.get_or_create(cur_user=self.receiver)
-        receiver_friend.add_friend(self.sender, self.receiver)
-        sender_friend.add_friend(self.sender, self.receiver)
+        sender_friend, create_sender = Friend.objects.get_or_create(user=self.sender)
+        receiver_friend, create_receiver = Friend.objects.get_or_create(user=self.receiver)
+        receiver_friend.add_friend(self.sender)
+        sender_friend.add_friend(self.receiver)
         self.repond_status = True
 
     def decline_request(self):

@@ -1,0 +1,94 @@
+{% extends 'base_main.html' %}
+{% load static %}
+<!-- Content Wrapper. Contains page content -->
+{% block Content_Wrapper %}
+    <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">Change your profile image</h3>
+              </div>
+              <!-- /.card-header -->
+              <!-- form start -->
+              <form method="Post" action="{% url 'Author:edit_profile' %}">
+                <div class="card-body">
+                  <div class="form-group">
+                    <label for="exampleInputFile">Profile image</label>
+                    <div class="input-group">
+                      <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="Profile image upload">
+                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- /.card-body -->
+
+                <div class="card-footer">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+              </form>
+            </div>
+            <!-- /.card -->
+          </div>
+          <!--/.col (right) -->
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">Edit your info</h3>
+              </div>
+              <!-- /.card-header -->
+              <!-- form start -->
+              <form action="{% url 'Author:edit_profile' %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="card-body">
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">UserName</label>
+                    <input type="text" class="form-control" id="username" name="username" value={{ curr_user.username }}>
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">First Name</label>
+                    <input type="text" class="form-control" id="first_name" name="first_name" value={{ curr_user.first_name }}>
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Last Name</label>
+                    <input type="text" class="form-control" id="last_name" name="last_name" value={{ curr_user.last_name }}>
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" value={{ curr_user.email }}>
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">Github</label>
+                    <input type="text" class="form-control" id="github" name="github" value={{ curr_user.github }}>
+                  </div>
+                </div>
+                <!-- /.card-body -->
+
+                <div class="card-footer">
+                  <button type="submit" id="btn_edit_profile" class="btn btn-primary">Submit</button>
+                </div>
+              <!--/form-->
+            </div>
+            <!-- /.card -->
+          </div>
+          <!--/.col (right) -->
+        </div>
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+<!-- /.content-wrapper -->
+
+{% endblock Content_Wrapper%}

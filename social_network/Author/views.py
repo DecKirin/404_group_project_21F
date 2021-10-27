@@ -1,6 +1,7 @@
 import re
 import json
 
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
 from django.http import HttpResponse, HttpResponseRedirect
@@ -52,7 +53,7 @@ class RegisterView(View):
             error_msg_dic["msg"] = "data missing"
             json_data.append(error_msg_dic)
             return HttpResponse(json.dumps(json_data))
-        # 校验用户名是否重复
+        # check if user name already exists
         try:
             user = User.objects.get(username=username)
         except User.DoesNotExist:
@@ -97,38 +98,38 @@ class LoginView(View):
             "code": ""
         }
 
-        # 接收数据
+        # receive data
         username = request.POST.get('user_name')
         password = request.POST.get('pwd')
 
-        # 校验数据
+        # validate data
         if not all([username, password]):
             # return render(request, 'login.html', {'errmsg': '数据不完整'})
             error_msg_dic["code"] = "500"
             error_msg_dic["msg"] = "data missing"
             json_data.append(error_msg_dic)
             return HttpResponse(json.dumps(json_data))
-        # 业务处理:登录校验
+        # login authentication
         user = authenticate(username=username, password=password)
         if user is not None:
-            # 用户名密码正确
+            # username and password correct
             '''
             if user.is_delete:
                 error_msg_dic["code"] = "700"
-                error_msg_dic["msg"] = "用户未开通"
+                error_msg_dic["msg"] = "not active user"
                 json_data.append(error_msg_dic)
                 return HttpResponse(json.dumps(json_data))
             '''
             if user.is_active:
                 # user account is an active one
-                # 记录用户的登录状态
+                # keep user login
                 login(request, user)
 
-                # 获取登录后所要跳转到的地址
-                # 默认跳转到首页
+                # acquire next page
+                # by default, go to index page
                 next_url = request.GET.get('next', reverse('Author:index'))
 
-                # # 跳转到next_url
+                # # direct to next page
                 # response = redirect(next_url)  # HttpResponseRedirect
 
                 error_msg_dic["code"] = "200"
@@ -150,9 +151,8 @@ class LoginView(View):
                     response_index.delete_cookie('username')
                     response_index.delete_cookie('remember')
 
-                # 返回response
-                return response_index
                 # return response
+                return response_index
             else:
                 # User account is not active
                 error_msg_dic["code"] = "403"
@@ -206,15 +206,22 @@ class UserProfileView(View):
         view_user = User.objects.get(id=id)
         # alternative approach, just use username
         #
+        try:
+            github = view_user.github
+            githubUname = github.split("/")[-1]
+        except Exception:
+            githubUname=None
+
         context = {
             'id': id,
             'curr_user': curr_user,
             'view_user': view_user,
+            'githubName': githubUname,
         }
 
         # used for testing
-        return render(request, 'index2.html', context=context)
-        # return render(request, 'author_profile.html', context=context)
+        #return render(request, 'index2.html', context=context)
+        return render(request, 'author_profile.html', context=context)
 
 
 class AllUserProfileView(View):
@@ -225,6 +232,7 @@ class AllUserProfileView(View):
         per_page = int(request.GET.get("size", 10))
         # something like only showing active user
         # user_status = int(request.GET.get("user_status",1))
+        currentUser = request.user
 
         authors = User.objects.all()
 
@@ -235,8 +243,98 @@ class AllUserProfileView(View):
         context = {
             'page_object': page_object,
             'page_range': paginator.page_range,
+            'page_size': per_page,
+            'current_page': page,
+            'current_author': currentUser,
         }
 
         response = render(request, 'temp_for_all_authors_list.html', context=context)
         # response = render(request, 'all_authors_list.html', context=context)
         return response
+
+
+# https://www.youtube.com/watch?v=-Vu7Kh-SxEA
+# https://docs.djangoproject.com/en/3.2/topics/db/search/
+# the view to list all searched user
+class SearchUserView(View):
+    def get(self, request):
+        authorName = request.GET.get("q")
+        page = int(request.GET.get("page", 1))
+        per_page = int(request.GET.get("size", 10))
+        get_users_by_uname = User.objects.filter(username__icontains=authorName)
+        currentUser = request.user
+
+        paginator = Paginator(get_users_by_uname, per_page)
+        page_object = paginator.page(page)
+
+        # time.sleep(5)
+        context = {
+            'page_object': page_object,
+            'page_range': paginator.page_range,
+            'q': authorName,
+            'page_size': per_page,
+            'current_page':page,
+            'current_author': currentUser,
+        }
+        return render(request, "temp_for_search_authors_list.html", context=context)
+
+
+class UserPostsView(View):
+    def get(self, request):
+        pass
+
+
+class UserEditInfoView(LoginRequiredMixin, View):
+    def get(self, request):
+        # current logged in user
+        curr_user = request.user
+
+        context = {
+            'curr_user': curr_user,
+        }
+
+        # used for testing
+        # return render(request, 'index2.html', context=context)
+        return render(request, 'profile_edit.html', context=context)
+    def post(self, request):
+        json_data = []
+        error_msg_dic = {
+            "data": "",
+            "msg": "",
+            "code": ""
+        }
+        current_user = request.user
+        username = request.POST.get('username')
+        #username = request.POST['username']
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        email = request.POST.get('email')
+        github = request.POST.get('github')
+
+        '''
+        old_username = current_user.username
+
+        try:
+            exist_user = User.objects.get(username=username)
+        except User.DoesNotExist:
+            # new username is unique
+            exist_user = None
+
+        
+        if exist_user is None or exist_user.id == current_user.id:
+            User.objects.filter(username=current_user.username).update(username=username, email=email, first_name=first_name,last_name=last_name, github=github)
+            messages.success(request, "Your change has been saved!")
+            return HttpResponseRedirect(reverse("Author:index"))
+
+        else :
+            error_msg_dic["code"] = "403"
+            error_msg_dic["msg"] = "Cannot update cause the username is already taken"
+            json_data.append(error_msg_dic)
+            messages.error(request, "This username is taken by someone else")
+            return render(request, 'profile_edit.html', context=json_data)
+        '''
+        User.objects.filter(username=current_user.username).update(email=email,
+                                                                   first_name=first_name, last_name=last_name,
+                                                                   github=github)
+        return HttpResponseRedirect(reverse("Author:index"))
+
