@@ -1,7 +1,6 @@
 from django.urls import path, re_path
 from django.contrib.auth.decorators import login_required
-from Author.views import RegisterView, LoginView, UserInfoView, LogoutView, UserPostsView, IndexView, UserProfileView, \
-    AllUserProfileView, SearchUserView, UserEditInfoView
+from Author.views import RegisterView, LoginView, UserInfoView, LogoutView, UserPostsView, IndexView, InboxView, UserProfileView,AllUserProfileView
 from friends.views import friends_list_view, send_friend_request, process_friend_request, followers_list_view, follows_list_view, follower_view, un_befriend
 app_name = 'Author'
 urlpatterns = [
@@ -12,6 +11,7 @@ urlpatterns = [
     path('<id>/follows/', follows_list_view, name='follow'),
     # author successfully send the friend request
     path('friendrequest/<foreign_id>', send_friend_request, name='friend_request'),
+    path('accept/<request_id>', process_friend_request.as_view(), name='accept'),
     # Un-befriend
     path('<id>/<delete>', un_befriend, name='un_befriend'),
     # check inbox to get sent request
@@ -30,4 +30,5 @@ urlpatterns = [
     # display all user profiles
     # page to view other user's profile
     path('<id>/', UserProfileView.as_view(), name='profile'),
+    path('<id>/inbox/', InboxView.as_view(), name='inbox'),
 ]
