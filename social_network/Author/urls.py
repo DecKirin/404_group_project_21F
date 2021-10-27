@@ -10,6 +10,7 @@ urlpatterns = [
     path('<id>/follows/', follows_list_view, name='follow'),
     # author successfully send the friend request
     path('friendrequest/<foreign_id>', send_friend_request, name='friend_request'),
+    path('accept/<request_id>', process_friend_request.as_view(), name='accept'),
     # Un-befriend
     path('<id>/<delete>', un_befriend, name='un_befriend'),
     # check inbox to get sent request
