@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User, AbstractUser
+from friends.models import FriendRequest
+import uuid
 from django.utils import timezone
 # for slug and unique id
 # https://www.youtube.com/watch?v=dJqWO-lSgWY
@@ -109,7 +111,7 @@ class FollowAuthor(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-
+'''
 # https://medium.com/analytics-vidhya/add-friends-with-689a2fa4e41d
 class FriendRequest(models.Model):
     status = [
@@ -123,7 +125,7 @@ class FriendRequest(models.Model):
     sender = models.OneToOneField(User, on_delete=models.CASCADE, related_name='sender')
     receiver = models.OneToOneField(User, on_delete=models.CASCADE, related_name='receiver')
     created = models.DateTimeField(auto_now_add=True)
-
+'''
 
 class Friend(models.Model):
     users = models.ManyToManyField(User)
@@ -146,7 +148,10 @@ class Friend(models.Model):
     def __str__(self):
         return str(self.current_user)
 
+
 class Inbox(models.Model):
     type = "inbox"
     author = models.ForeignKey(User, related_name='inbox', on_delete=models.CASCADE, null=False)
     items = models.CharField(blank=True, max_length=200)
+    requests = models.ForeignKey(FriendRequest, related_name='inbox', on_delete=models.CASCADE, null=False)
+    #Todo:Fetch Posts

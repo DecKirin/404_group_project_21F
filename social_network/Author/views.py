@@ -6,9 +6,9 @@ from django.core.paginator import Paginator
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse
-
+from friends.models import FriendRequest
 import Author
-from Author.models import User, RegisterControl, Post
+from Author.models import User, RegisterControl, Post, Inbox
 # Create your views here.
 from django.views import View
 from django.contrib.auth import authenticate, login, logout
@@ -174,6 +174,7 @@ class LoginView(View):
 # probably should be stream page later!!!!!
 class IndexView(LoginRequiredMixin, View):
     def get(self, request):
+        print(request.user.id)
         username = request.session.get('username', '')
         if not username:
             return HttpResponseRedirect('author:login')
@@ -240,3 +241,27 @@ class AllUserProfileView(View):
         response = render(request, 'temp_for_all_authors_list.html', context=context)
         # response = render(request, 'all_authors_list.html', context=context)
         return response
+
+
+class InboxView(View):
+
+    def get(self, request, id):
+        curr_user = request.user
+
+        friReqs = FriendRequest.objects.filter(receiver_id=curr_user.id)
+
+        inbox = Inbox.objects.filter(requests=friReqs)
+
+
+        context = {
+            'currUser': curr_user,
+            'friend_requests': friReqs[0],
+        }
+
+        response = render(request, 'temp_inbox.html', context=context)
+        # response = render(request, 'all_authors_list.html', context=context)
+        return response
+
+
+class UserPostsView(View):
+    pass
