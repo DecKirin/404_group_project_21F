@@ -54,24 +54,25 @@ class Post(models.Model):
     }
     type = 'post'
     title = models.CharField(max_length=128)
-    id = models.AutoField(primary_key=True)
+    id = models.CharField(max_length=128,primary_key=True)
     source = models.URLField(blank=True)
     origin = models.URLField(blank=True)
     description = models.CharField(max_length=500, blank=True)
-    contentType = models.CharField(max_length=500)
+    contentType = models.CharField(max_length=500, default="default_type")
     content = models.TextField(blank=True)
-    author = models.ForeignKey(User, related_name='posts', on_delete=models.CASCADE, null=False)
+    author = models.ForeignKey(User, related_name='posts', on_delete=models.CASCADE, null=False, default=1)  # TODO: edit default value
     categories = models.JSONField(null=True)
     # author = models.ForeignKey(Author, on_delete=models.CASCADE, null=True)
-    count = models.IntegerField()
+    count = models.IntegerField(default=0)
     #comments = models.CharField(max_length=500,blank=True)
     published = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now_add=True)
     visibility = models.SmallIntegerField(default=1, choices=visibility_choices)
-    unlisted = models.BooleanField()
+    unlisted = models.BooleanField(default=False)
     image = models.URLField(blank=True)
     class Meta:
         ordering = ('published',)
+        db_table = 'posts'
 
 
 class Comment(models.Model):
@@ -79,7 +80,7 @@ class Comment(models.Model):
     id = models.AutoField(primary_key=True)
     post = models.ForeignKey(Post, related_name='comments', on_delete=models.CASCADE, null=False)
     # the author make this comment
-    author = models.ForeignKey(User, related_name='comments', on_delete=models.CASCADE, null=False)
+    author = models.ForeignKey(User, related_name='comments', on_delete=models.CASCADE, null=False, default=1)  # TODO: edit default value
     name = models.CharField(max_length=80)
     comment = models.TextField()
     created = models.DateTimeField(auto_now_add=True)

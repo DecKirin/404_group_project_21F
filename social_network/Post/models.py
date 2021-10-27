@@ -26,7 +26,7 @@ class Post(models.Model):
     categories = models.JSONField(null=True)
     size = models.IntegerField()
     count = models.IntegerField()
-    comments = models.CharField(blank=True, max_length=500)
+    #comments = models.CharField(blank=True, max_length=500)
     unlisted = models.BooleanField()
 
     class Meta:
