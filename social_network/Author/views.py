@@ -247,19 +247,23 @@ class InboxView(View):
 
     def get(self, request, id):
         curr_user = request.user
-
+        page = int(request.GET.get("page", 1))
+        per_page = int(request.GET.get("size", 10))
         friReqs = FriendRequest.objects.filter(receiver_id=curr_user.id)
 
-        inbox = Inbox.objects.filter(requests=friReqs)
+        #inbox = Inbox.objects.filter(requests=friReqs)
+
+        paginator = Paginator(friReqs, per_page)
+        page_object = paginator.page(page)
 
 
         context = {
-            'currUser': curr_user,
-            'friend_requests': friReqs[0],
+            'page_object': page_object,
+            'page_range': paginator.page_range,
         }
 
         response = render(request, 'temp_inbox.html', context=context)
-        # response = render(request, 'all_authors_list.html', context=context)
+
         return response
 
 
