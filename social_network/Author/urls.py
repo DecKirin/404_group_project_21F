@@ -1,14 +1,14 @@
 from django.urls import path, re_path
 from django.contrib.auth.decorators import login_required
 from Author.views import RegisterView, LoginView, UserInfoView, LogoutView, UserPostsView, IndexView, UserProfileView, \
-    AllUserProfileView, SearchUserView
+    AllUserProfileView, SearchUserView, UserEditInfoView
 from friends.views import friends_list_view, send_friend_request, process_friend_request, followers_list_view, follows_list_view, follower_view, un_befriend
 app_name = 'Author'
 urlpatterns = [
     path('searchAuthor/', SearchUserView.as_view(), name='search_user'),
     path('<id>/friends/', friends_list_view, name='friend'),
     path('<id>/followers/', followers_list_view, name='follower'),
-    path('<id>/followers/<foreign_id>', follower_view.as_view(), name='follower'),
+    path('<id>/followers/<foreign_id>', follower_view.as_view(), name='foreign_follower'),
     path('<id>/follows/', follows_list_view, name='follow'),
     # author successfully send the friend request
     path('friendrequest/<foreign_id>', send_friend_request, name='friend_request'),
@@ -26,6 +26,7 @@ urlpatterns = [
     path('account/', login_required(UserInfoView.as_view()), name='info'),
     # view a my posts as login in user in a list
     path('myposts/', login_required(UserPostsView.as_view()), name='myposts'),
+    path('editProfile/', login_required(UserEditInfoView.as_view()), name='edit_profile'),
     # display all user profiles
     # page to view other user's profile
     path('<id>/', UserProfileView.as_view(), name='profile'),

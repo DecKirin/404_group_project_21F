@@ -1,20 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import User, AbstractUser
+import uuid
 from django.utils import timezone
+
+
 # for slug and unique id
 # https://www.youtube.com/watch?v=dJqWO-lSgWY
-'''
-class Author(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    user_name = models.CharField(max_length=20, unique=True)
-    profile_image = models.URLField(blank=True)
-    #profile_image = models.ImageField(default='',upload_to=)
-    email = models.CharField(max_length=20, unique=True)
-    # url path of user profile images
-    is_active = models.BooleanField(default=True)
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now_add=True)
-'''
 
 
 class RegisterControl(models.Model):
@@ -24,8 +15,8 @@ class RegisterControl(models.Model):
         return 'New User Confirmation Required'
 
 
-
 class User(AbstractUser):
+    # id = models.UUIDField(primary_key=True, default=uuid.uuid4())
     id = models.AutoField(primary_key=True)
     username = models.CharField(max_length=20, unique=True)
     profile_image = models.URLField(blank=True)
@@ -64,12 +55,13 @@ class Post(models.Model):
     categories = models.JSONField(null=True)
     # author = models.ForeignKey(Author, on_delete=models.CASCADE, null=True)
     count = models.IntegerField()
-    #comments = models.CharField(max_length=500,blank=True)
+    # comments = models.CharField(max_length=500,blank=True)
     published = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now_add=True)
     visibility = models.SmallIntegerField(default=1, choices=visibility_choices)
     unlisted = models.BooleanField()
     image = models.URLField(blank=True)
+
     class Meta:
         ordering = ('published',)
 
@@ -125,6 +117,7 @@ class FriendRequest(models.Model):
     created = models.DateTimeField(auto_now_add=True)
 
 
+'''
 class Friend(models.Model):
     users = models.ManyToManyField(User)
     current_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="owner", null=True)
@@ -145,6 +138,8 @@ class Friend(models.Model):
 
     def __str__(self):
         return str(self.current_user)
+'''
+
 
 class Inbox(models.Model):
     type = "inbox"
