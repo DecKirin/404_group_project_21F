@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.utils.html import format_html
 from django.utils.http import urlencode
 
-from .models import User, RegisterControl
+from .models import User, RegisterControl, Post, Comment, Like
 from friends.models import Friend, Follower, Follow
 
 # https://www.dothedev.com/blog/django-admin-list_filter/

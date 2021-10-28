@@ -1,10 +1,13 @@
 from django.urls import path, re_path
 from django.contrib.auth.decorators import login_required
 from Author.views import RegisterView, LoginView, UserInfoView, LogoutView, UserPostsView, IndexView, InboxView, \
-    UserProfileView, AllUserProfileView, SearchUserView, UserEditInfoView
+    UserProfileView, AllUserProfileView, SearchUserView, UserEditInfoView, MyStreamView
 from friends.views import friends_list_view, send_friend_request, process_friend_request, followers_list_view, follows_list_view, follower_view, un_befriend
+from Post.views import NewPostView
+
 app_name = 'Author'
 urlpatterns = [
+    path('newpost/', NewPostView.as_view(), name='newpost'),
     path('searchAuthor/', SearchUserView.as_view(), name='search_user'),
     path('<id>/friends/', friends_list_view, name='friend'),
     path('<id>/followers/', followers_list_view, name='follower'),
@@ -27,6 +30,8 @@ urlpatterns = [
     path('account/', login_required(UserInfoView.as_view()), name='info'),
     # view a my posts as login in user in a list
     path('myposts/', login_required(UserPostsView.as_view()), name='myposts'),
+    path('myStream/', login_required(MyStreamView.as_view()), name='mystream'),
+
     path('editProfile/', login_required(UserEditInfoView.as_view()), name='edit_profile'),
     # display all user profiles
     # page to view other user's profile

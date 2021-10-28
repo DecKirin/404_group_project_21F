@@ -7,6 +7,7 @@ from django.utils import timezone
 
 # for slug and unique id
 # https://www.youtube.com/watch?v=dJqWO-lSgWY
+from social_network import settings
 
 
 class RegisterControl(models.Model):
@@ -36,7 +37,7 @@ class User(AbstractUser):
         verbose_name = 'Author'
         verbose_name_plural = verbose_name
 
-'''
+
 class Post(models.Model):
     visibility_choices = {
         (1, "PUBLIC"),
@@ -52,8 +53,9 @@ class Post(models.Model):
     description = models.CharField(max_length=500, blank=True)
     contentType = models.CharField(max_length=500, default="default_type")
     content = models.TextField(blank=True)
-    author = models.ForeignKey(User, related_name='posts', on_delete=models.CASCADE, null=False, default=1)  # TODO: edit default value
-    categories = models.JSONField(null=True)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='posts', on_delete=models.CASCADE, null=False, default=1)  # TODO: edit default value
+    #categories = models.JSONField(null=True)
+    categories = models.CharField(max_length=500, blank=True)
     # author = models.ForeignKey(Author, on_delete=models.CASCADE, null=True)
     count = models.IntegerField(default=0)
     #comments = models.CharField(max_length=500,blank=True)
@@ -93,7 +95,7 @@ class Like(models.Model):
     updated = models.DateTimeField(auto_now_add=True)
     owner = models.ForeignKey(User, related_name='likes', on_delete=models.CASCADE, blank=False)
 
-
+'''
 # https://stackoverflow.com/questions/65055520/django-user-subscribe-user-relation
 class FollowAuthor(models.Model):
     # author = models.OneToOneField(Author, on_delete=models.CASCADE, related_name='author_subscription')

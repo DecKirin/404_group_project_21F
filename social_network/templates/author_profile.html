@@ -25,13 +25,13 @@
 
                 <ul class="list-group list-group-unbordered mb-3">
                   <li class="list-group-item">
-                    <a href={% url 'Author:follower' view_user.id %}>Followers</a> <b class="float-right">0</b>
+                    <a href={% url 'Author:follower' view_author.id%}>Followers</a> <b class="float-right">0</b>
                   </li>
                   <li class="list-group-item">
-                    <a href="{% url 'Author:follow' view_user.id%}">Following</a> <a class="float-right">0</a>
+                    <a href="{% url 'Author:follow' view_author.id %}">Following</a> <a class="float-right">0</a>
                   </li>
                   <li class="list-group-item">
-                    <a href="{% url 'Author:friend' view_user.id%}">Friends</a> <a class="float-right">0</a>
+                    <a href="{% url 'Author:friend' view_author.id %}">Friends</a> <a class="float-right">0</a>
                   </li>
                 </ul>
 
@@ -76,12 +76,11 @@
                    }
                 }).then(r => r.text())
             </script>
-              {% endif %}
+            {% endif %}
+            {% for post in page_object.object_list %}
             <div class="card">
-              <div class="card-header p-2">
-                <ul class="nav nav-pills">
-                  <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Stream</a></li>
-                </ul>
+              <div class="card-header">
+                  <h3><a class="nav-link active" href="#activity" data-toggle="tab">{{ post.title }}</a></h3>
               </div><!-- /.card-header -->
               <div class="card-body">
                 <div class="tab-content">
@@ -92,108 +91,25 @@
                       <div class="user-block">
                         <img class="img-circle img-bordered-sm" src="{% static 'mine/images/default_avatar.png' %}" alt="user image">
                         <span class="username">
-                          <a href="#">Jonathan Burke Jr.</a>
-                          <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>
+                          <a href="#" class="float-right btn-tool">{{ post.author.username }}<i class="fas fa-times"></i></a>
                         </span>
-                        <span class="description">Shared publicly - 7:30 PM today</span>
+                        <span class="description">{{ post.published}}</span>
                       </div>
                       <!-- /.user-block -->
                       <p>
-                        Lorem ipsum represents a long-held tradition for designers,
-                        typographers and the like. Some people hate it and argue for
-                        its demise, but others ignore the hate as they create awesome
-                        tools to help create filler text for everyone from bacon lovers
-                        to Charlie Sheen fans.
+                          {{ post.content }}
                       </p>
 
                       <p>
-                        <a href="#" class="link-black text-sm mr-2"><i class="fas fa-share mr-1"></i> Share</a>
-                        <a href="#" class="link-black text-sm"><i class="far fa-thumbs-up mr-1"></i> Like</a>
+                        <a href="" class="link-black text-sm mr-2"><i class="fas fa-share mr-1"></i> Share</a>
+                        <a href="" class="link-black text-sm"><i class="far fa-thumbs-up mr-1"></i> Like</a>
                         <span class="float-right">
-                          <a href="#" class="link-black text-sm">
-                            <i class="far fa-comments mr-1"></i> Comments (5)
+                          <a href="" class="link-black text-sm">
+                            <i class="far fa-comments mr-1"></i> {{ post.comment.count}}
                           </a>
                         </span>
                       </p>
 
-                      <input class="form-control form-control-sm" type="text" placeholder="Type a comment">
-                    </div>
-                    <!-- /.post -->
-
-                    <!-- Post -->
-                    <div class="post clearfix">
-                      <div class="user-block">
-                        <img class="img-circle img-bordered-sm" src="{% static 'mine/images/default_avatar.png' %}" alt="User Image">
-                        <span class="username">
-                          <a href="#">Sarah Ross</a>
-                          <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>
-                        </span>
-                        <span class="description">Sent you a message - 3 days ago</span>
-                      </div>
-                      <!-- /.user-block -->
-                      <p>
-                        Lorem ipsum represents a long-held tradition for designers,
-                        typographers and the like. Some people hate it and argue for
-                        its demise, but others ignore the hate as they create awesome
-                        tools to help create filler text for everyone from bacon lovers
-                        to Charlie Sheen fans.
-                      </p>
-
-                      <form class="form-horizontal">
-                        <div class="input-group input-group-sm mb-0">
-                          <input class="form-control form-control-sm" placeholder="Response">
-                          <div class="input-group-append">
-                            <button type="submit" class="btn btn-danger">Send</button>
-                          </div>
-                        </div>
-                      </form>
-                    </div>
-                    <!-- /.post -->
-
-                    <!-- Post -->
-                    <div class="post">
-                      <div class="user-block">
-                        <img class="img-circle img-bordered-sm" src="{% static 'mine/images/default_avatar.png' %}" alt="User Image">
-                        <span class="username">
-                          <a href="#">Adam Jones</a>
-                          <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>
-                        </span>
-                        <span class="description">Posted 5 photos - 5 days ago</span>
-                      </div>
-                      <!-- /.user-block -->
-                      <div class="row mb-3">
-                        <div class="col-sm-6">
-                          <img class="img-fluid" src="{% static 'adminlte/dist/img/photo1.png' %}" alt="Photo">
-                        </div>
-                        <!-- /.col -->
-                        <div class="col-sm-6">
-                          <div class="row">
-                            <div class="col-sm-6">
-                              <img class="img-fluid mb-3" src="{% static 'adminlte/dist/img/photo2.png' %}" alt="Photo">
-                              <img class="img-fluid" src="{% static 'adminlte/dist/img/photo3.jpg' %}" alt="Photo">
-                            </div>
-                            <!-- /.col -->
-                            <div class="col-sm-6">
-                              <img class="img-fluid mb-3" src="{% static 'adminlte/dist/img/photo4.jpg' %}" alt="Photo">
-                              <img class="img-fluid" src="{% static 'adminlte/dist/img/photo1.png' %}" alt="Photo">
-                            </div>
-                            <!-- /.col -->
-                          </div>
-                          <!-- /.row -->
-                        </div>
-                        <!-- /.col -->
-                      </div>
-                      <!-- /.row -->
-
-                      <p>
-                        <a href="#" class="link-black text-sm mr-2"><i class="fas fa-share mr-1"></i> Share</a>
-                        <a href="#" class="link-black text-sm"><i class="far fa-thumbs-up mr-1"></i> Like</a>
-                        <span class="float-right">
-                          <a href="#" class="link-black text-sm">
-                            <i class="far fa-comments mr-1"></i> Comments (5)
-                          </a>
-                        </span>
-                      </p>
 
                       <input class="form-control form-control-sm" type="text" placeholder="Type a comment">
                     </div>
@@ -204,8 +120,13 @@
                 </div>
                 <!-- /.tab-content -->
               </div><!-- /.card-body -->
+              <div class="card-footer">
+                 <p>
+                 categories:{{ post.categories}}
+                 </p>
+              </div>
             </div>
-            <!-- /.card -->
+            {% endfor %}
           </div>
           <!-- /.col -->
         </div>

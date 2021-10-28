@@ -9,7 +9,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from friends.models import FriendRequest
 import Author
-from Author.models import User, RegisterControl, Inbox
+from Author.models import User, RegisterControl, Inbox, Post
 # Create your views here.
 from django.views import View
 from django.contrib.auth import authenticate, login, logout
@@ -207,26 +207,35 @@ class UserProfileView(View):
     def get(self, request, id):
         # current logged in user
         curr_user = request.user
-
         # the author who is viewed
         view_user = User.objects.get(id=id)
-        # alternative approach, just use username
-        #
+
+
+        page = int(request.GET.get("page", 1))
+        per_page = int(request.GET.get("size", 10))
+
+
         try:
             github = view_user.github
             githubUname = github.split("/")[-1]
         except Exception:
             githubUname=None
 
+        posts = Post.objects.filter(author_id=view_user.id).filter(visibility=1)
+
+        paginator = Paginator(posts, per_page)
+        page_object = paginator.page(page)
+
         context = {
             'id': id,
             'current_author': curr_user,
-            'view_user': view_user,
             'githubName': githubUname,
+            'myPosts': posts,
+            'page_object': page_object,
+            'page_range': paginator.page_range,
+            'view_author': view_user,
         }
 
-        # used for testing
-        #return render(request, 'index2.html', context=context)
         return render(request, 'author_profile.html', context=context)
 
 
@@ -369,4 +378,95 @@ class InboxView(View):
 
 
 class UserPostsView(View):
-    pass
+    class QuestionListView(View):
+        def get(self, request):
+            username = request.session.get('username', '')
+            if not username:
+                return HttpResponseRedirect('web:login')
+            else:
+                # 批量添加数据
+                # list_item_insert = []
+                # for i in range(100):
+                #     list_item_insert.append(
+                #         List(list_title="测试标题" + str(i), list_context="测试内容" + str(i), wxu_openid="15639616556"))
+                #     print(list_item_insert)
+                # List.objects.bulk_create(list_item_insert)
+                # return HttpResponse("ok")
+                curr_user = request.user
+
+                list_send_num = Post.objects.filter(author_id=curr_user.id).filter(visibility=1).count()
+                list_receive_num = Post.objects.filter(author_id=curr_user.id).filter(visibility=2).count()
+                list_solve_num = Post.objects.filter(author_id=curr_user.id).filter(visibility=3).count()
+                list_max = Post.objects.filter(author_id=curr_user.id)
+
+                page_num_int = int(request.GET.get('page', 1))
+                question_list = []
+                list_status = int(request.GET.get('status', 1))
+
+                if list_status > 0:
+                    question_list = List.objects.filter(list_status=list_status).order_by('list_status')
+                else:
+                    question_list = List.objects.all().order_by('list_status')
+                paginator = Paginator(question_list, 10)
+
+                # if paginator.num_pages > 11:
+                #
+                #     if page_num_int - 5 < 1:
+                #         page_range = range(1, 11)
+                #     elif page_num_int + 5 > paginator.num_pages:
+                #         page_range = range(paginator.num_pages - 10, paginator.num_pages + 1)
+                #     else:
+                #         page_range = range(page_num_int - 5, page_num_int + 5)
+                # else:
+                #     page_range = paginator.page_range
+
+                page = paginator.page(page_num_int)
+                # for list_item in page:
+                #     list_item["timespan"] = get_timespan(list_item.create_time)
+                data = {
+                    'status': list_status,
+                    'list_send_num': list_send_num,
+                    'list_receive_num': list_receive_num,
+                    'list_solve_num': list_solve_num,
+                    'list_max': list_max,
+                    'page': page,
+                    'recordset_max': question_list.count(),
+                    'page_num_int': page_num_int,
+                    'page_count_start': 10 * (page_num_int - 1) + 1,
+                    'page_count_end': 10 * (page_num_int - 1) + 10
+                }
+                return render(request, 'myposts.html', data)
+
+
+class MyStreamView(LoginRequiredMixin, View):
+        def get(self, request):
+            # current logged in user
+            curr_user = request.user
+
+            page = int(request.GET.get("page", 1))
+            per_page = int(request.GET.get("size", 10))
+            posts = Post.objects.filter(author_id=curr_user.id).filter(visibility=1)
+            # inbox = Inbox.objects.filter(requests=friReqs)
+
+            paginator = Paginator(posts, per_page)
+            page_object = paginator.page(page)
+
+            try:
+                github = curr_user.github
+                githubUname = github.split("/")[-1]
+            except Exception:
+                githubUname = None
+
+            context = {
+                'id': id,
+                'current_author': curr_user,
+                'githubName': githubUname,
+                'myPosts':posts,
+                'page_object': page_object,
+                'page_range': paginator.page_range,
+            }
+
+            # used for testing
+            # return render(request, 'index2.html', context=context)
+            return render(request, 'mystream.html', context=context)
+
