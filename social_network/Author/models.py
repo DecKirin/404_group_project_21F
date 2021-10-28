@@ -43,7 +43,7 @@ class Post(models.Model):
         (1, "PUBLIC"),
         (2, "FRIEND ONLY"),
         (3, "PRIVATE"),
-        # (4, "UNLISTED"),
+        (4, "UNLISTED"),
     }
     type = 'post'
     title = models.CharField(max_length=128)
