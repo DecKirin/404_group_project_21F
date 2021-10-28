@@ -39,8 +39,8 @@ class Post(models.Model):
 
     class Meta:
         ordering = ['-published']
+        
 
-    def visibility_
 
 
 class Postlike(models.Model):
