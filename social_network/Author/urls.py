@@ -1,12 +1,13 @@
 from django.urls import path, re_path
 from django.contrib.auth.decorators import login_required
 from Author.views import RegisterView, LoginView, UserInfoView, LogoutView, UserPostsView, IndexView, InboxView, \
-    UserProfileView, AllUserProfileView, SearchUserView, UserEditInfoView, MyStreamView
+    UserProfileView, AllUserProfileView, SearchUserView, UserEditInfoView, MyStreamView, AllPublicPostsView
 from friends.views import friends_list_view, send_friend_request, process_friend_request, followers_list_view, follows_list_view, follower_view, un_befriend
 from Post.views import NewPostView
 
 app_name = 'Author'
 urlpatterns = [
+
     path('newpost/', NewPostView.as_view(), name='newpost'),
     path('searchAuthor/', SearchUserView.as_view(), name='search_user'),
     path('<id>/friends/', friends_list_view, name='friend'),
@@ -37,4 +38,5 @@ urlpatterns = [
     # page to view other user's profile
     path('<id>/', UserProfileView.as_view(), name='profile'),
     path('<id>/inbox/', InboxView.as_view(), name='inbox'),
+    path('posts/allPublicPosts/', AllPublicPostsView.as_view(), name='all_public_posts'),
 ]

@@ -378,17 +378,15 @@ class InboxView(View):
 
 
 class UserPostsView(View):
-    class QuestionListView(View):
         def get(self, request):
             username = request.session.get('username', '')
             if not username:
                 return HttpResponseRedirect('web:login')
             else:
-                # 批量添加数据
                 # list_item_insert = []
                 # for i in range(100):
                 #     list_item_insert.append(
-                #         List(list_title="测试标题" + str(i), list_context="测试内容" + str(i), wxu_openid="15639616556"))
+                #         List(list_title="test title" + str(i), list_context="test content" + str(i), wxu_openid="15639616556"))
                 #     print(list_item_insert)
                 # List.objects.bulk_create(list_item_insert)
                 # return HttpResponse("ok")
@@ -397,16 +395,16 @@ class UserPostsView(View):
                 list_send_num = Post.objects.filter(author_id=curr_user.id).filter(visibility=1).count()
                 list_receive_num = Post.objects.filter(author_id=curr_user.id).filter(visibility=2).count()
                 list_solve_num = Post.objects.filter(author_id=curr_user.id).filter(visibility=3).count()
-                list_max = Post.objects.filter(author_id=curr_user.id)
+                list_max = Post.objects.filter(author_id=curr_user.id).count()
 
                 page_num_int = int(request.GET.get('page', 1))
                 question_list = []
-                list_status = int(request.GET.get('status', 1))
+                list_status = int(request.GET.get('status', 0))
 
                 if list_status > 0:
-                    question_list = List.objects.filter(list_status=list_status).order_by('list_status')
+                    question_list = Post.objects.filter(visibility=list_status).order_by('visibility')
                 else:
-                    question_list = List.objects.all().order_by('list_status')
+                    question_list = Post.objects.all().order_by('visibility')
                 paginator = Paginator(question_list, 10)
 
                 # if paginator.num_pages > 11:
@@ -469,4 +467,31 @@ class MyStreamView(LoginRequiredMixin, View):
             # used for testing
             # return render(request, 'index2.html', context=context)
             return render(request, 'mystream.html', context=context)
+
+
+class AllPublicPostsView(View):
+    def get(self, request):
+        curr_user = request.user
+        page = int(request.GET.get("page", 1))
+        per_page = int(request.GET.get("size", 10))
+        currentUser = request.user
+
+        all_pub_posts = Post.objects.filter(visibility=1)
+
+        paginator = Paginator(all_pub_posts, per_page)
+        page_object = paginator.page(page)
+
+        context = {
+            'page_object': page_object,
+            'page_range': paginator.page_range,
+            'page_size': per_page,
+            'current_page': page,
+            'current_author': currentUser,
+        }
+
+        response = render(request, 'all_public_posts_list.html', context=context)
+        return response
+
+
+
 
