@@ -22,31 +22,31 @@
                                 <span>{{post.content}}</span>
                                 <span>{{post.author.username}}</span>
                             </div>
-                            <!--
+
                             {% if liked %}
-                            <form method="post" action="{% url 'url for like' post.id %}">
+                            <form method="post">
                                 {% csrf_token %}
-                                <button class="btn"><i class="like"></i></button>
+                                <button class="btn"><i class="like">Unlike</i></button>
                             </form>
 
                             {% else %}
-                            <form method="post" action="{% url 'url for like' post.id %}">
+                            <form method="post">
                                 {% csrf_token %}
-                                <button class="btn btn-primary"><i class="like"></i></button>
+                                <button class="btn btn-primary"><i class="like">Like</i></button>
                             </form>
 
                             {% endif %}
 
-                            <a href="{% url 'url for post' post.id %}"> <button class="btn"><i
-                                class="comment"></i></button></a> -->
+                            <a> <button class="btn"><i
+                                class="comment"></i>Comment</button></a>
 
 
                             {% if isAuthor %}
                                 <button type="button" class="btn">
-                                    <i class="Edit"  href="{% url 'Author:edit_post' %}"></i>Edit</button>
+                                    <i class="Edit"  href="{% url 'Author:edit_post' post.author.id post.id %}"></i>Edit</button>
                                 
                                 <button type="button" class="btn">
-                                    <i class="Delete"  href="{% url 'delete_post' %}"></i>Delete</button>
+                                    <i class="Delete"  href="{% url 'Author:delete_post' post.author.id post.id %}"></i>Delete</button>
                                 
                            
                             {% endif %}
