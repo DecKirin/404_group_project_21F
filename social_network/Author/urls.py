@@ -2,7 +2,8 @@ from django.urls import path, re_path
 from django.contrib.auth.decorators import login_required
 from Author.views import RegisterView, LoginView, UserInfoView, LogoutView, UserPostsView, IndexView, InboxView, \
     UserProfileView, AllUserProfileView, SearchUserView, UserEditInfoView, MyStreamView, AllPublicPostsView
-from friends.views import friends_list_view, send_friend_request, process_friend_request, followers_list_view, follows_list_view, follower_view, un_befriend
+from friends.views import friends_list_view, send_friend_request, process_friend_request, followers_list_view, \
+    follows_list_view, follower_view, un_befriend, my_list
 from Post.views import NewPostView
 
 app_name = 'Author'
@@ -17,8 +18,8 @@ urlpatterns = [
     # author successfully send the friend request
     path('friendrequest/<foreign_id>', send_friend_request, name='friend_request'),
     path('accept/<request_id>', process_friend_request.as_view(), name='accept'),
-    # Un-befriend
-    path('<id>/<delete>', un_befriend, name='un_befriend'),
+    # show current user's list
+    path('my<relationship>list', my_list, name='my_list'),
     # check inbox to get sent request
     path('sentrequest/<request_id>', process_friend_request.as_view(), name='process_request'),
     path('authors/', AllUserProfileView.as_view(), name='all_authors'),
@@ -36,7 +37,10 @@ urlpatterns = [
     path('editProfile/', login_required(UserEditInfoView.as_view()), name='edit_profile'),
     # display all user profiles
     # page to view other user's profile
+
     path('<id>/', UserProfileView.as_view(), name='profile'),
     path('<id>/inbox/', InboxView.as_view(), name='inbox'),
     path('posts/allPublicPosts/', AllPublicPostsView.as_view(), name='all_public_posts'),
+    # Un-befriend
+    path('<id>/<delete>', un_befriend, name='un_befriend'),
 ]

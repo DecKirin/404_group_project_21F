@@ -1,4 +1,8 @@
-{% extends 'base_main.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% extends 'base_main.html' %}
 {% load static %}
 <!-- Content Wrapper. Contains page content -->
 {% block Content_Wrapper %}
@@ -35,7 +39,8 @@
                       </div>
                       <div class="card-footer">
                           <div class="text-right">
-
+                          <a href="{% url 'Author:un_befriend' id=friend.id delete=delete %}" class="btn btn-sm bg-teal">                              <i class="fas fa-comments"></i> {{delete}}
+                          </a>
                           <a href="{% url 'Author:profile' friend.id %}" class="btn btn-sm btn-primary">
                               <i class="fas fa-user"></i> View Profile
                           </a>
@@ -48,4 +53,9 @@
           </table>
         </div>
   </div>
-{% endblock Content_Wrapper%}
+{% endblock Content_Wrapper%}</title>
+</head>
+<body>
+
+</body>
+</html>

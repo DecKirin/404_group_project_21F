@@ -75,6 +75,38 @@ def follows_list_view(request, id, *args, **kwargs):
     context['delete'] = 'Un-follow'
     return render(request, 'all_friends_list.html', context=context)
 
+def my_list(request, relationship):
+    context = {}
+    user = request.user
+    if relationship == 'follows':
+        follower, create = Follow.objects.get_or_create(user=user)  # class friend
+        if create:
+            context['friends'] = ['Does not have follower yet']
+        else:
+            friend_list = follower.follows.all()  #
+            context['friends'] = friend_list
+        context['delete'] = 'Un-follow'
+    elif relationship == 'followers':
+        user = request.user
+        follower, create = Follower.objects.get_or_create(user=user)  # class friend
+        if create:
+            context['friends'] = ['Does not have follow yet']
+        else:
+            friend_list = follower.followers.all()  #
+            context['friends'] = friend_list
+        context['delete'] = 'Un-follow'
+
+    elif relationship == 'friends':
+        user = request.user
+        friend, create = Friend.objects.get_or_create(user=user)  # class friend
+        if create:
+            context['friends'] = ['Does not have friend yet']
+        else:
+            friend_list = friend.friends.all()  #
+            context['friends'] = friend_list
+        context['delete'] = 'Un-befriend'
+    return render(request, 'my_friends_list.html', context=context)
+
 '''
 URL: ://service/author/{AUTHOR_ID}/followers/{FOREIGN_AUTHOR_ID}
 DELETE: remove a follower
