@@ -4,7 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
 from django.views.generic import CreateView
 from Author.models import User, Inbox, Post
-from friends.models import Follower
+from friends.models import Friend
 from rest_framework.response import Response
 import uuid
 from rest_framework import serializers
@@ -121,38 +121,21 @@ class PostsView(View):
     def update_post(self, request,*args, **kwargs):
         post_id = request.get('id', '')
         posts = Post.objects.get(id=post_id)
-        title_update = request.data.get('title', '')
-        contentType_update = request.data.get('contentType', '')
-        content_update = request.data.get('content', '')
-        source_update = request.data.get('source', '')
-        origin_update = request.data.get('origin', '')
-        categories_update = request.data.get('categories', '')
-        size_update = request.data.get('size', '')
-        count_update = request.data.get('count', '')
-        comments_update = request.data.get('comments', '')
-        unlisted_update = request.data.get('unlisted', False)
-        description_update = request.data.get('description ', '')
-        visibility_update = request.data.get('visibility', '')
+        title_update = request.POST.get('title', '')
+        contentType_update = request.POST.get('contentType', '')
+        content_update = request.POST.get('content', '')
+        categories_update = request.POST.get('categories', '')
+
+        description_update = request.POST.get('description ', '')
+        visibility_update = request.POST.get('visibility', '')
         if title_update is not None:
             posts.title = title_update
         if contentType_update is not None:
             posts.contentType = contentType_update
         if content_update is not None:
             posts.content = content_update
-        if source_update is not None:
-            posts.source = source_update
-        if origin_update is not None:
-            posts.origin = origin_update
         if categories_update is not None:
             posts.categories = categories_update
-        if size_update is not None:
-            posts.size = size_update
-        if count_update is not None:
-            posts.count = count_update
-        if comments_update is not None:
-            posts.comments = comments_update
-        if unlisted_update is not None:
-            posts.unlisted = unlisted_update
         if description_update is not None:
             posts.description = description_update
         if visibility_update is not None:
@@ -164,32 +147,40 @@ class PostsView(View):
     def put_post(self,request,*args, **kwargs):
         author_id = request.user
         post_id = request.get('id', '')
+        posts = Post.objects.get(id=post_id)
         title = request.data.get('title', '')
         contentType = request.data.get('contentType', '')
         content =request.data.get('content', '')
-        source = request.data.get('source', '')
-        origin = request.data.get('origin', '')
+        
         categories = request.data.get('categories', '')
-        size = request.data.get('size', '')
-        count = request.data.get('count', '')
-        comments = request.data.get('comments', '')
-        unlisted = request.data.get('unlisted', False)
+    
+        #comments = request.data.get('comments', '')
         description = request.data.get('description ', '')
         visibility = request.data.get('visibility', '')
-        data1 = {'title': title, 'id': f"{author_id}/posts/{post_id}",
-                 'source': source, 'origin': origin, 'description': description,
-                 'contentType': contentType, 'content': content, 'author': author_id,
-                 'categories': categories, 'count': count, 'size': size,
-                 'comments': comments, 'visibility': visibility, 'unlisted': unlisted}
-        inf_ret = Follower.objects.filter(followers=author_id)
-        if inf_ret is not None:
-            all_follower = Follower.objects.get(followers=author_id)
-            for follower in all_follower:
-                inbox = Inbox.objects.get(author=follower)
-                inbox.items.append(data1)
-                inbox.save()
-        inf_store = PostSerializer(data=data1)
-        inf_store.save()
+        if title is not None:
+            posts.title = title
+        if contentType is not None:
+            posts.contentType = contentType
+        if content is not None:
+            posts.content = content
+        if categories is not None:
+            posts.categories = categories
+        if description_update is not None:
+            posts.description = description_update
+        if visibilitye is not None:
+            posts.visibility = visibility
+        posts.save()
+        
+        if visibility=="2":
+            inf_ret = Friend.objects.filter(friends=author_id)
+            if inf_ret is not None:
+                all_friend = Friend.objects.get(friends=author_id)
+                for friend in all_friend:
+                    inbox = Inbox.objects.get(author=friend)
+                    inbox.items.append(data1)
+                    inbox.save()
+        #TODO: select 3
+
         return Response(inf_store.data)
 
     # DELETE
