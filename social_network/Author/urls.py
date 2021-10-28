@@ -19,7 +19,7 @@ urlpatterns = [
     path('friendrequest/<foreign_id>', send_friend_request, name='friend_request'),
     path('accept/<request_id>', process_friend_request.as_view(), name='accept'),
     # show current user's list
-    path('my<relationship>list', my_list, name='my_list'),
+    path('my<relationship>list/', my_list, name='my_list'),
     # check inbox to get sent request
     path('sentrequest/<request_id>', process_friend_request.as_view(), name='process_request'),
     path('authors/', AllUserProfileView.as_view(), name='all_authors'),
