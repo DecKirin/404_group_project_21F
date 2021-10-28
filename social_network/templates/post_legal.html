@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}POST{% endblock title %}
+{% block header_con %}{% endblock header_con %}
+{% block search_bar %}{% endblock search_bar %}
+
+{% block body %}
+    <div class="wrapper">
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <section class="content">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Post View</h3>
+                            </div>
+                            <div class="card-body">
+                                <h4>{{post.title}}</h4>
+                                <span>{{post.published}}</span><br>
+                                <span>{{post.description}}</span><br>
+                                <span>{{post.content}}</span>
+                                <span>{{post.author.username}}</span>
+                            </div>
+
+                            {% if liked %}
+                            <form method="post">
+                                {% csrf_token %}
+                                <button class="btn"><i class="like"></i></button>
+                            </form>
+
+                            {% else %}
+                            <form method="post">
+                                {% csrf_token %}
+                                <button class="btn btn-primary"><i class="like"></i></button>
+                            </form>
+
+                            {% endif %}
+
+                            <a> <button class="btn"><i
+                                class="comment">comment</i></button></a>
+
+
+                            {% if isAuthor %}
+                                <button type="button" class="btn">
+                                    <i class="Edit"  href="{% url 'Author:edit_post' post.author.id post.id %}"></i>Edit</button>
+                                
+                                <button type="button" class="btn">
+                                    <i class="Delete"  href="{% url 'Author:delete_post' post.author.id post.id %}"></i>Delete</button>
+                                
+                           
+                            {% endif %}
+                            
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+            </section>
+            <!-- /.content -->
+        </div>
+
+    </div>
+    <!-- ./wrapper -->
+{% endblock body %}
