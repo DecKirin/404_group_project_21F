@@ -31,3 +31,6 @@ class Post(models.Model):
 
     class Meta:
         ordering = ['-published']
+
+
+class POSTLIKE(models.Model):

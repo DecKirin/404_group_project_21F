@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from Author.views import RegisterView, LoginView, UserInfoView, LogoutView, UserPostsView, IndexView, UserProfileView, \
     AllUserProfileView, SearchUserView, UserEditInfoView
 from friends.views import friends_list_view, send_friend_request, process_friend_request, followers_list_view, follows_list_view, follower_view, un_befriend
+from Post.views import SpecificPostView, EditPostView, delete_post
 app_name = 'Author'
 urlpatterns = [
     path('searchAuthor/', SearchUserView.as_view(), name='search_user'),
@@ -30,4 +31,7 @@ urlpatterns = [
     # display all user profiles
     # page to view other user's profile
     path('<id>/', UserProfileView.as_view(), name='profile'),
+    path('<author_id>/posts/<post_id>/', SpecificPostView.as_view(), name='specific_post'),
+    path('<id>/posts/<post_id>/edit/', EditPostView.as_view(), name='edit_post'),
+    path('<id>/posts/<post_id>/delete', delete_post, name='delete_post'),
 ]

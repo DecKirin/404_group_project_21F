@@ -22,7 +22,10 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="714eee04-bd8e-40b5-93c8-4886f3cc7ea3" name="Changes" comment="" />
+    <list default="true" id="714eee04-bd8e-40b5-93c8-4886f3cc7ea3" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/f55bc944-23a7-4f94-b9bf-01eb753b2bb9.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/f55bc944-23a7-4f94-b9bf-01eb753b2bb9.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/social_network/Post/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/social_network/Post/views.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -51,8 +54,10 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.stylelint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.stylelint" value="" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="settings.nodejs" />
   </component>
@@ -66,6 +71,7 @@
       <updated>1633881217629</updated>
       <workItem from="1633881220062" duration="335000" />
       <workItem from="1633999644064" duration="112000" />
+      <workItem from="1635405641961" duration="680000" />
     </task>
     <servers />
   </component>
