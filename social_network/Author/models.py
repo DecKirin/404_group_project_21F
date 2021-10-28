@@ -36,7 +36,7 @@ class User(AbstractUser):
         verbose_name = 'Author'
         verbose_name_plural = verbose_name
 
-
+'''
 class Post(models.Model):
     visibility_choices = {
         (1, "PUBLIC"),
@@ -104,6 +104,7 @@ class FollowAuthor(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
 '''
+'''
 # https://medium.com/analytics-vidhya/add-friends-with-689a2fa4e41d
 class FriendRequest(models.Model):
     status = [
@@ -118,7 +119,8 @@ class FriendRequest(models.Model):
     receiver = models.OneToOneField(User, on_delete=models.CASCADE, related_name='receiver')
     created = models.DateTimeField(auto_now_add=True)
 '''
-
+'''
+'''
 '''
 class Friend(models.Model):
     users = models.ManyToManyField(User)

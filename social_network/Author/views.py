@@ -9,7 +9,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from friends.models import FriendRequest
 import Author
-from Author.models import User, RegisterControl, Post, Inbox
+from Author.models import User, RegisterControl, Inbox
 # Create your views here.
 from django.views import View
 from django.contrib.auth import authenticate, login, logout
@@ -174,13 +174,18 @@ class LoginView(View):
 # probably should be stream page later!!!!!
 class IndexView(LoginRequiredMixin, View):
     def get(self, request):
-        print(request.user.id)
         username = request.session.get('username', '')
         if not username:
             return HttpResponseRedirect('author:login')
         else:
-            user = User.objects.get(username=username)
-        return render(request, 'base_index.html', {'username': username})
+            curr_user = User.objects.get(username=username)
+            #curr_user = request.user
+            context = {
+                'id': id,
+                'current_author': curr_user,
+            }
+
+        return render(request, 'base_index.html', context=context)
 
     def post(self, request):
         return render(request, 'base_index.html')
@@ -215,7 +220,7 @@ class UserProfileView(View):
 
         context = {
             'id': id,
-            'curr_user': curr_user,
+            'current_author': curr_user,
             'view_user': view_user,
             'githubName': githubUname,
         }
@@ -291,7 +296,7 @@ class UserEditInfoView(LoginRequiredMixin, View):
         curr_user = request.user
 
         context = {
-            'curr_user': curr_user,
+            'current_author': curr_user,
         }
 
         # used for testing

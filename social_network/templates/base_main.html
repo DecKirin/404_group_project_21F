@@ -41,7 +41,7 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#">
                         <i class="fa fa-user"></i>
-                        <span class="block m-t-xs"><strong class="font-bold">{{ username }}</strong></span>
+                        <span class="block m-t-xs"><strong class="font-bold">{{ current_author.username }}</strong></span>
                         <span class="text-muted text-xs block">{{ rolename }}<b class="caret"></b></span>
                         <i class="fas fa-angle-down"></i>
                     </a>
@@ -89,13 +89,18 @@
                 <!-- Sidebar user panel (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
+                        {% if current_author.profile %}
                         <img src="{% static 'adminlte/dist/img/user2-160x160.jpg' %}" class="img-circle elevation-2"
                              alt="User Image">
+                        {% else %}
+                        <img src="{% static 'adminlte/dist/img/user2-160x160.jpg' %}" class="img-circle elevation-2"
+                             alt="User Image">
+                        {% endif %}
                     </div>
                     <div class="info">
                         <a href="#">
                 <span class="clear">
-                    <span class="block m-t-xs"><strong class="font-bold">{{ username }}</strong></span>
+                    <span class="block m-t-xs"><strong class="font-bold">{{ current_author.username }}</strong></span>
                     <span class="text-muted text-xs block">{{ rolename }}<b class="caret"></b></span>
                 </span>
                         </a>
@@ -114,19 +119,19 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a href="" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>My Following</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a href="" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>My Follower</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a href="" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Friends</p>
                                     </a>
@@ -147,14 +152,14 @@
                                 <li class="nav-item">
                                     <a href="{% url 'Author:index' %}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>My Posts List</p>
+                                        <p>Stream</p>
                                     </a>
                                 </li>
 
                                 <li class="nav-item">
                                     <a href="/Author/myposts" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>My Homepage</p>
+                                        <p>My Posts</p>
                                     </a>
                                 </li>
 

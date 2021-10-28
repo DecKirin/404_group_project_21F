@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.utils.html import format_html
 from django.utils.http import urlencode
 
-from .models import User, Post, Comment, Like, RegisterControl
+from .models import User, RegisterControl
 from friends.models import Friend, Follower, Follow
 
 # https://www.dothedev.com/blog/django-admin-list_filter/
@@ -23,11 +23,11 @@ def activate_user(modeladmin, request, queryset):
 def deactivate_user(modeladmin, request, queryset):
     queryset.update(is_active=False)
 
-
+'''
 class PostInline(admin.TabularInline):
     model = Post
     extra = 1
-
+'''
 
 # about aggregate information related to child table, like calculating number of posts created by user
 # https://realpython.com/customize-django-admin-python/#prerequisites
@@ -37,14 +37,17 @@ class PostInline(admin.TabularInline):
 #
 # https://www.youtube.com/watch?v=Ae7nc1EGv-A&t=1112s
 class UserProfileAdmin(admin.ModelAdmin):
+    '''
     inlines = [
         PostInline,
 
     ]
-    # list_display = ("email", "username", "is_active", "created")
-    # list_display = ("email", "username", "is_active", "created", "view_posts_link")
-    list_display = ("email", "username", "is_active", "created", "view_posts_link", "view_friends_link",
-                    "view_likes_link", "view_comments_link")
+    '''
+    list_display = ("email", "username", "is_active", "created")
+    #list_display = ("email", "username", "is_active", "created", "view_posts_link", "view_friends_link",
+    #                "view_likes_link", "view_comments_link")
+
+    #list_display = ("email", "username", "is_active", "created", "view_friends_link","view_follows_link", "view_follower_link")
     search_fields = ("username",)
     list_filter = ("is_active", "created")
     fieldsets = (
@@ -55,7 +58,7 @@ class UserProfileAdmin(admin.ModelAdmin):
     )
     readonly_fields = ['created', 'updated']
     actions = [activate_user, deactivate_user]
-
+    '''
     def view_posts_link(self, obj):
         count = obj.posts.count()
         url = (
@@ -64,8 +67,9 @@ class UserProfileAdmin(admin.ModelAdmin):
         return format_html('<a href="{}">{} Posts</a>', url, count)
 
     view_posts_link.short_description = "Posts"
-
+    '''
     # ----------------------------------not finished yet----------------------------------
+    '''
     def view_friends_link(self, obj):
         count = obj.curuser.count()
         url = (
@@ -75,21 +79,24 @@ class UserProfileAdmin(admin.ModelAdmin):
 
     view_friends_link.short_description = "Friends"
     '''
+
+    '''
     def view_follow_link(self, obj):
-        count = obj.posts.count()
+        count = obj.follows.count()
         url = (
-            reverse("admin:Author_post_changelist")+"?"+urlencode({"q":f"{obj.id}"})
+            reverse("admin:friends_follows_changelist")+"?"+urlencode({"q":f"{obj.id}"})
         )
-        return format_html('<a href="{}">{} Posts</a>', url, count)
+        return format_html('<a href="{}">{} Follows</a>', url, count)
     view_follow_link.short_description = "follows"
 
     def view_followers_link(self, obj):
-        count = obj.posts.count()
+        count = obj.followers.count()
         url = (
-            reverse("admin:Author_post_changelist")+"?"+urlencode({"q":f"{obj.id}"})
+            reverse("admin:friends_follower_changelist")+"?"+urlencode({"q":f"{obj.id}"})
         )
         return format_html('<a href="{}">{} Posts</a>', url, count)
     view_followers_link.short_description = "followers"
+    '''
     '''
 
     def view_likes_link(self, obj):
@@ -160,7 +167,7 @@ class CommentsAdmin(admin.ModelAdmin):
 
     view_author_link.short_description = "Author"
 
-
+'''
 class RegisterControlAdmin(admin.ModelAdmin):
 
     def has_add_permission(self, request):
@@ -171,8 +178,10 @@ class RegisterControlAdmin(admin.ModelAdmin):
 
 
 admin.site.register(User, UserProfileAdmin)
-admin.site.register(Post, PostsAdmin)
-admin.site.register(Comment, CommentsAdmin)
-admin.site.register(Like)
+#admin.site.register(Post, PostsAdmin)
+#admin.site.register(Comment, CommentsAdmin)
+#admin.site.register(Like)
 admin.site.register(Friend)
 admin.site.register(RegisterControl, RegisterControlAdmin)
+admin.site.register(Follow)
+admin.site.register(Follower)
