@@ -1,5 +1,6 @@
 {% extends 'base_main.html' %}
 {% load static %}
+{% load markdown_extras %}
 <!-- Content Wrapper. Contains page content -->
 {% block Content_Wrapper %}
     <!-- Content Wrapper. Contains page content -->
@@ -109,9 +110,13 @@
                         <span class="description">{{ post.published}}</span>
                       </div>
                       <!-- /.user-block -->
-                      <p>
-                          {{ post.content }}
-                      </p>
+                          <p>
+                              {% if post.contentType == 'text/plain' %}
+                              {{ post.content | markdown | safe }}
+                              {% else %}
+                              {{ post.content }}
+                              {% endif %}
+                          </p>
 
                       <p>
                         <a href="" class="link-black text-sm mr-2"><i class="fas fa-share mr-1"></i> Share</a>

@@ -1,5 +1,6 @@
 {% extends 'base_main.html' %}
 {% load static %}
+{% load markdown_extras %}
 <!-- Content Wrapper. Contains page content -->
 {% block Content_Wrapper %}
     <!-- Content Wrapper. Contains page content -->
@@ -34,7 +35,11 @@
                           </div>
                           <!-- /.user-block -->
                           <p>
+                              {% if post.contentType == 'text/plain' %}
+                              {{ post.content | markdown | safe }}
+                              {% else %}
                               {{ post.content }}
+                              {% endif %}
                           </p>
 
                           <p>

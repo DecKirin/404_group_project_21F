@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'Author.apps.AuthorsConfig',
     'rest_framework',
     'jazzmin',
     'friends.apps.FriendsConfig',
@@ -41,7 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'Author.apps.AuthorsConfig',
+
 ]
 
 MIDDLEWARE = [
