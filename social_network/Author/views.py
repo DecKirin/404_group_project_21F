@@ -506,9 +506,9 @@ class UserPostsView(View):
             list_status = int(request.GET.get('status', 0))
 
             if list_status > 0:
-                question_list = Post.objects.filter(visibility=list_status).order_by('visibility')
+                question_list = Post.objects.filter(author_id=curr_user.id).filter(visibility=list_status).order_by('visibility')
             else:
-                question_list = Post.objects.all().order_by('visibility')
+                question_list = Post.objects.filter(author_id=curr_user.id).order_by('visibility')
             paginator = Paginator(question_list, 10)
 
             # if paginator.num_pages > 11:

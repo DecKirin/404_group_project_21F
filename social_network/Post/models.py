@@ -1,16 +1,21 @@
 # Create your models here.
+import uuid
+
 from django.db import models
-#from django.contrib.auth.models import User, AbstractUser
+# from django.contrib.auth.models import User, AbstractUser
 from django.utils import timezone
-from Author.models import User,Post
+from Author.models import User, Post
+
 # https://www.youtube.com/watch?v=GcqURKYfv00
 ContentType = [
-    ('text/markdown','text/markdown'),
-    ('text/plain','text/plain'),
-    ('application/base64','application/base64'),
-    ('image/png;base64','image/png;base64'),
-    ('image/jpeg;base64','image/jpeg;base64')
+    ('text/markdown', 'text/markdown'),
+    ('text/plain', 'text/plain'),
+    ('application/base64', 'application/base64'),
+    ('image/png;base64', 'image/png;base64'),
+    ('image/jpeg;base64', 'image/jpeg;base64')
 ]
+
+'''
 class Post(models.Model):
     published = models.DateTimeField(default=timezone.now)  # ISO 8601 TIMESTAMP
     visibility = {
@@ -42,24 +47,29 @@ class Post(models.Model):
         
 
 
+'''
+
 
 class Postlike(models.Model):
-    published  = models.DateTimeField(auto_now_add=True)
-    id_like = models.UUIDField(primary_key=True,default=uuid.uuid4,unique=True)
+    published = models.DateTimeField(auto_now_add=True)
+    id_like = models.UUIDField(primary_key=True, default=uuid.uuid4, unique=True)
     post_id = models.ForeignKey(Post, related_name='post_like', on_delete=models.CASCADE, null=True)
-    give_like_author =  models.ForeignKey(User, on_delete=models.CASCADE)
-    
+    give_like_author = models.ForeignKey(User, on_delete=models.CASCADE)
+
+
 class Postcomment(models.Model):
-    id_comment = models.UUIDField(primary_key=True,default=uuid.uuid4,unique=True)
+    id_comment = models.UUIDField(primary_key=True, default=uuid.uuid4, unique=True)
     post = models.ForeignKey(Post, related_name='comments', on_delete=models.CASCADE, null=False)
     # the author make this comment
-    author_comment = models.ForeignKey(User, related_name='comments', on_delete=models.CASCADE, null=False, default=1)  # TODO: edit default value
+    author_comment = models.ForeignKey(User, related_name='comments', on_delete=models.CASCADE, null=False,
+                                       default=1)  # TODO: edit default value
     name = models.CharField(max_length=80)
     comment = models.TextField()
     published = models.DateTimeField(auto_now_add=True)
     url_comment = models.URLField()
+
     class Meta:
         ordering = ('published',)
 
     def __str__(self):
-        return 'Comment by {} on {} with content{}'.format(self.name, self.post,comment)
+        return 'Comment by {} on {} with content{}'.format(self.name, self.post, comment)

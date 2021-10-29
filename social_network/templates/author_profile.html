@@ -31,10 +31,10 @@
 
                 <ul class="list-group list-group-unbordered mb-3">
                   <li class="list-group-item">
-                    <a href={% url 'Author:follower' view_author.id%}>Followers</a> <b class="float-right">{{ view_author.followers.count }}</b>
+                    <a href={% url 'Author:follower' view_author.id%}>Followers</a> <b class="float-right">{{ view_author.follows.count }}</b>
                   </li>
                   <li class="list-group-item">
-                    <a href="{% url 'Author:follow' view_author.id %}">Following</a> <a class="float-right">{{ view_author.follows.count }}</a>
+                    <a href="{% url 'Author:follow' view_author.id %}">Following</a> <a class="float-right">{{ view_author.followers.count }}</a>
                   </li>
                   <li class="list-group-item">
                     <a href="{% url 'Author:friend' view_author.id %}">Friends</a> <a class="float-right">{{ view_author.friends.count }}</a>
