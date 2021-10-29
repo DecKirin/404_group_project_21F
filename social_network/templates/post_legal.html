@@ -4,6 +4,7 @@
 {% block header_con %}{% endblock header_con %}
 {% block search_bar %}{% endblock search_bar %}
 
+{% load markdown_extras %}
 {% block body %}
     <div class="wrapper">
         <!-- Content Wrapper. Contains page content -->
@@ -25,7 +26,11 @@
                                 <fieldset><legend>description:<span>{{post.description}}</span></legend></fieldset>
                                 <br>
                                 <fieldset><legend>content:</legend></fieldset>
-                                <span>{{post.content}}</span>
+                                {% if post.contentType == 'text/plain' %}
+                                {{ post.content }}
+                                {% else %}
+                                  {{ post.content | markdown | safe }}
+                                {% endif %}
                                 <span>{{post.author.username}}</span>
                                 {% if post.image.url != None %}
                                     <img src="{{ post.image.url }}" class="img-responsive" style="width: 100%; float: left; margin-right: 10px;" />
