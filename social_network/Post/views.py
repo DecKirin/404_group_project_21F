@@ -1,8 +1,5 @@
-from django.shortcuts import render
 from urllib.parse import urlparse
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
-from django.views.generic import CreateView
 from Author.models import User, Inbox, Post
 from friends.models import Friend
 from rest_framework.response import Response
@@ -11,7 +8,6 @@ from rest_framework import serializers
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.http import HttpResponse
-from json import loads
 from Post.models import Postlike,Postcomment
 
 
@@ -61,7 +57,10 @@ class NewPostView(View):
         post_id = uuid.uuid4().hex
         post_id = str(post_id)
         visibility = int(request.POST.get('visibility', ''))
-        select_user = int(request.POST.get('select_user', ''))  # TODO: id要改成选user
+        try:
+            select_user = int(request.POST.get('select_user', ''))  # TODO: id要改成选user
+        except Exception:
+            select_user = None
 
         Post.objects.create(title=title, id=post_id, source=source, origin=origin, description=description,
                             contentType=content_type, content=content, author=request.user, categories=categories,
@@ -167,9 +166,8 @@ class EditPostView(View):
 
     def post(self, request, *args, **kwargs):
         post_id = kwargs['post_id']
-        #post_id = request.get('post_id', '')
+        author_id = kwargs['author_id']
         cur_post = Post.objects.get(id=post_id)
-        description_update = request.POST.get('description', '')
         title_update = request.POST.get('title', '')
         content_update = request.POST.get('content', '')
         categories_update = request.POST.get('categories', '')
@@ -186,20 +184,38 @@ class EditPostView(View):
         if description_update is not None:
             cur_post.description = description_update
         cur_post.save()
-        return HttpResponse("Post Updated")
+        return redirect(reverse('Author:specific_post', args=(author_id, post_id)))
 
 
 def delete_post(request, author_id, post_id):
     post = Post.objects.get(id=post_id)
     post.delete()
-    return HttpResponse("Post Deleted")
+    return redirect(reverse('Author:index'))
+
+
+class CreatePostComment(View):
+    def get(self, request, author_id, post_id):
+        return render(request, 'comment.html', None)
+
+    def post(self, request, author_id, post_id):
+        post = Post.objects.get(id=post_id)
+        author_for_comment = request.user
+        comment_content = request.POST.get('newcomment', '')
+        
+        PostComment.objects.create(post=post, author_comment=author_for_comment, comment_content=comment_content)
+        return redirect(reverse('Author:specific_post', args=(author_id, post_id)))
 
 
 class SpecificPostView(View):
     def get(self, request, author_id, post_id):
         my_id = request.user.id
+        current_user = request.user
         post = Post.objects.get(id=post_id)
-        liked = False  # TODO
+        postlikes = PostLike.objects.filter(post=post)
+        liked = False
+        for postlike in postlikes:
+            if postlike.who_like == current_user:
+                liked = True
         im_author = False
         if str(my_id) == str(author_id):
             im_author = True
@@ -207,36 +223,40 @@ class SpecificPostView(View):
             print(post.author.id, author_id)
             return HttpResponse("The author id and post id does not match!")
 
+        comments = PostComment.objects.filter(post=post).order_by('-published')
+        hasComments = False
+        if comments:
+            hasComments = True
+
+        isPublic = False
+        if str(post.visibility) == "1":
+            isPublic = True
+
         context = {
+            'author': current_user,
+            'isPublic': isPublic,
             'post': post,
             'liked': liked,
             'author__id': author_id,
-            'isAuthor': im_author
-
+            'isAuthor': im_author,
+            'hasComments': hasComments,
+            'comments': comments #return render(request, 'posts/comments.html', context=context)
         }
         return render(request, 'post_legal.html', context=context)
 
-      
-def createLikePost(request,post_id1):
-    cur_post = Post.objects.get(id=post_id)
-    author_like = request.user
-    likes = Postlike.objects.filter(post_id=post_id1)
-    context = {
-        'author': author_like,
-        'post': cur_post,
-        'likes': likes
-    }
-    return redirect(reverse('Author:index'))
-    
 
-def createCommentPost(request,post_id):
-    author_comment = request.user
-    cur_post = Post.objects.get(id=post_id)
-    comments = Postcomment.objects.filter(post=cur_post).order_by('-published')
-    context = {
-        'author': author_comment,
-        'post': cur_post,
-        'comments': comments
-    }
-    
-    return render(request, 'posts/comments.html', context=context)
+def like_post(request, author_id, post_id):
+    post = Post.objects.get(id=post_id)
+    who_like = request.user
+    PostLike.objects.create(post=post, who_like=who_like)
+    return redirect(reverse('Author:specific_post', args=(author_id, post_id)))
+
+
+def unlike_post(request, author_id, post_id):
+    post = Post.objects.get(id=post_id)
+    who_like = request.user
+    postlikes = PostLike.objects.filter(post=post)
+    for postlike in postlikes:
+        if postlike.who_like == who_like:
+            postlike.delete()
+    return redirect(reverse('Author:specific_post', args=(author_id, post_id)))
