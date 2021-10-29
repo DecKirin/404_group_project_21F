@@ -10,6 +10,9 @@ import uuid
 from rest_framework import serializers
 from django.shortcuts import render, redirect
 from django.urls import reverse
+from django.http import HttpResponse
+from json import loads
+from Post.models import Postlike, Postcomment
 
 
 # class PostSerializer(serializers.ModelSerializer):
@@ -59,10 +62,11 @@ class NewPostView(View):
         post_id = str(post_id)
         visibility = int(request.POST.get('visibility', ''))
         select_user = int(request.POST.get('select_user', ''))  # TODO: id要改成选user
+        image = request.FILES['image']
 
         Post.objects.create(title=title, id=post_id, source=source, origin=origin, description=description,
                             contentType=content_type, content=content, author=request.user, categories=categories,
-                            visibility=visibility, unlisted=unlisted, select_user=select_user)
+                            visibility=visibility, unlisted=unlisted, select_user=select_user, image=image)
         return redirect(reverse('Author:index'))
 
     def select_private(self, request): #TODO
@@ -148,26 +152,34 @@ class PostsView(View):
 
 
 class EditPostView(View):
-    def get(self, request, post_id):
-        cur_post = post_id  # TODO: find the post
+    def get(self, request, author_id, post_id):
+        cur_post = Post.objects.get(id=post_id)  # TODO: find the post
+        categories = cur_post.categories[1:-1].split(',')
+        print(categories)
+        for i in range(len(categories)):
+            categories[i] = categories[i].strip()[1:-1]
+        print(categories)
+        categories = ','.join(categories)
         context = {
-            'cur_post': cur_post
+            'cur_post': cur_post,
+            'categories': categories
         }
         return render(request, 'edit_post.html', context=context)
 
     def post(self, request, *args, **kwargs):
-        post_id = request.get('id', '')
+        post_id = kwargs['post_id']
+        #post_id = request.get('post_id', '')
         cur_post = Post.objects.get(id=post_id)
+        description_update = request.POST.get('description', '')
         title_update = request.POST.get('title', '')
-        contentType_update = request.POST.get('contentType', '')
         content_update = request.POST.get('content', '')
         categories_update = request.POST.get('categories', '')
         categories_update = process_categories(categories_update)
         description_update = request.POST.get('description ', '')
+        if description_update is not None:
+            cur_post.description = description_update
         if title_update is not None:
             cur_post.title = title_update
-        if contentType_update is not None:
-            cur_post.contentType = contentType_update
         if content_update is not None:
             cur_post.content = content_update
         if categories_update is not None:
@@ -175,24 +187,27 @@ class EditPostView(View):
         if description_update is not None:
             cur_post.description = description_update
         cur_post.save()
-        return Response("Post Updated")
+        return HttpResponse("Post Updated")
 
 
-def delete_post(request, id, post_id):
-    post_id = id + post_id
+def delete_post(request, author_id, post_id):
     post = Post.objects.get(id=post_id)
     post.delete()
-    return Response("Post Deleted")
+    return HttpResponse("Post Deleted")
 
 
 class SpecificPostView(View):
     def get(self, request, author_id, post_id):
         my_id = request.user.id
         post = Post.objects.get(id=post_id)
-        liked = False #TODO
+        liked = False  # TODO
         im_author = False
+        print(post.image.url)
         if str(my_id) == str(author_id):
             im_author = True
+        if post.author.id != int(author_id):  # TODO: not int later
+            print(post.author.id, author_id)
+            return HttpResponse("The author id and post id does not match!")
 
         context = {
             'post': post,
@@ -202,3 +217,28 @@ class SpecificPostView(View):
 
         }
         return render(request, 'post_legal.html', context=context)
+
+      
+def createLikePost(request,post_id1):
+    cur_post = Post.objects.get(id=post_id)
+    author_like = request.user
+    likes = Postlike.objects.filter(post_id=post_id1)
+    context = {
+        'author': author_like,
+        'post': cur_post,
+        'likes': likes
+    }
+    return redirect(reverse('Author:index'))
+    
+
+def createCommentPost(request,post_id):
+    author_comment = request.user
+    cur_post = Post.objects.get(id=post_id)
+    comments = Postcomment.objects.filter(post=cur_post).order_by('-published')
+    context = {
+        'author': author_comment,
+        'post': cur_post,
+        'comments': comments
+    }
+    
+    return render(request, 'posts/comments.html', context=context)

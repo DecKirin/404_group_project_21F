@@ -6,6 +6,7 @@ from friends.views import friends_list_view, send_friend_request, process_friend
     follows_list_view, follower_view, un_befriend, my_list
 from Post.views import NewPostView, SpecificPostView, EditPostView, delete_post
 
+
 app_name = 'Author'
 urlpatterns = [
 
@@ -16,8 +17,8 @@ urlpatterns = [
     path('<id>/followers/<foreign_id>', follower_view.as_view(), name='foreign_follower'),
     path('<id>/follows/', follows_list_view, name='follow'),
     path('<author_id>/posts/<post_id>/', SpecificPostView.as_view(), name='specific_post'),
-    path('<id>/posts/<post_id>/edit/', EditPostView.as_view(), name='edit_post'),
-    path('<id>/posts/<post_id>/delete', delete_post, name='delete_post'),
+    path('<author_id>/posts/<post_id>/edit/', EditPostView.as_view(), name='edit_post'),
+    path('<author_id>/posts/<post_id>/delete', delete_post, name='delete_post'),
     # author successfully send the friend request
     path('friendrequest/<foreign_id>', send_friend_request, name='friend_request'),
     path('accept/<request_id>', process_friend_request.as_view(), name='accept'),
@@ -45,7 +46,7 @@ urlpatterns = [
     # Inboxes
     path('<id>/inbox/', login_required(InboxView.as_view()), name='inbox'),
     path('inbox/fr', login_required(InterFRInboxView.as_view()), name='inter_FRinbox'),
-    #path('inbox/', login_required(InterPostInboxView.as_view()), name='inter_postinbox'),
+    path('inbox/posts', login_required(InterPostInboxView.as_view()), name='inter_postinbox'),
 
     path('posts/allPublicPosts/', AllPublicPostsView.as_view(), name='all_public_posts'),
     # Un-befriend

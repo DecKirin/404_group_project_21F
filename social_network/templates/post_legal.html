@@ -21,6 +21,7 @@
                                 <span>{{post.description}}</span><br>
                                 <span>{{post.content}}</span>
                                 <span>{{post.author.username}}</span>
+                                <img src="{{ post.image.url }}" class="img-responsive" style="width: 100%; float: left; margin-right: 10px;" />
                             </div>
 
                             {% if liked %}
@@ -42,11 +43,15 @@
 
 
                             {% if isAuthor %}
-                                <button type="button" class="btn">
-                                    <i class="Edit"  href="{% url 'Author:edit_post' post.author.id post.id %}"></i>Edit</button>
-                                
-                                <button type="button" class="btn">
-                                    <i class="Delete"  href="{% url 'Author:delete_post' post.author.id post.id %}"></i>Delete</button>
+
+                                <a href="{% url 'Author:edit_post' post.author.id post.id %}" class="btn btn-sm bg-blue">
+                                    <i class="fas fa-edit"></i> Edit
+                                </a>
+
+                                <a href="{% url 'Author:delete_post' post.author.id post.id %}" class="btn btn-sm bg-red">
+                                    <i class="fas fa-trash"></i> Delete
+                                </a>
+
                                 
                            
                             {% endif %}
