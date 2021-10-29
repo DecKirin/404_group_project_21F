@@ -47,7 +47,7 @@ class NewPostView(View):
         content_type = request.POST.get('content_type', '')
         content = request.POST.get('content', '')
 
-        categories = request.POST.get('categories', '')  # TODO
+        categories = request.POST.get('categories', '')
         categories = process_categories(categories)
 
         description = request.POST.get('description', '')
@@ -57,14 +57,19 @@ class NewPostView(View):
         post_id = uuid.uuid4().hex
         post_id = str(post_id)
         visibility = int(request.POST.get('visibility', ''))
-        try:
-            select_user = int(request.POST.get('select_user', ''))  # TODO: id要改成选user
-        except Exception:
-            select_user = None
+
+        select_user = request.POST.get('select_user', '')
+        if select_user != '' and visibility == 3:
+            try:
+                user = User.objects.get(username=select_user)
+            except Exception:
+                return HttpResponse("Failed: No such user.")
+
         try:
             image = request.FILES['image']
         except Exception:
             image = None
+
         Post.objects.create(title=title, id=post_id, source=source, origin=origin, description=description,
                             contentType=content_type, content=content, author=request.user, categories=categories,
                             visibility=visibility, unlisted=unlisted, select_user=select_user, image=image)
@@ -223,8 +228,7 @@ class SpecificPostView(View):
 
         if str(my_id) == str(author_id):
             im_author = True
-        if post.author.id != int(author_id):  # TODO: not int later
-            print(post.author.id, author_id)
+        if post.author.id != author_id:  
             return HttpResponse("The author id and post id does not match!")
 
         comments = PostComment.objects.filter(post=post).order_by('-published')
