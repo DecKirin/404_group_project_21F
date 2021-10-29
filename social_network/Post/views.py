@@ -59,10 +59,11 @@ class NewPostView(View):
         post_id = str(post_id)
         visibility = int(request.POST.get('visibility', ''))
         select_user = int(request.POST.get('select_user', ''))  # TODO: id要改成选user
+        image = request.FILES['image']
 
         Post.objects.create(title=title, id=post_id, source=source, origin=origin, description=description,
                             contentType=content_type, content=content, author=request.user, categories=categories,
-                            visibility=visibility, unlisted=unlisted, select_user=select_user)
+                            visibility=visibility, unlisted=unlisted, select_user=select_user, image=image)
         return redirect(reverse('Author:index'))
 
     def select_private(self, request): #TODO
@@ -191,6 +192,7 @@ class SpecificPostView(View):
         post = Post.objects.get(id=post_id)
         liked = False #TODO
         im_author = False
+        print(post.image.url)
         if str(my_id) == str(author_id):
             im_author = True
 
