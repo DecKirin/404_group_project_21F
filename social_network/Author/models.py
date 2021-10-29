@@ -18,8 +18,9 @@ class RegisterControl(models.Model):
 
 
 class User(AbstractUser):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, unique=True)
     # id = models.UUIDField(primary_key=True, default=uuid.uuid4())
-    id = models.AutoField(primary_key=True)
+    #id = models.AutoField(primary_key=True)
     username = models.CharField(max_length=20, unique=True)
     profile_image = models.URLField(blank=True)
     email = models.CharField(max_length=20, unique=True)
@@ -73,7 +74,7 @@ class Post(models.Model):
     visibility = models.SmallIntegerField(default=1, choices=visibility_choices)
     unlisted = models.BooleanField(default=False)
     image = models.ImageField(upload_to='post_image')
-    select_user = models.IntegerField(default=1)
+    select_user = models.CharField(max_length=20, blank=True)
 
     class Meta:
         ordering = ('published',)

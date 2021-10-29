@@ -57,6 +57,7 @@ class NewPostView(View):
         post_id = uuid.uuid4().hex
         post_id = str(post_id)
         visibility = int(request.POST.get('visibility', ''))
+
         select_user = request.POST.get('select_user', '')
         if select_user != '' and visibility == 3:
             try:
@@ -64,7 +65,11 @@ class NewPostView(View):
             except Exception:
                 return HttpResponse("Failed: No such user.")
 
-        image = request.FILES['image']
+        try:
+            image = request.FILES['image']
+        except Exception:
+            image = None
+
         Post.objects.create(title=title, id=post_id, source=source, origin=origin, description=description,
                             contentType=content_type, content=content, author=request.user, categories=categories,
                             visibility=visibility, unlisted=unlisted, select_user=select_user, image=image)
@@ -220,7 +225,7 @@ class SpecificPostView(View):
             if postlike.who_like == current_user:
                 liked = True
         im_author = False
-        print(post.image.url)
+
         if str(my_id) == str(author_id):
             im_author = True
         if post.author.id != int(author_id):  # TODO: not int later
