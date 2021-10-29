@@ -209,8 +209,9 @@ class CreatePostComment(View):
         post = Post.objects.get(id=post_id)
         author_for_comment = request.user
         comment_content = request.POST.get('newcomment', '')
-        
         PostComment.objects.create(post=post, author_comment=author_for_comment, comment_content=comment_content)
+        post.count = post.count+1
+        post.save()
         return redirect(reverse('Author:specific_post', args=(author_id, post_id)))
 
 
