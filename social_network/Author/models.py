@@ -37,7 +37,13 @@ class User(AbstractUser):
         verbose_name = 'Author'
         verbose_name_plural = verbose_name
 
-
+ContentType = [
+    ('text/markdown','text/markdown'),
+    ('text/plain','text/plain'),
+    ('application/base64','application/base64'),
+    ('image/png;base64','image/png;base64'),
+    ('image/jpeg;base64','image/jpeg;base64')
+]
 class Post(models.Model):
     visibility_choices = {
         (1, "PUBLIC"),
@@ -51,7 +57,7 @@ class Post(models.Model):
     source = models.URLField(blank=True)
     origin = models.URLField(blank=True)
     description = models.CharField(max_length=500, blank=True)
-    contentType = models.CharField(max_length=500, default="default_type")
+    contentType = models.TextField(null=False, choices=ContentType, default='text/plain')
     content = models.TextField(blank=True)
     author = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='posts', on_delete=models.CASCADE, null=False, default=1)  # TODO: edit default value
     #categories = models.JSONField(null=True)
