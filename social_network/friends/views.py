@@ -45,6 +45,7 @@ def friends_list_view(request, id, *args, **kwargs):
         friend_list = friend.friends.all()  #
         context['friends'] = friend_list
     context['delete'] = 'Un-befriend'
+    context['type'] = 'Friend'
     return render(request, 'all_friends_list.html', context=context)
 
 
@@ -65,6 +66,7 @@ def followers_list_view(request, id, *args, **kwargs):
         friend_list = follower.followers.all()  #
         context['friends'] = friend_list
     context['delete'] = 'Un-follow'
+    context['type'] = 'Follower'
     return render(request, 'all_friends_list.html', context=context)
 
 
@@ -79,6 +81,7 @@ def follows_list_view(request, id, *args, **kwargs):
         friend_list = follower.follows.all()  #
         context['friends'] = friend_list
     context['delete'] = 'Un-follow'
+    context['type'] = 'Follow'
     return render(request, 'all_friends_list.html', context=context)
 
 
@@ -94,6 +97,7 @@ def my_list(request, relationship):
             friend_list = follower.follows.all()  #
             context['friends'] = friend_list
         context['delete'] = 'Un-follow'
+        context['type'] = 'Follow'
     elif relationship == 'followers':
         user = request.user
         follower, create = Follower.objects.get_or_create(user=user)  # class friend
@@ -103,6 +107,7 @@ def my_list(request, relationship):
             friend_list = follower.followers.all()  #
             context['friends'] = friend_list
         context['delete'] = 'Un-follow'
+        context['type'] = 'Follower'
 
     elif relationship == 'friends':
         user = request.user
@@ -113,6 +118,7 @@ def my_list(request, relationship):
             friend_list = friend.friends.all()  #
             context['friends'] = friend_list
         context['delete'] = 'Un-befriend'
+        context['type'] = 'Friend'
     return render(request, 'my_friends_list.html', context=context)
 
 

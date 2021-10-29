@@ -64,6 +64,7 @@ class Post(models.Model):
     visibility = models.SmallIntegerField(default=1, choices=visibility_choices)
     unlisted = models.BooleanField(default=False)
     image = models.URLField(blank=True)
+    select_user = models.IntegerField(default=1)
 
     class Meta:
         ordering = ('published',)

@@ -1,7 +1,7 @@
 from django.urls import path, re_path
 from django.contrib.auth.decorators import login_required
-from Author.views import RegisterView, LoginView, UserInfoView, LogoutView, UserPostsView, InboxView, \
-    UserProfileView, AllUserProfileView, SearchUserView, UserEditInfoView, MyStreamView, AllPublicPostsView, IndexView
+from Author.views import RegisterView, LoginView, UserInfoView, LogoutView, UserPostsView, IndexView, InterFRInboxView, InterPostInboxView, InboxView, \
+    UserProfileView, AllUserProfileView, SearchUserView, UserEditInfoView, MyStreamView, AllPublicPostsView
 from friends.views import friends_list_view, send_friend_request, process_friend_request, followers_list_view, \
     follows_list_view, follower_view, un_befriend, my_list
 from Post.views import NewPostView, SpecificPostView, EditPostView, delete_post
@@ -42,7 +42,11 @@ urlpatterns = [
     # page to view other user's profile
 
     path('<id>/', UserProfileView.as_view(), name='profile'),
-    path('<id>/inbox/', InboxView.as_view(), name='inbox'),
+    # Inboxes
+    path('<id>/inbox/', login_required(InboxView.as_view()), name='inbox'),
+    path('inbox/fr', login_required(InterFRInboxView.as_view()), name='inter_FRinbox'),
+    #path('inbox/', login_required(InterPostInboxView.as_view()), name='inter_postinbox'),
+
     path('posts/allPublicPosts/', AllPublicPostsView.as_view(), name='all_public_posts'),
     # Un-befriend
     path('<id>/<delete>', un_befriend, name='un_befriend'),
