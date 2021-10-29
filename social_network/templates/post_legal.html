@@ -71,19 +71,6 @@
                                 <a href="{% url 'Author:delete_post' post.author.id post.id %}" class="btn btn-sm bg-red">
                                     <i class="fas fa-trash"></i> Delete
                                 </a>
-
-
-                            {% if isAuthor %}
-
-                                <a href="{% url 'Author:edit_post' post.author.id post.id %}" class="btn btn-sm bg-blue">
-                                    <i class="fas fa-edit"></i> Edit
-                                </a>
-
-                                <a href="{% url 'Author:delete_post' post.author.id post.id %}" class="btn btn-sm bg-red">
-                                    <i class="fas fa-trash"></i> Delete
-                                </a>
-                                
-                           
                             {% endif %}
                             
                         </div>
