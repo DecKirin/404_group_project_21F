@@ -12,6 +12,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.http import HttpResponse
 from json import loads
+from Post.models import Postlike,Postcomment
 
 
 # class PostSerializer(serializers.ModelSerializer):
@@ -214,3 +215,22 @@ class SpecificPostView(View):
 
         }
         return render(request, 'post_legal.html', context=context)
+
+      
+def createLikePost(request,post_id1):
+    cur_post = Post.objects.get(id=post_id)
+    cur_user = request.user.filter(post_id=post_id1)
+    likes = Postlike.objects
+    if cur_post.visibility == "1": 
+
+def createCommentPost(request,post_id):
+    author_comment = request.user
+    cur_post = Post.objects.get(id=post_id)
+    comments = Postcomment.objects.filter(post=cur_post).order_by('-published')
+    context = {
+        'author': author_comment,
+        'post': cur_post,
+        'comments': comments
+    }
+    
+    return render(request, 'posts/comments.html', context=context)
