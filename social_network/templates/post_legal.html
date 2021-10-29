@@ -27,7 +27,9 @@
                                 <fieldset><legend>content:</legend></fieldset>
                                 <span>{{post.content}}</span>
                                 <span>{{post.author.username}}</span>
-                                <img src="{{ post.image.url }}" class="img-responsive" style="width: 100%; float: left; margin-right: 10px;" />
+                                {% if post.image.url != None %}
+                                    <img src="{{ post.image.url }}" class="img-responsive" style="width: 100%; float: left; margin-right: 10px;" />
+                                {% endif %}
                             </div>
 
                             {% if liked %}
