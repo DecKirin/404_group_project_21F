@@ -3,8 +3,9 @@ from django.urls import reverse
 from django.utils.html import format_html
 from django.utils.http import urlencode
 
-from .models import User, RegisterControl, Post, Comment, Like
+from .models import User, RegisterControl, Post
 from friends.models import Friend, Follower, Follow
+from Post.models import PostComment, PostLike
 
 # https://www.dothedev.com/blog/django-admin-list_filter/
 
@@ -145,9 +146,9 @@ class PostsAdmin(admin.ModelAdmin):
 
 # Register your models here.
 class CommentsAdmin(admin.ModelAdmin):
-    list_display = ("id", "author", "created", "view_post_link", "view_author_link")
+    list_display = ("id_comment", "post", "author_comment", "comment_content", "published")
     search_fields = ("post__id", "author__id", "author__username")
-    list_filter = ("created", "author")
+    list_filter = ("published", "author_comment")
 
     def view_post_link(self, obj):
         url = (
@@ -181,8 +182,8 @@ class RegisterControlAdmin(admin.ModelAdmin):
 
 admin.site.register(User, UserProfileAdmin)
 admin.site.register(Post, PostsAdmin)
-admin.site.register(Comment, CommentsAdmin)
-admin.site.register(Like)
+admin.site.register(PostComment, CommentsAdmin)
+admin.site.register(PostLike)
 admin.site.register(Friend)
 admin.site.register(RegisterControl, RegisterControlAdmin)
 admin.site.register(Follow)

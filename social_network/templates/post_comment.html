@@ -1,0 +1,42 @@
+{% extends 'post_legal.html' %}
+{% load static %}
+{% block title %}POST Comment{% endblock title %}
+{% block header_con %}{% endblock header_con %}
+{% block search_bar %}{% endblock search_bar %}
+
+{% load author %}
+{% load post %}
+{% block body %}
+    <div class="wrapper">
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <section class="content">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Post Comment create</h3>
+                            </div>
+                            <div class="card-body">
+                                <form method="post">
+                                    {% csrf_token %}
+                                    <textarea name="newComment" id="newComment" placeholder="add comments here"></textarea>
+                                    <button type="submit" class="btn" id="newCommentButton" >Comment</button>
+                                </form>
+                                
+                            </div>
+                
+                            
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+            </section>
+            <!-- /.content -->
+        </div>
+
+    </div>
+    <!-- ./wrapper -->
+{% endblock body %}

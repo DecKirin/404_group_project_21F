@@ -36,6 +36,8 @@ class User(AbstractUser):
         db_table = 'sys_user_info'
         verbose_name = 'Author'
         verbose_name_plural = verbose_name
+
+
 ContentType = [
     ('text/markdown','text/markdown'),
     ('text/plain','text/plain'),
@@ -43,6 +45,7 @@ ContentType = [
     ('image/png;base64','image/png;base64'),
     ('image/jpeg;base64','image/jpeg;base64')
 ]
+
 
 class Post(models.Model):
     visibility_choices = {
@@ -76,7 +79,7 @@ class Post(models.Model):
         ordering = ('published',)
         db_table = 'posts'
 
-
+'''
 class Comment(models.Model):
     # post is a foreign key of comment
     id = models.AutoField(primary_key=True)
@@ -101,7 +104,7 @@ class Like(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now_add=True)
     owner = models.ForeignKey(User, related_name='likes', on_delete=models.CASCADE, blank=False)
-
+'''
 '''
 # https://stackoverflow.com/questions/65055520/django-user-subscribe-user-relation
 class FollowAuthor(models.Model):

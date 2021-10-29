@@ -16,30 +16,61 @@
                                 <h3 class="card-title">Post View</h3>
                             </div>
                             <div class="card-body">
-                                <h4>{{post.title}}</h4>
-                                <span>{{post.published}}</span><br>
-                                <span>{{post.description}}</span><br>
+                                <fieldset><legend >post title:<span>{{post.title}}</span></legend></fieldset>
+                                
+                                <fieldset><legend>date:<span>{{post.published}}</span></legend></fieldset>
+                                <br>
+                                <fieldset><legend>author:<span>{{post.author.username}}</span></legend></fieldset>
+                                <br>
+                                <fieldset><legend>description:<span>{{post.description}}</span></legend></fieldset>
+                                <br>
+                                <fieldset><legend>content:</legend></fieldset>
                                 <span>{{post.content}}</span>
                                 <span>{{post.author.username}}</span>
                                 <img src="{{ post.image.url }}" class="img-responsive" style="width: 100%; float: left; margin-right: 10px;" />
                             </div>
 
                             {% if liked %}
-                            <form method="post">
-                                {% csrf_token %}
-                                <button class="btn"><i class="like">Unlike</i></button>
-                            </form>
+                            <a href="{% url 'Author:unlike_post' post.author.id post.id %}" class="btn btn-sm">
+                                <i class="fas fa-thumbs-down"></i> Unlike this post
+                            </a>
 
                             {% else %}
-                            <form method="post">
-                                {% csrf_token %}
-                                <button class="btn btn-primary"><i class="like">Like</i></button>
-                            </form>
+                            <a href="{% url 'Author:like_post' post.author.id post.id %}" class="btn btn-sm">
+                                <i class="fas fa-thumbs-up"></i> Like this post
+                            </a>
+                            {% endif %}
+                            <fieldset><legend>comments:</legend></fieldset>
+                            <!--show comment if is valid for view comments-->
+                            {% if isPublic %}
+                                {% if hasComments %}
+                                    {% for comment in comments %}
+                                    <span>{{comment.comment_content}}</span><br>
+                                    {% endfor %}
+                                {% endif %}
 
+                            {% else %}
+                                {% if isAuthor %}
+                                    {% if hasComments %}
+                                        {% for comment in comments %}
+                                        <span>{{comment.comment_content}}</span><br>
+                                        {% endfor %}
+                                    {% endif %}
+                                {% endif %}
                             {% endif %}
 
-                            <a> <button class="btn"><i
-                                class="comment"></i>Comment</button></a>
+                            <a href="{% url 'Author:post_comment' post.author.id post.id %}" class="btn btn-sm bg-blue">
+                                <i class="fas fa-comment"></i> Comment
+                            </a>
+                            {% if isAuthor %}
+
+                                <a href="{% url 'Author:edit_post' post.author.id post.id %}" class="btn btn-sm bg-blue">
+                                    <i class="fas fa-edit"></i> Edit
+                                </a>
+
+                                <a href="{% url 'Author:delete_post' post.author.id post.id %}" class="btn btn-sm bg-red">
+                                    <i class="fas fa-trash"></i> Delete
+                                </a>
 
 
                             {% if isAuthor %}
@@ -51,7 +82,6 @@
                                 <a href="{% url 'Author:delete_post' post.author.id post.id %}" class="btn btn-sm bg-red">
                                     <i class="fas fa-trash"></i> Delete
                                 </a>
-
                                 
                            
                             {% endif %}
