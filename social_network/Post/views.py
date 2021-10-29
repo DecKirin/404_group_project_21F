@@ -58,9 +58,11 @@ class NewPostView(View):
         post_id = uuid.uuid4().hex
         post_id = str(post_id)
         visibility = int(request.POST.get('visibility', ''))
-        Post.objects.create(title=title, id=f"{author_id}/posts/{post_id}", source=source, origin=origin, description=description,
+        select_user = int(request.POST.get('select_user', ''))  # TODO: id要改成选user
+
+        Post.objects.create(title=title, id=post_id, source=source, origin=origin, description=description,
                             contentType=content_type, content=content, author=request.user, categories=categories,
-                            visibility=visibility, unlisted=unlisted)
+                            visibility=visibility, unlisted=unlisted, select_user=select_user)
         return redirect(reverse('Author:index'))
 
     def select_private(self, request): #TODO
