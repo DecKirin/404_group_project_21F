@@ -2,6 +2,8 @@ from django.test import TestCase
 from django.contrib.auth import get_user_model
 # Create your tests here.
 from .models import User
+from django.test import Client
+import uuid
 # https://www.youtube.com/watch?v=Ae7nc1EGv-A&t=1112s
 
 

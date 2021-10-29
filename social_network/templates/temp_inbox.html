@@ -37,7 +37,7 @@
                           <a href="{% url 'Author:accept' request.request_id %}" class="btn btn-sm bg-teal">
                               <i class="fas fa-comments"></i> Process
                           </a>
-                          <a href="{% url 'Author:profile' request.sender %}" class="btn btn-sm btn-primary">
+                          <a href="{% url 'Author:profile' request.sender.id %}" class="btn btn-sm btn-primary">
                               <i class="fas fa-user"></i> Profile
                           </a>
                           </div>
