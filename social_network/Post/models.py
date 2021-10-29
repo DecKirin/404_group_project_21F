@@ -1,17 +1,19 @@
 # Create your models here.
+import uuid
+
 from django.db import models
-#from django.contrib.auth.models import User, AbstractUser
+# from django.contrib.auth.models import User, AbstractUser
 from django.utils import timezone
 from Author.models import User, Post
 import uuid
 
 # https://www.youtube.com/watch?v=GcqURKYfv00
 ContentType = [
-    ('text/markdown','text/markdown'),
-    ('text/plain','text/plain'),
-    ('application/base64','application/base64'),
-    ('image/png;base64','image/png;base64'),
-    ('image/jpeg;base64','image/jpeg;base64')
+    ('text/markdown', 'text/markdown'),
+    ('text/plain', 'text/plain'),
+    ('application/base64', 'application/base64'),
+    ('image/png;base64', 'image/png;base64'),
+    ('image/jpeg;base64', 'image/jpeg;base64')
 ]
 
 
@@ -31,7 +33,7 @@ class PostComment(models.Model):
     author_comment = models.ForeignKey(User, related_name='comments', on_delete=models.CASCADE, null=False, default=1)  # TODO: edit default value
     comment_content = models.TextField()
     published = models.DateTimeField(auto_now_add=True)
-    #url_comment = models.URLField()
+
     class Meta:
         ordering = ('published',)
         db_table = 'postcomment'

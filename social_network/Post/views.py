@@ -8,7 +8,7 @@ from rest_framework import serializers
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.http import HttpResponse
-from Post.models import Postlike,Postcomment
+from Post.models import Postlike, Postcomment
 
 
 # class PostSerializer(serializers.ModelSerializer):
@@ -64,7 +64,7 @@ class NewPostView(View):
 
         Post.objects.create(title=title, id=post_id, source=source, origin=origin, description=description,
                             contentType=content_type, content=content, author=request.user, categories=categories,
-                            visibility=visibility, unlisted=unlisted, select_user=select_user)
+                            visibility=visibility, unlisted=unlisted, select_user=select_user, image=image)
         return redirect(reverse('Author:index'))
 
     def select_private(self, request): #TODO
@@ -217,6 +217,7 @@ class SpecificPostView(View):
             if postlike.who_like == current_user:
                 liked = True
         im_author = False
+        print(post.image.url)
         if str(my_id) == str(author_id):
             im_author = True
         if post.author.id != int(author_id):  # TODO: not int later

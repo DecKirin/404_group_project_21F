@@ -26,7 +26,8 @@
                                 <br>
                                 <fieldset><legend>content:</legend></fieldset>
                                 <span>{{post.content}}</span>
-            
+                                <span>{{post.author.username}}</span>
+                                <img src="{{ post.image.url }}" class="img-responsive" style="width: 100%; float: left; margin-right: 10px;" />
                             </div>
 
                             {% if liked %}
@@ -71,6 +72,16 @@
                                     <i class="fas fa-trash"></i> Delete
                                 </a>
 
+
+                            {% if isAuthor %}
+
+                                <a href="{% url 'Author:edit_post' post.author.id post.id %}" class="btn btn-sm bg-blue">
+                                    <i class="fas fa-edit"></i> Edit
+                                </a>
+
+                                <a href="{% url 'Author:delete_post' post.author.id post.id %}" class="btn btn-sm bg-red">
+                                    <i class="fas fa-trash"></i> Delete
+                                </a>
                                 
                            
                             {% endif %}

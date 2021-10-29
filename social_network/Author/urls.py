@@ -6,6 +6,7 @@ from friends.views import friends_list_view, send_friend_request, process_friend
     follows_list_view, follower_view, un_befriend, my_list
 from Post.views import NewPostView, SpecificPostView, EditPostView, delete_post, like_post, unlike_post, CreatePostComment
 
+
 app_name = 'Author'
 urlpatterns = [
 
@@ -48,7 +49,7 @@ urlpatterns = [
     # Inboxes
     path('<id>/inbox/', login_required(InboxView.as_view()), name='inbox'),
     path('inbox/fr', login_required(InterFRInboxView.as_view()), name='inter_FRinbox'),
-    #path('inbox/', login_required(InterPostInboxView.as_view()), name='inter_postinbox'),
+    path('inbox/posts', login_required(InterPostInboxView.as_view()), name='inter_postinbox'),
 
     path('posts/allPublicPosts/', AllPublicPostsView.as_view(), name='all_public_posts'),
     # Un-befriend

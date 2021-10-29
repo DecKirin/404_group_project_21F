@@ -72,8 +72,8 @@ class Post(models.Model):
     updated = models.DateTimeField(auto_now_add=True)
     visibility = models.SmallIntegerField(default=1, choices=visibility_choices)
     unlisted = models.BooleanField(default=False)
-    image = models.URLField(blank=True)
-    select_user = models.IntegerField(null=True)
+    image = models.ImageField(upload_to='post_image')
+    select_user = models.IntegerField(default=1)
 
     class Meta:
         ordering = ('published',)

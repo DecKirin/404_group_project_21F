@@ -430,7 +430,7 @@ class InboxView(View):
 
         return response
 
-
+# Intergrated inbox to sidebars for friend request
 class InterFRInboxView(View):
 
     def get(self, request):
@@ -454,29 +454,31 @@ class InterFRInboxView(View):
 
         return response
 
-
+# Intergrated inbox to sidebars for posts part
 class InterPostInboxView(View):
     def get(self, request):
-        '''curr_user = request.user
+        curr_user = request.user
         page = int(request.GET.get("page", 1))
         per_page = int(request.GET.get("size", 10))
-        Post = FriendRequest.objects.filter(receiver_id=curr_user.id)
+        posts = Post.objects.filter(select_user=curr_user.id)
 
         #inbox = Inbox.objects.filter(requests=friReqs)
 
-        paginator = Paginator(friReqs, per_page)
+        paginator = Paginator(posts, per_page)
         page_object = paginator.page(page)
 
 
         context = {
             'page_object': page_object,
             'page_range': paginator.page_range,
+            'page_size': per_page,
+            'current_page': page,
+            'current_author': curr_user,
         }
 
-        response = render(request, 'temp_inbox.html', context=context)
+        response = render(request, 'temp_inbox_posts.html', context=context)
 
-        return response'''
-        pass
+        return response
 
 
 class UserPostsView(View):
@@ -504,9 +506,9 @@ class UserPostsView(View):
             list_status = int(request.GET.get('status', 0))
 
             if list_status > 0:
-                question_list = Post.objects.filter(visibility=list_status).order_by('visibility')
+                question_list = Post.objects.filter(author_id=curr_user.id).filter(visibility=list_status).order_by('visibility')
             else:
-                question_list = Post.objects.all().order_by('visibility')
+                question_list = Post.objects.filter(author_id=curr_user.id).order_by('visibility')
             paginator = Paginator(question_list, 10)
 
             # if paginator.num_pages > 11:
