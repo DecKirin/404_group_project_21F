@@ -51,14 +51,16 @@ class FriendRequest(models.Model):
     request_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     sender = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='req_sender', on_delete=models.CASCADE, null=True)
     receiver = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='req_receiver', on_delete=models.CASCADE, null=True)
-    respond_status = models.BooleanField(blank=False, null=False, default=False)
+    respond_status = False
 
     def accept_request(self):
         sender_friend, create_sender = Friend.objects.get_or_create(user=self.sender)
         receiver_friend, create_receiver = Friend.objects.get_or_create(user=self.receiver)
         receiver_friend.add_friend(self.sender)
         sender_friend.add_friend(self.receiver)
-        self.repond_status = True
+        self.respond_status = True
+        self.save()
 
     def decline_request(self):
-        self.repond_status = True
+        self.respond_status = True
+        self.save()
