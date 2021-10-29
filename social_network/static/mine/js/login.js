@@ -30,7 +30,7 @@ $("#btnlogin").on("click", function () {
                     icon: 'success',
                     title: 'Login Success.'
                 })
-                window.location.href = '/author/index'
+                window.location.href = '/author/myStream/'
             } else {
                 Toast.fire({
                     code: code,

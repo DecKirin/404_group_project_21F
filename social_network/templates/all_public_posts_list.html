@@ -28,7 +28,7 @@
                           <div class="user-block">
                             <img class="img-circle img-bordered-sm" src="{% static 'mine/images/default_avatar.png' %}" alt="user image">
                             <span class="username">
-                              <a href="#" class="float-right btn-tool">{{ post.author.username }}<i class="fas fa-times"></i></a>
+                              <a href="{% url 'Author:profile' post.author.id %}" class="float-right btn-tool">{{ post.author.username }}</a>
                             </span>
                             <span class="description">{{ post.published}}</span>
                           </div>

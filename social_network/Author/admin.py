@@ -23,11 +23,12 @@ def activate_user(modeladmin, request, queryset):
 def deactivate_user(modeladmin, request, queryset):
     queryset.update(is_active=False)
 
-'''
+
+
 class PostInline(admin.TabularInline):
     model = Post
     extra = 1
-'''
+
 
 # about aggregate information related to child table, like calculating number of posts created by user
 # https://realpython.com/customize-django-admin-python/#prerequisites
@@ -37,17 +38,17 @@ class PostInline(admin.TabularInline):
 #
 # https://www.youtube.com/watch?v=Ae7nc1EGv-A&t=1112s
 class UserProfileAdmin(admin.ModelAdmin):
-    '''
+
     inlines = [
         PostInline,
 
     ]
-    '''
-    list_display = ("email", "username", "is_active", "created")
-    #list_display = ("email", "username", "is_active", "created", "view_posts_link", "view_friends_link",
+
+    list_display = ("email", "username", "is_active", "created", "view_posts_link", "view_likes_link", "view_comments_link")
+    # list_display = ("email", "username", "is_active", "created", "view_posts_link", "view_friends_link",
     #                "view_likes_link", "view_comments_link")
 
-    #list_display = ("email", "username", "is_active", "created", "view_friends_link","view_follows_link", "view_follower_link")
+    # list_display = ("email", "username", "is_active", "created", "view_friends_link","view_follows_link", "view_follower_link")
     search_fields = ("username",)
     list_filter = ("is_active", "created")
     fieldsets = (
@@ -58,7 +59,7 @@ class UserProfileAdmin(admin.ModelAdmin):
     )
     readonly_fields = ['created', 'updated']
     actions = [activate_user, deactivate_user]
-    '''
+
     def view_posts_link(self, obj):
         count = obj.posts.count()
         url = (
@@ -67,7 +68,7 @@ class UserProfileAdmin(admin.ModelAdmin):
         return format_html('<a href="{}">{} Posts</a>', url, count)
 
     view_posts_link.short_description = "Posts"
-    '''
+
     # ----------------------------------not finished yet----------------------------------
     '''
     def view_friends_link(self, obj):
@@ -97,10 +98,8 @@ class UserProfileAdmin(admin.ModelAdmin):
         return format_html('<a href="{}">{} Posts</a>', url, count)
     view_followers_link.short_description = "followers"
     '''
-    '''
-
     def view_likes_link(self, obj):
-        count = obj.posts.count()
+        count = obj.likes.count()
         url = (
                 reverse("admin:Author_like_changelist") + "?" + urlencode({"q": f"{obj.id}"})
         )
@@ -109,7 +108,7 @@ class UserProfileAdmin(admin.ModelAdmin):
     view_likes_link.short_description = "likes"
 
     def view_comments_link(self, obj):
-        count = obj.posts.count()
+        count = obj.comments.count()
         url = (
                 reverse("admin:Author_comment_changelist") + "?" + urlencode({"q": f"{obj.id}"})
         )
@@ -117,11 +116,11 @@ class UserProfileAdmin(admin.ModelAdmin):
 
     view_comments_link.short_description = "comments"
 
-
 class PostsAdmin(admin.ModelAdmin):
     list_display = ("type", "id", "author", "title", "published", "view_comments_link", "view_likes_link")
     search_fields = ("title", "author__id", "author__username")
     list_filter = ("published", "author")
+
 
     def view_comments_link(self, obj):
         count = obj.comments.count()
@@ -135,7 +134,7 @@ class PostsAdmin(admin.ModelAdmin):
     # view_comments_link.admin_order_field = 'count'
 
     def view_likes_link(self, obj):
-        count = obj.comments.count()
+        count = obj.likes.count()
         url = (
                 reverse("admin:Author_like_changelist") + "?" + urlencode({"q": f"{obj.id}"})
         )
@@ -145,7 +144,6 @@ class PostsAdmin(admin.ModelAdmin):
 
 
 # Register your models here.
-
 class CommentsAdmin(admin.ModelAdmin):
     list_display = ("id", "author", "created", "view_post_link", "view_author_link")
     search_fields = ("post__id", "author__id", "author__username")
@@ -167,7 +165,11 @@ class CommentsAdmin(admin.ModelAdmin):
 
     view_author_link.short_description = "Author"
 
-'''
+
+
+
+
+
 class RegisterControlAdmin(admin.ModelAdmin):
 
     def has_add_permission(self, request):
@@ -178,9 +180,9 @@ class RegisterControlAdmin(admin.ModelAdmin):
 
 
 admin.site.register(User, UserProfileAdmin)
-#admin.site.register(Post, PostsAdmin)
-#admin.site.register(Comment, CommentsAdmin)
-#admin.site.register(Like)
+admin.site.register(Post, PostsAdmin)
+admin.site.register(Comment, CommentsAdmin)
+admin.site.register(Like)
 admin.site.register(Friend)
 admin.site.register(RegisterControl, RegisterControlAdmin)
 admin.site.register(Follow)

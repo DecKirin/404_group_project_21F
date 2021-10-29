@@ -15,7 +15,11 @@
               <div class="card-body box-profile">
                 <div class="text-center">
                   <img class="profile-user-img img-fluid img-circle"
-                       src="{% static 'adminlte/dist/img/user4-128x128.jpg' %}"
+                       {% if not view_author.profile_image %}
+                       src="{% static 'mine/images/default_avatar.png' %}"
+                       {% else %}
+                       src="{% static view_author.profile_image %}"
+                       {% endif %}
                        alt="User profile picture">
                 </div>
 
@@ -25,18 +29,26 @@
 
                 <ul class="list-group list-group-unbordered mb-3">
                   <li class="list-group-item">
-                    <a href={% url 'Author:follower' view_author.id%}>Followers</a> <b class="float-right">0</b>
+                    <a href={% url 'Author:follower' view_author.id%}>Followers</a> <b class="float-right">{{ view_author.followers.count }}</b>
                   </li>
                   <li class="list-group-item">
-                    <a href="{% url 'Author:follow' view_author.id %}">Following</a> <a class="float-right">0</a>
+                    <a href="{% url 'Author:follow' view_author.id %}">Following</a> <a class="float-right">{{ view_author.follows.count }}</a>
                   </li>
                   <li class="list-group-item">
-                    <a href="{% url 'Author:friend' view_author.id %}">Friends</a> <a class="float-right">0</a>
+                    <a href="{% url 'Author:friend' view_author.id %}">Friends</a> <a class="float-right">{{ view_author.friends.count }}</a>
                   </li>
                 </ul>
 
-                <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>
-                <a href="#" class="btn btn-primary btn-block"><b>Be-Friend</b></a>
+                <a href="#" class="btn btn-primary btn-block"><b>Send Private Post</b></a>
+                {% if current_author %}
+                  {% if view_author in current_author.friends %}
+                  <a href="{% url 'Author:un_befriend' view_author.id delete %}" class="btn btn-primary btn-block"><b>Un-BeFriend</b></a>
+                  {% else %}
+                  <a href="" class="btn btn-primary btn-block"><b>Be-Friend</b></a>
+                  {% endif %}
+                {% else %}
+                    <a href="" class="btn btn-primary btn-block"><b>Be-Friend</b></a>
+                {% endif %}
 
               </div>
               <!-- /.card-body -->
@@ -91,7 +103,7 @@
                       <div class="user-block">
                         <img class="img-circle img-bordered-sm" src="{% static 'mine/images/default_avatar.png' %}" alt="user image">
                         <span class="username">
-                          <a href="#" class="float-right btn-tool">{{ post.author.username }}<i class="fas fa-times"></i></a>
+                          <a href="{% url 'Author:profile' post.author.id %}" class="float-right btn-tool">{{ post.author.username }}</a>
                         </span>
                         <span class="description">{{ post.published}}</span>
                       </div>
@@ -105,7 +117,7 @@
                         <a href="" class="link-black text-sm"><i class="far fa-thumbs-up mr-1"></i> Like</a>
                         <span class="float-right">
                           <a href="" class="link-black text-sm">
-                            <i class="far fa-comments mr-1"></i> {{ post.comment.count}}
+                            <i class="far fa-comments mr-1"></i> {{ post.comments.count}}
                           </a>
                         </span>
                       </p>

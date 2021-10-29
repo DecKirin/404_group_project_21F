@@ -27,26 +27,26 @@
                                     </li>
                                     <li class="nav-item active">
                                         <a href="{% url 'Author:myposts' %}?status=1" class="nav-link">
-                                            <i class="fas fa-inbox"></i> Public
+                                             Public
                                             <span class="badge badge-danger float-right">{{ list_send_num }}</span>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="{% url 'Author:myposts' %}?status=2" class="nav-link">
-                                            <i class="far fa-envelope"></i> Private
+                                             Private
                                             <span class="badge bg-primary float-right">{{ list_receive_num }}</span>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="{% url 'Author:myposts' %}?status=3" class="nav-link">
-                                            <i class="far fa-file-alt"></i> Unlisted
+                                             Unlisted
                                             <span class="badge badge-info float-right">{{ list_solve_num }}</span>
                                         </a>
                                     </li>
 
                                     <li class="nav-item">
                                         <a href="{% url 'Author:myposts' %}?status=3" class="nav-link">
-                                            <i class="far fa-file-alt"></i> FriendsOnly
+                                             FriendsOnly
                                             <span class="badge badge-secondary float-right">{{ list_solve_num }}</span>
                                         </a>
                                     </li>

@@ -17,10 +17,11 @@ from django.contrib.auth import authenticate, login, logout
 from social_network.settings import SECRET_KEY
 
 
+# check if validation by admin is required to activate an author account
 def check_if_confirmation_required():
     try:
         confirm = RegisterControl.objects.all()
-        assert confirm!=None and list(confirm)!=[],"raise"
+        assert confirm != None and list(confirm) != [], "raise"
 
     except Exception:
         registerControl = RegisterControl()
@@ -30,6 +31,11 @@ def check_if_confirmation_required():
         return list(confirm)[0].free_registration
 
 
+'''
+URL: ://service/author/register
+GET: visit register page
+POST: submit an author account registeration
+'''
 class RegisterView(View):
     def get(self, request):
         return render(request, 'register.html')
@@ -68,7 +74,7 @@ class RegisterView(View):
 
         is_active = True
         if not check_if_confirmation_required():
-            is_active= False
+            is_active = False
         user = User.objects.create_user(username=username, email=email, password=password, first_name=userfname,
                                         last_name=userlname, is_active=is_active)
         # user.is_active = 1
@@ -79,6 +85,11 @@ class RegisterView(View):
         return HttpResponse(json.dumps(json_data))
 
 
+'''
+URL: ://service/author/login
+GET: visit login page
+POST: send verification information to login
+'''
 class LoginView(View):
     def get(self, request):
         username = ''
@@ -104,7 +115,6 @@ class LoginView(View):
 
         # validate data
         if not all([username, password]):
-            # return render(request, 'login.html', {'errmsg': '数据不完整'})
             error_msg_dic["code"] = "500"
             error_msg_dic["msg"] = "data missing"
             json_data.append(error_msg_dic)
@@ -115,7 +125,7 @@ class LoginView(View):
             # username and password correct
             '''
             if user.is_delete:
-                error_msg_dic["code"] = "700"
+                error_msg_dic["code"] = "401"
                 error_msg_dic["msg"] = "not active user"
                 json_data.append(error_msg_dic)
                 return HttpResponse(json.dumps(json_data))
@@ -127,8 +137,7 @@ class LoginView(View):
 
                 # acquire next page
                 # by default, go to index page
-                next_url = request.GET.get('next', reverse('Author:index'))
-
+                next_url = request.GET.get('next', reverse('Author:mystream'))
                 # # direct to next page
                 # response = redirect(next_url)  # HttpResponseRedirect
 
@@ -173,24 +182,61 @@ class LoginView(View):
 # the main page after user logining in,
 # probably should be stream page later!!!!!
 class IndexView(LoginRequiredMixin, View):
+    '''
+    def get(self, request):
+        # current logged in user
+        curr_user = request.user
+
+        page = int(request.GET.get("page", 1))
+        per_page = int(request.GET.get("size", 10))
+        posts = Post.objects.filter(author_id=curr_user.id).filter(visibility=1)
+        # inbox = Inbox.objects.filter(requests=friReqs)
+
+        paginator = Paginator(posts, per_page)
+        page_object = paginator.page(page)
+
+        try:
+            github = curr_user.github
+            githubUname = github.split("/")[-1]
+        except Exception:
+            githubUname = None
+
+        context = {
+            'id': id,
+            'current_author': curr_user,
+            'githubName': githubUname,
+            'myPosts': posts,
+            'page_object': page_object,
+            'page_range': paginator.page_range,
+        }
+
+        # used for testing
+        return render(request, 'mystream.html', context=context)
+        '''
     def get(self, request):
         username = request.session.get('username', '')
         if not username:
             return HttpResponseRedirect('author:login')
         else:
-            curr_user = User.objects.get(username=username)
-            #curr_user = request.user
+            curr_user = request.user
+            # curr_user = request.user
             context = {
                 'id': id,
                 'current_author': curr_user,
             }
-
         return render(request, 'base_index.html', context=context)
 
     def post(self, request):
-        return render(request, 'base_index.html')
-
-
+        curr_user = request.user
+        context = {
+            'id': id,
+            'current_author': curr_user,
+        }
+        return render(request, 'base_index.html', context=context)
+'''
+URL: ://service/author/logout
+GET: logout account
+'''
 class LogoutView(View):
     def get(self, request):
         request.session.delete()  # delete session ，but not cookie
@@ -198,11 +244,13 @@ class LogoutView(View):
         return redirect(reverse('Author:login'))
 
 
-
 class UserInfoView(LoginRequiredMixin, View):
     pass
 
-
+'''
+URL: ://service/author/<id>
+GET: retrieve a user's profile
+'''
 class UserProfileView(View):
     def get(self, request, id):
         # current logged in user
@@ -210,16 +258,14 @@ class UserProfileView(View):
         # the author who is viewed
         view_user = User.objects.get(id=id)
 
-
         page = int(request.GET.get("page", 1))
         per_page = int(request.GET.get("size", 10))
-
 
         try:
             github = view_user.github
             githubUname = github.split("/")[-1]
         except Exception:
-            githubUname=None
+            githubUname = None
 
         posts = Post.objects.filter(author_id=view_user.id).filter(visibility=1)
 
@@ -238,7 +284,10 @@ class UserProfileView(View):
 
         return render(request, 'author_profile.html', context=context)
 
-
+'''
+URL: ://service/author/authors/
+GET: Read a list of all user using a given paginator
+'''
 class AllUserProfileView(View):
     def get(self, request):
         curr_user = request.user
@@ -288,7 +337,7 @@ class SearchUserView(View):
             'page_range': paginator.page_range,
             'q': authorName,
             'page_size': per_page,
-            'current_page':page,
+            'current_page': page,
             'current_author': currentUser,
         }
         return render(request, "temp_for_search_authors_list.html", context=context)
@@ -309,8 +358,9 @@ class UserEditInfoView(LoginRequiredMixin, View):
         }
 
         # used for testing
-        # return render(request, 'index2.html', context=context)
+
         return render(request, 'profile_edit.html', context=context)
+
     def post(self, request):
         json_data = []
         error_msg_dic = {
@@ -320,7 +370,7 @@ class UserEditInfoView(LoginRequiredMixin, View):
         }
         current_user = request.user
         username = request.POST.get('username')
-        #username = request.POST['username']
+        # username = request.POST['username']
         first_name = request.POST.get('first_name')
         last_name = request.POST.get('last_name')
         email = request.POST.get('email')
@@ -351,7 +401,8 @@ class UserEditInfoView(LoginRequiredMixin, View):
         User.objects.filter(username=current_user.username).update(email=email,
                                                                    first_name=first_name, last_name=last_name,
                                                                    github=github)
-        return HttpResponseRedirect(reverse("Author:index"))
+        return HttpResponseRedirect(reverse("Author:mystream"))
+
 
 class InboxView(View):
 
@@ -361,11 +412,10 @@ class InboxView(View):
         per_page = int(request.GET.get("size", 10))
         friReqs = FriendRequest.objects.filter(receiver_id=curr_user.id)
 
-        #inbox = Inbox.objects.filter(requests=friReqs)
+        # inbox = Inbox.objects.filter(requests=friReqs)
 
         paginator = Paginator(friReqs, per_page)
         page_object = paginator.page(page)
-
 
         context = {
             'page_object': page_object,
@@ -378,95 +428,95 @@ class InboxView(View):
 
 
 class UserPostsView(View):
-        def get(self, request):
-            username = request.session.get('username', '')
-            if not username:
-                return HttpResponseRedirect('web:login')
+    def get(self, request):
+        username = request.session.get('username', '')
+        if not username:
+            return HttpResponseRedirect(reverse('Author:login'))
+        else:
+            # list_item_insert = []
+            # for i in range(100):
+            #     list_item_insert.append(
+            #         List(list_title="test title" + str(i), list_context="test content" + str(i), wxu_openid="15639616556"))
+            #     print(list_item_insert)
+            # List.objects.bulk_create(list_item_insert)
+            # return HttpResponse("ok")
+            curr_user = request.user
+
+            list_send_num = Post.objects.filter(author_id=curr_user.id).filter(visibility=1).count()
+            list_receive_num = Post.objects.filter(author_id=curr_user.id).filter(visibility=2).count()
+            list_solve_num = Post.objects.filter(author_id=curr_user.id).filter(visibility=3).count()
+            list_max = Post.objects.filter(author_id=curr_user.id).count()
+
+            page_num_int = int(request.GET.get('page', 1))
+            question_list = []
+            list_status = int(request.GET.get('status', 0))
+
+            if list_status > 0:
+                question_list = Post.objects.filter(visibility=list_status).order_by('visibility')
             else:
-                # list_item_insert = []
-                # for i in range(100):
-                #     list_item_insert.append(
-                #         List(list_title="test title" + str(i), list_context="test content" + str(i), wxu_openid="15639616556"))
-                #     print(list_item_insert)
-                # List.objects.bulk_create(list_item_insert)
-                # return HttpResponse("ok")
-                curr_user = request.user
+                question_list = Post.objects.all().order_by('visibility')
+            paginator = Paginator(question_list, 10)
 
-                list_send_num = Post.objects.filter(author_id=curr_user.id).filter(visibility=1).count()
-                list_receive_num = Post.objects.filter(author_id=curr_user.id).filter(visibility=2).count()
-                list_solve_num = Post.objects.filter(author_id=curr_user.id).filter(visibility=3).count()
-                list_max = Post.objects.filter(author_id=curr_user.id).count()
+            # if paginator.num_pages > 11:
+            #
+            #     if page_num_int - 5 < 1:
+            #         page_range = range(1, 11)
+            #     elif page_num_int + 5 > paginator.num_pages:
+            #         page_range = range(paginator.num_pages - 10, paginator.num_pages + 1)
+            #     else:
+            #         page_range = range(page_num_int - 5, page_num_int + 5)
+            # else:
+            #     page_range = paginator.page_range
 
-                page_num_int = int(request.GET.get('page', 1))
-                question_list = []
-                list_status = int(request.GET.get('status', 0))
-
-                if list_status > 0:
-                    question_list = Post.objects.filter(visibility=list_status).order_by('visibility')
-                else:
-                    question_list = Post.objects.all().order_by('visibility')
-                paginator = Paginator(question_list, 10)
-
-                # if paginator.num_pages > 11:
-                #
-                #     if page_num_int - 5 < 1:
-                #         page_range = range(1, 11)
-                #     elif page_num_int + 5 > paginator.num_pages:
-                #         page_range = range(paginator.num_pages - 10, paginator.num_pages + 1)
-                #     else:
-                #         page_range = range(page_num_int - 5, page_num_int + 5)
-                # else:
-                #     page_range = paginator.page_range
-
-                page = paginator.page(page_num_int)
-                # for list_item in page:
-                #     list_item["timespan"] = get_timespan(list_item.create_time)
-                data = {
-                    'status': list_status,
-                    'list_send_num': list_send_num,
-                    'list_receive_num': list_receive_num,
-                    'list_solve_num': list_solve_num,
-                    'list_max': list_max,
-                    'page': page,
-                    'recordset_max': question_list.count(),
-                    'page_num_int': page_num_int,
-                    'page_count_start': 10 * (page_num_int - 1) + 1,
-                    'page_count_end': 10 * (page_num_int - 1) + 10
-                }
-                return render(request, 'myposts.html', data)
+            page = paginator.page(page_num_int)
+            # for list_item in page:
+            #     list_item["timespan"] = get_timespan(list_item.create_time)
+            data = {
+                'status': list_status,
+                'list_send_num': list_send_num,
+                'list_receive_num': list_receive_num,
+                'list_solve_num': list_solve_num,
+                'list_max': list_max,
+                'page': page,
+                'recordset_max': question_list.count(),
+                'page_num_int': page_num_int,
+                'page_count_start': 10 * (page_num_int - 1) + 1,
+                'page_count_end': 10 * (page_num_int - 1) + 10,
+                'current_author': curr_user,
+            }
+            return render(request, 'myposts.html', data)
 
 
 class MyStreamView(LoginRequiredMixin, View):
-        def get(self, request):
-            # current logged in user
-            curr_user = request.user
+    def get(self, request):
+        # current logged in user
+        curr_user = request.user
 
-            page = int(request.GET.get("page", 1))
-            per_page = int(request.GET.get("size", 10))
-            posts = Post.objects.filter(author_id=curr_user.id).filter(visibility=1)
-            # inbox = Inbox.objects.filter(requests=friReqs)
+        page = int(request.GET.get("page", 1))
+        per_page = int(request.GET.get("size", 10))
+        posts = Post.objects.filter(author_id=curr_user.id).filter(visibility=1)
+        # inbox = Inbox.objects.filter(requests=friReqs)
 
-            paginator = Paginator(posts, per_page)
-            page_object = paginator.page(page)
+        paginator = Paginator(posts, per_page)
+        page_object = paginator.page(page)
 
-            try:
-                github = curr_user.github
-                githubUname = github.split("/")[-1]
-            except Exception:
-                githubUname = None
+        try:
+            github = curr_user.github
+            githubUname = github.split("/")[-1]
+        except Exception:
+            githubUname = None
 
-            context = {
-                'id': id,
-                'current_author': curr_user,
-                'githubName': githubUname,
-                'myPosts':posts,
-                'page_object': page_object,
-                'page_range': paginator.page_range,
-            }
+        context = {
+            'id': id,
+            'current_author': curr_user,
+            'githubName': githubUname,
+            'myPosts': posts,
+            'page_object': page_object,
+            'page_range': paginator.page_range,
+        }
 
-            # used for testing
-            # return render(request, 'index2.html', context=context)
-            return render(request, 'mystream.html', context=context)
+        # used for testing
+        return render(request, 'mystream.html', context=context)
 
 
 class AllPublicPostsView(View):
@@ -491,7 +541,3 @@ class AllPublicPostsView(View):
 
         response = render(request, 'all_public_posts_list.html', context=context)
         return response
-
-
-
-

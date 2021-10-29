@@ -1,7 +1,7 @@
 from django.urls import path, re_path
 from django.contrib.auth.decorators import login_required
-from Author.views import RegisterView, LoginView, UserInfoView, LogoutView, UserPostsView, IndexView, InboxView, \
-    UserProfileView, AllUserProfileView, SearchUserView, UserEditInfoView, MyStreamView, AllPublicPostsView
+from Author.views import RegisterView, LoginView, UserInfoView, LogoutView, UserPostsView, InboxView, \
+    UserProfileView, AllUserProfileView, SearchUserView, UserEditInfoView, MyStreamView, AllPublicPostsView, IndexView
 from friends.views import friends_list_view, send_friend_request, process_friend_request, followers_list_view, \
     follows_list_view, follower_view, un_befriend, my_list
 from Post.views import NewPostView, SpecificPostView, EditPostView, delete_post

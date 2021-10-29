@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from .models import Friend, FriendRequest, Follower, Follow
 from Author.models import User
@@ -6,6 +7,8 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.core.paginator import Paginator
 import logging
+
+
 # Create your views here.
 
 def un_befriend(request, id, delete):
@@ -32,7 +35,6 @@ def un_befriend(request, id, delete):
 
 
 def friends_list_view(request, id, *args, **kwargs):
-
     context = {}
     user = request.user
     view_user = User.objects.get(id=id)
@@ -40,16 +42,19 @@ def friends_list_view(request, id, *args, **kwargs):
     if create:
         context['friends'] = ['Does not have friend yet']
     else:
-        friend_list = friend.friends.all() #
+        friend_list = friend.friends.all()  #
         context['friends'] = friend_list
     context['delete'] = 'Un-befriend'
     return render(request, 'all_friends_list.html', context=context)
+
 
 '''
 URL: ://service/author/{AUTHOR_ID}/followers
 GET: get a list of authors who are their followers
 '''
-def followers_list_view(request,id,  *args, **kwargs):
+
+
+def followers_list_view(request, id, *args, **kwargs):
     context = {}
     user = request.user
     view_user = User.objects.get(id=id)
@@ -57,10 +62,11 @@ def followers_list_view(request,id,  *args, **kwargs):
     if create:
         context['friends'] = ['Does not have follow yet']
     else:
-        friend_list = follower.followers.all() #
+        friend_list = follower.followers.all()  #
         context['friends'] = friend_list
     context['delete'] = 'Un-follow'
     return render(request, 'all_friends_list.html', context=context)
+
 
 def follows_list_view(request, id, *args, **kwargs):
     context = {}
@@ -70,11 +76,13 @@ def follows_list_view(request, id, *args, **kwargs):
     if create:
         context['friends'] = ['Does not have follower yet']
     else:
-        friend_list = follower.follows.all() #
+        friend_list = follower.follows.all()  #
         context['friends'] = friend_list
     context['delete'] = 'Un-follow'
     return render(request, 'all_friends_list.html', context=context)
 
+
+@login_required(login_url='/author/login/')
 def my_list(request, relationship):
     context = {}
     user = request.user
@@ -107,12 +115,15 @@ def my_list(request, relationship):
         context['delete'] = 'Un-befriend'
     return render(request, 'my_friends_list.html', context=context)
 
+
 '''
 URL: ://service/author/{AUTHOR_ID}/followers/{FOREIGN_AUTHOR_ID}
 DELETE: remove a follower
 PUT: Add a follower (must be authenticated)
 GET check if follower
 '''
+
+
 class follower_view(View):
     def get(self, request, id, foreign_id):
         context = {}
@@ -167,9 +178,11 @@ def send_friend_request(request, foreign_id, *args, **kwargs):
 come after click on inbox message
 #todo: what happened after making decision
 '''
+
+
 class process_friend_request(View):
 
-    def get(self,request, request_id):
+    def get(self, request, request_id):
         context = {}
         friend_request = FriendRequest.objects.get(request_id=request_id)
         request_user = friend_request.sender
