@@ -112,9 +112,9 @@
                       <!-- /.user-block -->
                           <p>
                               {% if post.contentType == 'text/plain' %}
-                              {{ post.content | markdown | safe }}
+                                {{ post.content }}
                               {% else %}
-                              {{ post.content }}
+                                  {{ post.content | markdown | safe }}
                               {% endif %}
                           </p>
 
