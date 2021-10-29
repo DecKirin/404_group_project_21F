@@ -32,3 +32,12 @@ class TestModels(TestCase):
         post_like = PostLike.objects.all()
         AssertTrue(post_like., "")
 
+    def test_model_PostComment(self):
+        PostComment.objects.create(id_comment='utdcdjvbd80000000',post=Post.objects.get(id='post_id_1'),author_comment=User.objects.get(id='user_id_1'),comment_content="test for comments",published = "now")
+        post_comment = PostComment.objects.all()
+        self.assertEqual(post_comment.comment_content,"test for comments")
+        self.assertEqual(post_comment.id_comment,"utdcdjvbd80000000")
+        self.assertEqual(post_comment.author_comment,User.objects.get(id='user_id_1'))
+
+    
+   
