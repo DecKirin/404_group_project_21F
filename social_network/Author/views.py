@@ -401,6 +401,30 @@ class InterFRInboxView(View):
         return response
 
 
+class InterPostInboxView(View):
+    def get(self, request):
+        '''curr_user = request.user
+        page = int(request.GET.get("page", 1))
+        per_page = int(request.GET.get("size", 10))
+        Post = FriendRequest.objects.filter(receiver_id=curr_user.id)
+
+        #inbox = Inbox.objects.filter(requests=friReqs)
+
+        paginator = Paginator(friReqs, per_page)
+        page_object = paginator.page(page)
+
+
+        context = {
+            'page_object': page_object,
+            'page_range': paginator.page_range,
+        }
+
+        response = render(request, 'temp_inbox.html', context=context)
+
+        return response'''
+        pass
+
+
 class UserPostsView(View):
         def get(self, request):
             username = request.session.get('username', '')
