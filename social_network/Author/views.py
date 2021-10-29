@@ -347,7 +347,11 @@ class UserPostsView(View):
     def get(self, request):
         pass
 
-
+'''
+URL: ://service/author/login
+GET: visit login page
+POST: send verification information to login
+'''
 class UserEditInfoView(LoginRequiredMixin, View):
     def get(self, request):
         # current logged in user
