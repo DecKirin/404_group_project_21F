@@ -182,7 +182,7 @@ class LoginView(View):
 # the main page after user logining in,
 # probably should be stream page later!!!!!
 class IndexView(LoginRequiredMixin, View):
-    '''
+
     def get(self, request):
         # current logged in user
         curr_user = request.user
@@ -212,27 +212,7 @@ class IndexView(LoginRequiredMixin, View):
 
         # used for testing
         return render(request, 'mystream.html', context=context)
-        '''
-    def get(self, request):
-        username = request.session.get('username', '')
-        if not username:
-            return HttpResponseRedirect('author:login')
-        else:
-            curr_user = request.user
-            # curr_user = request.user
-            context = {
-                'id': id,
-                'current_author': curr_user,
-            }
-        return render(request, 'base_index.html', context=context)
 
-    def post(self, request):
-        curr_user = request.user
-        context = {
-            'id': id,
-            'current_author': curr_user,
-        }
-        return render(request, 'base_index.html', context=context)
 '''
 URL: ://service/author/logout
 GET: logout account

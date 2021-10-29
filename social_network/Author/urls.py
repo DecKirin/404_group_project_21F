@@ -12,16 +12,16 @@ urlpatterns = [
 
     path('newpost/', NewPostView.as_view(), name='newpost'),
     path('searchAuthor/', SearchUserView.as_view(), name='search_user'),
-    path('<id>/friends/', friends_list_view, name='friend'),
-    path('<id>/followers/', followers_list_view, name='follower'),
-    path('<id>/followers/<foreign_id>', follower_view.as_view(), name='foreign_follower'),
-    path('<id>/follows/', follows_list_view, name='follow'),
-    path('<author_id>/posts/<post_id>/', SpecificPostView.as_view(), name='specific_post'),
-    path('<author_id>/posts/<post_id>/edit/', EditPostView.as_view(), name='edit_post'),
-    path('<author_id>/posts/<post_id>/delete/', delete_post, name='delete_post'),
-    path('<author_id>/posts/<post_id>/like/', like_post, name='like_post'),
-    path('<author_id>/posts/<post_id>/unlike/', unlike_post, name='unlike_post'),
-    path('<author_id>/posts/<post_id>/comment/', CreatePostComment.as_view(), name='post_comment'),
+    path('<uuid:id>/friends/', friends_list_view, name='friend'),
+    path('<uuid:id>/followers/', followers_list_view, name='follower'),
+    path('<uuid:id>/followers/<foreign_id>', follower_view.as_view(), name='foreign_follower'),
+    path('<uuid:id>/follows/', follows_list_view, name='follow'),
+    path('<uuid:author_id>/posts/<post_id>/', SpecificPostView.as_view(), name='specific_post'),
+    path('<uuid:author_id>/posts/<post_id>/edit/', EditPostView.as_view(), name='edit_post'),
+    path('<uuid:author_id>/posts/<post_id>/delete/', delete_post, name='delete_post'),
+    path('<uuid:author_id>/posts/<post_id>/like/', like_post, name='like_post'),
+    path('<uuid:author_id>/posts/<post_id>/unlike/', unlike_post, name='unlike_post'),
+    path('<uuid:author_id>/posts/<post_id>/comment/', CreatePostComment.as_view(), name='post_comment'),
     # author successfully send the friend request
     path('friendrequest/<foreign_id>', send_friend_request, name='friend_request'),
     path('accept/<request_id>', process_friend_request.as_view(), name='accept'),
@@ -45,13 +45,13 @@ urlpatterns = [
     # display all user profiles
     # page to view other user's profile
 
-    path('<id>/', UserProfileView.as_view(), name='profile'),
+    path('<uuid:id>/', UserProfileView.as_view(), name='profile'),
     # Inboxes
-    path('<id>/inbox/', login_required(InboxView.as_view()), name='inbox'),
+    path('<uuid:id>/inbox/', login_required(InboxView.as_view()), name='inbox'),
     path('inbox/fr', login_required(InterFRInboxView.as_view()), name='inter_FRinbox'),
     path('inbox/posts', login_required(InterPostInboxView.as_view()), name='inter_postinbox'),
 
     path('posts/allPublicPosts/', AllPublicPostsView.as_view(), name='all_public_posts'),
     # Un-befriend
-    path('<id>/<delete>', un_befriend, name='un_befriend'),
+    path('<uuid:id>/<delete>', un_befriend, name='un_befriend'),
 ]
