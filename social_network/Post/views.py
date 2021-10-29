@@ -61,7 +61,10 @@ class NewPostView(View):
             select_user = int(request.POST.get('select_user', ''))  # TODO: id要改成选user
         except Exception:
             select_user = None
-        image = request.FILES['image']
+        try:
+            image = request.FILES['image']
+        except Exception:
+            image = None
         Post.objects.create(title=title, id=post_id, source=source, origin=origin, description=description,
                             contentType=content_type, content=content, author=request.user, categories=categories,
                             visibility=visibility, unlisted=unlisted, select_user=select_user, image=image)
@@ -217,7 +220,7 @@ class SpecificPostView(View):
             if postlike.who_like == current_user:
                 liked = True
         im_author = False
-        print(post.image.url)
+
         if str(my_id) == str(author_id):
             im_author = True
         if post.author.id != int(author_id):  # TODO: not int later
