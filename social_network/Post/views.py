@@ -8,7 +8,7 @@ from rest_framework import serializers
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.http import HttpResponse
-from Post.models import Postlike, Postcomment
+from Post.models import PostLike, PostComment
 
 
 # class PostSerializer(serializers.ModelSerializer):
