@@ -267,6 +267,8 @@ class UserProfileView(View):
 '''
 URL: ://service/author/authors/
 GET: Read a list of all user using a given paginator
+page: how many pages
+size: how big is a page
 '''
 class AllUserProfileView(View):
     def get(self, request):
@@ -300,6 +302,14 @@ class AllUserProfileView(View):
 # https://www.youtube.com/watch?v=-Vu7Kh-SxEA
 # https://docs.djangoproject.com/en/3.2/topics/db/search/
 # the view to list all searched user
+
+'''
+URL: ://service/author/logout
+GET: search
+q: (part of) intended username
+page: how many pages
+size: how big is a page
+'''
 class SearchUserView(View):
     def get(self, request):
         authorName = request.GET.get("q")
@@ -328,9 +338,9 @@ class UserPostsView(View):
         pass
 
 '''
-URL: ://service/author/login
-GET: visit login page
-POST: send verification information to login
+URL: ://service/author/editProfile/
+GET: visit edit profile page(need login)
+POST: change profile by send post data of editable fields
 '''
 class UserEditInfoView(LoginRequiredMixin, View):
     def get(self, request):
@@ -460,7 +470,12 @@ class InterPostInboxView(View):
 
         return response
 
-
+'''
+URL: ://service/author/myposts
+GET: retrive all posts made by current author, could be filtered by post type and patched by paginator
+status: the status code of post, 0 for all, 1 for public 2 for private....
+page: number of page
+'''
 class UserPostsView(View):
     def get(self, request):
         username = request.session.get('username', '')
@@ -521,6 +536,12 @@ class UserPostsView(View):
             return render(request, 'myposts.html', data)
 
 
+'''
+URL: ://service/author/mystream
+GET: retrive github pages and all posts that are accessble by current author
+page:number of pages
+size: # of posts each page
+'''
 class MyStreamView(LoginRequiredMixin, View):
     def get(self, request):
         # current logged in user
@@ -552,7 +573,12 @@ class MyStreamView(LoginRequiredMixin, View):
         # used for testing
         return render(request, 'mystream.html', context=context)
 
-
+'''
+URL: ://service/author/allPublicPosts
+GET: retrive all public posts
+page:number of pages
+size: # of posts each page
+'''
 class AllPublicPostsView(View):
     def get(self, request):
         curr_user = request.user
