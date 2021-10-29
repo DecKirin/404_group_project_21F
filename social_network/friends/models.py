@@ -58,7 +58,9 @@ class FriendRequest(models.Model):
         receiver_friend, create_receiver = Friend.objects.get_or_create(user=self.receiver)
         receiver_friend.add_friend(self.sender)
         sender_friend.add_friend(self.receiver)
-        self.repond_status = True
+        self.respond_status = True
+        self.save()
 
     def decline_request(self):
-        self.repond_status = True
+        self.respond_status = True
+        self.save()
