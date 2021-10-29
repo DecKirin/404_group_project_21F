@@ -219,9 +219,15 @@ class SpecificPostView(View):
       
 def createLikePost(request,post_id1):
     cur_post = Post.objects.get(id=post_id)
-    cur_user = request.user.filter(post_id=post_id1)
-    likes = Postlike.objects
-    if cur_post.visibility == "1": 
+    author_like = request.user
+    likes = Postlike.objects.filter(post_id=post_id1)
+    context = {
+        'author': author_like,
+        'post': cur_post,
+        'likes': likes
+    }
+    return redirect(reverse('Author:index'))
+    
 
 def createCommentPost(request,post_id):
     author_comment = request.user
