@@ -18,9 +18,9 @@ class RegisterControl(models.Model):
 
 
 class User(AbstractUser):
-    # id = models.UUIDField(primary_key=True, default=uuid.uuid4, unique=True)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, unique=True)
     # id = models.UUIDField(primary_key=True, default=uuid.uuid4())
-    id = models.AutoField(primary_key=True)
+    #id = models.AutoField(primary_key=True)
     username = models.CharField(max_length=20, unique=True)
     profile_image = models.URLField(blank=True)
     email = models.CharField(max_length=20, unique=True)
