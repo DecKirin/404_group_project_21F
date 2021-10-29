@@ -16,8 +16,8 @@ urlpatterns = [
     path('<id>/followers/<foreign_id>', follower_view.as_view(), name='foreign_follower'),
     path('<id>/follows/', follows_list_view, name='follow'),
     path('<author_id>/posts/<post_id>/', SpecificPostView.as_view(), name='specific_post'),
-    path('<id>/posts/<post_id>/edit/', EditPostView.as_view(), name='edit_post'),
-    path('<id>/posts/<post_id>/delete', delete_post, name='delete_post'),
+    path('<author_id>/posts/<post_id>/edit/', EditPostView.as_view(), name='edit_post'),
+    path('<author_id>/posts/<post_id>/delete', delete_post, name='delete_post'),
     # author successfully send the friend request
     path('friendrequest/<foreign_id>', send_friend_request, name='friend_request'),
     path('accept/<request_id>', process_friend_request.as_view(), name='accept'),
