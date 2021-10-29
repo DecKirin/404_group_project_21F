@@ -9,10 +9,18 @@ import uuid
 
 class AuthorTestCase(TestCase):
     def setUp(self):
-        User.objects.create(username="testuser101",
+        self.author=User.objects.create(username="testuser101",
                             first_name="test_first",
                             last_name="test_last",
                             password="password",
                             email="testemail@email.ca",
                             github="https://github.com/XZPshaw")
-        
+
+    def test_create_author(self):
+        self.assertEqual(self.author.username, "testuser101")
+        self.assertEqual(self.author.email, "testemail@email.ca")
+        self.assertEqual(self.author.first_name, "test_first")
+        self.assertEqual(self.author.last_name, "test_last")
+        self.assertEqual(self.github, "https://github.com/XZPshaw")
+
+

@@ -20,7 +20,7 @@ ContentType = [
 class PostLike(models.Model):
     published = models.DateTimeField(auto_now_add=True)
     post = models.ForeignKey(Post, related_name='post_like', on_delete=models.CASCADE, null=True)
-    who_like = models.ForeignKey(User, on_delete=models.CASCADE)
+    who_like = models.ForeignKey(User, related_name='likes', on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'likes'

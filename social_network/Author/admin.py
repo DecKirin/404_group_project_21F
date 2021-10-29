@@ -25,7 +25,6 @@ def deactivate_user(modeladmin, request, queryset):
     queryset.update(is_active=False)
 
 
-
 class PostInline(admin.TabularInline):
     model = Post
     extra = 1
@@ -39,18 +38,18 @@ class PostInline(admin.TabularInline):
 #
 # https://www.youtube.com/watch?v=Ae7nc1EGv-A&t=1112s
 class UserProfileAdmin(admin.ModelAdmin):
-
     inlines = [
         PostInline,
 
     ]
 
-    list_display = ("email", "username", "is_active", "created", "view_posts_link", "view_likes_link", "view_comments_link")
+    list_display = (
+    "email", "username", "is_active", "created", "view_posts_link", "view_likes_link", "view_comments_link")
     # list_display = ("email", "username", "is_active", "created", "view_posts_link", "view_friends_link",
     #                "view_likes_link", "view_comments_link")
 
     # list_display = ("email", "username", "is_active", "created", "view_friends_link","view_follows_link", "view_follower_link")
-    search_fields = ("username",)
+    search_fields = ("username","id")
     list_filter = ("is_active", "created")
     fieldsets = (
         (None, {'fields': ('email', 'username', 'first_name', 'last_name', 'u_phone',)}),
@@ -81,7 +80,6 @@ class UserProfileAdmin(admin.ModelAdmin):
 
     view_friends_link.short_description = "Friends"
     '''
-
     '''
     def view_follow_link(self, obj):
         count = obj.follows.count()
@@ -99,34 +97,43 @@ class UserProfileAdmin(admin.ModelAdmin):
         return format_html('<a href="{}">{} Posts</a>', url, count)
     view_followers_link.short_description = "followers"
     '''
+
     def view_likes_link(self, obj):
         count = obj.likes.count()
         url = (
-                reverse("admin:Author_like_changelist") + "?" + urlencode({"q": f"{obj.id}"})
+                reverse("admin:Post_postlike_changelist") + "?" + urlencode({"q": f"{obj.id}"})
         )
-        return format_html('<a href="{}">{} Likes</a>', url, count)
+        return format_html('<a href="{}">{} likes</a>', url, count)
 
     view_likes_link.short_description = "likes"
 
     def view_comments_link(self, obj):
         count = obj.comments.count()
         url = (
-                reverse("admin:Author_comment_changelist") + "?" + urlencode({"q": f"{obj.id}"})
+                reverse("admin:Post_postcomment_changelist") + "?" + urlencode({"q": f"{obj.id}"})
         )
         return format_html('<a href="{}">{} Comments </a>', url, count)
 
     view_comments_link.short_description = "comments"
 
-class PostsAdmin(admin.ModelAdmin):
-    list_display = ("type", "id", "author", "title", "published", "view_comments_link", "view_likes_link")
-    search_fields = ("title", "author__id", "author__username")
-    list_filter = ("published", "author")
 
+class PostsAdmin(admin.ModelAdmin):
+    list_display = ("id", "view_author_link", "title", "published", "view_comments_link", "view_likes_link")
+    search_fields = ("id","title", "author__id", "author__username")
+    list_filter = ("published", "author", "visibility")
+
+    def view_author_link(self,obj):
+        url = (
+                reverse("admin:Author_user_changelist") + "?" + urlencode({"q": f"{obj.author.id}"})
+        )
+        return format_html('<a href="{}">{}</a>', url, obj.author.username)
+
+    view_author_link.short_description = "Author"
 
     def view_comments_link(self, obj):
         count = obj.comments.count()
         url = (
-                reverse("admin:Author_comment_changelist") + "?" + urlencode({"q": f"{obj.id}"})
+                reverse("admin:Post_postcomment_changelist") + "?" + urlencode({"q": f"{obj.id}"})
         )
         return format_html('<a href="{}">{} Comments</a>', url, count)
 
@@ -135,9 +142,9 @@ class PostsAdmin(admin.ModelAdmin):
     # view_comments_link.admin_order_field = 'count'
 
     def view_likes_link(self, obj):
-        count = obj.likes.count()
+        count = obj.post_like.count()
         url = (
-                reverse("admin:Author_like_changelist") + "?" + urlencode({"q": f"{obj.id}"})
+                reverse("admin:Post_postlike_changelist") + "?" + urlencode({"q": f"{obj.id}"})
         )
         return format_html('<a href="{}">{} Likes</a>', url, count)
 
@@ -146,7 +153,7 @@ class PostsAdmin(admin.ModelAdmin):
 
 # Register your models here.
 class CommentsAdmin(admin.ModelAdmin):
-    list_display = ("id_comment", "post", "author_comment", "comment_content", "published")
+    list_display = ("id_comment", "post", "comment_content", "published")
     search_fields = ("post__id", "author__id", "author__username")
     list_filter = ("published", "author_comment")
 
@@ -167,9 +174,24 @@ class CommentsAdmin(admin.ModelAdmin):
     view_author_link.short_description = "Author"
 
 
+class LikesAdmin(admin.ModelAdmin):
+    list_display = ("id", "post", "who_like", "published")
 
+    def view_author_link(self, obj):
+        url = (
+                reverse("admin:Author_user_changelist") + "?" + urlencode({"q": f"{obj.author.id}"})
+        )
+        return format_html('<a href="{}">{}</a>', url, obj.author.username)
 
+    view_author_link.short_description = "Author"
 
+    def view_post_link(self, obj):
+        url = (
+                reverse("admin:Author_post_changelist") + "?" + urlencode({"q": f"{obj.post.id}"})
+        )
+        return format_html('<a href="{}">{}</a>', url, obj.post.title)
+
+    view_post_link.short_description = "Post"
 
 class RegisterControlAdmin(admin.ModelAdmin):
 
@@ -180,11 +202,54 @@ class RegisterControlAdmin(admin.ModelAdmin):
         return False
 
 
+class FollowAdmin(admin.ModelAdmin):
+    list_display = ("id", "view_author_link", "show_all_follows")
+    search_fields = ("user",)
+    def view_author_link(self, obj):
+        url = (
+                reverse("admin:Author_user_changelist") + "?" + urlencode({"q": f"{obj.user.id}"})
+        )
+        return format_html('<a href="{}">{}</a>', url, obj.user.username)
+
+    view_author_link.short_description = "Author"
+
+    def show_all_follows(self, obj):
+        return "\n".join([a.username for a in obj.follows.all()])
+
+
+
+class FollowerAdmin(admin.ModelAdmin):
+    list_display = ("id", "view_author_link", "show_all_followers")
+    search_fields = ("user",)
+
+    def view_author_link(self, obj):
+        url = (
+                reverse("admin:Author_user_changelist") + "?" + urlencode({"q": f"{obj.user.id}"})
+        )
+        return format_html('<a href="{}">{}</a>', url, obj.user.username)
+
+    view_author_link.short_description = "Author"
+
+    def show_all_followers(self, obj):
+        return "\n".join([a.username for a in obj.followers.all()])
+
+class FriendAdmin(admin.ModelAdmin):
+    list_display = ("id", "view_author_link", "show_all_friends")
+    search_fields = ("user",)
+    def view_author_link(self, obj):
+        url = (
+                reverse("admin:Author_user_changelist") + "?" + urlencode({"q": f"{obj.user.id}"})
+        )
+        return format_html('<a href="{}">{}</a>', url, obj.user.username)
+
+    def show_all_friends(self, obj):
+        return "\n".join([a.username for a in obj.friends.all()])
+
 admin.site.register(User, UserProfileAdmin)
 admin.site.register(Post, PostsAdmin)
 admin.site.register(PostComment, CommentsAdmin)
-admin.site.register(PostLike)
-admin.site.register(Friend)
+admin.site.register(PostLike, LikesAdmin)
+admin.site.register(Friend, FriendAdmin)
 admin.site.register(RegisterControl, RegisterControlAdmin)
-admin.site.register(Follow)
-admin.site.register(Follower)
+admin.site.register(Follow, FollowAdmin)
+admin.site.register(Follower, FollowerAdmin)
