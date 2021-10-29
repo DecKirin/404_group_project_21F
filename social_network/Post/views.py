@@ -228,8 +228,7 @@ class SpecificPostView(View):
 
         if str(my_id) == str(author_id):
             im_author = True
-        if post.author.id != int(author_id):  # TODO: not int later
-            print(post.author.id, author_id)
+        if post.author.id != author_id:  
             return HttpResponse("The author id and post id does not match!")
 
         comments = PostComment.objects.filter(post=post).order_by('-published')
