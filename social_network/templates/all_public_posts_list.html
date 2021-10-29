@@ -18,7 +18,7 @@
                 {% for post in page_object.object_list %}
                 <div class="card">
                   <div class="card-header">
-                      <h3><a class="nav-link active" href="#activity" data-toggle="tab">{{ post.title }}</a></h3>
+                      <h3><a class="nav-link active" href="{% url "Author:specific_post" post.author.id post.id %}" data-toggle="tab">{{ post.title }}</a></h3>
                   </div><!-- /.card-header -->
                   <div class="card-body">
                     <div class="tab-content">

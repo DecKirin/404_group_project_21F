@@ -148,7 +148,7 @@
                                                     </td>
                                                 {% endif %}
                                                 <td class="mailbox-name"><a
-                                                        href="{% url 'Author:myposts' %}?listid={{ question.id }}"
+                                                        href="{% url "Author:specific_post" question.author.id question.id %}"
                                                         target="_blank">{{ question.title }}</a>
                                                 </td>
                                                 <td class="mailbox-subject"><b>{{ question.categories }}</b>
