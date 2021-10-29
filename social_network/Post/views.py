@@ -47,7 +47,7 @@ class NewPostView(View):
         content_type = request.POST.get('content_type', '')
         content = request.POST.get('content', '')
 
-        categories = request.POST.get('categories', '')  # TODO
+        categories = request.POST.get('categories', '')
         categories = process_categories(categories)
 
         description = request.POST.get('description', '')
@@ -57,10 +57,13 @@ class NewPostView(View):
         post_id = uuid.uuid4().hex
         post_id = str(post_id)
         visibility = int(request.POST.get('visibility', ''))
-        try:
-            select_user = int(request.POST.get('select_user', ''))  # TODO: id要改成选user
-        except Exception:
-            select_user = None
+        select_user = request.POST.get('select_user', '')
+        if select_user != '' and visibility == 3:
+            try:
+                user = User.objects.get(username=select_user)
+            except Exception:
+                return HttpResponse("Failed: No such user.")
+
         image = request.FILES['image']
         Post.objects.create(title=title, id=post_id, source=source, origin=origin, description=description,
                             contentType=content_type, content=content, author=request.user, categories=categories,
