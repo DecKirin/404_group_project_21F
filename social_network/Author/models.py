@@ -4,7 +4,6 @@ from friends.models import FriendRequest
 import uuid
 from django.utils import timezone
 
-
 # for slug and unique id
 # https://www.youtube.com/watch?v=dJqWO-lSgWY
 from social_network import settings
@@ -20,7 +19,7 @@ class RegisterControl(models.Model):
 class User(AbstractUser):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, unique=True)
     # id = models.UUIDField(primary_key=True, default=uuid.uuid4())
-    #id = models.AutoField(primary_key=True)
+    # id = models.AutoField(primary_key=True)
     username = models.CharField(max_length=20, unique=True)
     profile_image = models.URLField(blank=True)
     email = models.CharField(max_length=20, unique=True)
@@ -40,11 +39,11 @@ class User(AbstractUser):
 
 
 ContentType = [
-    ('text/markdown','text/markdown'),
-    ('text/plain','text/plain'),
-    ('application/base64','application/base64'),
-    ('image/png;base64','image/png;base64'),
-    ('image/jpeg;base64','image/jpeg;base64')
+    ('text/markdown', 'text/markdown'),
+    ('text/plain', 'text/plain'),
+    ('application/base64', 'application/base64'),
+    ('image/png;base64', 'image/png;base64'),
+    ('image/jpeg;base64', 'image/jpeg;base64')
 ]
 
 
@@ -57,18 +56,19 @@ class Post(models.Model):
     }
     type = 'post'
     title = models.CharField(max_length=128)
-    id = models.CharField(max_length=128,primary_key=True)
+    id = models.CharField(max_length=128, primary_key=True)
     source = models.URLField(blank=True)
     origin = models.URLField(blank=True)
     description = models.CharField(max_length=500, blank=True)
     contentType = models.TextField(null=False, choices=ContentType, default='text/plain')
     content = models.TextField(blank=True)
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='posts', on_delete=models.CASCADE, null=False, default=1)  # TODO: edit default value
-    #categories = models.JSONField(null=True)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='posts', on_delete=models.CASCADE, null=False,
+                               default=1)  # TODO: edit default value
+    # categories = models.JSONField(null=True)
     categories = models.CharField(max_length=500, blank=True)
     # author = models.ForeignKey(Author, on_delete=models.CASCADE, null=True)
     count = models.IntegerField(default=0)
-    #comments = models.CharField(max_length=500,blank=True)
+    # comments = models.CharField(max_length=500,blank=True)
     published = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now_add=True)
     visibility = models.SmallIntegerField(default=1, choices=visibility_choices)
@@ -79,6 +79,7 @@ class Post(models.Model):
     class Meta:
         ordering = ('published',)
         db_table = 'posts'
+
 
 '''
 class Comment(models.Model):
@@ -158,10 +159,17 @@ class Friend(models.Model):
 '''
 
 
-
 class Inbox(models.Model):
     type = "inbox"
     author = models.ForeignKey(User, related_name='inbox', on_delete=models.CASCADE, null=False)
     items = models.CharField(blank=True, max_length=200)
     requests = models.ForeignKey(FriendRequest, related_name='inbox', on_delete=models.CASCADE, null=False)
-    #Todo:Fetch Posts
+    # Todo:Fetch Posts
+
+
+'''add external host server(node)'''
+class Node(models.Model):
+    host = models.URLField(default="", primary_key=True, unique=True)
+
+    def get_host(self):
+        return self.host

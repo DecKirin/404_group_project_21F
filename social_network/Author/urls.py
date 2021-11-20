@@ -3,9 +3,10 @@ from django.contrib.auth.decorators import login_required
 from Author.views import RegisterView, LoginView, UserInfoView, LogoutView, UserPostsView, IndexView, InterFRInboxView, InterPostInboxView, InboxView, \
     UserProfileView, AllUserProfileView, SearchUserView, UserEditInfoView, MyStreamView, AllPublicPostsView
 from friends.views import friends_list_view, send_friend_request, process_friend_request, followers_list_view, \
-    follows_list_view, follower_view, un_befriend, my_list
+    follows_list_view, follower_view, un_befriend, my_list , APIFollowsByIdView, APIFollowersByIdView, APIFriendsByIdView
 from Post.views import NewPostView, SpecificPostView, EditPostView, delete_post, like_post, unlike_post, CreatePostComment
 
+from Author.views import APIAllProfileView, APIAuthorProfileView
 
 app_name = 'Author'
 urlpatterns = [
@@ -54,4 +55,14 @@ urlpatterns = [
     path('posts/allPublicPosts/', AllPublicPostsView.as_view(), name='all_public_posts'),
     # Un-befriend
     path('<uuid:id>/<delete>', un_befriend, name='un_befriend'),
+
+
+    # below are URLs for API only
+    path('api/authors/', APIAllProfileView.as_view(), name="api_authors"),
+    path('api/<uuid:id>/', APIAuthorProfileView.as_view(), name="api_author_by_id"),
+    path('api/<uuid:id>/follows', APIFollowsByIdView.as_view(), name="api_follows_by_id"),
+    path('api/<uuid:id>/followers', APIFollowersByIdView.as_view(), name="api_followers_by_id"),
+    path('api/<uuid:id>/friends', APIFriendsByIdView.as_view(), name="api_friends_by_id"),
+
+
 ]
