@@ -31,16 +31,16 @@ urlpatterns = [
     # check inbox to get sent request
     path('sentrequest/<request_id>', process_friend_request.as_view(), name='process_request'),
     path('authors/', AllUserProfileView.as_view(), name='all_authors'),
-    path('register/', RegisterView.as_view(), name='register'),
-    path('login/', LoginView.as_view(), name='login'),
-    path('logout/', LogoutView.as_view(), name='logout'),
+    path('author/register/', RegisterView.as_view(), name='register'),
+    path('author/login/', LoginView.as_view(), name='login'),
+    path('author/logout/', LogoutView.as_view(), name='logout'),
     # home page after logging in
     path('index/', IndexView.as_view(), name='index'),
     # account page of logged in user
     path('account/', login_required(UserInfoView.as_view()), name='info'),
     # view a my posts as login in user in a list
     path('myposts/', login_required(UserPostsView.as_view()), name='myposts'),
-    path('myStream/', login_required(MyStreamView.as_view()), name='mystream'),
+    path('author/myStream/', login_required(MyStreamView.as_view()), name='mystream'),
 
     path('editProfile/', login_required(UserEditInfoView.as_view()), name='edit_profile'),
     # display all user profiles
@@ -59,10 +59,10 @@ urlpatterns = [
 
     # below are URLs for API only
     path('api/authors/', APIAllProfileView.as_view(), name="api_authors"),
-    path('api/<uuid:id>/', APIAuthorProfileView.as_view(), name="api_author_by_id"),
-    path('api/<uuid:id>/follows', APIFollowsByIdView.as_view(), name="api_follows_by_id"),
-    path('api/<uuid:id>/followers', APIFollowersByIdView.as_view(), name="api_followers_by_id"),
-    path('api/<uuid:id>/friends', APIFriendsByIdView.as_view(), name="api_friends_by_id"),
+    path('api/author/<uuid:id>/', APIAuthorProfileView.as_view(), name="api_author_by_id"),
+    path('api/author/<uuid:id>/follows', APIFollowsByIdView.as_view(), name="api_follows_by_id"),
+    path('api/author/<uuid:id>/followers', APIFollowersByIdView.as_view(), name="api_followers_by_id"),
+    path('api/author/<uuid:id>/friends', APIFriendsByIdView.as_view(), name="api_friends_by_id"),
 
 
 ]
