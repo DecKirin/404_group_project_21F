@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6639ff7a-d651-48dc-9929-7225c60edcac" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/social_network/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/social_network/settings.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -138,6 +138,7 @@
       <workItem from="1637557415469" duration="902000" />
       <workItem from="1637558343797" duration="163000" />
       <workItem from="1637560125473" duration="245000" />
+      <workItem from="1637561375537" duration="126000" />
     </task>
     <servers />
   </component>
