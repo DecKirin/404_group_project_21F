@@ -17,6 +17,7 @@ class RegisterControl(models.Model):
 
 
 class User(AbstractUser):
+    type = 'author'
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, unique=True)
     # id = models.UUIDField(primary_key=True, default=uuid.uuid4())
     # id = models.AutoField(primary_key=True)

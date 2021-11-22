@@ -14,7 +14,7 @@ from rest_framework.renderers import JSONRenderer, BrowsableAPIRenderer
 
 from rest_framework.renderers import TemplateHTMLRenderer
 
-from Author.serializers import UserSerializer
+from Author.serializers import UserSerializer, PostSerializer, CommentSerializer
 from friends.models import FriendRequest
 import Author
 from Author.models import User, RegisterControl, Inbox, Post
@@ -307,7 +307,6 @@ class AllUserProfileView(View):
         page_object = paginator.page(page)
         serializer = UserSerializer(page_object, many=True)
 
-
         # time.sleep(5)
         context = {
             'page_object': page_object,
@@ -320,6 +319,7 @@ class AllUserProfileView(View):
         response = render(request, 'temp_for_all_authors_list.html', context=context)
         # response = render(request, 'all_authors_list.html', context=context)
         return response
+
 
 # https://www.youtube.com/watch?v=-Vu7Kh-SxEA
 # https://docs.djangoproject.com/en/3.2/topics/db/search/
@@ -574,6 +574,7 @@ page:number of pages
 size: # of posts each page
 '''
 
+
 class MyStreamView(LoginRequiredMixin, View):
     def get(self, request):
         # current logged in user
@@ -637,7 +638,8 @@ class AllPublicPostsView(View):
         response = render(request, 'all_public_posts_list.html', context=context)
         return response
 
-#https://www.shuzhiduo.com/A/Ae5R8BeMzQ/
+
+# https://www.shuzhiduo.com/A/Ae5R8BeMzQ/
 
 '''API views below'''
 # http://127.0.0.1:8000/author/api/authors?page=1&size=1
@@ -652,6 +654,8 @@ class AllPublicPostsView(View):
     "github": "https://github.com/zqq66"
 }]
 '''
+
+
 class APIAllProfileView(APIView):
     def get(self, request):
         # alternative approach, just use username
@@ -671,6 +675,8 @@ class APIAllProfileView(APIView):
         # response = render(request, 'temp_for_all_authors_list.html', context=context)
         # response = render(request, 'all_authors_list.html', context=context)
         return response
+
+
 '''
 GET http://127.0.0.1:8000/author/api/53e061a9-d963-4565-9c70-6f7fc4095712/
 {
@@ -683,6 +689,8 @@ GET http://127.0.0.1:8000/author/api/53e061a9-d963-4565-9c70-6f7fc4095712/
     "github": "https://github.com/zqq66"
 }
 '''
+
+
 class APIAuthorProfileView(APIView):
     def get(self, request, id):
         # the author who is viewed
@@ -692,3 +700,76 @@ class APIAuthorProfileView(APIView):
         response.status_code = 200
         response.data = serializer.data
         return response
+
+
+# the posts of this particular author
+class APIAuthorPostsView(APIView):
+    def get(self, request, id):
+        view_user = User.objects.get(id=id)
+        page = int(request.GET.get("page", 1))
+        per_page = int(request.GET.get("size", 5))
+
+        posts = Post.objects.filter(author_id=view_user.id).order_by("published")
+
+        paginator = Paginator(posts, per_page)
+        page_object = paginator.page(page)
+        serializer = PostSerializer(page_object, many=True)
+
+        response = Response()
+        response.status_code = 200
+        response.data = serializer.data
+        # response = render(request, 'temp_for_all_authors_list.html', context=context)
+        # response = render(request, 'all_authors_list.html', context=context)
+        return response
+
+
+class APIPostByIdView(APIView):
+    def get(self, request, authorId, postId):
+        view_user = User.objects.get(id=authorId)
+        view_post = Post.objects.get(id=postId)
+        post_comments = view_post.comments
+
+        user_serializer = UserSerializer(view_user)
+        post_serializer = PostSerializer(view_post)
+        comments_serializer = CommentSerializer(post_comments)
+
+        response = Response()
+        response.status_code = 200
+        response.data = post_serializer.data
+
+        return response
+
+
+class APICommentsByPostId(APIView):
+    def get(self, request, authorId, postId):
+        view_user = User.objects.get(id=authorId)
+        view_post = Post.objects.get(id=postId)
+        post_comments = view_post.comments
+
+        user_serializer = UserSerializer(view_user)
+        post_serializer = PostSerializer(view_post)
+        comments_serializer = CommentSerializer(post_comments, many=True)
+
+        response = Response()
+        response.status_code = 200
+        response.data = comments_serializer.data
+        return response
+
+
+class APIComment(APIView):
+    def get(self, request, authorId, postId, commentId):
+        pass
+
+
+class APICommentsByAuthorId(APIView):
+    def get(self, request, authorId):
+        pass
+
+
+class APILikesByAuthorId(APIView):
+    def get(self, request, authorId):
+        pass
+
+class APIInbox(APIView):
+    def get(self, request, authorId):
+        pass

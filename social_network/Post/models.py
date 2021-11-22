@@ -18,6 +18,7 @@ ContentType = [
 
 
 class PostLike(models.Model):
+    type= 'like'
     published = models.DateTimeField(auto_now_add=True)
     post = models.ForeignKey(Post, related_name='post_like', on_delete=models.CASCADE, null=True)
     who_like = models.ForeignKey(User, related_name='likes', on_delete=models.CASCADE)
@@ -27,6 +28,7 @@ class PostLike(models.Model):
 
 
 class PostComment(models.Model):
+    type = 'comment'
     id_comment = models.UUIDField(primary_key=True,default=uuid.uuid4,unique=True)
     post = models.ForeignKey(Post, related_name='comments', on_delete=models.CASCADE, null=False)
     # the author make this comment
@@ -39,4 +41,4 @@ class PostComment(models.Model):
         db_table = 'postcomment'
 
     def __str__(self):
-        return 'Comment by {} on {} with content{}'.format( author_comment.username, post.title,comment_content)
+        return 'Comment by {} on {} with content{}'.format( self.author_comment.username, self.post.title, self.comment_content)
