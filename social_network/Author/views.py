@@ -18,6 +18,7 @@ from Author.serializers import UserSerializer, PostSerializer, CommentSerializer
 from friends.models import FriendRequest
 import Author
 from Author.models import User, RegisterControl, Inbox, Post
+from Post.models import PostComment
 # Create your views here.
 from django.views import View
 from django.contrib.auth import authenticate, login, logout
@@ -741,6 +742,8 @@ class APIPostByIdView(APIView):
 
 
 class APICommentsByPostId(APIView):
+    #authentication_classes = [BasicAuthentication]
+    #permission_classes = [IsAuthenticated]
     def get(self, request, authorId, postId):
         view_user = User.objects.get(id=authorId)
         view_post = Post.objects.get(id=postId)
@@ -758,7 +761,12 @@ class APICommentsByPostId(APIView):
 
 class APIComment(APIView):
     def get(self, request, authorId, postId, commentId):
-        pass
+        comment = PostComment.objects.get(id_comment=commentId)
+        comment_serializer = CommentSerializer(comment)
+        response = Response()
+        response.status_code = 200
+        response.data = comment_serializer.data
+        return response
 
 
 class APICommentsByAuthorId(APIView):
