@@ -3,47 +3,32 @@
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
-  <component name="BranchesTreeState">
-    <expand>
-      <path>
-        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
-      </path>
-      <path>
-        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
-      </path>
-      <path>
-        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
-      </path>
-    </expand>
-    <select />
-  </component>
   <component name="ChangeListManager">
-    <list default="true" id="714eee04-bd8e-40b5-93c8-4886f3cc7ea3" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/f55bc944-23a7-4f94-b9bf-01eb753b2bb9.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/f55bc944-23a7-4f94-b9bf-01eb753b2bb9.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_network/Post/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/social_network/Post/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_network/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/social_network/db.sqlite3" afterDir="false" />
+    <list default="true" id="6639ff7a-d651-48dc-9929-7225c60edcac" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Author/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/Author/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Author/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Author/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="DjangoConsoleOptions" custom-start-script="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)">
+    <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
+  </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="HTML File" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="ProjectId" id="1zJzvuUzF4tVivNiv3WjuxbfDo5" />
+  <component name="ProjectId" id="1zWis5yg5GguyjxzaInaiT3ExWu" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -53,27 +38,103 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Downloads/Django-upload-picture-master" />
     <property name="node.js.detected.package.eslint" value="true" />
-    <property name="node.js.detected.package.stylelint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
-    <property name="node.js.selected.package.stylelint" value="" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
-    <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="settings.nodejs" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\lxd19\OneDrive\Documents\GitHub\404_group_project_21F\social_network\Author" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Django Server.CMPUT404">
+    <configuration name="CMPUT404_test" type="DjangoTestsConfigurationType">
+      <module name="social_network" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\lxd19\OneDrive\Documents\GitHub\404_group_project_21F\social_network\venv\Scripts\python.exe" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="TARGET" value="NewPostTestCase" />
+      <option name="SETTINGS_FILE" value="" />
+      <option name="CUSTOM_SETTINGS" value="false" />
+      <option name="USE_OPTIONS" value="false" />
+      <option name="OPTIONS" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="CMPUT404" type="Python.DjangoServer" factoryName="Django server">
+      <module name="social_network" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="DJANGO_SETTINGS_MODULE" value="social_network.settings" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\lxd19\OneDrive\Documents\GitHub\404_group_project_21F\social_network\venv\Scripts\python.exe" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="launchJavascriptDebuger" value="false" />
+      <option name="port" value="8000" />
+      <option name="host" value="127.0.0.1" />
+      <option name="additionalOptions" value="" />
+      <option name="browserUrl" value="" />
+      <option name="runTestServer" value="false" />
+      <option name="runNoReload" value="false" />
+      <option name="useCustomRunCommand" value="false" />
+      <option name="customRunCommand" value="python3 manage.py makemigration" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Django Server.CMPUT404" />
+      <item itemvalue="Django tests.CMPUT404_test" />
+    </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="714eee04-bd8e-40b5-93c8-4886f3cc7ea3" name="Changes" comment="" />
-      <created>1633881217629</created>
+      <changelist id="6639ff7a-d651-48dc-9929-7225c60edcac" name="Changes" comment="" />
+      <created>1634270449260</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1633881217629</updated>
-      <workItem from="1633881220062" duration="335000" />
-      <workItem from="1633999644064" duration="112000" />
-      <workItem from="1635484275775" duration="864000" />
+      <updated>1634270449260</updated>
+      <workItem from="1634270451766" duration="704000" />
+      <workItem from="1634271167548" duration="1236000" />
+      <workItem from="1634275530478" duration="551000" />
+      <workItem from="1634276357752" duration="1453000" />
+      <workItem from="1634610894455" duration="982000" />
+      <workItem from="1635227107802" duration="2734000" />
+      <workItem from="1635299909147" duration="25480000" />
+      <workItem from="1635333964097" duration="1337000" />
+      <workItem from="1635335379892" duration="73000" />
+      <workItem from="1635391259105" duration="4369000" />
+      <workItem from="1635407424577" duration="386000" />
+      <workItem from="1635464325843" duration="50000" />
+      <workItem from="1635464530841" duration="7875000" />
+      <workItem from="1635474078048" duration="128000" />
+      <workItem from="1635474234846" duration="12000" />
+      <workItem from="1635474270531" duration="2763000" />
+      <workItem from="1635477185383" duration="1533000" />
+      <workItem from="1635480044053" duration="11716000" />
+      <workItem from="1635495072091" duration="6551000" />
+      <workItem from="1635509609173" duration="2326000" />
+      <workItem from="1635511982591" duration="2640000" />
+      <workItem from="1635514659461" duration="171000" />
+      <workItem from="1635515039249" duration="18000" />
+      <workItem from="1635515298274" duration="1159000" />
+      <workItem from="1635517965843" duration="444000" />
+      <workItem from="1635984972527" duration="628000" />
+      <workItem from="1635985640528" duration="1961000" />
     </task>
     <servers />
   </component>
@@ -91,5 +152,8 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/models_py$CMPUT404_test.coverage" NAME="CMPUT404_test Coverage Results" MODIFIED="1635513085785" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
   </component>
 </project>
