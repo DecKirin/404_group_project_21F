@@ -7,6 +7,14 @@ from django.core.paginator import Paginator
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse
+from rest_framework.decorators import renderer_classes
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework.renderers import JSONRenderer, BrowsableAPIRenderer
+
+from rest_framework.renderers import TemplateHTMLRenderer
+
+from Author.serializers import UserSerializer, PostSerializer, CommentSerializer
 from friends.models import FriendRequest
 import Author
 from Author.models import User, RegisterControl, Inbox, Post
@@ -36,6 +44,8 @@ URL: ://service/author/register
 GET: visit register page
 POST: submit an author account registeration
 '''
+
+
 class RegisterView(View):
     def get(self, request):
         return render(request, 'register.html')
@@ -90,6 +100,8 @@ URL: ://service/author/login
 GET: visit login page
 POST: send verification information to login
 '''
+
+
 class LoginView(View):
     def get(self, request):
         username = ''
@@ -213,10 +225,13 @@ class IndexView(LoginRequiredMixin, View):
         # used for testing
         return render(request, 'mystream.html', context=context)
 
+
 '''
 URL: ://service/author/logout
 GET: logout account
 '''
+
+
 class LogoutView(View):
     def get(self, request):
         request.session.delete()  # delete session ，but not cookie
@@ -227,10 +242,13 @@ class LogoutView(View):
 class UserInfoView(LoginRequiredMixin, View):
     pass
 
+
 '''
 URL: ://service/author/<id>
 GET: retrieve a user's profile
 '''
+
+
 class UserProfileView(View):
     def get(self, request, id):
         # current logged in user
@@ -264,12 +282,15 @@ class UserProfileView(View):
 
         return render(request, 'author_profile.html', context=context)
 
+
 '''
 URL: ://service/author/authors/
 GET: Read a list of all user using a given paginator
 page: how many pages
 size: how big is a page
 '''
+
+
 class AllUserProfileView(View):
     def get(self, request):
         curr_user = request.user
@@ -284,6 +305,7 @@ class AllUserProfileView(View):
 
         paginator = Paginator(authors, per_page)
         page_object = paginator.page(page)
+        serializer = UserSerializer(page_object, many=True)
 
         # time.sleep(5)
         context = {
@@ -310,6 +332,8 @@ q: (part of) intended username
 page: how many pages
 size: how big is a page
 '''
+
+
 class SearchUserView(View):
     def get(self, request):
         authorName = request.GET.get("q")
@@ -337,11 +361,14 @@ class UserPostsView(View):
     def get(self, request):
         pass
 
+
 '''
 URL: ://service/author/editProfile/
 GET: visit edit profile page(need login)
 POST: change profile by send post data of editable fields
 '''
+
+
 class UserEditInfoView(LoginRequiredMixin, View):
     def get(self, request):
         # current logged in user
@@ -420,6 +447,7 @@ class InboxView(View):
 
         return response
 
+
 # Intergrated inbox to sidebars for friend request
 class InterFRInboxView(View):
 
@@ -429,11 +457,10 @@ class InterFRInboxView(View):
         per_page = int(request.GET.get("size", 10))
         friReqs = FriendRequest.objects.filter(receiver_id=curr_user.id).filter(respond_status=False)
 
-        #inbox = Inbox.objects.filter(requests=friReqs)
+        # inbox = Inbox.objects.filter(requests=friReqs)
 
         paginator = Paginator(friReqs, per_page)
         page_object = paginator.page(page)
-
 
         context = {
             'page_object': page_object,
@@ -444,6 +471,7 @@ class InterFRInboxView(View):
 
         return response
 
+
 # Intergrated inbox to sidebars for posts part
 class InterPostInboxView(View):
     def get(self, request):
@@ -452,11 +480,10 @@ class InterPostInboxView(View):
         per_page = int(request.GET.get("size", 10))
         posts = Post.objects.filter(select_user=curr_user.id)
 
-        #inbox = Inbox.objects.filter(requests=friReqs)
+        # inbox = Inbox.objects.filter(requests=friReqs)
 
         paginator = Paginator(posts, per_page)
         page_object = paginator.page(page)
-
 
         context = {
             'page_object': page_object,
@@ -470,12 +497,15 @@ class InterPostInboxView(View):
 
         return response
 
+
 '''
 URL: ://service/author/myposts
 GET: retrive all posts made by current author, could be filtered by post type and patched by paginator
 status: the status code of post, 0 for all, 1 for public 2 for private....
 page: number of page
 '''
+
+
 class UserPostsView(View):
     def get(self, request):
         username = request.session.get('username', '')
@@ -501,7 +531,8 @@ class UserPostsView(View):
             list_status = int(request.GET.get('status', 0))
 
             if list_status > 0:
-                question_list = Post.objects.filter(author_id=curr_user.id).filter(visibility=list_status).order_by('visibility')
+                question_list = Post.objects.filter(author_id=curr_user.id).filter(visibility=list_status).order_by(
+                    'visibility')
             else:
                 question_list = Post.objects.filter(author_id=curr_user.id).order_by('visibility')
             paginator = Paginator(question_list, 10)
@@ -542,6 +573,8 @@ GET: retrive github pages and all posts that are accessble by current author
 page:number of pages
 size: # of posts each page
 '''
+
+
 class MyStreamView(LoginRequiredMixin, View):
     def get(self, request):
         # current logged in user
@@ -573,12 +606,15 @@ class MyStreamView(LoginRequiredMixin, View):
         # used for testing
         return render(request, 'mystream.html', context=context)
 
+
 '''
 URL: ://service/author/allPublicPosts
 GET: retrive all public posts
 page:number of pages
 size: # of posts each page
 '''
+
+
 class AllPublicPostsView(View):
     def get(self, request):
         curr_user = request.user
@@ -601,3 +637,139 @@ class AllPublicPostsView(View):
 
         response = render(request, 'all_public_posts_list.html', context=context)
         return response
+
+
+# https://www.shuzhiduo.com/A/Ae5R8BeMzQ/
+
+'''API views below'''
+# http://127.0.0.1:8000/author/api/authors?page=1&size=1
+'''
+[{
+    "id": "53e061a9-d963-4565-9c70-6f7fc4095712",
+    "username": "XZPshaw",
+    "profile_image": "",
+    "email": "123123123@123.com",
+    "first_name": "Ze",
+    "last_name": "Xiao",
+    "github": "https://github.com/zqq66"
+}]
+'''
+
+
+class APIAllProfileView(APIView):
+    def get(self, request):
+        # alternative approach, just use username
+
+        page = int(request.GET.get("page", 1))
+        per_page = int(request.GET.get("size", 10))
+        # something like only showing active user
+        # user_status = int(request.GET.get("user_status",1))
+        authors = User.objects.all().order_by("created")
+
+        paginator = Paginator(authors, per_page)
+        page_object = paginator.page(page)
+        serializer = UserSerializer(page_object, many=True)
+        response = Response()
+        response.status_code = 200
+        response.data = serializer.data
+        # response = render(request, 'temp_for_all_authors_list.html', context=context)
+        # response = render(request, 'all_authors_list.html', context=context)
+        return response
+
+
+'''
+GET http://127.0.0.1:8000/author/api/53e061a9-d963-4565-9c70-6f7fc4095712/
+{
+    "id": "53e061a9-d963-4565-9c70-6f7fc4095712",
+    "username": "XZPshaw",
+    "profile_image": "",
+    "email": "123123123@123.com",
+    "first_name": "Ze",
+    "last_name": "Xiao",
+    "github": "https://github.com/zqq66"
+}
+'''
+
+
+class APIAuthorProfileView(APIView):
+    def get(self, request, id):
+        # the author who is viewed
+        view_user = User.objects.get(id=id)
+        serializer = UserSerializer(view_user)
+        response = Response()
+        response.status_code = 200
+        response.data = serializer.data
+        return response
+
+
+# the posts of this particular author
+class APIAuthorPostsView(APIView):
+    def get(self, request, id):
+        view_user = User.objects.get(id=id)
+        page = int(request.GET.get("page", 1))
+        per_page = int(request.GET.get("size", 5))
+
+        posts = Post.objects.filter(author_id=view_user.id).order_by("published")
+
+        paginator = Paginator(posts, per_page)
+        page_object = paginator.page(page)
+        serializer = PostSerializer(page_object, many=True)
+
+        response = Response()
+        response.status_code = 200
+        response.data = serializer.data
+        # response = render(request, 'temp_for_all_authors_list.html', context=context)
+        # response = render(request, 'all_authors_list.html', context=context)
+        return response
+
+
+class APIPostByIdView(APIView):
+    def get(self, request, authorId, postId):
+        view_user = User.objects.get(id=authorId)
+        view_post = Post.objects.get(id=postId)
+        post_comments = view_post.comments
+
+        user_serializer = UserSerializer(view_user)
+        post_serializer = PostSerializer(view_post)
+        comments_serializer = CommentSerializer(post_comments)
+
+        response = Response()
+        response.status_code = 200
+        response.data = post_serializer.data
+
+        return response
+
+
+class APICommentsByPostId(APIView):
+    def get(self, request, authorId, postId):
+        view_user = User.objects.get(id=authorId)
+        view_post = Post.objects.get(id=postId)
+        post_comments = view_post.comments
+
+        user_serializer = UserSerializer(view_user)
+        post_serializer = PostSerializer(view_post)
+        comments_serializer = CommentSerializer(post_comments, many=True)
+
+        response = Response()
+        response.status_code = 200
+        response.data = comments_serializer.data
+        return response
+
+
+class APIComment(APIView):
+    def get(self, request, authorId, postId, commentId):
+        pass
+
+
+class APICommentsByAuthorId(APIView):
+    def get(self, request, authorId):
+        pass
+
+
+class APILikesByAuthorId(APIView):
+    def get(self, request, authorId):
+        pass
+
+class APIInbox(APIView):
+    def get(self, request, authorId):
+        pass

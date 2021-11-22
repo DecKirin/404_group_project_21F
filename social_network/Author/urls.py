@@ -1,11 +1,13 @@
 from django.urls import path, re_path
 from django.contrib.auth.decorators import login_required
 from Author.views import RegisterView, LoginView, UserInfoView, LogoutView, UserPostsView, IndexView, InterFRInboxView, InterPostInboxView, InboxView, \
-    UserProfileView, AllUserProfileView, SearchUserView, UserEditInfoView, MyStreamView, AllPublicPostsView
+    UserProfileView, AllUserProfileView, SearchUserView, UserEditInfoView, MyStreamView, AllPublicPostsView, APIAuthorPostsView, APIPostByIdView, APICommentsByPostId, APIComment, \
+    APICommentsByAuthorId, APILikesByAuthorId, APIInbox
 from friends.views import friends_list_view, send_friend_request, process_friend_request, followers_list_view, \
-    follows_list_view, follower_view, un_befriend, my_list
+    follows_list_view, follower_view, un_befriend, my_list , APIFollowsByIdView, APIFollowersByIdView, APIFriendsByIdView
 from Post.views import NewPostView, SpecificPostView, EditPostView, delete_post, like_post, unlike_post, CreatePostComment
 
+from Author.views import APIAllProfileView, APIAuthorProfileView
 
 app_name = 'Author'
 urlpatterns = [
@@ -30,16 +32,16 @@ urlpatterns = [
     # check inbox to get sent request
     path('sentrequest/<request_id>', process_friend_request.as_view(), name='process_request'),
     path('authors/', AllUserProfileView.as_view(), name='all_authors'),
-    path('register/', RegisterView.as_view(), name='register'),
-    path('login/', LoginView.as_view(), name='login'),
-    path('logout/', LogoutView.as_view(), name='logout'),
+    path('author/register/', RegisterView.as_view(), name='register'),
+    path('author/login/', LoginView.as_view(), name='login'),
+    path('author/logout/', LogoutView.as_view(), name='logout'),
     # home page after logging in
     path('index/', IndexView.as_view(), name='index'),
     # account page of logged in user
     path('account/', login_required(UserInfoView.as_view()), name='info'),
     # view a my posts as login in user in a list
     path('myposts/', login_required(UserPostsView.as_view()), name='myposts'),
-    path('myStream/', login_required(MyStreamView.as_view()), name='mystream'),
+    path('author/myStream/', login_required(MyStreamView.as_view()), name='mystream'),
 
     path('editProfile/', login_required(UserEditInfoView.as_view()), name='edit_profile'),
     # display all user profiles
@@ -54,4 +56,20 @@ urlpatterns = [
     path('posts/allPublicPosts/', AllPublicPostsView.as_view(), name='all_public_posts'),
     # Un-befriend
     path('<uuid:id>/<delete>', un_befriend, name='un_befriend'),
+
+
+    # below are URLs for API only
+    path('api/authors/', APIAllProfileView.as_view(), name="api_authors"),
+    path('api/authors/<uuid:id>/', APIAuthorProfileView.as_view(), name="api_author_by_id"),
+    path('api/authors/<uuid:id>/follows/', APIFollowsByIdView.as_view(), name="api_follows_by_id"),
+    path('api/authors/<uuid:id>/followers/', APIFollowersByIdView.as_view(), name="api_followers_by_id"),
+    path('api/authors/<uuid:id>/friends/', APIFriendsByIdView.as_view(), name="api_friends_by_id"),
+    path('api/authors/<uuid:id>/posts/', APIAuthorPostsView.as_view(), name = "api_posts_by_authorId"),
+    path('api/authors/<uuid:authorId>/posts/<postId>/', APIPostByIdView.as_view(), name="api_post_by_postId"),
+    path('api/authors/<uuid:authorId>/posts/<postId>/comments/', APICommentsByPostId.as_view(), name="api_comments_by_postId"),
+    path('api/authors/<uuid:authorId>/posts/<postId>/comments/<commentId>/', APIComment.as_view(), name="api_comment"),
+    path('api/authors/<uuid:authorId>/comments/', APICommentsByAuthorId.as_view(), name="api_comments_by_authorId"),
+    path('api/authors/<uuid:authorId>/likes/', APILikesByAuthorId.as_view(), name="api_likes_by_authorId"),
+    path('api/authors/<uuid:authorId>/inbox/', APIInbox.as_view(), name = "api_inbox"),
+
 ]

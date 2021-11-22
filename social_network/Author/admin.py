@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.utils.html import format_html
 from django.utils.http import urlencode
 
-from .models import User, RegisterControl, Post
+from .models import User, RegisterControl, Post, Node
 from friends.models import Friend, Follower, Follow
 from Post.models import PostComment, PostLike
 
@@ -44,12 +44,12 @@ class UserProfileAdmin(admin.ModelAdmin):
     ]
 
     list_display = (
-    "email", "username", "is_active", "created", "view_posts_link", "view_likes_link", "view_comments_link")
+        "email", "username", "is_active", "created", "view_posts_link", "view_likes_link", "view_comments_link")
     # list_display = ("email", "username", "is_active", "created", "view_posts_link", "view_friends_link",
     #                "view_likes_link", "view_comments_link")
 
     # list_display = ("email", "username", "is_active", "created", "view_friends_link","view_follows_link", "view_follower_link")
-    search_fields = ("username","id")
+    search_fields = ("username", "id")
     list_filter = ("is_active", "created")
     fieldsets = (
         (None, {'fields': ('email', 'username', 'first_name', 'last_name', 'u_phone',)}),
@@ -119,10 +119,10 @@ class UserProfileAdmin(admin.ModelAdmin):
 
 class PostsAdmin(admin.ModelAdmin):
     list_display = ("id", "view_author_link", "title", "published", "view_comments_link", "view_likes_link")
-    search_fields = ("id","title", "author__id", "author__username")
+    search_fields = ("id", "title", "author__id", "author__username")
     list_filter = ("published", "author", "visibility")
 
-    def view_author_link(self,obj):
+    def view_author_link(self, obj):
         url = (
                 reverse("admin:Author_user_changelist") + "?" + urlencode({"q": f"{obj.author.id}"})
         )
@@ -193,6 +193,7 @@ class LikesAdmin(admin.ModelAdmin):
 
     view_post_link.short_description = "Post"
 
+
 class RegisterControlAdmin(admin.ModelAdmin):
 
     def has_add_permission(self, request):
@@ -205,6 +206,7 @@ class RegisterControlAdmin(admin.ModelAdmin):
 class FollowAdmin(admin.ModelAdmin):
     list_display = ("id", "view_author_link", "show_all_follows")
     search_fields = ("user",)
+
     def view_author_link(self, obj):
         url = (
                 reverse("admin:Author_user_changelist") + "?" + urlencode({"q": f"{obj.user.id}"})
@@ -215,7 +217,6 @@ class FollowAdmin(admin.ModelAdmin):
 
     def show_all_follows(self, obj):
         return "\n".join([a.username for a in obj.follows.all()])
-
 
 
 class FollowerAdmin(admin.ModelAdmin):
@@ -233,9 +234,11 @@ class FollowerAdmin(admin.ModelAdmin):
     def show_all_followers(self, obj):
         return "\n".join([a.username for a in obj.followers.all()])
 
+
 class FriendAdmin(admin.ModelAdmin):
     list_display = ("id", "view_author_link", "show_all_friends")
     search_fields = ("user",)
+
     def view_author_link(self, obj):
         url = (
                 reverse("admin:Author_user_changelist") + "?" + urlencode({"q": f"{obj.user.id}"})
@@ -245,6 +248,7 @@ class FriendAdmin(admin.ModelAdmin):
     def show_all_friends(self, obj):
         return "\n".join([a.username for a in obj.friends.all()])
 
+
 admin.site.register(User, UserProfileAdmin)
 admin.site.register(Post, PostsAdmin)
 admin.site.register(PostComment, CommentsAdmin)
@@ -253,3 +257,5 @@ admin.site.register(Friend, FriendAdmin)
 admin.site.register(RegisterControl, RegisterControlAdmin)
 admin.site.register(Follow, FollowAdmin)
 admin.site.register(Follower, FollowerAdmin)
+
+admin.site.register(Node)

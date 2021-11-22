@@ -24,6 +24,6 @@ from . import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('author/', include("Author.urls", "Author"), name="Author"),
+    path('', include("Author.urls", "Author"), name="Author"),
     url(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
 ]

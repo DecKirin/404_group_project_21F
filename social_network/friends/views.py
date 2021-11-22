@@ -1,5 +1,9 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+from Author.serializers import UserSerializer
 from .models import Friend, FriendRequest, Follower, Follow
 from Author.models import User
 from django.views import View
@@ -219,3 +223,78 @@ class process_friend_request(View):
 
         # logging.debug('Nothing')
         return HttpResponseRedirect(reverse('Author:index'))
+
+class APIFriendsByIdView(APIView):
+    def get(self, request, id):
+        # alternative approach, just use username
+
+        view_user = User.objects.get(id=id)
+
+        page = int(request.GET.get("page", 1))
+        per_page = int(request.GET.get("size", 10))
+        # something like only showing active user
+        # user_status = int(request.GET.get("user_status",1))
+        friend, create = Friend.objects.get_or_create(user=view_user)  # class friend
+        if create:
+            response = Response()
+            response.status_code = 200
+            response.data = None
+        else:
+            friend_list = friend.friends.all().order_by()  #
+            paginator = Paginator(friend_list, per_page)
+            page_object = paginator.page(page)
+            serializer = UserSerializer(page_object, many=True)
+            response = Response()
+            response.status_code = 200
+            response.data = serializer.data
+        return response
+
+
+class APIFollowersByIdView(APIView):
+    def get(self, request, id):
+        # alternative approach, just use username
+
+        view_user = User.objects.get(id=id)
+
+        page = int(request.GET.get("page", 1))
+        per_page = int(request.GET.get("size", 10))
+
+        follower, create = Follower.objects.get_or_create(user=view_user)  # class friend
+        if create:
+            response = Response()
+            response.status_code = 200
+            response.data = None
+        else:
+            follower_list = follower.followers.all().order_by()  #
+            paginator = Paginator(follower_list, per_page)
+            page_object = paginator.page(page)
+            serializer = UserSerializer(page_object, many=True)
+            response = Response()
+            response.status_code = 200
+            response.data = serializer.data
+        return response
+
+
+class APIFollowsByIdView(APIView):
+    def get(self, request, id):
+        # alternative approach, just use username
+
+        view_user = User.objects.get(id=id)
+
+        page = int(request.GET.get("page", 1))
+        per_page = int(request.GET.get("size", 10))
+
+        follows, create = Follow.objects.get_or_create(user=view_user)  # class friend
+        if create:
+            response = Response()
+            response.status_code = 200
+            response.data = None
+        else:
+            follows_list = follows.follows.all().order_by()#
+            paginator = Paginator(follows_list, per_page)
+            page_object = paginator.page(page)
+            serializer = UserSerializer(page_object, many=True)
+            response = Response()
+            response.status_code = 200
+            response.data = serializer.data
+        return response

@@ -138,6 +138,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'Author/media/')
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.BasicAuthentication',
+    ],
+    'DEFAULT_RENDERER_CLASSES':[
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer'
     ]
 }
 # Default primary key field type
