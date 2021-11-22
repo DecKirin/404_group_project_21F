@@ -25,7 +25,7 @@ class User(AbstractUser):
     profile_image = models.URLField(blank=True)
     email = models.CharField(max_length=20, unique=True)
     # url path of user profile images
-    is_active = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now_add=True)
     u_phone = models.CharField(max_length=20, verbose_name='phone_number', default='', blank=True)
