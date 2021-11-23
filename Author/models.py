@@ -25,13 +25,16 @@ class User(AbstractUser):
     profile_image = models.URLField(blank=True)
     email = models.CharField(max_length=20, unique=True)
     # url path of user profile images
-    is_active = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now_add=True)
     u_phone = models.CharField(max_length=20, verbose_name='phone_number', default='', blank=True)
     first_name = models.CharField(max_length=20)
     last_name = models.CharField(max_length=20)
     github = models.CharField(max_length=100, blank=True)
+    url = models.URLField(editable=False)
+    host = models.URLField(editable=False)
+    api_url = models.URLField(editable=False)
 
     class Meta:
         db_table = 'sys_user_info'
@@ -58,6 +61,8 @@ class Post(models.Model):
     type = 'post'
     title = models.CharField(max_length=128)
     id = models.CharField(max_length=128, primary_key=True)
+    url = models.URLField(editable=False)
+    api_url = models.URLField(editable=False)
     source = models.URLField(blank=True)
     origin = models.URLField(blank=True)
     description = models.CharField(max_length=500, blank=True)
@@ -169,6 +174,8 @@ class Inbox(models.Model):
 
 
 '''add external host server(node)'''
+
+
 class Node(models.Model):
     host = models.URLField(default="", primary_key=True, unique=True)
 

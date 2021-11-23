@@ -14,16 +14,16 @@ urlpatterns = [
 
     path('newpost/', NewPostView.as_view(), name='newpost'),
     path('searchAuthor/', SearchUserView.as_view(), name='search_user'),
-    path('<uuid:id>/friends/', friends_list_view, name='friend'),
-    path('<uuid:id>/followers/', followers_list_view, name='follower'),
-    path('<uuid:id>/followers/<foreign_id>', follower_view.as_view(), name='foreign_follower'),
-    path('<uuid:id>/follows/', follows_list_view, name='follow'),
-    path('<uuid:author_id>/posts/<post_id>/', SpecificPostView.as_view(), name='specific_post'),
-    path('<uuid:author_id>/posts/<post_id>/edit/', EditPostView.as_view(), name='edit_post'),
-    path('<uuid:author_id>/posts/<post_id>/delete/', delete_post, name='delete_post'),
-    path('<uuid:author_id>/posts/<post_id>/like/', like_post, name='like_post'),
-    path('<uuid:author_id>/posts/<post_id>/unlike/', unlike_post, name='unlike_post'),
-    path('<uuid:author_id>/posts/<post_id>/comment/', CreatePostComment.as_view(), name='post_comment'),
+    path('author/<uuid:id>/friends/', friends_list_view, name='friend'),
+    path('author/<uuid:id>/followers/', followers_list_view, name='follower'),
+    path('author/<uuid:id>/followers/<foreign_id>', follower_view.as_view(), name='foreign_follower'),
+    path('author/<uuid:id>/follows/', follows_list_view, name='follow'),
+    path('author/<uuid:author_id>/posts/<post_id>/', SpecificPostView.as_view(), name='specific_post'),
+    path('author/<uuid:author_id>/posts/<post_id>/edit/', EditPostView.as_view(), name='edit_post'),
+    path('author/<uuid:author_id>/posts/<post_id>/delete/', delete_post, name='delete_post'),
+    path('author/<uuid:author_id>/posts/<post_id>/like/', like_post, name='like_post'),
+    path('author/<uuid:author_id>/posts/<post_id>/unlike/', unlike_post, name='unlike_post'),
+    path('author/<uuid:author_id>/posts/<post_id>/comment/', CreatePostComment.as_view(), name='post_comment'),
     # author successfully send the friend request
     path('friendrequest/<foreign_id>', send_friend_request, name='friend_request'),
     path('accept/<request_id>', process_friend_request.as_view(), name='accept'),
@@ -47,7 +47,7 @@ urlpatterns = [
     # display all user profiles
     # page to view other user's profile
 
-    path('<uuid:id>/', UserProfileView.as_view(), name='profile'),
+    path('author/<uuid:id>/', UserProfileView.as_view(), name='profile'),
     # Inboxes
     path('<uuid:id>/inbox/', login_required(InboxView.as_view()), name='inbox'),
     path('inbox/fr', login_required(InterFRInboxView.as_view()), name='inter_FRinbox'),
@@ -60,16 +60,16 @@ urlpatterns = [
 
     # below are URLs for API only
     path('api/authors/', APIAllProfileView.as_view(), name="api_authors"),
-    path('api/authors/<uuid:id>/', APIAuthorProfileView.as_view(), name="api_author_by_id"),
-    path('api/authors/<uuid:id>/follows/', APIFollowsByIdView.as_view(), name="api_follows_by_id"),
-    path('api/authors/<uuid:id>/followers/', APIFollowersByIdView.as_view(), name="api_followers_by_id"),
-    path('api/authors/<uuid:id>/friends/', APIFriendsByIdView.as_view(), name="api_friends_by_id"),
-    path('api/authors/<uuid:id>/posts/', APIAuthorPostsView.as_view(), name = "api_posts_by_authorId"),
-    path('api/authors/<uuid:authorId>/posts/<postId>/', APIPostByIdView.as_view(), name="api_post_by_postId"),
-    path('api/authors/<uuid:authorId>/posts/<postId>/comments/', APICommentsByPostId.as_view(), name="api_comments_by_postId"),
-    path('api/authors/<uuid:authorId>/posts/<postId>/comments/<commentId>/', APIComment.as_view(), name="api_comment"),
-    path('api/authors/<uuid:authorId>/comments/', APICommentsByAuthorId.as_view(), name="api_comments_by_authorId"),
-    path('api/authors/<uuid:authorId>/likes/', APILikesByAuthorId.as_view(), name="api_likes_by_authorId"),
-    path('api/authors/<uuid:authorId>/inbox/', APIInbox.as_view(), name = "api_inbox"),
+    path('api/author/<uuid:id>/', APIAuthorProfileView.as_view(), name="api_author_by_id"),
+    path('api/author/<uuid:id>/follows/', APIFollowsByIdView.as_view(), name="api_follows_by_id"),
+    path('api/author/<uuid:id>/followers/', APIFollowersByIdView.as_view(), name="api_followers_by_id"),
+    path('api/author/<uuid:id>/friends/', APIFriendsByIdView.as_view(), name="api_friends_by_id"),
+    path('api/author/<uuid:id>/posts/', APIAuthorPostsView.as_view(), name = "api_posts_by_authorId"),
+    path('api/author/<uuid:authorId>/posts/<postId>/', APIPostByIdView.as_view(), name="api_post_by_postId"),
+    path('api/author/<uuid:authorId>/posts/<postId>/comments/', APICommentsByPostId.as_view(), name="api_comments_by_postId"),
+    path('api/author/<uuid:authorId>/posts/<postId>/comments/<commentId>/', APIComment.as_view(), name="api_comment"),
+    path('api/author/<uuid:authorId>/comments/', APICommentsByAuthorId.as_view(), name="api_comments_by_authorId"),
+    path('api/author/<uuid:authorId>/likes/', APILikesByAuthorId.as_view(), name="api_likes_by_authorId"),
+    path('api/author/<uuid:authorId>/inbox/', APIInbox.as_view(), name = "api_inbox"),
 
 ]

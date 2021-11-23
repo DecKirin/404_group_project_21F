@@ -3,10 +3,12 @@ import json
 
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.sites import requests
 from django.core.paginator import Paginator
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse
+from rest_framework import status
 from rest_framework.decorators import renderer_classes
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -17,14 +19,14 @@ from rest_framework.renderers import TemplateHTMLRenderer
 from Author.serializers import UserSerializer, PostSerializer, CommentSerializer
 from friends.models import FriendRequest
 import Author
-from Author.models import User, RegisterControl, Inbox, Post
+from Author.models import User, RegisterControl, Inbox, Post, Node
 from Post.models import PostComment
 # Create your views here.
 from django.views import View
 from django.contrib.auth import authenticate, login, logout
-
+import requests
+from requests.auth import HTTPBasicAuth
 from social_network.settings import SECRET_KEY
-
 
 # check if validation by admin is required to activate an author account
 def check_if_confirmation_required():
@@ -38,6 +40,28 @@ def check_if_confirmation_required():
         return registerControl.free_registration
     else:
         return list(confirm)[0].free_registration
+def get_remote_nodes():
+    nodes = Node.objects.all()
+    all_host = [node.host for node in nodes]
+    print(all_host)
+    return all_host
+
+def get_remote_authors():
+    all_remote_host = get_remote_nodes()
+
+    authors = []
+    for host in all_remote_host:
+        api_uri = host +'/api'+'/authors/'
+        print(api_uri)
+        ####todo:authentication information
+        ####request = requests.get(api_uri, auth=HTTPBasicAuth(auth_user, auth_pass))
+        request = requests.get(api_uri)
+        if request.status_code == 200:
+            authors_in_host = request.json()
+            authors += authors_in_host
+    #print(authors)
+    return authors
+
 
 
 '''
@@ -86,9 +110,14 @@ class RegisterView(View):
         is_active = True
         if not check_if_confirmation_required():
             is_active = False
+
         user = User.objects.create_user(username=username, email=email, password=password, first_name=userfname,
                                         last_name=userlname, is_active=is_active)
         # user.is_active = 1
+        user.host = request.META['HTTP_HOST']
+        user.url = request.scheme + "://" + request.META['HTTP_HOST'] + "/author/" + str(user.id) + "/"
+        user.api_url = request.scheme + "://" + request.META['HTTP_HOST'] + "/api/author/" + str(user.id) + "/"
+
         user.save()
         error_msg_dic["code"] = "200"
         error_msg_dic["msg"] = "Successfully register"
@@ -302,7 +331,9 @@ class AllUserProfileView(View):
         # user_status = int(request.GET.get("user_status",1))
         currentUser = request.user
 
-        authors = User.objects.all()
+        local_authors = User.objects.all()
+        remote_authors = get_remote_authors()
+        authors = list(local_authors) + remote_authors
 
         paginator = Paginator(authors, per_page)
         page_object = paginator.page(page)
@@ -660,7 +691,6 @@ class AllPublicPostsView(View):
 class APIAllProfileView(APIView):
     def get(self, request):
         # alternative approach, just use username
-
         page = int(request.GET.get("page", 1))
         per_page = int(request.GET.get("size", 10))
         # something like only showing active user
@@ -695,12 +725,32 @@ GET http://127.0.0.1:8000/author/api/53e061a9-d963-4565-9c70-6f7fc4095712/
 class APIAuthorProfileView(APIView):
     def get(self, request, id):
         # the author who is viewed
-        view_user = User.objects.get(id=id)
+        try:
+            view_user = User.objects.get(id=id)
+        except User.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
         serializer = UserSerializer(view_user)
         response = Response()
         response.status_code = 200
         response.data = serializer.data
         return response
+    ##update user info
+
+    def post(self, request, id):
+        try:
+            update_user = User.objects.get(id=id)
+        except User.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        user_serializer = UserSerializer(update_user, data=request.data, partial=True)
+        if user_serializer.is_valid():
+            update_user = user_serializer.save()
+
+            update_user.host = request.META['HTTP_HOST']
+            update_user.url = request.scheme + "://" + request.META['HTTP_HOST'] + "/author/" + str(update_user.id) + "/"
+            update_user.api_url = request.build_absolute_uri()
+            update_user.save()
+            return Response(status=status.HTTP_200_OK)
 
 
 # the posts of this particular author
@@ -739,6 +789,9 @@ class APIPostByIdView(APIView):
         response.data = post_serializer.data
 
         return response
+    def post(self,request,authorId, postId):
+        pass
+
 
 
 class APICommentsByPostId(APIView):
@@ -757,6 +810,9 @@ class APICommentsByPostId(APIView):
         response.status_code = 200
         response.data = comments_serializer.data
         return response
+    def post(self, request, authorId, postId):
+        pass
+
 
 
 class APIComment(APIView):
@@ -767,6 +823,7 @@ class APIComment(APIView):
         response.status_code = 200
         response.data = comment_serializer.data
         return response
+
 
 
 class APICommentsByAuthorId(APIView):

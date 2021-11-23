@@ -6,7 +6,7 @@ from Post.models import PostComment
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['type', 'id', 'username', 'profile_image', 'email', 'first_name', 'last_name', 'github']
+        fields = ['type', 'id', 'username', 'profile_image', 'email', 'first_name', 'last_name', 'github', 'host', 'api_url']
 
 
 class PostSerializer(serializers.ModelSerializer):
@@ -15,7 +15,7 @@ class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = ['type', 'id', 'contentType','title', 'source', 'origin', 'description', 'content', 'author',
-                  'categories', 'count', 'published', 'updated', 'visibility', 'image', 'comments']
+                  'categories', 'count', 'published', 'updated', 'visibility', 'image', 'comments', 'api_url']
 
     def get_author(self, obj):
         return UserSerializer(User.objects.filter(id=obj.author.id).first()).data

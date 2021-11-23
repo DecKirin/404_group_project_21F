@@ -1,6 +1,7 @@
 from urllib.parse import urlparse
 from django.views import View
 from Author.models import User, Inbox, Post
+from Author.serializers import PostSerializer
 from friends.models import Friend
 from rest_framework.response import Response
 import uuid
@@ -70,9 +71,17 @@ class NewPostView(View):
         except Exception:
             image = None
 
-        Post.objects.create(title=title, id=post_id, source=source, origin=origin, description=description,
+
+        post = Post.objects.create(title=title, id=post_id, source=source, origin=origin, description=description,
                             contentType=content_type, content=content, author=request.user, categories=categories,
                             visibility=visibility, unlisted=unlisted, select_user=select_user, image=image)
+        if post.author.url != "":
+            post.url = post.author.url + "posts/" + post.id + "/"
+            post.api_url = post.author.api_url + "posts/" + post.id + "/"
+        else :
+            post.url = request.scheme + "://" + request.META['HTTP_HOST'] + "/author/" + str(post.author.id) + "/posts/" + post.id +"/"
+            post.api_url = request.scheme + "://" + request.META['HTTP_HOST'] + "/api/author/" + str(post.author.id) + "/posts/" + post.id +"/"
+        post.save()
         return redirect(reverse('Author:index'))
 
     def select_private(self, request): #TODO
