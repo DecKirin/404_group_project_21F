@@ -1,6 +1,7 @@
 from urllib.parse import urlparse
 from django.views import View
-from Author.models import User, Inbox, Post
+from Author.models import User, Post
+from inbox.models import Inbox
 from Author.serializers import PostSerializer
 from friends.models import Friend
 from rest_framework.response import Response

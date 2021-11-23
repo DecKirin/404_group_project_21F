@@ -19,7 +19,8 @@ from rest_framework.renderers import TemplateHTMLRenderer
 from Author.serializers import UserSerializer, PostSerializer, CommentSerializer
 from friends.models import FriendRequest
 import Author
-from Author.models import User, RegisterControl, Inbox, Post, Node
+from Author.models import User, RegisterControl, Post, Node
+from inbox.models import Inbox
 from Post.models import PostComment
 # Create your views here.
 from django.views import View
