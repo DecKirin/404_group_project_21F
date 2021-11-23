@@ -1,9 +1,12 @@
+import datetime
+
 from django.db import models
 from django.conf import settings
 import uuid
+
+
 # Create your models here.
 class Friend(models.Model):
-
     friends = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, related_name="friends")
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='cur_user', on_delete=models.CASCADE, null=True)
 
@@ -17,7 +20,6 @@ class Friend(models.Model):
 
 
 class Follower(models.Model):
-
     followers = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, related_name="followers")
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='user', on_delete=models.CASCADE, null=True)
 
@@ -31,7 +33,6 @@ class Follower(models.Model):
 
 
 class Follow(models.Model):
-
     follows = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, related_name="follows")
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='users', on_delete=models.CASCADE, null=True)
 
@@ -47,11 +48,20 @@ class Follow(models.Model):
 '''
 create new instance when current user trying to send befriend request
 '''
+
+
 class FriendRequest(models.Model):
+    type = "follow"
     request_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    sender = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='req_sender', on_delete=models.CASCADE, null=True)
-    receiver = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='req_receiver', on_delete=models.CASCADE, null=True)
+
+    sender = models.JSONField(default=dict, max_length=2000)
+    receiver = models.JSONField(default=dict, max_length=2000)
+
+    #sender = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='req_sender', on_delete=models.CASCADE, null=True)
+    #receiver = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='req_receiver', on_delete=models.CASCADE,
+    #                             null=True)
     respond_status = models.BooleanField(blank=False, null=False, default=False)
+    created = models.DateTimeField(auto_now_add=True)
 
     def accept_request(self):
         sender_friend, create_sender = Friend.objects.get_or_create(user=self.sender)

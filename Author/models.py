@@ -87,32 +87,7 @@ class Post(models.Model):
         db_table = 'posts'
 
 
-'''
-class Comment(models.Model):
-    # post is a foreign key of comment
-    id = models.AutoField(primary_key=True)
-    post = models.ForeignKey(Post, related_name='comments', on_delete=models.CASCADE, null=False)
-    # the author make this comment
-    author = models.ForeignKey(User, related_name='comments', on_delete=models.CASCADE, null=False, default=1)  # TODO: edit default value
-    name = models.CharField(max_length=80)
-    comment = models.TextField()
-    created = models.DateTimeField(auto_now_add=True)
-    is_active = models.BooleanField(default=True)
 
-    class Meta:
-        ordering = ('created',)
-
-    def __str__(self):
-        return 'Comment by {} on {}'.format(self.name, self.post)
-
-
-class Like(models.Model):
-    id = models.AutoField(primary_key=True)
-    post = models.ForeignKey(Post, related_name='likes', on_delete=models.CASCADE, null=False)
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now_add=True)
-    owner = models.ForeignKey(User, related_name='likes', on_delete=models.CASCADE, blank=False)
-'''
 '''
 # https://stackoverflow.com/questions/65055520/django-user-subscribe-user-relation
 class FollowAuthor(models.Model):
@@ -168,8 +143,10 @@ class Friend(models.Model):
 class Inbox(models.Model):
     type = "inbox"
     author = models.ForeignKey(User, related_name='inbox', on_delete=models.CASCADE, null=False)
-    items = models.CharField(blank=True, max_length=200)
-    requests = models.ForeignKey(FriendRequest, related_name='inbox', on_delete=models.CASCADE, null=False)
+    #items = models.CharField(blank=True, max_length=200)
+    items = models.JSONField(default=list, max_length=10000)
+    #requests = models.ForeignKey(FriendRequest, related_name='inbox', on_delete=models.CASCADE, null=False, blank=True)
+    #created = models.DateTimeField(auto_now_add=True)
     # Todo:Fetch Posts
 
 
@@ -178,6 +155,6 @@ class Inbox(models.Model):
 
 class Node(models.Model):
     host = models.URLField(default="", primary_key=True, unique=True)
-
+    allow_connection = models.BooleanField(default=True)
     def get_host(self):
         return self.host

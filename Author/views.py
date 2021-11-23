@@ -892,4 +892,11 @@ class APILikesByAuthorId(APIView):
 
 class APIInbox(APIView):
     def get(self, request, authorId):
-        pass
+        author = User.objects.get(id=authorId)
+        inbox = Inbox.objects.get(author_id = authorId)
+
+
+    def post(self, request, authorId):
+        data = request.data
+        author = User.objects.get(id=authorId)
+

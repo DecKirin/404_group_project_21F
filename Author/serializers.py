@@ -35,3 +35,6 @@ class CommentSerializer(serializers.ModelSerializer):
 
     def get_author(self, obj):
         return UserSerializer(User.objects.filter(id=obj.author_comment.id).first()).data
+
+class InboxSerializer(serializers.ModelSerializer):
+    pass
