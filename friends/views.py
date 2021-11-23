@@ -16,16 +16,6 @@ from django.urls import reverse
 from django.core.paginator import Paginator
 import logging
 
-
-####helper function to convert python dictionary to json
-# https://stackoverflow.com/questions/36880065/how-to-serialize-python-dict-to-json
-def dumper(obj):
-    try:
-        return obj.toJSON()
-    except:
-        return obj.__dict__
-
-
 # Create your views here.
 
 def un_befriend(request, id, delete):

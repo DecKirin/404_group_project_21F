@@ -26,6 +26,8 @@ from django.views import View
 from django.contrib.auth import authenticate, login, logout
 import requests
 from requests.auth import HTTPBasicAuth
+
+from friends.serializers import FriendRequestSerializer
 from social_network.settings import SECRET_KEY
 
 
@@ -904,5 +906,23 @@ class APIInbox(APIView):
         return response
 
     def post(self, request, authorId):
+        ##the inbox data sent by other servers
         data = request.data
-        author = User.objects.get(id=authorId)
+        local_author = User.objects.get(id=authorId)
+
+        inbox, created = Inbox.objects.get_or_create(author_id=authorId)
+        if data['type'].lower() == "follow":
+            remote_author = data['sender']
+            friend_request = FriendRequest.objects.create(sender=remote_author, receiver=UserSerializer(local_author).data)
+            inbox.items.append(FriendRequestSerializer(friend_request).data)
+            inbox.save()
+            response = Response()
+            response.status_code = 200
+            return response
+        #todo:handle post api for like from remote author
+        elif data['type'].lower() == "like":
+            pass
+
+        #todo:handle post api for friend post/private post from remote author
+        elif data['type'].lower() == "post":
+            pass
