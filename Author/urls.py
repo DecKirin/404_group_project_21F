@@ -7,7 +7,7 @@ from friends.views import friends_list_view, send_friend_request, process_friend
     follows_list_view, follower_view, un_befriend, my_list , APIFollowsByIdView, APIFollowersByIdView, APIFriendsByIdView
 from Post.views import NewPostView, SpecificPostView, EditPostView, delete_post, like_post, unlike_post, CreatePostComment
 
-from Author.views import APIAllProfileView, APIAuthorProfileView
+from Author.views import APIAllProfileView, APIAuthorProfileView, APIAllPosts
 
 app_name = 'Author'
 urlpatterns = [
@@ -71,5 +71,8 @@ urlpatterns = [
     path('api/author/<uuid:authorId>/comments/', APICommentsByAuthorId.as_view(), name="api_comments_by_authorId"),
     path('api/author/<uuid:authorId>/likes/', APILikesByAuthorId.as_view(), name="api_likes_by_authorId"),
     path('api/author/<uuid:authorId>/inbox/', APIInbox.as_view(), name = "api_inbox"),
+
+
+    path('api/posts/', APIAllPosts.as_view(),name="api_all_posts"),
 
 ]

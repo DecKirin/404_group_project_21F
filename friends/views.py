@@ -224,6 +224,10 @@ class process_friend_request(View):
         # logging.debug('Nothing')
         return HttpResponseRedirect(reverse('Author:index'))
 
+
+''''''''''''''''''''''''''''''''''''''''follower/follows/friends related api'''''''''''''''''''''''''''''''''''''''''''''''
+
+
 class APIFriendsByIdView(APIView):
     def get(self, request, id):
         # alternative approach, just use username
@@ -290,7 +294,7 @@ class APIFollowsByIdView(APIView):
             response.status_code = 200
             response.data = None
         else:
-            follows_list = follows.follows.all().order_by()#
+            follows_list = follows.follows.all().order_by()  #
             paginator = Paginator(follows_list, per_page)
             page_object = paginator.page(page)
             serializer = UserSerializer(page_object, many=True)
@@ -298,3 +302,5 @@ class APIFollowsByIdView(APIView):
             response.status_code = 200
             response.data = serializer.data
         return response
+
+

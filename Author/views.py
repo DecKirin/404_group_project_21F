@@ -28,6 +28,7 @@ import requests
 from requests.auth import HTTPBasicAuth
 from social_network.settings import SECRET_KEY
 
+
 # check if validation by admin is required to activate an author account
 def check_if_confirmation_required():
     try:
@@ -40,18 +41,21 @@ def check_if_confirmation_required():
         return registerControl.free_registration
     else:
         return list(confirm)[0].free_registration
+
+
 def get_remote_nodes():
     nodes = Node.objects.all()
     all_host = [node.host for node in nodes]
     print(all_host)
     return all_host
 
+
 def get_remote_authors():
     all_remote_host = get_remote_nodes()
 
     authors = []
     for host in all_remote_host:
-        api_uri = host +'/api'+'/authors/'
+        api_uri = host + '/api' + '/authors/'
         print(api_uri)
         ####todo:authentication information
         ####request = requests.get(api_uri, auth=HTTPBasicAuth(auth_user, auth_pass))
@@ -59,8 +63,20 @@ def get_remote_authors():
         if request.status_code == 200:
             authors_in_host = request.json()
             authors += authors_in_host
-    #print(authors)
+    # print(authors)
     return authors
+
+def get_remote_public_posts():
+    all_remote_host = get_remote_nodes()
+
+    posts = []
+    for host in all_remote_host:
+        api_uri = host+'/api' + '/posts/'
+        request = requests.get(api_uri)
+        if request.status_code == 200:
+            posts_in_host = request.json()
+            posts += posts_in_host
+    return posts
 
 
 
@@ -654,7 +670,12 @@ class AllPublicPostsView(View):
         per_page = int(request.GET.get("size", 10))
         currentUser = request.user
 
-        all_pub_posts = Post.objects.filter(visibility=1)
+        local_public_posts = Post.objects.filter(visibility=1)
+
+        remote_posts = get_remote_public_posts()
+
+        all_pub_posts = list(local_public_posts) + remote_posts
+
 
         paginator = Paginator(all_pub_posts, per_page)
         page_object = paginator.page(page)
@@ -686,6 +707,8 @@ class AllPublicPostsView(View):
     "github": "https://github.com/zqq66"
 }]
 '''
+
+'''''''''''''''                                author/author's post related API                      '''''''''''''''
 
 
 class APIAllProfileView(APIView):
@@ -735,6 +758,7 @@ class APIAuthorProfileView(APIView):
         response.status_code = 200
         response.data = serializer.data
         return response
+
     ##update user info
 
     def post(self, request, id):
@@ -747,7 +771,8 @@ class APIAuthorProfileView(APIView):
             update_user = user_serializer.save()
 
             update_user.host = request.META['HTTP_HOST']
-            update_user.url = request.scheme + "://" + request.META['HTTP_HOST'] + "/author/" + str(update_user.id) + "/"
+            update_user.url = request.scheme + "://" + request.META['HTTP_HOST'] + "/author/" + str(
+                update_user.id) + "/"
             update_user.api_url = request.build_absolute_uri()
             update_user.save()
             return Response(status=status.HTTP_200_OK)
@@ -774,6 +799,30 @@ class APIAuthorPostsView(APIView):
         return response
 
 
+'''''''''''''''                                Post related API                      '''''''''''''''
+
+
+# todo:determine wether or not only return public posts
+class APIAllPosts(APIView):
+    def get(self, request):
+        page = int(request.GET.get("page", 1))
+        per_page = int(request.GET.get("size", 10))
+        # something like only showing active user
+        # user_status = int(request.GET.get("user_status",1))
+        posts = Post.objects.all().order_by("-published")
+        # posts = Post.objects.filter(visibility="PUBLIC")
+
+        paginator = Paginator(posts, per_page)
+        page_object = paginator.page(page)
+        serializer = PostSerializer(page_object, many=True)
+        response = Response()
+        response.status_code = 200
+        response.data = serializer.data
+        # response = render(request, 'temp_for_all_authors_list.html', context=context)
+        # response = render(request, 'all_authors_list.html', context=context)
+        return response
+
+
 class APIPostByIdView(APIView):
     def get(self, request, authorId, postId):
         view_user = User.objects.get(id=authorId)
@@ -789,14 +838,17 @@ class APIPostByIdView(APIView):
         response.data = post_serializer.data
 
         return response
-    def post(self,request,authorId, postId):
+
+    def post(self, request, authorId, postId):
         pass
 
 
+'''''''''''''''                                Comment/Like related API                      '''''''''''''''
+
 
 class APICommentsByPostId(APIView):
-    #authentication_classes = [BasicAuthentication]
-    #permission_classes = [IsAuthenticated]
+    # authentication_classes = [BasicAuthentication]
+    # permission_classes = [IsAuthenticated]
     def get(self, request, authorId, postId):
         view_user = User.objects.get(id=authorId)
         view_post = Post.objects.get(id=postId)
@@ -810,9 +862,9 @@ class APICommentsByPostId(APIView):
         response.status_code = 200
         response.data = comments_serializer.data
         return response
+
     def post(self, request, authorId, postId):
         pass
-
 
 
 class APIComment(APIView):
@@ -825,7 +877,6 @@ class APIComment(APIView):
         return response
 
 
-
 class APICommentsByAuthorId(APIView):
     def get(self, request, authorId):
         pass
@@ -834,6 +885,10 @@ class APICommentsByAuthorId(APIView):
 class APILikesByAuthorId(APIView):
     def get(self, request, authorId):
         pass
+
+
+'''''''''''''''                                Inbox related API                      '''''''''''''''
+
 
 class APIInbox(APIView):
     def get(self, request, authorId):
