@@ -37,4 +37,6 @@ class CommentSerializer(serializers.ModelSerializer):
         return UserSerializer(User.objects.filter(id=obj.author_comment.id).first()).data
 
 class InboxSerializer(serializers.ModelSerializer):
-    pass
+    class Meta:
+        model = Inbox
+        fields = ['type', 'author_id', 'items']

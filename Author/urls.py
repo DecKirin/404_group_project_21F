@@ -72,7 +72,6 @@ urlpatterns = [
     path('api/author/<uuid:authorId>/likes/', APILikesByAuthorId.as_view(), name="api_likes_by_authorId"),
     path('api/author/<uuid:authorId>/inbox/', APIInbox.as_view(), name = "api_inbox"),
 
-
     path('api/posts/', APIAllPosts.as_view(),name="api_all_posts"),
 
 ]

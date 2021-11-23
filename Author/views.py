@@ -16,7 +16,7 @@ from rest_framework.renderers import JSONRenderer, BrowsableAPIRenderer
 
 from rest_framework.renderers import TemplateHTMLRenderer
 
-from Author.serializers import UserSerializer, PostSerializer, CommentSerializer
+from Author.serializers import UserSerializer, PostSerializer, CommentSerializer, InboxSerializer
 from friends.models import FriendRequest
 import Author
 from Author.models import User, RegisterControl, Inbox, Post, Node
@@ -66,18 +66,18 @@ def get_remote_authors():
     # print(authors)
     return authors
 
+
 def get_remote_public_posts():
     all_remote_host = get_remote_nodes()
 
     posts = []
     for host in all_remote_host:
-        api_uri = host+'/api' + '/posts/'
+        api_uri = host + '/api' + '/posts/'
         request = requests.get(api_uri)
         if request.status_code == 200:
             posts_in_host = request.json()
             posts += posts_in_host
     return posts
-
 
 
 '''
@@ -504,6 +504,7 @@ class InterFRInboxView(View):
         page = int(request.GET.get("page", 1))
         per_page = int(request.GET.get("size", 10))
         friReqs = FriendRequest.objects.filter(receiver_id=curr_user.id).filter(respond_status=False)
+        # friReqs = FriendRequest.objects.filter(receiver)
 
         # inbox = Inbox.objects.filter(requests=friReqs)
 
@@ -675,7 +676,6 @@ class AllPublicPostsView(View):
         remote_posts = get_remote_public_posts()
 
         all_pub_posts = list(local_public_posts) + remote_posts
-
 
         paginator = Paginator(all_pub_posts, per_page)
         page_object = paginator.page(page)
@@ -892,11 +892,17 @@ class APILikesByAuthorId(APIView):
 
 class APIInbox(APIView):
     def get(self, request, authorId):
-        author = User.objects.get(id=authorId)
-        inbox = Inbox.objects.get(author_id = authorId)
+        try:
+            inbox = Inbox.objects.get(author_id=authorId)
+        except Inbox.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
+        serializer = InboxSerializer(inbox)
+        response = Response()
+        response.status_code = 200
+        response.data = serializer.data
+        return response
 
     def post(self, request, authorId):
         data = request.data
         author = User.objects.get(id=authorId)
-

@@ -88,57 +88,6 @@ class Post(models.Model):
 
 
 
-'''
-# https://stackoverflow.com/questions/65055520/django-user-subscribe-user-relation
-class FollowAuthor(models.Model):
-    # author = models.OneToOneField(Author, on_delete=models.CASCADE, related_name='author_subscription')
-    # subscribers = models.ManyToManyField(Author, related_name='subscriptions', blank=True)
-    author = models.OneToOneField(User, on_delete=models.CASCADE, related_name='author_subscription')
-    subscribers = models.ManyToManyField(User, related_name='subscriptions', blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-'''
-'''
-# https://medium.com/analytics-vidhya/add-friends-with-689a2fa4e41d
-class FriendRequest(models.Model):
-    status = [
-        (1, "SENT"),
-        (2, "ACCEPTED"),
-        (3, "DENIED")
-    ]
-    # sender = models.OneToOneField(Author, on_delete=models.CASCADE, related_name='sender')
-    # receiver = models.OneToOneField(Author, on_delete=models.CASCADE, related_name='receiver')
-    # sender = models.ForeignKey(
-    sender = models.OneToOneField(User, on_delete=models.CASCADE, related_name='sender')
-    receiver = models.OneToOneField(User, on_delete=models.CASCADE, related_name='receiver')
-    created = models.DateTimeField(auto_now_add=True)
-'''
-'''
-'''
-'''
-class Friend(models.Model):
-    users = models.ManyToManyField(User)
-    current_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="owner", null=True)
-
-    @classmethod
-    def make_friend(cls, current_user, new_friend):
-        friend, created = cls.objects.get_or_create(
-            current_user=current_user
-        )
-        friend.users.add(new_friend)
-
-    @classmethod
-    def remove_friend(cls, current_user, new_friend):
-        friend, created = cls.objects.get_or_create(
-            current_user=current_user
-        )
-        friend.users.remove(new_friend)
-
-    def __str__(self):
-        return str(self.current_user)
-'''
-
 
 class Inbox(models.Model):
     type = "inbox"
