@@ -11,6 +11,7 @@ from Post.views import NewPostView, SpecificPostView, EditPostView, delete_post,
 
 from Author.views import APIAllProfileView, APIAuthorProfileView, APIAllPosts
 
+from Author.views import Remote_Author_Profile_View
 app_name = 'Author'
 urlpatterns = [
 
@@ -49,7 +50,7 @@ urlpatterns = [
     # display all user profiles
     # page to view other user's profile
 
-    path('author/<uuid:id>/', UserProfileView.as_view(), name='profile'),
+    path('author/<str:id>/', UserProfileView.as_view(), name='profile'),
     # Inboxes
     path('<uuid:id>/inbox/', login_required(InboxView.as_view()), name='inbox'),
     path('inbox/fr', login_required(InterFRInboxView.as_view()), name='inter_FRinbox'),
@@ -78,5 +79,11 @@ urlpatterns = [
     path('api/author/<authorId>/posts/<postId>/likes/', APILikesByPost.as_view(), name="api_comment"),
 
     path('api/posts/', APIAllPosts.as_view(), name="api_all_posts"),
+
+
+
+
+
+    path('remote_author/', Remote_Author_Profile_View.as_view(), name="remote_author_profile"),
 
 ]

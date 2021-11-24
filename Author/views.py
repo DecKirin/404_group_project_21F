@@ -1,5 +1,6 @@
 import re
 import json
+import urllib.parse
 from urllib.request import urlopen
 
 from django.contrib import messages
@@ -33,8 +34,19 @@ from requests.auth import HTTPBasicAuth
 from friends.serializers import FriendRequestSerializer
 from social_network.settings import SECRET_KEY
 
-############ during test stage, use this instead of manually adding node using admin pannel
-remote_servers = ['']
+"""during test stage, use this instead of manually adding node using admin pannel"""
+all_remote_host = ['https://social-distribution-fall2021.herokuapp.com']
+
+"""in case vpn issues, modify based on your own vpn"""
+
+
+def make_api_get_request(api_url):
+    proxies = {
+        "http": "http://192.168.1.4",
+        "https": "http://127.0.0.1:7890"
+    }
+    request = requests.get(api_url, proxies=proxies, verify=True)
+    return request
 
 
 # check if validation by admin is required to activate an author account
@@ -59,7 +71,7 @@ def get_remote_nodes():
 
 
 def get_remote_authors():
-    all_remote_host = get_remote_nodes()
+    # all_remote_host = get_remote_nodes()
 
     authors = []
     for host in all_remote_host:
@@ -67,27 +79,18 @@ def get_remote_authors():
         print(api_uri)
         ####todo:authentication information
         ####request = requests.get(api_uri, auth=HTTPBasicAuth(auth_user, auth_pass))
-        proxies = {
-            "http": "http://127.0.0.1:7890",
-            "https": "https://127.0.0.1:7890",
-        }
-
-        headers = {
-            'User-Agent': "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36"
-        }
 
         # proxies = {"http": None, "https": None}66
-        request = requests.get(api_uri, proxies={
-            "http": "http://127.0.0.1:7890",
-            "https": "https://127.0.0.1:7890"
-        })
-
-        print(request.json())
-        try:
-            authors_in_host = request.json().items
-        except Exception:
-            authors_in_host = request.json()
-        authors += authors_in_host
+        request = make_api_get_request(api_uri)
+        print(request.json().items)
+        if request.status_code == 200:
+            try:
+                authors_in_host = request.json()["items"]
+            except Exception:
+                authors_in_host = request.json()
+            authors = authors + authors_in_host
+        else:
+            continue
     print(authors)
     return authors
 
@@ -103,13 +106,6 @@ def get_remote_public_posts():
             posts_in_host = request.json()
             posts += posts_in_host
     return posts
-
-
-'''
-URL: ://service/author/register
-GET: visit register page
-POST: submit an author account registeration
-'''
 
 
 class RegisterView(View):
@@ -387,6 +383,7 @@ class AllUserProfileView(View):
             'page_size': per_page,
             'current_page': page,
             'current_author': currentUser,
+            'current_host': request.META['HTTP_HOST']
         }
 
         response = render(request, 'temp_for_all_authors_list.html', context=context)
@@ -750,7 +747,11 @@ class APIAllProfileView(APIView):
         serializer = UserSerializer(page_object, many=True)
         response = Response()
         response.status_code = 200
-        response.data = serializer.data
+        data = {
+            "type": "authors",
+            "items": serializer.data
+        }
+        response.data = data
         # response = render(request, 'temp_for_all_authors_list.html', context=context)
         # response = render(request, 'all_authors_list.html', context=context)
         return response
@@ -906,3 +907,42 @@ class APIInbox(APIView):
         # todo:handle post api for friend post/private post from remote author
         elif data['type'].lower() == "post":
             pass
+
+
+"""remote author related view"""
+
+class Remote_Author_Profile_View(View):
+    def get(self, request):
+        curr_user = request.user
+
+        authorAPIUrl = request.GET.get("url")
+        authorAPIUrl = urllib.parse.unquote(authorAPIUrl)
+        author_request = make_api_get_request(authorAPIUrl)
+        remote_author = author_request.json()
+
+        page = int(request.GET.get("page", 1))
+        per_page = int(request.GET.get("size", 10))
+
+        try:
+            github = remote_author.github
+            githubUname = github.split("/")[-1]
+        except Exception:
+            githubUname = None
+
+        posts_url = authorAPIUrl + "/posts"
+        posts_request = make_api_get_request(posts_url)
+        remote_posts = posts_request.json()["items"]
+
+        paginator = Paginator(remote_posts, per_page)
+        page_object = paginator.page(page)
+
+        context = {
+            'current_author': curr_user,
+            'githubName': githubUname,
+            'myPosts': remote_posts,
+            'page_object': page_object,
+            'page_range': paginator.page_range,
+            'view_author': remote_author,
+        }
+        print(context)
+        return render(request, 'remote_author_profile.html', context=context)

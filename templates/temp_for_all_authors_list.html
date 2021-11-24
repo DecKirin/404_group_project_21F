@@ -27,8 +27,13 @@
                           <img src="{{ author.profile_image }}}" alt="user-avatar" class="img-circle img-fluid">
 
                           <div class="col-7">
+                              {% if author.username %}
                               <h2 class="lead"><b>{{ author.username }}</b></h2>
+                              {% else %}
+                              <h2 class="lead"><b>{{ author.displayName }}</b></h2>
+                              {% endif %}
                               <p class="text-muted text-sm"><b>github: </b> {{ author.github }} </p>
+                              <p class="text-muted text-sm"><b>url: </b> {{ author.url }} </p>
                               <ul class="ml-4 mb-0 fa-ul text-muted">
                               </ul>
 
@@ -37,12 +42,27 @@
                       </div>
                       <div class="card-footer">
                           <div class="text-right">
+                          {% if author.host == current_host %}
                           <a href="{% url 'Author:friend_request' author.id %}" class="btn btn-sm bg-teal">
                               <i class="fas fa-comments"></i> Be-Friend
+                          {% endif %}
+
+
                           </a>
+                          {% if author.host == current_host %}
                           <a href="{% url 'Author:profile' author.id %}" class="btn btn-sm btn-primary">
                               <i class="fas fa-user"></i> View Profile
                           </a>
+                          {% else %}
+                          <form id='remote_author_url' method="get" action={% url 'Author:remote_author_profile' %}>
+                              <input type="hidden" id="url" name="url" value={{ author.url }}>
+                              <button class="btn btn-sm btn-primary" type="submit" >
+                                  <i class="fas fa-user"></i> View Profile
+                              </button>
+                          </form>
+
+                          {% endif %}
+
                           </div>
                       </div>
                       </div>
