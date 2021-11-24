@@ -10,6 +10,8 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.decorators import renderer_classes
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.renderers import JSONRenderer, BrowsableAPIRenderer
@@ -782,6 +784,9 @@ class APIAuthorProfileView(APIView):
 
 # the posts of this particular author
 class APIAuthorPostsView(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticated]
+
     def get(self, request, id):
         view_user = User.objects.get(id=id)
         page = int(request.GET.get("page", 1))
@@ -806,6 +811,9 @@ class APIAuthorPostsView(APIView):
 
 # todo:determine wether or not only return public posts
 class APIAllPosts(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticated]
+
     def get(self, request):
         page = int(request.GET.get("page", 1))
         per_page = int(request.GET.get("size", 10))
@@ -826,6 +834,9 @@ class APIAllPosts(APIView):
 
 
 class APIPostByIdView(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticated]
+
     def get(self, request, authorId, postId):
         view_user = User.objects.get(id=authorId)
         view_post = Post.objects.get(id=postId)
@@ -849,8 +860,9 @@ class APIPostByIdView(APIView):
 
 
 class APICommentsByPostId(APIView):
-    # authentication_classes = [BasicAuthentication]
-    # permission_classes = [IsAuthenticated]
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticated]
+
     def get(self, request, authorId, postId):
         view_user = User.objects.get(id=authorId)
         view_post = Post.objects.get(id=postId)
@@ -870,6 +882,9 @@ class APICommentsByPostId(APIView):
 
 
 class APIComment(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticated]
+
     def get(self, request, authorId, postId, commentId):
         comment = PostComment.objects.get(id_comment=commentId)
         comment_serializer = CommentSerializer(comment)
@@ -880,11 +895,15 @@ class APIComment(APIView):
 
 
 class APICommentsByAuthorId(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticated]
     def get(self, request, authorId):
         pass
 
 
 class APILikesByAuthorId(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticated]
     def get(self, request, authorId):
         pass
 
@@ -893,6 +912,8 @@ class APILikesByAuthorId(APIView):
 
 
 class APIInbox(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticated]
     def get(self, request, authorId):
         try:
             inbox = Inbox.objects.get(author_id=authorId)
