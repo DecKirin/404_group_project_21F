@@ -1,5 +1,6 @@
 import re
 import json
+from urllib.request import urlopen
 
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -16,7 +17,8 @@ from rest_framework.renderers import JSONRenderer, BrowsableAPIRenderer
 
 from rest_framework.renderers import TemplateHTMLRenderer
 
-from Author.serializers import UserSerializer, PostSerializer, CommentSerializer, InboxSerializer
+from Author.serializers import UserSerializer, PostSerializer, InboxSerializer
+from Post.serializers import CommentSerializer, LikeSerializer
 from friends.models import FriendRequest
 import Author
 from Author.models import User, RegisterControl, Inbox, Post, Node
@@ -25,10 +27,14 @@ from Post.models import PostComment
 from django.views import View
 from django.contrib.auth import authenticate, login, logout
 import requests
+import OpenSSL
 from requests.auth import HTTPBasicAuth
 
 from friends.serializers import FriendRequestSerializer
 from social_network.settings import SECRET_KEY
+
+############ during test stage, use this instead of manually adding node using admin pannel
+remote_servers = ['']
 
 
 # check if validation by admin is required to activate an author account
@@ -61,11 +67,28 @@ def get_remote_authors():
         print(api_uri)
         ####todo:authentication information
         ####request = requests.get(api_uri, auth=HTTPBasicAuth(auth_user, auth_pass))
-        request = requests.get(api_uri)
-        if request.status_code == 200:
+        proxies = {
+            "http": "http://127.0.0.1:7890",
+            "https": "https://127.0.0.1:7890",
+        }
+
+        headers = {
+            'User-Agent': "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36"
+        }
+
+        # proxies = {"http": None, "https": None}66
+        request = requests.get(api_uri, proxies={
+            "http": "http://127.0.0.1:7890",
+            "https": "https://127.0.0.1:7890"
+        })
+
+        print(request.json())
+        try:
+            authors_in_host = request.json().items
+        except Exception:
             authors_in_host = request.json()
-            authors += authors_in_host
-    # print(authors)
+        authors += authors_in_host
+    print(authors)
     return authors
 
 
@@ -845,50 +868,6 @@ class APIPostByIdView(APIView):
         pass
 
 
-'''''''''''''''                                Comment/Like related API                      '''''''''''''''
-
-
-class APICommentsByPostId(APIView):
-    # authentication_classes = [BasicAuthentication]
-    # permission_classes = [IsAuthenticated]
-    def get(self, request, authorId, postId):
-        view_user = User.objects.get(id=authorId)
-        view_post = Post.objects.get(id=postId)
-        post_comments = view_post.comments
-
-        user_serializer = UserSerializer(view_user)
-        post_serializer = PostSerializer(view_post)
-        comments_serializer = CommentSerializer(post_comments, many=True)
-
-        response = Response()
-        response.status_code = 200
-        response.data = comments_serializer.data
-        return response
-
-    def post(self, request, authorId, postId):
-        pass
-
-
-class APIComment(APIView):
-    def get(self, request, authorId, postId, commentId):
-        comment = PostComment.objects.get(id_comment=commentId)
-        comment_serializer = CommentSerializer(comment)
-        response = Response()
-        response.status_code = 200
-        response.data = comment_serializer.data
-        return response
-
-
-class APICommentsByAuthorId(APIView):
-    def get(self, request, authorId):
-        pass
-
-
-class APILikesByAuthorId(APIView):
-    def get(self, request, authorId):
-        pass
-
-
 '''''''''''''''                                Inbox related API                      '''''''''''''''
 
 
@@ -913,16 +892,17 @@ class APIInbox(APIView):
         inbox, created = Inbox.objects.get_or_create(author_id=authorId)
         if data['type'].lower() == "follow":
             remote_author = data['sender']
-            friend_request = FriendRequest.objects.create(sender=remote_author, receiver=UserSerializer(local_author).data)
+            friend_request = FriendRequest.objects.create(sender=remote_author,
+                                                          receiver=UserSerializer(local_author).data)
             inbox.items.append(FriendRequestSerializer(friend_request).data)
             inbox.save()
             response = Response()
             response.status_code = 200
             return response
-        #todo:handle post api for like from remote author
+        # todo:handle post api for like from remote author
         elif data['type'].lower() == "like":
             pass
 
-        #todo:handle post api for friend post/private post from remote author
+        # todo:handle post api for friend post/private post from remote author
         elif data['type'].lower() == "post":
             pass

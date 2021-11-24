@@ -1,11 +1,13 @@
 from django.urls import path, re_path
 from django.contrib.auth.decorators import login_required
-from Author.views import RegisterView, LoginView, UserInfoView, LogoutView, UserPostsView, IndexView, InterFRInboxView, InterPostInboxView, InboxView, \
-    UserProfileView, AllUserProfileView, SearchUserView, UserEditInfoView, MyStreamView, AllPublicPostsView, APIAuthorPostsView, APIPostByIdView, APICommentsByPostId, APIComment, \
-    APICommentsByAuthorId, APILikesByAuthorId, APIInbox
+from Author.views import RegisterView, LoginView, UserInfoView, LogoutView, UserPostsView, IndexView, InterFRInboxView, \
+    InterPostInboxView, InboxView, \
+    UserProfileView, AllUserProfileView, SearchUserView, UserEditInfoView, MyStreamView, AllPublicPostsView, \
+    APIAuthorPostsView, APIPostByIdView, APIInbox
 from friends.views import friends_list_view, send_friend_request, process_friend_request, followers_list_view, \
-    follows_list_view, follower_view, un_befriend, my_list , APIFollowsByIdView, APIFollowersByIdView, APIFriendsByIdView
-from Post.views import NewPostView, SpecificPostView, EditPostView, delete_post, like_post, unlike_post, CreatePostComment
+    follows_list_view, follower_view, un_befriend, my_list, APIFollowsByIdView, APIFollowersByIdView, APIFriendsByIdView
+from Post.views import NewPostView, SpecificPostView, EditPostView, delete_post, like_post, unlike_post, \
+    CreatePostComment, APICommentsByPostId, APICommentsByAuthorId, APILikesByAuthorId, APIComment, APILikesByPost
 
 from Author.views import APIAllProfileView, APIAuthorProfileView, APIAllPosts
 
@@ -57,21 +59,24 @@ urlpatterns = [
     # Un-befriend
     path('<uuid:id>/<delete>', un_befriend, name='un_befriend'),
 
-
     # below are URLs for API only
     path('api/authors/', APIAllProfileView.as_view(), name="api_authors"),
     path('api/author/<uuid:id>/', APIAuthorProfileView.as_view(), name="api_author_by_id"),
     path('api/author/<uuid:id>/follows/', APIFollowsByIdView.as_view(), name="api_follows_by_id"),
     path('api/author/<uuid:id>/followers/', APIFollowersByIdView.as_view(), name="api_followers_by_id"),
     path('api/author/<uuid:id>/friends/', APIFriendsByIdView.as_view(), name="api_friends_by_id"),
-    path('api/author/<uuid:id>/posts/', APIAuthorPostsView.as_view(), name = "api_posts_by_authorId"),
+    path('api/author/<uuid:id>/posts/', APIAuthorPostsView.as_view(), name="api_posts_by_authorId"),
     path('api/author/<uuid:authorId>/posts/<postId>/', APIPostByIdView.as_view(), name="api_post_by_postId"),
-    path('api/author/<uuid:authorId>/posts/<postId>/comments/', APICommentsByPostId.as_view(), name="api_comments_by_postId"),
-    path('api/author/<uuid:authorId>/posts/<postId>/comments/<commentId>/', APIComment.as_view(), name="api_comment"),
+
     path('api/author/<uuid:authorId>/comments/', APICommentsByAuthorId.as_view(), name="api_comments_by_authorId"),
     path('api/author/<uuid:authorId>/likes/', APILikesByAuthorId.as_view(), name="api_likes_by_authorId"),
-    path('api/author/<uuid:authorId>/inbox/', APIInbox.as_view(), name = "api_inbox"),
+    path('api/author/<uuid:authorId>/inbox/', APIInbox.as_view(), name="api_inbox"),
 
-    path('api/posts/', APIAllPosts.as_view(),name="api_all_posts"),
+
+    path('api/author/<uuid:authorId>/posts/<postId>/comments/', APICommentsByPostId.as_view(), name="api_comments_by_postId"),
+    path('api/author/<authorId>/posts/<postId>/comments/<commentId>/', APIComment.as_view(), name="api_comment"),
+    path('api/author/<authorId>/posts/<postId>/likes/', APILikesByPost.as_view(), name="api_comment"),
+
+    path('api/posts/', APIAllPosts.as_view(), name="api_all_posts"),
 
 ]

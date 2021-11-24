@@ -1,7 +1,10 @@
 from urllib.parse import urlparse
 from django.views import View
+from rest_framework.views import APIView
+
 from Author.models import User, Inbox, Post
-from Author.serializers import PostSerializer
+from Author.serializers import PostSerializer, UserSerializer
+from Post.serializers import CommentSerializer, LikeSerializer
 from friends.models import Friend
 from rest_framework.response import Response
 import uuid
@@ -25,7 +28,7 @@ def get_path(old_path):
     return new_path
 
 
-def get_author_id(request,auth_id):
+def get_author_id(request, auth_id):
     ab_path = request.build_absolute_uri()
     re_path = get_path(ab_path)
     return f"{re_path}/author/{auth_id}"
@@ -52,9 +55,9 @@ class NewPostView(View):
         categories = process_categories(categories)
 
         description = request.POST.get('description', '')
-        source = request.build_absolute_uri(request.path)  
+        source = request.build_absolute_uri(request.path)
         origin = request.build_absolute_uri(request.path)
-        unlisted = False   # TODO
+        unlisted = False  # TODO
         post_id = uuid.uuid4().hex
         post_id = str(post_id)
         visibility = int(request.POST.get('visibility', ''))
@@ -71,39 +74,41 @@ class NewPostView(View):
         except Exception:
             image = None
 
-
         post = Post.objects.create(title=title, id=post_id, source=source, origin=origin, description=description,
-                            contentType=content_type, content=content, author=request.user, categories=categories,
-                            visibility=visibility, unlisted=unlisted, select_user=select_user, image=image)
+                                   contentType=content_type, content=content, author=request.user,
+                                   categories=categories,
+                                   visibility=visibility, unlisted=unlisted, select_user=select_user, image=image)
         if post.author.url != "":
             post.url = post.author.url + "posts/" + post.id + "/"
             post.api_url = post.author.api_url + "posts/" + post.id + "/"
-        else :
-            post.url = request.scheme + "://" + request.META['HTTP_HOST'] + "/author/" + str(post.author.id) + "/posts/" + post.id +"/"
-            post.api_url = request.scheme + "://" + request.META['HTTP_HOST'] + "/api/author/" + str(post.author.id) + "/posts/" + post.id +"/"
+        else:
+            post.url = request.scheme + "://" + request.META['HTTP_HOST'] + "/author/" + str(
+                post.author.id) + "/posts/" + post.id + "/"
+            post.api_url = request.scheme + "://" + request.META['HTTP_HOST'] + "/api/author/" + str(
+                post.author.id) + "/posts/" + post.id + "/"
         post.save()
         return redirect(reverse('Author:index'))
 
-    def select_private(self, request): #TODO
+    def select_private(self, request):  # TODO
         return None
 
 
 # with post_id
 class PostsView(View):
     # GET
-    def get_id_post(self, request,*args, **kwargs):
+    def get_id_post(self, request, *args, **kwargs):
         post_id = request.get('id', '')
         posts = Post.objects.get(id=post_id)
         inf_ret = PostSerializer(posts)
         return Response(inf_ret.data)
 
-    def get_author_posts(self, request,*args, **kwargs):
+    def get_author_posts(self, request, *args, **kwargs):
         author_id = request.user
         author_posts = Post.objects.filter(author=author_id)
         inf_ret = PostSerializer(author_posts, many=True)
         return Response(inf_ret.data)
 
-    def get_valid_post(self, request,*args, **kwargs):
+    def get_valid_post(self, request, *args, **kwargs):
         author_id = request.user.id
         inf_ret = []
         all_posts = Post.objects.all()
@@ -114,14 +119,13 @@ class PostsView(View):
                 if Friend.objects.filter(friends=author_id):
                     inf_ret.append(post)
             elif post.visibility == "3":
-                if self.check_private_spe(request,post,author_id):
+                if self.check_private_spe(request, post, author_id):
                     inf_ret.append(post)
         return Response(inf_ret)
 
-    def check_private_spe(self,request,post,author_id):#TODO
+    def check_private_spe(self, request, post, author_id):  # TODO
         return True
 
-    
     '''
     def put_post(self,request,*args, **kwargs):
         author_id = request.user
@@ -218,8 +222,15 @@ class CreatePostComment(View):
         post = Post.objects.get(id=post_id)
         author_for_comment = request.user
         comment_content = request.POST.get('newcomment', '')
-        PostComment.objects.create(post=post, author_comment=author_for_comment, comment_content=comment_content)
-        post.count = post.count+1
+
+        comment = PostComment.objects.create(post=post, author_comment=author_for_comment, comment=comment_content,
+                                             author=UserSerializer(author_for_comment).data)
+        post.count = post.count + 1
+        comment.url = request.scheme + "://" + request.META['HTTP_HOST'] + "/author/" + str(
+            author_id) + "/posts/" + str(post_id) + "/comments/" + str(comment.id_comment) + "/"
+        comment.api_url = request.scheme + "://" + request.META['HTTP_HOST'] + "/api/author/" + str(
+            author_id) + "/posts/" + str(post_id) + "/comments/" + str(comment.id_comment) + "/"
+        comment.save()
         post.save()
         return redirect(reverse('Author:specific_post', args=(author_id, post_id)))
 
@@ -238,7 +249,7 @@ class SpecificPostView(View):
 
         if str(my_id) == str(author_id):
             im_author = True
-        if str(post.author.id) != str(author_id):  
+        if str(post.author.id) != str(author_id):
             return HttpResponse("The author id and post id does not match!")
 
         comments = PostComment.objects.filter(post=post).order_by('-published')
@@ -258,7 +269,7 @@ class SpecificPostView(View):
             'author__id': author_id,
             'isAuthor': im_author,
             'hasComments': hasComments,
-            'comments': comments #return render(request, 'posts/comments.html', context=context)
+            'comments': comments  # return render(request, 'posts/comments.html', context=context)
         }
         return render(request, 'post_legal.html', context=context)
 
@@ -266,7 +277,7 @@ class SpecificPostView(View):
 def like_post(request, author_id, post_id):
     post = Post.objects.get(id=post_id)
     who_like = request.user
-    PostLike.objects.create(post=post, who_like=who_like)
+    PostLike.objects.create(post=post, who_like=who_like, author=UserSerializer(request.user).data, object=post.api_url)
     return redirect(reverse('Author:specific_post', args=(author_id, post_id)))
 
 
@@ -278,3 +289,51 @@ def unlike_post(request, author_id, post_id):
         if postlike.who_like == who_like:
             postlike.delete()
     return redirect(reverse('Author:specific_post', args=(author_id, post_id)))
+
+
+class APICommentsByPostId(APIView):
+    # authentication_classes = [BasicAuthentication]
+    # permission_classes = [IsAuthenticated]
+    def get(self, request, authorId, postId):
+        view_post = Post.objects.get(id=postId)
+        post_comments = view_post.comments
+
+        comments_serializer = CommentSerializer(post_comments, many=True)
+
+        response = Response()
+        response.status_code = 200
+        response.data = comments_serializer.data
+        return response
+
+    def post(self, request, authorId, postId):
+        pass
+
+
+class APIComment(APIView):
+    def get(self, request, authorId, postId, commentId):
+        comment = PostComment.objects.get(id_comment=commentId)
+        comment_serializer = CommentSerializer(comment)
+        response = Response()
+        response.status_code = 200
+        response.data = comment_serializer.data
+        return response
+
+
+class APILikesByPost(APIView):
+    def get(self, request, authorId, postId):
+        like = PostLike.objects.filter(post_id=postId)
+        like_serializer = LikeSerializer(like, many=True)
+        response = Response()
+        response.status_code = 200
+        response.data = like_serializer.data
+        return response
+
+
+class APICommentsByAuthorId(APIView):
+    def get(self, request, authorId):
+        pass
+
+
+class APILikesByAuthorId(APIView):
+    def get(self, request, authorId):
+        pass

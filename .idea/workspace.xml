@@ -5,10 +5,45 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6639ff7a-d651-48dc-9929-7225c60edcac" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Post/serializers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Author/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/Author/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Author/migrations/0001_initial.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Author/migrations/0002_inbox_requests.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Author/migrations/0003_alter_post_visibility.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Author/migrations/0004_auto_20211029_1108.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Author/migrations/0005_auto_20211121_1759.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Author/migrations/0006_alter_post_visibility.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Author/migrations/0007_alter_post_visibility.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Author/migrations/0008_alter_post_visibility.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Author/migrations/0009_alter_post_visibility.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Author/migrations/0010_alter_post_visibility.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Author/migrations/0011_auto_20211122_1834.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Author/migrations/0012_alter_post_visibility.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Author/migrations/0013_alter_post_visibility.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Author/migrations/0014_alter_post_visibility.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Author/migrations/0015_auto_20211122_1932.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Author/migrations/0016_alter_post_visibility.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Author/migrations/0017_alter_post_visibility.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Author/migrations/0018_auto_20211123_0234.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Author/migrations/0019_auto_20211123_0729.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Author/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/Author/serializers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Author/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/Author/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Author/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Author/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Post/migrations/0001_initial.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Post/migrations/0002_alter_postlike_who_like.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Post/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/Post/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Post/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Post/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/friends/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/friends/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/friends/migrations/0001_initial.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/friends/migrations/0002_auto_20211029_1532.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/friends/migrations/0003_auto_20211029_1536.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/friends/migrations/0004_remove_friendrequest_respond_status.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/friends/migrations/0005_friendrequest_respond_status.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/friends/migrations/0006_auto_20211029_1108.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/friends/migrations/0007_auto_20211123_0234.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,6 +79,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="DatabaseDriversLRU" value="sqlite" />
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
@@ -56,7 +92,7 @@
     <property name="node.js.selected.package.stylelint" value="" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
+    <property name="settings.editor.selected.configurable" value="configurable.group.tools" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -158,7 +194,12 @@
       <workItem from="1637578346776" duration="1440000" />
       <workItem from="1637628749851" duration="21396000" />
       <workItem from="1637659450921" duration="3507000" />
-      <workItem from="1637674898220" duration="10800000" />
+      <workItem from="1637674898220" duration="14303000" />
+      <workItem from="1637715471517" duration="4478000" />
+      <workItem from="1637720068148" duration="4827000" />
+      <workItem from="1637725091096" duration="9730000" />
+      <workItem from="1637745250547" duration="1185000" />
+      <workItem from="1637754764297" duration="3089000" />
     </task>
     <servers />
   </component>

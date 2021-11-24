@@ -153,9 +153,9 @@ class PostsAdmin(admin.ModelAdmin):
 
 # Register your models here.
 class CommentsAdmin(admin.ModelAdmin):
-    list_display = ("id_comment", "post", "comment_content", "published")
+    list_display = ("id_comment", "post", "comment", "published")
     search_fields = ("post__id", "author__id", "author__username")
-    list_filter = ("published", "author_comment")
+    list_filter = ("published", "author")
 
     def view_post_link(self, obj):
         url = (

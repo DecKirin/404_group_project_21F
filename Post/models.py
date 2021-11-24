@@ -18,27 +18,51 @@ ContentType = [
 
 
 class PostLike(models.Model):
-    type= 'like'
+    type = 'like'
     published = models.DateTimeField(auto_now_add=True)
-    post = models.ForeignKey(Post, related_name='post_like', on_delete=models.CASCADE, null=True)
-    who_like = models.ForeignKey(User, related_name='likes', on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, related_name='post_like', on_delete=models.CASCADE, null=True, blank=True)
+    who_like = models.ForeignKey(User, related_name='likes', on_delete=models.CASCADE, blank=True)
+
+    author = models.JSONField(default=dict, max_length=2000,blank=False)
+    object = models.URLField()
+    summary = models.CharField(max_length=120)
 
     class Meta:
         db_table = 'likes'
+    '''
+    def save(self, *args, **kwargs):
+        try:
+            name = self.author.displayname
+        except Exception:
+            name = self.author.username
 
+        self.summary = '{} likes your post'.format(name)
+        super(PostLike, self).save(*args, **kwargs)
+
+    def __str__(self):
+        try:
+            name = self.author.displayname
+        except Exception:
+            name = self.author.username
+        return '{} likes your post'.format(name)
+    '''
 
 class PostComment(models.Model):
     type = 'comment'
-    id_comment = models.UUIDField(primary_key=True,default=uuid.uuid4,unique=True)
+    id_comment = models.UUIDField(primary_key=True, default=uuid.uuid4, unique=True)
     post = models.ForeignKey(Post, related_name='comments', on_delete=models.CASCADE, null=False)
     # the author make this comment
-    author_comment = models.ForeignKey(User, related_name='comments', on_delete=models.CASCADE, null=False, default=1)  # TODO: edit default value
-    comment_content = models.TextField()
+    author_comment = models.ForeignKey(User, related_name='comments', on_delete=models.CASCADE, default=1, blank=True)  # TODO: edit default value
+    author = models.JSONField(default=dict, max_length=2000,null=True,blank=True)
+    comment = models.TextField()
     published = models.DateTimeField(auto_now_add=True)
+    url = models.URLField(editable=False, default="")
+    api_url = models.URLField(editable=False,default="")
 
     class Meta:
         ordering = ('published',)
         db_table = 'postcomment'
 
     def __str__(self):
-        return 'Comment by {} on {} with content{}'.format( self.author_comment.username, self.post.title, self.comment_content)
+        return 'Comment by {} on {} with content{}'.format(self.author.username, self.post.title,
+                                                           self.comment)
