@@ -59,19 +59,19 @@ urlpatterns = [
 
 
     # below are URLs for API only
-    path('api/authors/',  login_required(APIAllProfileView.as_view()), name="api_authors"),
-    path('api/author/<uuid:id>/', login_required(APIAuthorProfileView.as_view()), name="api_author_by_id"),
-    path('api/author/<uuid:id>/follows/', login_required(APIFollowsByIdView.as_view()), name="api_follows_by_id"),
-    path('api/author/<uuid:id>/followers/', login_required(APIFollowersByIdView.as_view()), name="api_followers_by_id"),
-    path('api/author/<uuid:id>/friends/', login_required(APIFriendsByIdView.as_view()), name="api_friends_by_id"),
-    path('api/author/<uuid:id>/posts/', login_required(APIAuthorPostsView.as_view()), name = "api_posts_by_authorId"),
-    path('api/author/<uuid:authorId>/posts/<postId>/', login_required(APIPostByIdView.as_view()), name="api_post_by_postId"),
-    path('api/author/<uuid:authorId>/posts/<postId>/comments/', login_required(APICommentsByPostId.as_view()), name="api_comments_by_postId"),
-    path('api/author/<uuid:authorId>/posts/<postId>/comments/<commentId>/', login_required(APIComment.as_view()), name="api_comment"),
-    path('api/author/<uuid:authorId>/comments/', login_required(APICommentsByAuthorId.as_view()), name="api_comments_by_authorId"),
-    path('api/author/<uuid:authorId>/likes/', login_required(APILikesByAuthorId.as_view()), name="api_likes_by_authorId"),
-    path('api/author/<uuid:authorId>/inbox/', login_required(APIInbox.as_view()), name = "api_inbox"),
+    path('api/authors/',  APIAllProfileView.as_view(), name="api_authors"),
+    path('api/author/<uuid:id>/', APIAuthorProfileView.as_view(), name="api_author_by_id"),
+    path('api/author/<uuid:id>/follows/', APIFollowsByIdView.as_view(), name="api_follows_by_id"),
+    path('api/author/<uuid:id>/followers/', APIFollowersByIdView.as_view(), name="api_followers_by_id"),
+    path('api/author/<uuid:id>/friends/', APIFriendsByIdView.as_view(), name="api_friends_by_id"),
+    path('api/author/<uuid:id>/posts/', APIAuthorPostsView.as_view(), name = "api_posts_by_authorId"),
+    path('api/author/<uuid:authorId>/posts/<postId>/', APIPostByIdView.as_view(), name="api_post_by_postId"),
+    path('api/author/<uuid:authorId>/posts/<postId>/comments/', APICommentsByPostId.as_view(), name="api_comments_by_postId"),
+    path('api/author/<uuid:authorId>/posts/<postId>/comments/<commentId>/', APIComment.as_view(), name="api_comment"),
+    path('api/author/<uuid:authorId>/comments/', APICommentsByAuthorId.as_view(), name="api_comments_by_authorId"),
+    path('api/author/<uuid:authorId>/likes/', APILikesByAuthorId.as_view(), name="api_likes_by_authorId"),
+    path('api/author/<uuid:authorId>/inbox/', APIInbox.as_view(), name = "api_inbox"),
 
-    path('api/posts/', login_required(APIAllPosts.as_view()),name="api_all_posts"),
+    path('api/posts/', APIAllPosts.as_view(),name="api_all_posts"),
 
 ]
