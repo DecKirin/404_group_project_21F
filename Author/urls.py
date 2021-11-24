@@ -60,7 +60,7 @@ urlpatterns = [
     path('<uuid:id>/<delete>', un_befriend, name='un_befriend'),
 
     # below are URLs for API only
-    path('api/authors/', APIAllProfileView.as_view(), name="api_authors"),
+    path('api/authors/',  APIAllProfileView.as_view(), name="api_authors"),
     path('api/author/<uuid:id>/', APIAuthorProfileView.as_view(), name="api_author_by_id"),
     path('api/author/<uuid:id>/follows/', APIFollowsByIdView.as_view(), name="api_follows_by_id"),
     path('api/author/<uuid:id>/followers/', APIFollowersByIdView.as_view(), name="api_followers_by_id"),
