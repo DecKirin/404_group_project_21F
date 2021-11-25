@@ -1,6 +1,5 @@
 import re
 import json
-
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.sites import requests
@@ -17,7 +16,7 @@ from rest_framework.views import APIView
 from rest_framework.renderers import JSONRenderer, BrowsableAPIRenderer
 
 from rest_framework.renderers import TemplateHTMLRenderer
-
+import urllib
 from Author.serializers import UserSerializer, PostSerializer, CommentSerializer, InboxSerializer
 from friends.models import FriendRequest
 import Author
@@ -28,9 +27,16 @@ from django.views import View
 from django.contrib.auth import authenticate, login, logout
 import requests
 from requests.auth import HTTPBasicAuth
-
 from friends.serializers import FriendRequestSerializer
 from social_network.settings import SECRET_KEY
+
+def make_api_get_request(api_url):
+    proxies = {
+        "http": "http://192.168.1.4",
+        "https": "http://127.0.0.1:7890"
+    }
+    request = requests.get(api_url, proxies=proxies, verify=True)
+    return request
 
 
 # check if validation by admin is required to activate an author account
@@ -458,7 +464,7 @@ class UserEditInfoView(LoginRequiredMixin, View):
             # new username is unique
             exist_user = None
 
-        
+
         if exist_user is None or exist_user.id == current_user.id:
             User.objects.filter(username=current_user.username).update(username=username, email=email, first_name=first_name,last_name=last_name, github=github)
             messages.success(request, "Your change has been saved!")
@@ -560,6 +566,7 @@ class InterPostInboxView(View):
 
         return response
 
+
 class InterLikeInboxView(View):
     def get(self, request):
         curr_user = request.user
@@ -586,6 +593,7 @@ class InterLikeInboxView(View):
         response = render(request, 'temp_inbox_posts.html', context=context)
 
         return response
+
 
 '''
 URL: ://service/author/myposts
@@ -933,6 +941,7 @@ class APIComment(APIView):
 class APICommentsByAuthorId(APIView):
     authentication_classes = [SessionAuthentication, BasicAuthentication]
     permission_classes = [IsAuthenticated]
+
     def get(self, request, authorId):
         pass
 
@@ -940,6 +949,7 @@ class APICommentsByAuthorId(APIView):
 class APILikesByAuthorId(APIView):
     authentication_classes = [SessionAuthentication, BasicAuthentication]
     permission_classes = [IsAuthenticated]
+
     def get(self, request, authorId):
         pass
 
@@ -950,6 +960,7 @@ class APILikesByAuthorId(APIView):
 class APIInbox(APIView):
     authentication_classes = [SessionAuthentication, BasicAuthentication]
     permission_classes = [IsAuthenticated]
+
     def get(self, request, authorId):
         try:
             inbox = Inbox.objects.get(author_id=authorId)
@@ -970,17 +981,18 @@ class APIInbox(APIView):
         inbox, created = Inbox.objects.get_or_create(author_id=authorId)
         if data['type'].lower() == "follow":
             remote_author = data['sender']
-            friend_request = FriendRequest.objects.create(sender=remote_author, receiver=UserSerializer(local_author).data)
+            friend_request = FriendRequest.objects.create(sender=remote_author,
+                                                          receiver=UserSerializer(local_author).data)
             inbox.items.append(FriendRequestSerializer(friend_request).data)
             inbox.save()
             response = Response()
             response.status_code = 200
             return response
-        #todo:handle post api for like from remote author
+        # todo:handle post api for like from remote author
         elif data['type'].lower() == "like":
             pass
 
-        #todo:handle post api for friend post/private post from remote author
+        # todo:handle post api for friend post/private post from remote author
         elif data['type'].lower() == "post":
             pass
 
@@ -989,6 +1001,7 @@ class APIInbox(APIView):
 
 
 """remote author related view"""
+
 
 class Remote_Author_Profile_View(View):
     def get(self, request):
