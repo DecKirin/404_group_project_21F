@@ -28,7 +28,6 @@ from Post.models import PostComment
 from django.views import View
 from django.contrib.auth import authenticate, login, logout
 import requests
-import OpenSSL
 from requests.auth import HTTPBasicAuth
 
 from friends.serializers import FriendRequestSerializer
