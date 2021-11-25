@@ -7,42 +7,49 @@ import uuid
 
 # Create your models here.
 class Friend(models.Model):
-    friends = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, related_name="friends")
+    friends = models.JSONField(default=list, max_length=10000)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='cur_user', on_delete=models.CASCADE, null=True)
 
     def add_friend(self, new_friend):
-        if not new_friend in self.friends.all():
-            self.friends.add(new_friend)
+        if not new_friend in self.friends:#.all():
+            self.friends.append(new_friend)
+            self.save()
 
     def delete_friend(self, delete_friend):
-        if delete_friend in self.friends.all():
+        if delete_friend in self.friends:#.all():
             self.friends.remove(delete_friend)
+            self.save()
 
 
 class Follower(models.Model):
-    followers = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, related_name="followers")
+    # followers = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, related_name="followers")
+    followers = models.JSONField(default=list, max_length=10000)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='user', on_delete=models.CASCADE, null=True)
 
     def add_follower(self, new_follower):
-        if not new_follower in self.followers.all():
-            self.followers.add(new_follower)
+        if not new_follower in self.followers:
+            self.followers.append(new_follower)
+            self.save()
 
     def delete_follower(self, delete_follower):
-        if delete_follower in self.followers.all():
+        if delete_follower in self.followers:
             self.followers.remove(delete_follower)
+            self.save()
 
 
 class Follow(models.Model):
-    follows = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, related_name="follows")
+    follows = models.JSONField(default=list, max_length=10000)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='users', on_delete=models.CASCADE, null=True)
 
     def add_follow(self, new_follow):
-        if not new_follow in self.follows.all():
-            self.follows.add(new_follow)
+        if not new_follow in self.follows:#.all():
+            self.follows.append(new_follow)
+            self.save()
 
     def delete_follow(self, delete_follow):
-        if delete_follow in self.follows.all():
+        if delete_follow in self.follows:#.all():
             self.follows.remove(delete_follow)
+            self.save()
 
 
 '''
