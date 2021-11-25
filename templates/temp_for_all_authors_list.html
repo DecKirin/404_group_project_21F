@@ -43,21 +43,21 @@
                       <div class="card-footer">
                           <div class="text-right">
                           {% if author.host == current_host %}
-                          <a href="{% url 'Author:friend_request' author.id %}" class="btn btn-sm bg-teal">
+                          <!--a href="{#% url 'Author:friend_request' author.id %#}" class="btn btn-sm bg-teal"-->
                               <i class="fas fa-comments"></i> Be-Friend
                           {% endif %}
 
 
-                          </a>
+                          <!--/a-->
                           {% if author.host == current_host %}
-                          <a href="{% url 'Author:profile' author.id %}" class="btn btn-sm btn-primary">
+                          <a { href="{% url 'Author:profile' author.id %}"} class="btn btn-sm btn-primary"-->
                               <i class="fas fa-user"></i> View Profile
                           </a>
                           {% else %}
                           <form id='remote_author_url' method="get" action={% url 'Author:remote_author_profile' %}>
                               <input type="hidden" id="url" name="url" value={{ author.url }}>
                               <button class="btn btn-sm btn-primary" type="submit" >
-                                  <i class="fas fa-user"></i> View Profile
+                                  <i class="fas fa-user"></i> View Profile(remote)
                               </button>
                           </form>
 

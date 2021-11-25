@@ -39,13 +39,20 @@ all_remote_host = ['https://social-distribution-fall2021.herokuapp.com',
 
 """in case vpn issues, modify based on your own vpn"""
 
-
+'''
+# if proxy is needed, change the proxies according to your proxy setting 
 def make_api_get_request(api_url):
     proxies = {
-        "http": "http://192.168.1.4",
+        "http": "http://127.0.0.1:7890",
         "https": "http://127.0.0.1:7890"
     }
-    request = requests.get(api_url, proxies=proxies, verify=True)
+    request = requests.get(api_url, proxies=proxies, auth=HTTPBasicAuth("team11", "secret11"), verify=True)
+    return request
+'''
+
+# if proxy is not needed
+def make_api_get_request(api_url):
+    request = requests.get(api_url, auth=HTTPBasicAuth("team11", "secret11"), verify=True)
     return request
 
 
@@ -71,7 +78,7 @@ def get_remote_nodes():
 
 
 def get_remote_authors():
-    all_remote_host = get_remote_nodes()
+    #all_remote_host = get_remote_nodes()
 
     authors = []
     for host in all_remote_host:
@@ -79,11 +86,19 @@ def get_remote_authors():
         print(api_uri)
         ####todo:authentication information
         ####request = requests.get(api_uri, auth=HTTPBasicAuth(auth_user, auth_pass))
-        request = requests.get(api_uri)
+
+        # proxies = {"http": None, "https": None}66
+        request = make_api_get_request(api_uri)
+        print(request.json().items)
         if request.status_code == 200:
-            authors_in_host = request.json()
-            authors += authors_in_host
-    # print(authors)
+            try:
+                authors_in_host = request.json()["items"]
+            except Exception:
+                authors_in_host = request.json()
+            authors = authors + authors_in_host
+        else:
+            continue
+    print(authors)
     return authors
 
 
@@ -369,6 +384,7 @@ class AllUserProfileView(View):
 
         local_authors = User.objects.all()
         remote_authors = get_remote_authors()
+        print("remote_authors:", remote_authors)
         authors = list(local_authors) + remote_authors
 
         paginator = Paginator(authors, per_page)
@@ -382,8 +398,10 @@ class AllUserProfileView(View):
             'page_size': per_page,
             'current_page': page,
             'current_author': currentUser,
-        }
+            'current_host': request.META['HTTP_HOST']
 
+        }
+        print(currentUser.host)
         response = render(request, 'temp_for_all_authors_list.html', context=context)
         # response = render(request, 'all_authors_list.html', context=context)
         return response
@@ -783,6 +801,10 @@ class APIAllProfileView(APIView):
         serializer = UserSerializer(page_object, many=True)
         response = Response()
         response.status_code = 200
+        data = {
+            "types":"authors",
+            "items": serializer.data
+        }
         response.data = serializer.data
         # response = render(request, 'temp_for_all_authors_list.html', context=context)
         # response = render(request, 'all_authors_list.html', context=context)
@@ -854,7 +876,12 @@ class APIAuthorPostsView(APIView):
 
         response = Response()
         response.status_code = 200
-        response.data = serializer.data
+        data = {
+            "types": "posts",
+            "items": serializer.data
+        }
+        response.data = data
+
         # response = render(request, 'temp_for_all_authors_list.html', context=context)
         # response = render(request, 'all_authors_list.html', context=context)
         return response
@@ -935,7 +962,11 @@ class APICommentsByPostId(APIView):
 
         response = Response()
         response.status_code = 200
-        response.data = comments_serializer.data
+        data = {
+            "types":"comments",
+            "items": comments_serializer.data
+        }
+        response.data = data
         return response
 
     def post(self, request, authorId, postId):
@@ -987,7 +1018,11 @@ class APIInbox(APIView):
         serializer = InboxSerializer(inbox)
         response = Response()
         response.status_code = 200
-        response.data = serializer.data
+        data = {
+            "type": "inbox",
+            "items": serializer.data
+        }
+        response.data = data
         return response
 
     def post(self, request, authorId):

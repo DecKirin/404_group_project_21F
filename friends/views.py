@@ -302,7 +302,7 @@ class APIFriendsByIdView(APIView):
                 "items": serializer.data
             }
             response.status_code = 200
-            response.data = serializer.data
+            response.data = data
         return response
 
 
@@ -331,7 +331,7 @@ class APIFollowersByIdView(APIView):
             }
             response = Response()
             response.status_code = 200
-            response.data = serializer.data
+            response.data = data
         return response
 
 
@@ -356,5 +356,9 @@ class APIFollowsByIdView(APIView):
             serializer = UserSerializer(page_object, many=True)
             response = Response()
             response.status_code = 200
-            response.data = serializer.data
+            data = {
+                "type": "follows",
+                "items": serializer.data
+            }
+            response.data = data
         return response
