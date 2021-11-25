@@ -19,7 +19,11 @@
                               <div class="mailbox-read-info">
                                 <img class="img-size-64" src="{% static 'mine/images/default_avatar.png' %}" alt="user image">
                                 <span class="description">Author:
-                                  <a href="" class="username">{{ post.author.username }}</a>
+                                    {% if author.username %}
+                                    <a href="" class="username">{{ post.author.username }}</a>
+                                    {% else %}
+                                    <a href="" class="username">{{ post.author.displayName }}</a>
+                                    {% endif %}
                                   <a href="{{ post.author.github }}" class="username">{{ post.author.github }}</a>
                                 </span>
                                 <span class="mailbox-read-time float-right">published:{{ post.published}}<br>
@@ -47,7 +51,7 @@
                             </a>
 
                             {% else %}
-                            <a href="" class="btn btn-sm">
+                            <a href="{% url 'Author:like_remote_post' %}?post_url={{ post.id }}" class="btn btn-sm">
                                 <i class="fas fa-thumbs-up"></i> Like this post
                             </a>
                             {% endif %}

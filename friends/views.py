@@ -16,6 +16,7 @@ from django.urls import reverse
 from django.core.paginator import Paginator
 import logging
 
+
 # Create your views here.
 
 def un_befriend(request, id, delete):
@@ -225,7 +226,6 @@ def send_friend_request(request, foreign_id, *args, **kwargs):
 
     return render(request, 'request_send.html', context=context)
 
-
 '''
 come after click on inbox message
 #todo: what happened after making decision
@@ -295,8 +295,7 @@ class APIFriendsByIdView(APIView):
             response = Response()
             data = {
                 "type": "friends",
-                "items":serializer.data
-            }
+                "items": serializer.data}
             response.status_code = 200
             response.data = data
         return response
@@ -323,8 +322,7 @@ class APIFollowersByIdView(APIView):
             serializer = UserSerializer(page_object, many=True)
             data = {
                 "type": "followers",
-                "items":serializer.data
-            }
+                "items": serializer.data}
             response = Response()
             response.status_code = 200
             response.data = data

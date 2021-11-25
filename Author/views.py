@@ -30,6 +30,16 @@ from requests.auth import HTTPBasicAuth
 from friends.serializers import FriendRequestSerializer
 from social_network.settings import SECRET_KEY
 
+"""during test stage, use this instead of manually adding node using admin pannel"""
+all_remote_host = ['https://social-distribution-fall2021.herokuapp.com',
+                   'https://cmput404-team13-socialapp.herokuapp.com']
+
+
+#all_remote_host = ['https://cmput404-team13-socialapp.herokuapp.com']
+
+"""in case vpn issues, modify based on your own vpn"""
+
+
 def make_api_get_request(api_url):
     proxies = {
         "http": "http://192.168.1.4",
@@ -872,7 +882,14 @@ class APIAllPosts(APIView):
         serializer = PostSerializer(page_object, many=True)
         response = Response()
         response.status_code = 200
-        response.data = serializer.data
+
+        data = {
+            "type": "posts",
+            "items": serializer.data
+        }
+
+        response.data = data
+
         # response = render(request, 'temp_for_all_authors_list.html', context=context)
         # response = render(request, 'all_authors_list.html', context=context)
         return response
@@ -1056,4 +1073,3 @@ class Remote_Author_Profile_View(View):
         }
         print(context)
         return render(request, 'remote_author_profile.html', context=context)
-
