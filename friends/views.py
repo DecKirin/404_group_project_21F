@@ -25,16 +25,16 @@ def un_befriend(request, id, delete):
     if delete == 'Un-befriend':
         friend = Friend.objects.get(user=user)
         del_friend = Friend.objects.get(user=to_del_friend)
-        friend.delete_friend(to_del_friend)
-        del_friend.delete_friend(user)
+        friend.delete_friend(UserSerializer(to_del_friend).data)
+        del_friend.delete_friend(UserSerializer(user).data)
         context['type'] = 'friend'
     elif delete == 'Un-follower':
         follower = Follower.objects.get(user=user)
-        follower.delete_follower(to_del_friend)
+        follower.delete_follower(UserSerializer(to_del_friend).data)
         context['type'] = 'follower'
     elif delete == 'Un-follow':
         follow = Follow.objects.get(user=user)
-        follow.delete_follow(to_del_friend)
+        follow.delete_follow(UserSerializer(to_del_friend).data)
         context['type'] = 'follow'
     context['user'] = user
     context['to_del_friend'] = to_del_friend
@@ -97,12 +97,16 @@ def my_list(request, relationship):
     context = {}
     user = request.user
     if relationship == 'follows':
-        follower, create = Follow.objects.get_or_create(user=user)  # class friend
+        # logging.basicConfig(filename='mylog.log', level=logging.DEBUG)
+        follow, create = Follow.objects.get_or_create(user=user)  # class friend
         if create:
             context['friends'] = ['Does not have follower yet']
         else:
-            friend_list = follower.follows.all()  #
+            friend_list = follow.follows# .all()  #
+            # follow.delete_follow(user)
             context['friends'] = friend_list
+            # logging.debug(len(friend_list))
+            # logging.debug(type(friend_list))
         context['delete'] = 'Un-follow'
         context['type'] = 'Follow'
     elif relationship == 'followers':
@@ -178,6 +182,8 @@ def send_friend_request(request, foreign_id, *args, **kwargs):
 
     ##if send friend_request to a local author
     if to_befriend.host == request.META['HTTP_HOST']:
+        # logging.basicConfig(filename='requestlog.log', level=logging.DEBUG)
+
         to_befriend = User.objects.get(id=foreign_id)
         # friend_request = FriendRequest.objects.create(sender=user, receiver=to_befriend)
         friend_request = FriendRequest.objects.create(sender=UserSerializer(user).data,
@@ -185,7 +191,7 @@ def send_friend_request(request, foreign_id, *args, **kwargs):
         cur_request_id = friend_request.request_id
         # add user to the follower list of to_befriend
         follower, create_follower = Follower.objects.get_or_create(user=to_befriend)
-        follower.add_follower(user)
+        follower.add_follower(UserSerializer(user).data)
         # add to_befriend to the follower list of user
         '''
         inbox_info = {
@@ -208,7 +214,7 @@ def send_friend_request(request, foreign_id, *args, **kwargs):
         inbox_to_befriend.save()
 
         follow, create_follow = Follow.objects.get_or_create(user=user)
-        follow.add_follow(to_befriend)
+        follow.add_follow(UserSerializer(to_befriend).data)
         friend_request.respond_states = False
         context['request_user'] = user.username
         context['request_tobe'] = to_befriend.username
@@ -247,7 +253,7 @@ class process_friend_request(View):
         to_befriend = friend_request.receiver
         context['request_user'] = request_user.username
         context['request_tobe'] = to_befriend.username
-        logging.debug(request.method)
+        # logging.debug(request.method)
         if request.POST.get("status") == 'Accept':
             friend_request.accept_request()
             # logging.debug(request.POST.get("status"))
