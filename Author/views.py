@@ -372,6 +372,7 @@ class AllUserProfileView(View):
             'page_size': per_page,
             'current_page': page,
             'current_author': currentUser,
+            'current_host': request.META['HTTP_HOST']
         }
 
         response = render(request, 'temp_for_all_authors_list.html', context=context)
