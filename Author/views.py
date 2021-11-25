@@ -507,12 +507,19 @@ class InterFRInboxView(View):
         curr_user = request.user
         page = int(request.GET.get("page", 1))
         per_page = int(request.GET.get("size", 10))
-        friReqs = FriendRequest.objects.filter(receiver_id=curr_user.id).filter(respond_status=False)
-        # friReqs = FriendRequest.objects.filter(receiver)
+        inbox = Inbox.objects.filter(author_id=curr_user.id)
+        item_list = []
+        for inb in inbox:
+            for item in inb.items:
+                if item["type"] == "follow":
+                    try:
+                        if item['request_id']:
+                            item_list.append(item)
+                    except:
+                        continue
 
         # inbox = Inbox.objects.filter(requests=friReqs)
-
-        paginator = Paginator(friReqs, per_page)
+        paginator = Paginator(item_list, per_page)
         page_object = paginator.page(page)
 
         context = {
@@ -531,11 +538,14 @@ class InterPostInboxView(View):
         curr_user = request.user
         page = int(request.GET.get("page", 1))
         per_page = int(request.GET.get("size", 10))
-        posts = Post.objects.filter(select_user=curr_user.id)
+        inbox = Inbox.objects.filter(author_id=curr_user.id)
+        item_list = []
+        for inb in inbox:
+            for item in inb.items:
+                if item["type"] == "post":
+                    item_list.append(item)
 
-        # inbox = Inbox.objects.filter(requests=friReqs)
-
-        paginator = Paginator(posts, per_page)
+        paginator = Paginator(item_list, per_page)
         page_object = paginator.page(page)
 
         context = {
@@ -550,6 +560,32 @@ class InterPostInboxView(View):
 
         return response
 
+class InterLikeInboxView(View):
+    def get(self, request):
+        curr_user = request.user
+        page = int(request.GET.get("page", 1))
+        per_page = int(request.GET.get("size", 10))
+        inbox = Inbox.objects.filter(author_id=curr_user.id)
+        item_list = []
+        for inb in inbox:
+            for item in inb.items:
+                if item["type"] == "post":
+                    item_list.append(item)
+
+        paginator = Paginator(item_list, per_page)
+        page_object = paginator.page(page)
+
+        context = {
+            'page_object': page_object,
+            'page_range': paginator.page_range,
+            'page_size': per_page,
+            'current_page': page,
+            'current_author': curr_user,
+        }
+
+        response = render(request, 'temp_inbox_posts.html', context=context)
+
+        return response
 
 '''
 URL: ://service/author/myposts
@@ -947,3 +983,50 @@ class APIInbox(APIView):
         #todo:handle post api for friend post/private post from remote author
         elif data['type'].lower() == "post":
             pass
+<<<<<<< Updated upstream
+=======
+
+        def delete(self, request, authorId):
+            pass
+
+
+"""remote author related view"""
+
+class Remote_Author_Profile_View(View):
+    def get(self, request):
+        curr_user = request.user
+
+        authorAPIUrl = request.GET.get("url")
+        authorAPIUrl = urllib.parse.unquote(authorAPIUrl)
+        author_request = make_api_get_request(authorAPIUrl)
+        remote_author = author_request.json()
+
+        page = int(request.GET.get("page", 1))
+        per_page = int(request.GET.get("size", 10))
+
+        try:
+            github = remote_author.github
+            githubUname = github.split("/")[-1]
+        except Exception:
+            githubUname = None
+
+        posts_url = authorAPIUrl + "/posts"
+        posts_request = make_api_get_request(posts_url)
+        remote_posts = posts_request.json()["items"]
+
+        paginator = Paginator(remote_posts, per_page)
+        page_object = paginator.page(page)
+
+        context = {
+            'current_author': curr_user,
+            'githubName': githubUname,
+            'myPosts': remote_posts,
+            'page_object': page_object,
+            'page_range': paginator.page_range,
+            'view_author': remote_author,
+        }
+        print(context)
+        return render(request, 'remote_author_profile.html', context=context)
+
+
+>>>>>>> Stashed changes
