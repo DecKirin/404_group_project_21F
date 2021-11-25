@@ -12,6 +12,7 @@ from Post.views import NewPostView, SpecificPostView, EditPostView, delete_post,
 from Author.views import APIAllProfileView, APIAuthorProfileView, APIAllPosts
 
 from Author.views import Remote_Author_Profile_View
+from Post.views import Remote_Specific_Post_View
 app_name = 'Author'
 urlpatterns = [
 
@@ -85,5 +86,6 @@ urlpatterns = [
 
 
     path('remote_author/', Remote_Author_Profile_View.as_view(), name="remote_author_profile"),
+    path('remote_post/', Remote_Specific_Post_View.as_view(), name="remote_specific_post")
 
 ]

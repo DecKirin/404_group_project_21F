@@ -1,9 +1,13 @@
+import urllib
 from urllib.parse import urlparse
+
+from django.core.paginator import Paginator
 from django.views import View
 from rest_framework.views import APIView
 
 from Author.models import User, Inbox, Post
 from Author.serializers import PostSerializer, UserSerializer
+from Author.views import make_api_get_request
 from Post.serializers import CommentSerializer, LikeSerializer
 from friends.models import Friend
 from rest_framework.response import Response
@@ -303,12 +307,13 @@ class APICommentsByPostId(APIView):
         response = Response()
         response.status_code = 200
         data = {
-            "type":"comments",
-            "items":comments_serializer.data
+            "type": "comments",
+            "items": comments_serializer.data
         }
         response.data = data
         return response
 
+    # post: create a comment
     def post(self, request, authorId, postId):
         pass
 
@@ -345,3 +350,108 @@ class APICommentsByAuthorId(APIView):
 class APILikesByAuthorId(APIView):
     def get(self, request, authorId):
         pass
+
+
+class Remote_Specific_Post_View(View):
+    def get(self, request, author_id=None):
+
+        my_id = request.user.id
+        current_user = request.user
+        # post = Post.objects.get(id=post_id)
+        # postlikes = PostLike.objects.filter(post=post)
+        postAPIURL = request.GET.get("post_url")
+        postAPIURL = urllib.parse.unquote(postAPIURL)
+        postRequest = make_api_get_request(postAPIURL)
+        post = postRequest.json()
+
+        postLikesAPIURL = postAPIURL + "/likes"
+        postCommentsAPIURL = postAPIURL + "/comments"
+        postLikesRequest = make_api_get_request(postLikesAPIURL)
+        try:
+            postlikes = postLikesRequest.json()["items"]
+        except Exception:
+            postlikes = postLikesRequest.json()["likes"]
+        print("postlikes:", postlikes)
+        postCommentsRequest = make_api_get_request(postCommentsAPIURL)
+        try:
+            comments = postCommentsRequest.json()["items"]
+        except Exception:
+            comments = postCommentsRequest.json()["comments"]
+        print("postcomments:", comments)
+
+        liked = False
+        for postlike in postlikes:
+            if postlike["url"] == current_user.api_url:
+                liked = True
+
+        im_author = False
+
+        '''
+        if str(my_id) == str(author_id):
+            im_author = True
+        if str(post.author.id) != str(author_id):
+            return HttpResponse("The author id and post id does not match!")
+        '''
+
+        hasComments = False
+        if comments:
+            hasComments = True
+
+        isPublic = False
+        try:
+            if str(post.visibility).lower() == "pb" or str(post.visibility).lower() == "public":
+                isPublic = True
+        except Exception:
+            if str(post["visibility"]).lower() == "pb" or str(post["visibility"]).lower() == "public":
+                isPublic = True
+
+        context = {
+            'author': current_user,
+            'isPublic': isPublic,
+            'post': post,
+            'liked': liked,
+            'author__id': author_id,
+            'isAuthor': im_author,
+            'hasComments': hasComments,
+            'comments': comments  # return render(request, 'posts/comments.html', context=context)
+        }
+        print(context)
+        return render(request, 'remote_public_post.html', context=context)
+
+
+'''
+    def get(self, request):
+        curr_user = request.user
+
+        authorAPIUrl = request.GET.get("url")
+        authorAPIUrl = urllib.parse.unquote(authorAPIUrl)
+        author_request = make_api_get_request(authorAPIUrl)
+        remote_author = author_request.json()
+
+        page = int(request.GET.get("page", 1))
+        per_page = int(request.GET.get("size", 10))
+
+        try:
+            github = remote_author.github
+            githubUname = github.split("/")[-1]
+        except Exception:
+            githubUname = None
+
+        posts_url = authorAPIUrl + "/posts"
+        posts_request = make_api_get_request(posts_url)
+        remote_posts = posts_request.json()["items"]
+
+        paginator = Paginator(remote_posts, per_page)
+        page_object = paginator.page(page)
+
+        context = {
+            'current_author': curr_user,
+            'githubName': githubUname,
+            'myPosts': remote_posts,
+            'page_object': page_object,
+            'page_range': paginator.page_range,
+            'view_author': remote_author,
+        }
+        print(context)
+        return render(request, 'remote_author_profile.html', context=context)
+'''

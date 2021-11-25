@@ -1,0 +1,104 @@
+{% extends 'base_main.html' %}
+{% load static %}
+{% block title %}POST{% endblock title %}
+
+{% load markdown_extras %}
+{% block Content_Wrapper %}
+    <div class="wrapper">
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <section class="content">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h1> {{post.title}} </h1>
+                            </div>
+                            <div class="card-body">
+
+                              <div class="mailbox-read-info">
+                                <img class="img-size-64" src="{% static 'mine/images/default_avatar.png' %}" alt="user image">
+                                <span class="description">Author:
+                                  <a href="" class="username">{{ post.author.username }}</a>
+                                  <a href="{{ post.author.github }}" class="username">{{ post.author.github }}</a>
+                                </span>
+                                <span class="mailbox-read-time float-right">published:{{ post.published}}<br>
+                                  updated   : {{ post.updated }}
+                                </span>
+                              </div>
+
+                                <div class="mailbox-read-message">
+                                {% if post.contentType == 'text/plain' %}
+                                {{ post.content }}
+                                {% else %}
+                                  {{ post.content | markdown | safe }}
+                                {% endif %}
+                                </div>
+                                {% if post.image.url != None %}
+                                    <div class="card-img-bottom">
+                                    <img src="{{ post.image.url }}" class="img-responsive" style="width: 100%; float: left; margin-right: 10px;" />
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <p>
+                            {% if liked %}
+                            <a href="" class="btn btn-sm">
+                                <i class="fas fa-thumbs-down"></i> Unlike this post
+                            </a>
+
+                            {% else %}
+                            <a href="" class="btn btn-sm">
+                                <i class="fas fa-thumbs-up"></i> Like this post
+                            </a>
+                            {% endif %}
+                            <a href="" class="link-black text-sm"><i class="fas fa-share mr-1"></i> Share</a>
+
+                            </p>
+                            <a href="" class="btn btn-sm bg-blue">
+                                <i class="fas fa-comment"></i> Comment
+                            </a>
+                            {% if isAuthor %}
+
+                                <a href="{% url 'Author:edit_post' post.author.id post.id %}" class="btn btn-sm bg-blue">
+                                    <i class="fas fa-edit"></i> Edit
+                                </a>
+
+                                <a href="{% url 'Author:delete_post' post.author.id post.id %}" class="btn btn-sm bg-red">
+                                    <i class="fas fa-trash"></i> Delete
+                                </a>
+                            {% endif %}
+                            <div class="card-footer">
+                            <fieldset><legend>comments:</legend></fieldset>
+                            <!--show comment if is valid for view comments-->
+                            {% if isPublic %}
+                                {% if hasComments %}
+                                    {% for comment in comments %}
+                                    <span>{{comment.comment}}</span><br>
+                                    {% endfor %}
+                                {% endif %}
+
+                            {% else %}
+                                {% if isAuthor %}
+                                    {% if hasComments %}
+                                        {% for comment in comments %}
+                                        <span>{{comment.comment}}</span><br>
+                                        {% endfor %}
+                                    {% endif %}
+                                {% endif %}
+                            {% endif %}
+                            </div>
+
+                            
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+            </section>
+            <!-- /.content -->
+        </div>
+
+    </div>
+    <!-- ./wrapper -->
+{% endblock Content_Wrapper %}
