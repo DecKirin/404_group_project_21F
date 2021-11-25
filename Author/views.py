@@ -19,9 +19,9 @@ from rest_framework.renderers import TemplateHTMLRenderer
 import urllib
 from Author.serializers import UserSerializer, PostSerializer, CommentSerializer, InboxSerializer
 from friends.models import FriendRequest
-import Author
+from Post.serializers import LikeSerializer
 from Author.models import User, RegisterControl, Inbox, Post, Node
-from Post.models import PostComment
+from Post.models import PostComment,PostLike
 # Create your views here.
 from django.views import View
 from django.contrib.auth import authenticate, login, logout
@@ -990,15 +990,24 @@ class APIInbox(APIView):
             return response
         # todo:handle post api for like from remote author
         elif data['type'].lower() == "like":
-            pass
+            remote_author = data['author']
+            like_object = data['object']
+            liked_post = Post.objects.get(api_url=like_object)
+            like = PostLike.objects.create(post=liked_post, author=remote_author, object=like_object)
+            inbox.items.append(LikeSerializer(like).data)
+            inbox.save()
+            response = Response()
+            response.status_code = 200
+            return response
 
         # todo:handle post api for friend post/private post from remote author
         elif data['type'].lower() == "post":
             pass
 
-        def delete(self, request, authorId):
-            pass
-
+    def delete(self, request, authorId):
+        Inbox.objects.get(author_id=authorId).delete()
+        response = Response(status_code =200)
+        return response
 
 """remote author related view"""
 
