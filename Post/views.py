@@ -302,7 +302,11 @@ class APICommentsByPostId(APIView):
 
         response = Response()
         response.status_code = 200
-        response.data = comments_serializer.data
+        data = {
+            "type":"comments",
+            "items":comments_serializer.data
+        }
+        response.data = data
         return response
 
     def post(self, request, authorId, postId):
@@ -324,8 +328,12 @@ class APILikesByPost(APIView):
         like = PostLike.objects.filter(post_id=postId)
         like_serializer = LikeSerializer(like, many=True)
         response = Response()
+        data = {
+            "type": "likes",
+            "items": like_serializer.data
+        }
         response.status_code = 200
-        response.data = like_serializer.data
+        response.data = data
         return response
 
 

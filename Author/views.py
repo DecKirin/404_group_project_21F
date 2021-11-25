@@ -35,7 +35,7 @@ from friends.serializers import FriendRequestSerializer
 from social_network.settings import SECRET_KEY
 
 """during test stage, use this instead of manually adding node using admin pannel"""
-all_remote_host = ['https://social-distribution-fall2021.herokuapp.com']
+all_remote_host = ['https://social-distribution-fall2021.herokuapp.com', 'https://cmput404-team13-socialapp.herokuapp.com']
 
 """in case vpn issues, modify based on your own vpn"""
 
@@ -782,6 +782,7 @@ class APIAuthorProfileView(APIView):
         serializer = UserSerializer(view_user)
         response = Response()
         response.status_code = 200
+
         response.data = serializer.data
         return response
 
@@ -819,7 +820,11 @@ class APIAuthorPostsView(APIView):
 
         response = Response()
         response.status_code = 200
-        response.data = serializer.data
+        data = {
+            "types": "posts",
+            "items": serializer.data
+        }
+        response.data = data
         # response = render(request, 'temp_for_all_authors_list.html', context=context)
         # response = render(request, 'all_authors_list.html', context=context)
         return response
@@ -843,7 +848,15 @@ class APIAllPosts(APIView):
         serializer = PostSerializer(page_object, many=True)
         response = Response()
         response.status_code = 200
-        response.data = serializer.data
+
+        data = {
+            "type": "posts",
+            "items": serializer.data
+        }
+
+        response.data = data
+
+
         # response = render(request, 'temp_for_all_authors_list.html', context=context)
         # response = render(request, 'all_authors_list.html', context=context)
         return response
@@ -881,8 +894,13 @@ class APIInbox(APIView):
 
         serializer = InboxSerializer(inbox)
         response = Response()
+        data = {
+            "type": "inbox",
+            "items": serializer.data
+        }
+
         response.status_code = 200
-        response.data = serializer.data
+        response.data = data
         return response
 
     def post(self, request, authorId):
@@ -946,3 +964,5 @@ class Remote_Author_Profile_View(View):
         }
         print(context)
         return render(request, 'remote_author_profile.html', context=context)
+
+

@@ -286,8 +286,12 @@ class APIFriendsByIdView(APIView):
             page_object = paginator.page(page)
             serializer = UserSerializer(page_object, many=True)
             response = Response()
+            data = {
+                "type": "friends",
+                "items":serializer.data
+            }
             response.status_code = 200
-            response.data = serializer.data
+            response.data = data
         return response
 
 
@@ -310,9 +314,13 @@ class APIFollowersByIdView(APIView):
             paginator = Paginator(follower_list, per_page)
             page_object = paginator.page(page)
             serializer = UserSerializer(page_object, many=True)
+            data = {
+                "type": "followers",
+                "items":serializer.data
+            }
             response = Response()
             response.status_code = 200
-            response.data = serializer.data
+            response.data = data
         return response
 
 
@@ -335,7 +343,11 @@ class APIFollowsByIdView(APIView):
             paginator = Paginator(follows_list, per_page)
             page_object = paginator.page(page)
             serializer = UserSerializer(page_object, many=True)
+            data = {
+                "type": "follows",
+                "items": serializer.data
+            }
             response = Response()
             response.status_code = 200
-            response.data = serializer.data
+            response.data = data
         return response
