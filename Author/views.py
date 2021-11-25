@@ -983,8 +983,6 @@ class APIInbox(APIView):
         #todo:handle post api for friend post/private post from remote author
         elif data['type'].lower() == "post":
             pass
-<<<<<<< Updated upstream
-=======
 
         def delete(self, request, authorId):
             pass
@@ -1028,5 +1026,3 @@ class Remote_Author_Profile_View(View):
         print(context)
         return render(request, 'remote_author_profile.html', context=context)
 
-
->>>>>>> Stashed changes
