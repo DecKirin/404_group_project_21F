@@ -13,7 +13,7 @@ class UserSerializer(serializers.ModelSerializer):
                   'api_url']
 
     def get_id(self, obj):
-        return obj.api_url
+        return obj['api_url']
 
 
 
