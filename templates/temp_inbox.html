@@ -34,7 +34,7 @@
                           </div>
                           <div class="card-footer">
                               <div class="text-right">
-                              <a href="{% url 'Author:accept' request.request_id %}" class="btn btn-sm bg-teal">
+                              <a href="{% url 'Author:process_request' request.request_id %}" class="btn btn-sm bg-teal">
                                   <i class="fas fa-comments"></i> Process
                               </a>
                               <a href="{% url 'Author:profile' request.sender.id %}" class="btn btn-sm btn-primary">
