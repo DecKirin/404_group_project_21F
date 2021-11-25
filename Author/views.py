@@ -1002,11 +1002,19 @@ class APIInbox(APIView):
 
         # todo:handle post api for friend post/private post from remote author
         elif data['type'].lower() == "post":
-            pass
+            remote_author = data['author']
+            post_object = data['object']
+            this_post = Post.objects.get(api_url=post_object)
+            inbox.items.append(PostSerializer(this_post).data)
+            inbox.save()
+            response = Response()
+            response.status_code = 200
+            return response
 
     def delete(self, request, authorId):
         Inbox.objects.get(author_id=authorId).delete()
-        response = Response(status_code =200)
+        response = Response()
+        response.status_code = 200
         return response
 
 """remote author related view"""
