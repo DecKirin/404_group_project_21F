@@ -25,16 +25,16 @@ def un_befriend(request, id, delete):
     if delete == 'Un-befriend':
         friend = Friend.objects.get(user=user)
         del_friend = Friend.objects.get(user=to_del_friend)
-        friend.delete_friend(UserSerializer(to_del_friend).data)
-        del_friend.delete_friend(UserSerializer(user).data)
+        friend.delete_friend(to_del_friend)
+        del_friend.delete_friend(user)
         context['type'] = 'friend'
     elif delete == 'Un-follower':
         follower = Follower.objects.get(user=user)
-        follower.delete_follower(UserSerializer(to_del_friend).data)
+        follower.delete_follower(to_del_friend)
         context['type'] = 'follower'
     elif delete == 'Un-follow':
         follow = Follow.objects.get(user=user)
-        follow.delete_follow(UserSerializer(to_del_friend).data)
+        follow.delete_follow(to_del_friend)
         context['type'] = 'follow'
     context['user'] = user
     context['to_del_friend'] = to_del_friend
@@ -97,16 +97,12 @@ def my_list(request, relationship):
     context = {}
     user = request.user
     if relationship == 'follows':
-        # logging.basicConfig(filename='mylog.log', level=logging.DEBUG)
-        follow, create = Follow.objects.get_or_create(user=user)  # class friend
+        follower, create = Follow.objects.get_or_create(user=user)  # class friend
         if create:
             context['friends'] = ['Does not have follower yet']
         else:
-            friend_list = follow.follows# .all()  #
-            # follow.delete_follow(user)
+            friend_list = follower.follows.all()  #
             context['friends'] = friend_list
-            # logging.debug(len(friend_list))
-            # logging.debug(type(friend_list))
         context['delete'] = 'Un-follow'
         context['type'] = 'Follow'
     elif relationship == 'followers':
@@ -174,57 +170,65 @@ class follower_view(View):
 # todo: add user to tobefriend's follower
 def send_friend_request(request, foreign_id, *args, **kwargs):
     context = {}
-    user = request.user
-    to_befriend = User.objects.get(id=foreign_id)
-    # friend_request = FriendRequest.objects.create(sender=user, receiver=to_befriend)
-    friend_request = FriendRequest.objects.create(sender=UserSerializer(user).data,
-                                                  receiver=UserSerializer(to_befriend).data)
-
-    ##if send friend_request to a local author
-    if to_befriend.host == request.META['HTTP_HOST']:
-        # logging.basicConfig(filename='requestlog.log', level=logging.DEBUG)
-
+    user = request.user.id
+    user = User.objects.filter(id=user)
+    user = user[0]
+    ser_curruser = UserSerializer(user).data
+    already_sent = True
+    sentbyme = FriendRequest.objects.filter(sender=ser_curruser)
+    for frq in sentbyme:
+        if frq.receiver['id'] == foreign_id:
+            already_sent = False
+    if already_sent:
         to_befriend = User.objects.get(id=foreign_id)
         # friend_request = FriendRequest.objects.create(sender=user, receiver=to_befriend)
         friend_request = FriendRequest.objects.create(sender=UserSerializer(user).data,
                                                       receiver=UserSerializer(to_befriend).data)
-        cur_request_id = friend_request.request_id
-        # add user to the follower list of to_befriend
-        follower, create_follower = Follower.objects.get_or_create(user=to_befriend)
-        follower.add_follower(UserSerializer(user).data)
-        # add to_befriend to the follower list of user
-        '''
-        inbox_info = {
-            "type": "Follow",
-            "summary": "%s wants to follow %s" % (user.username, to_befriend.username),
-            "actor": UserSerializer(user).data,
-            "object": UserSerializer(to_befriend).data,
-            "send_at": datetime.now
-        }
 
-        inbox_info = dict()
-        inbox_info["type"] = "Follow"
-        inbox_info["summary"] = "%s wants to follow %s" % (user.username, to_befriend.username)
-        inbox_info["actor"] = UserSerializer(user).data
-        inbox_info["object"] = UserSerializer(to_befriend).data
-        inbox_info["send_at"] = datetime.now
-        '''
-        inbox_to_befriend, created = Inbox.objects.get_or_create(author=to_befriend)
-        inbox_to_befriend.items.append(FriendRequestSerializer(friend_request).data)
-        inbox_to_befriend.save()
+        ##if send friend_request to a local author
+        if to_befriend.host == request.META['HTTP_HOST']:
+            to_befriend = User.objects.get(id=foreign_id)
+            # friend_request = FriendRequest.objects.create(sender=user, receiver=to_befriend)
+            friend_request = FriendRequest.objects.create(sender=UserSerializer(user).data,
+                                                          receiver=UserSerializer(to_befriend).data)
+            cur_request_id = friend_request.request_id
+            # add user to the follower list of to_befriend
+            follower, create_follower = Follower.objects.get_or_create(user=to_befriend)
+            follower.add_follower(user)
+            # add to_befriend to the follower list of user
+            '''
+            inbox_info = {
+                "type": "Follow",
+                "summary": "%s wants to follow %s" % (user.username, to_befriend.username),
+                "actor": UserSerializer(user).data,
+                "object": UserSerializer(to_befriend).data,
+                "send_at": datetime.now
+            }
+    
+            inbox_info = dict()
+            inbox_info["type"] = "Follow"
+            inbox_info["summary"] = "%s wants to follow %s" % (user.username, to_befriend.username)
+            inbox_info["actor"] = UserSerializer(user).data
+            inbox_info["object"] = UserSerializer(to_befriend).data
+            inbox_info["send_at"] = datetime.now
+            '''
+            inbox_to_befriend, created = Inbox.objects.get_or_create(author=to_befriend)
+            inbox_to_befriend.items.append(FriendRequestSerializer(friend_request).data)
+            inbox_to_befriend.save()
 
-        follow, create_follow = Follow.objects.get_or_create(user=user)
-        follow.add_follow(UserSerializer(to_befriend).data)
-        friend_request.respond_states = False
-        context['request_user'] = user.username
-        context['request_tobe'] = to_befriend.username
-        context['request_id'] = cur_request_id
+            follow, create_follow = Follow.objects.get_or_create(user=user)
+            follow.add_follow(to_befriend)
+            friend_request.respond_states = False
+            context['request_user'] = user.username
+            context['request_tobe'] = to_befriend.username
+            context['request_id'] = cur_request_id
 
-    ##if foriegn author todo:deal with api of remore author
-    else:
-        pass
+        ##if foriegn author todo:deal with api of remore author
+        else:
+            pass
+        return render(request, 'request_send.html', context=context)
+    return HttpResponseRedirect(reverse('Author:index'))
 
-    return render(request, 'request_send.html', context=context)
 
 
 '''
@@ -240,8 +244,8 @@ class process_friend_request(View):
         friend_request = FriendRequest.objects.get(request_id=request_id)
         request_user = friend_request.sender
         to_befriend = friend_request.receiver
-        context['request_user'] = request_user.username
-        context['request_tobe'] = to_befriend.username
+        context['request_user'] = request_user['username']
+        context['request_tobe'] = to_befriend['username']
         return render(request, 'request_process.html', context=context)
 
     def post(self, request, request_id):
@@ -251,18 +255,18 @@ class process_friend_request(View):
         friend_request = FriendRequest.objects.get(request_id=request_id)
         request_user = friend_request.sender
         to_befriend = friend_request.receiver
-        context['request_user'] = request_user.username
-        context['request_tobe'] = to_befriend.username
-        # logging.debug(request.method)
+        context['request_user'] = request_user['username']
+        context['request_tobe'] = to_befriend['username']
+        logging.debug(request.method)
         if request.POST.get("status") == 'Accept':
             friend_request.accept_request()
             # logging.debug(request.POST.get("status"))
-            context['choice'] = f"You've now {request_user.username}'s friend"
+            context['choice'] = f"You've now {request_user['username']}'s friend"
 
         elif request.POST.get('status') == 'Decline':
             friend_request.decline_request()
             # logging.debug('Decline')
-            context['choice'] = f"You've declined {request_user.username}'s request"
+            context['choice'] = f"You've declined {request_user['username']}'s request"
 
         # logging.debug('Nothing')
         return HttpResponseRedirect(reverse('Author:index'))
@@ -292,12 +296,8 @@ class APIFriendsByIdView(APIView):
             page_object = paginator.page(page)
             serializer = UserSerializer(page_object, many=True)
             response = Response()
-            data = {
-                "type": "friends",
-                "items":serializer.data
-            }
             response.status_code = 200
-            response.data = data
+            response.data = serializer.data
         return response
 
 
@@ -320,13 +320,9 @@ class APIFollowersByIdView(APIView):
             paginator = Paginator(follower_list, per_page)
             page_object = paginator.page(page)
             serializer = UserSerializer(page_object, many=True)
-            data = {
-                "type": "followers",
-                "items":serializer.data
-            }
             response = Response()
             response.status_code = 200
-            response.data = data
+            response.data = serializer.data
         return response
 
 
@@ -349,11 +345,7 @@ class APIFollowsByIdView(APIView):
             paginator = Paginator(follows_list, per_page)
             page_object = paginator.page(page)
             serializer = UserSerializer(page_object, many=True)
-            data = {
-                "type": "follows",
-                "items": serializer.data
-            }
             response = Response()
             response.status_code = 200
-            response.data = data
+            response.data = serializer.data
         return response
