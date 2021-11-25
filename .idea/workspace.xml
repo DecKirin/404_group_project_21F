@@ -5,7 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6639ff7a-d651-48dc-9929-7225c60edcac" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Post/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/Post/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Author/migrations/0001_initial.py" beforeDir="false" afterPath="$PROJECT_DIR$/Author/migrations/0001_initial.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Author/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/Author/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Post/migrations/0001_initial.py" beforeDir="false" afterPath="$PROJECT_DIR$/Post/migrations/0001_initial.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/friends/migrations/0001_initial.py" beforeDir="false" afterPath="$PROJECT_DIR$/friends/migrations/0001_initial.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -107,8 +111,8 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Django tests.CMPUT404_test" />
       <item itemvalue="Django Server.CMPUT404" />
+      <item itemvalue="Django tests.CMPUT404_test" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -162,6 +166,7 @@
       <workItem from="1637716835090" duration="447000" />
       <workItem from="1637731535175" duration="556000" />
       <workItem from="1637798722249" duration="14073000" />
+      <workItem from="1637834283720" duration="399000" />
     </task>
     <servers />
   </component>
