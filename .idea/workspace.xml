@@ -5,13 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6639ff7a-d651-48dc-9929-7225c60edcac" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/social_network.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/social_network.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Author/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Author/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Post/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Post/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/friends/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/friends/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/temp_for_all_authors_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/temp_for_all_authors_list.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,7 +62,7 @@
       <recent name="C:\Users\lxd19\OneDrive\Documents\GitHub\404_group_project_21F\social_network\Author" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Django Server.CMPUT404">
     <configuration name="CMPUT404_test" type="DjangoTestsConfigurationType">
       <module name="social_network" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -112,6 +107,10 @@
       <option name="customRunCommand" value="python3 manage.py makemigration" />
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="Django Server.CMPUT404" />
+      <item itemvalue="Django tests.CMPUT404_test" />
+    </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">

@@ -805,7 +805,7 @@ class APIAllProfileView(APIView):
             "types":"authors",
             "items": serializer.data
         }
-        response.data = serializer.data
+        response.data = data
         # response = render(request, 'temp_for_all_authors_list.html', context=context)
         # response = render(request, 'all_authors_list.html', context=context)
         return response
