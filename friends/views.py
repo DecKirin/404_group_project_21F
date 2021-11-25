@@ -238,9 +238,8 @@ class process_friend_request(View):
         context = {}
         logging.basicConfig(filename='mylog.log', level=logging.DEBUG)
         friend_request = FriendRequest.objects.get(request_id=request_id)
-        request_user = UserSerializer(friend_request.sender).data
-        to_befriend = UserSerializer(friend_request.receiver).data
-        logging.debug(request_user)
+        request_user = friend_request.sender
+        to_befriend = friend_request.receiver
         context['request_user'] = request_user['username']
         context['request_tobe'] = to_befriend['username']
         return render(request, 'request_process.html', context=context)
