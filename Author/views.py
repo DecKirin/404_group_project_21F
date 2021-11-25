@@ -482,7 +482,7 @@ class UserEditInfoView(LoginRequiredMixin, View):
                                                                    github=github)
         return HttpResponseRedirect(reverse("Author:mystream"))
 
-
+#Lagacy inbox
 class InboxView(View):
 
     def get(self, request, id):
