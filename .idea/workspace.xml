@@ -98,7 +98,7 @@
         <env name="PYTHONUNBUFFERED" value="1" />
         <env name="DJANGO_SETTINGS_MODULE" value="social_network.settings" />
       </envs>
-      <option name="SDK_HOME" value="C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\Scripts\python.exe" />
+      <option name="SDK_HOME" value="C:\Users\lxd19\OneDrive\Documents\GitHub\404_group_project_21F\venv\Scripts\python.exe" />
       <option name="WORKING_DIRECTORY" value="" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />

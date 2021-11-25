@@ -24,7 +24,7 @@ class PostLike(models.Model):
     who_like = models.ForeignKey(User, related_name='likes', on_delete=models.CASCADE, blank=True)
 
     author = models.JSONField(default=dict, max_length=2000,blank=False)
-    object = models.URLField()
+    object = models.URLField(max_length=200)
     summary = models.CharField(max_length=120)
 
     class Meta:

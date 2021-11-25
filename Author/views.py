@@ -1,8 +1,5 @@
 import re
 import json
-import urllib.parse
-from urllib.request import urlopen
-
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.sites import requests
@@ -12,24 +9,24 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.decorators import renderer_classes
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.renderers import JSONRenderer, BrowsableAPIRenderer
 
 from rest_framework.renderers import TemplateHTMLRenderer
-
-from Author.serializers import UserSerializer, PostSerializer, InboxSerializer
-from Post.serializers import CommentSerializer, LikeSerializer
+import urllib
+from Author.serializers import UserSerializer, PostSerializer, CommentSerializer, InboxSerializer
 from friends.models import FriendRequest
-import Author
+from Post.serializers import LikeSerializer
 from Author.models import User, RegisterControl, Inbox, Post, Node
-from Post.models import PostComment, PostLike
+from Post.models import PostComment,PostLike
 # Create your views here.
 from django.views import View
 from django.contrib.auth import authenticate, login, logout
 import requests
 from requests.auth import HTTPBasicAuth
-
 from friends.serializers import FriendRequestSerializer
 from social_network.settings import SECRET_KEY
 
@@ -74,7 +71,7 @@ def get_remote_nodes():
 
 
 def get_remote_authors():
-    # all_remote_host = get_remote_nodes()
+    all_remote_host = get_remote_nodes()
 
     authors = []
     for host in all_remote_host:
@@ -82,19 +79,11 @@ def get_remote_authors():
         print(api_uri)
         ####todo:authentication information
         ####request = requests.get(api_uri, auth=HTTPBasicAuth(auth_user, auth_pass))
-
-        # proxies = {"http": None, "https": None}66
-        request = make_api_get_request(api_uri)
-        print(request.json().items)
+        request = requests.get(api_uri)
         if request.status_code == 200:
-            try:
-                authors_in_host = request.json()["items"]
-            except Exception:
-                authors_in_host = request.json()
-            authors = authors + authors_in_host
-        else:
-            continue
-    print(authors)
+            authors_in_host = request.json()
+            authors += authors_in_host
+    # print(authors)
     return authors
 
 
@@ -109,6 +98,13 @@ def get_remote_public_posts():
             posts_in_host = request.json()
             posts += posts_in_host
     return posts
+
+
+'''
+URL: ://service/author/register
+GET: visit register page
+POST: submit an author account registeration
+'''
 
 
 class RegisterView(View):
@@ -386,7 +382,6 @@ class AllUserProfileView(View):
             'page_size': per_page,
             'current_page': page,
             'current_author': currentUser,
-            'current_host': request.META['HTTP_HOST']
         }
 
         response = render(request, 'temp_for_all_authors_list.html', context=context)
@@ -479,7 +474,7 @@ class UserEditInfoView(LoginRequiredMixin, View):
             # new username is unique
             exist_user = None
 
-        
+
         if exist_user is None or exist_user.id == current_user.id:
             User.objects.filter(username=current_user.username).update(username=username, email=email, first_name=first_name,last_name=last_name, github=github)
             messages.success(request, "Your change has been saved!")
@@ -497,7 +492,7 @@ class UserEditInfoView(LoginRequiredMixin, View):
                                                                    github=github)
         return HttpResponseRedirect(reverse("Author:mystream"))
 
-
+#Lagacy inbox
 class InboxView(View):
 
     def get(self, request, id):
@@ -528,12 +523,19 @@ class InterFRInboxView(View):
         curr_user = request.user
         page = int(request.GET.get("page", 1))
         per_page = int(request.GET.get("size", 10))
-        friReqs = FriendRequest.objects.filter(receiver_id=curr_user.id).filter(respond_status=False)
-        # friReqs = FriendRequest.objects.filter(receiver)
+        inbox = Inbox.objects.filter(author_id=curr_user.id)
+        item_list = []
+        for inb in inbox:
+            for item in inb.items:
+                if item["type"] == "follow":
+                    try:
+                        if item['request_id']:
+                            item_list.append(item)
+                    except:
+                        continue
 
         # inbox = Inbox.objects.filter(requests=friReqs)
-
-        paginator = Paginator(friReqs, per_page)
+        paginator = Paginator(item_list, per_page)
         page_object = paginator.page(page)
 
         context = {
@@ -552,11 +554,42 @@ class InterPostInboxView(View):
         curr_user = request.user
         page = int(request.GET.get("page", 1))
         per_page = int(request.GET.get("size", 10))
-        posts = Post.objects.filter(select_user=curr_user.id)
+        inbox = Inbox.objects.filter(author_id=curr_user.id)
+        item_list = []
+        for inb in inbox:
+            for item in inb.items:
+                if item["type"] == "post":
+                    item_list.append(item)
 
-        # inbox = Inbox.objects.filter(requests=friReqs)
+        paginator = Paginator(item_list, per_page)
+        page_object = paginator.page(page)
 
-        paginator = Paginator(posts, per_page)
+        context = {
+            'page_object': page_object,
+            'page_range': paginator.page_range,
+            'page_size': per_page,
+            'current_page': page,
+            'current_author': curr_user,
+        }
+
+        response = render(request, 'temp_inbox_posts.html', context=context)
+
+        return response
+
+
+class InterLikeInboxView(View):
+    def get(self, request):
+        curr_user = request.user
+        page = int(request.GET.get("page", 1))
+        per_page = int(request.GET.get("size", 10))
+        inbox = Inbox.objects.filter(author_id=curr_user.id)
+        item_list = []
+        for inb in inbox:
+            for item in inb.items:
+                if item["type"] == "post":
+                    item_list.append(item)
+
+        paginator = Paginator(item_list, per_page)
         page_object = paginator.page(page)
 
         context = {
@@ -750,11 +783,7 @@ class APIAllProfileView(APIView):
         serializer = UserSerializer(page_object, many=True)
         response = Response()
         response.status_code = 200
-        data = {
-            "type": "authors",
-            "items": serializer.data
-        }
-        response.data = data
+        response.data = serializer.data
         # response = render(request, 'temp_for_all_authors_list.html', context=context)
         # response = render(request, 'all_authors_list.html', context=context)
         return response
@@ -785,7 +814,6 @@ class APIAuthorProfileView(APIView):
         serializer = UserSerializer(view_user)
         response = Response()
         response.status_code = 200
-
         response.data = serializer.data
         return response
 
@@ -810,6 +838,9 @@ class APIAuthorProfileView(APIView):
 
 # the posts of this particular author
 class APIAuthorPostsView(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticated]
+
     def get(self, request, id):
         view_user = User.objects.get(id=id)
         page = int(request.GET.get("page", 1))
@@ -823,11 +854,7 @@ class APIAuthorPostsView(APIView):
 
         response = Response()
         response.status_code = 200
-        data = {
-            "types": "posts",
-            "items": serializer.data
-        }
-        response.data = data
+        response.data = serializer.data
         # response = render(request, 'temp_for_all_authors_list.html', context=context)
         # response = render(request, 'all_authors_list.html', context=context)
         return response
@@ -838,6 +865,9 @@ class APIAuthorPostsView(APIView):
 
 # todo:determine wether or not only return public posts
 class APIAllPosts(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticated]
+
     def get(self, request):
         page = int(request.GET.get("page", 1))
         per_page = int(request.GET.get("size", 10))
@@ -865,6 +895,9 @@ class APIAllPosts(APIView):
 
 
 class APIPostByIdView(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticated]
+
     def get(self, request, authorId, postId):
         view_user = User.objects.get(id=authorId)
         view_post = Post.objects.get(id=postId)
@@ -884,10 +917,67 @@ class APIPostByIdView(APIView):
         pass
 
 
+'''''''''''''''                                Comment/Like related API                      '''''''''''''''
+
+
+class APICommentsByPostId(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, authorId, postId):
+        view_user = User.objects.get(id=authorId)
+        view_post = Post.objects.get(id=postId)
+        post_comments = view_post.comments
+
+        user_serializer = UserSerializer(view_user)
+        post_serializer = PostSerializer(view_post)
+        comments_serializer = CommentSerializer(post_comments, many=True)
+
+        response = Response()
+        response.status_code = 200
+        response.data = comments_serializer.data
+        return response
+
+    def post(self, request, authorId, postId):
+        pass
+
+
+class APIComment(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, authorId, postId, commentId):
+        comment = PostComment.objects.get(id_comment=commentId)
+        comment_serializer = CommentSerializer(comment)
+        response = Response()
+        response.status_code = 200
+        response.data = comment_serializer.data
+        return response
+
+
+class APICommentsByAuthorId(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, authorId):
+        pass
+
+
+class APILikesByAuthorId(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, authorId):
+        pass
+
+
 '''''''''''''''                                Inbox related API                      '''''''''''''''
 
 
 class APIInbox(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticated]
+
     def get(self, request, authorId):
         try:
             inbox = Inbox.objects.get(author_id=authorId)
@@ -896,13 +986,8 @@ class APIInbox(APIView):
 
         serializer = InboxSerializer(inbox)
         response = Response()
-        data = {
-            "type": "inbox",
-            "items": serializer.data
-        }
-
         response.status_code = 200
-        response.data = data
+        response.data = serializer.data
         return response
 
     def post(self, request, authorId):
@@ -934,10 +1019,23 @@ class APIInbox(APIView):
 
         # todo:handle post api for friend post/private post from remote author
         elif data['type'].lower() == "post":
-            pass
+            remote_author = data['author']
+            post_object = data['object']
+            this_post = Post.objects.get(api_url=post_object)
+            inbox.items.append(PostSerializer(this_post).data)
+            inbox.save()
+            response = Response()
+            response.status_code = 200
+            return response
 
+    def delete(self, request, authorId):
+        Inbox.objects.get(author_id=authorId).delete()
+        response = Response()
+        response.status_code = 200
+        return response
 
 """remote author related view"""
+
 
 class Remote_Author_Profile_View(View):
     def get(self, request):

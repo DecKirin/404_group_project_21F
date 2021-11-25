@@ -52,12 +52,12 @@ ContentType = [
 
 
 class Post(models.Model):
-    visibility_choices = {
+    visibility_choices = (
         (1, "PUBLIC"),
         (2, "FRIEND ONLY"),
         (3, "PRIVATE"),
         (4, "UNLISTED"),
-    }
+    )
     type = 'post'
     title = models.CharField(max_length=128)
     id = models.CharField(max_length=128, primary_key=True)
