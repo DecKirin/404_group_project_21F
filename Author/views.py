@@ -40,7 +40,7 @@ all_remote_host = ['https://social-distribution-fall2021.herokuapp.com',
 """in case vpn issues, modify based on your own vpn"""
 
 '''
-# if proxy is needed, change the proxies according to your proxy setting 
+# if proxy is needed, change the proxies according to your proxy setting
 def make_api_get_request(api_url):
     proxies = {
         "http": "http://127.0.0.1:7890",

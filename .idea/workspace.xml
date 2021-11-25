@@ -67,7 +67,7 @@
       <recent name="C:\Users\lxd19\OneDrive\Documents\GitHub\404_group_project_21F\social_network\Author" />
     </key>
   </component>
-  <component name="RunManager" selected="Django Server.CMPUT404">
+  <component name="RunManager">
     <configuration name="CMPUT404_test" type="DjangoTestsConfigurationType">
       <module name="social_network" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -112,10 +112,6 @@
       <option name="customRunCommand" value="python3 manage.py makemigration" />
       <method v="2" />
     </configuration>
-    <list>
-      <item itemvalue="Django Server.CMPUT404" />
-      <item itemvalue="Django tests.CMPUT404_test" />
-    </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -167,7 +163,8 @@
       <workItem from="1637693071064" duration="1057000" />
       <workItem from="1637716835090" duration="447000" />
       <workItem from="1637731535175" duration="556000" />
-      <workItem from="1637798722249" duration="46645000" />
+      <workItem from="1637798722249" duration="14073000" />
+      <workItem from="1637834283720" duration="399000" />
     </task>
     <servers />
   </component>
