@@ -111,23 +111,25 @@ class NewPostView(View):
                 post.author.id) + "/posts/" + post.id + "/"
             post.api_url = request.scheme + "://" + request.META['HTTP_HOST'] + "/api/author/" + str(
                 post.author.id) + "/posts/" + post.id + "/"
-        post.save()
 
         if visibility == 3:
             user = User.objects.get(username=select_user)
-            inbox = Inbox.objects.get(author=user)
+            inbox, status = Inbox.objects.get_or_create(author=user)
             inbox.items.append(PostSerializer(post).data)
             inbox.save()
         elif visibility == 2:
             try:
                 friends = Friend.objects.get(user=author)
                 for friend in friends.friends:
-                    inbox = inbox.objects.get(author_id=friend['id'])
+                    print(friend)
+                    fri_obj = User.objects.get(id=friend['uuid'])
+                    inbox, status = Inbox.objects.get_or_create(author=fri_obj)
+                    print(inbox.items)
                     inbox.items.append(PostSerializer(post).data)
                     inbox.save()
             except:
                 pass
-
+        post.save()
         return redirect(reverse('Author:index'))
 
     def select_private(self, request):  # TODO
