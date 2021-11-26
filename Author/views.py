@@ -620,7 +620,7 @@ class InterLikeInboxView(View):
             'current_author': curr_user,
         }
 
-        response = render(request, 'temp_inbox_posts.html', context=context)
+        response = render(request, 'temp_inbox_likes.html', context=context)
 
         return response
 
