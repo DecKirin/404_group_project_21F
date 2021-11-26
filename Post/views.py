@@ -22,7 +22,7 @@ from django.http import HttpResponse
 from Post.models import PostLike, PostComment
 from Author.views import make_api_get_request
 
-'''
+
 # use this one if you need to connect with vpn
 def make_api_post_request(api_url, json_object):
     proxies = {
@@ -39,7 +39,7 @@ def make_api_post_request(api_url, json_object):
 def make_api_post_request(api_url, json_object):
     request = requests.post(api_url, data=json_object, auth=HTTPBasicAuth("team11", "secret11"))
     return request
-
+'''
 # class PostSerializer(serializers.ModelSerializer):
 #     class Meta:
 #         model = Post

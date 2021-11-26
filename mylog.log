@@ -1401,3 +1401,13 @@ DEBUG:MARKDOWN:Successfully imported extension module "markdown.extensions.toc".
 DEBUG:MARKDOWN:Successfully loaded extension "markdown.extensions.toc.TocExtension".
 INFO:django.utils.autoreload:C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\friends\serializers.py changed, reloading.
 DEBUG:asyncio:Using proactor: IocpProactor
+DEBUG:root:[{'type': 'author', 'id': 'de2f816a-bfc2-4771-95f4-b7a5ffb12d08', 'displayName': 'zjq', 'url': 'http://cmput404-team13-socialapp.herokuapp.com/api/author/de2f816a-bfc2-4771-95f4-b7a5ffb12d08', 'host': 'http://cmput404-team13-socialapp.herokuapp.com', 'github': '', 'avatar': None}, {'type': 'author', 'id': 'https://social-distribution-fall2021.herokuapp.com/api/author/93', 'host': 'https://social-distribution-fall2021.herokuapp.com/api/', 'displayName': 'junqi', 'url': 'https://social-distribution-fall2021.herokuapp.com/api/author/93', 'github': 'https://github.com/zoujunqi', 'profileImage': 'http://baidu.com'}]
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 127.0.0.1:7890
+DEBUG:urllib3.connectionpool:http://127.0.0.1:7890 "GET http://cmput404-team13-socialapp.herokuapp.com/api/author/de2f816a-bfc2-4771-95f4-b7a5ffb12d08 HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:http://127.0.0.1:7890 "GET http://cmput404-team13-socialapp.herokuapp.com/api/author/de2f816a-bfc2-4771-95f4-b7a5ffb12d08/ HTTP/1.1" 200 266
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 127.0.0.1:7890
+DEBUG:urllib3.connectionpool:http://127.0.0.1:7890 "GET http://cmput404-team13-socialapp.herokuapp.com/api/author/de2f816a-bfc2-4771-95f4-b7a5ffb12d08/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:http://127.0.0.1:7890 "GET http://cmput404-team13-socialapp.herokuapp.com/api/author/de2f816a-bfc2-4771-95f4-b7a5ffb12d08/posts/ HTTP/1.1" 200 689
+DEBUG:MARKDOWN:Successfully imported extension module "markdown.extensions.fenced_code".
+DEBUG:MARKDOWN:Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+DEBUG:asyncio:Using proactor: IocpProactor

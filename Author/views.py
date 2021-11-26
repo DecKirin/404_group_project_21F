@@ -35,10 +35,10 @@ from social_network.settings import SECRET_KEY
 """during test stage, use this instead of manually adding node using admin pannel"""
 
 #    all_remote_host = ['https://social-distribution-fall2021.herokuapp.com',
-#                       'https://cmput404-team13-socialapp.herokuapp.com']
+#                       'https://social-distribution-fall2021.herokuapp.com']
 """in case vpn issues, modify based on your own vpn"""
 
-'''
+
 # if proxy is needed, change the proxies according to your proxy setting
 def make_api_get_request(api_url):
     proxies = {
@@ -54,7 +54,7 @@ def make_api_get_request(api_url):
 def make_api_get_request(api_url):
     request = requests.get(api_url, auth=HTTPBasicAuth("team11", "secret11"), verify=True)
     return request
-
+'''
 
 
 # check if validation by admin is required to activate an author account
