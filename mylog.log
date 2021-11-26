@@ -200,3 +200,33 @@ Traceback (most recent call last):
 django.core.exceptions.ValidationError: ['“http://127.0.0.1:8000/api/author/d169def6-c178-44cc-b8bd-b02073ebc3e6/” is not a valid UUID.']
 INFO:django.utils.autoreload:C:\Users\lxd19\OneDrive\Documents\GitHub\404_group_project_21F\friends\views.py changed, reloading.
 DEBUG:asyncio:Using proactor: IocpProactor
+ERROR:django.request:Internal Server Error: /sentrequest/b6bc9e67-3394-46f4-b269-b0aeb0eaedaa
+Traceback (most recent call last):
+  File "C:\Users\lxd19\OneDrive\Documents\GitHub\404_group_project_21F\venv\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "C:\Users\lxd19\OneDrive\Documents\GitHub\404_group_project_21F\venv\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\lxd19\OneDrive\Documents\GitHub\404_group_project_21F\venv\lib\site-packages\django\views\generic\base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Users\lxd19\OneDrive\Documents\GitHub\404_group_project_21F\venv\lib\site-packages\django\views\generic\base.py", line 98, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Users\lxd19\OneDrive\Documents\GitHub\404_group_project_21F\friends\views.py", line 243, in get
+    context['request_user'] = request_user['username']
+KeyError: 'username'
+INFO:django.utils.autoreload:C:\Users\lxd19\OneDrive\Documents\GitHub\404_group_project_21F\friends\views.py changed, reloading.
+DEBUG:asyncio:Using proactor: IocpProactor
+ERROR:django.request:Internal Server Error: /sentrequest/b6bc9e67-3394-46f4-b269-b0aeb0eaedaa
+Traceback (most recent call last):
+  File "C:\Users\lxd19\OneDrive\Documents\GitHub\404_group_project_21F\venv\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "C:\Users\lxd19\OneDrive\Documents\GitHub\404_group_project_21F\venv\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\lxd19\OneDrive\Documents\GitHub\404_group_project_21F\venv\lib\site-packages\django\views\generic\base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Users\lxd19\OneDrive\Documents\GitHub\404_group_project_21F\venv\lib\site-packages\django\views\generic\base.py", line 98, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Users\lxd19\OneDrive\Documents\GitHub\404_group_project_21F\friends\views.py", line 255, in post
+    context['request_user'] = request_user['username']
+KeyError: 'username'
+INFO:django.utils.autoreload:C:\Users\lxd19\OneDrive\Documents\GitHub\404_group_project_21F\friends\views.py changed, reloading.
+DEBUG:asyncio:Using proactor: IocpProactor

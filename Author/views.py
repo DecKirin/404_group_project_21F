@@ -606,6 +606,7 @@ class InterLikeInboxView(View):
         item_list = []
         for inb in inbox:
             for item in inb.items:
+                print(item)
                 if item["type"] == "like":
                     item_list.append(item)
 

@@ -240,8 +240,8 @@ class process_friend_request(View):
         friend_request = FriendRequest.objects.get(request_id=request_id)
         request_user = friend_request.sender
         to_befriend = friend_request.receiver
-        context['request_user'] = request_user['username']
-        context['request_tobe'] = to_befriend['username']
+        context['request_user'] = request_user['displayName']
+        context['request_tobe'] = to_befriend['displayName']
         return render(request, 'request_process.html', context=context)
 
     def post(self, request, request_id):
@@ -252,8 +252,8 @@ class process_friend_request(View):
         request_user = friend_request.sender
         to_befriend = friend_request.receiver
 
-        context['request_user'] = request_user['username']
-        context['request_tobe'] = to_befriend['username']
+        context['request_user'] = request_user['displayName']
+        context['request_tobe'] = to_befriend['displayName']
         # logging.debug(request.method)
         if request.POST.get("status") == 'Accept':
             request_user_type = User.objects.get(id=request_user['uuid'])
@@ -262,12 +262,12 @@ class process_friend_request(View):
             to_befriend_friend, to_be_create = Friend.objects.get_or_create(user=to_befriend_user)
             friend_request.accept_request(request_friend, to_befriend_friend)
             # logging.debug(request.POST.get("status"))
-            context['choice'] = f"You've now {request_user['username']}'s friend"
+            context['choice'] = f"You've now {request_user['displayName']}'s friend"
 
         elif request.POST.get('status') == 'Decline':
             friend_request.decline_request()
             # logging.debug('Decline')
-            context['choice'] = f"You've declined {request_user['username']}'s request"
+            context['choice'] = f"You've declined {request_user['displayName']}'s request"
 
         # logging.debug('Nothing')
         return HttpResponseRedirect(reverse('Author:index'))
