@@ -606,10 +606,14 @@ class InterLikeInboxView(View):
         item_list = []
         for inb in inbox:
             for item in inb.items:
-                print(item)
                 if item["type"] == "like":
-                    item_list.append(item)
+                    try:
+                        if item['post']:
+                            item_list.append(item)
+                    except:
+                        pass
 
+        print(item_list)
         paginator = Paginator(item_list, per_page)
         page_object = paginator.page(page)
 
