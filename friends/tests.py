@@ -49,7 +49,7 @@ class FriendRequestTestCase(TestCase):
         self.assertEqual(len(friend1.friends), 0)
         self.assertEqual(len(friend2.friends), 0)
         self.assertFalse(request.respond_status)
-        request.accept_request()
+        request.accept_request(friend1, friend2)
         self.assertEqual(len(friend1.friends), 1)
         self.assertEqual(len(friend2.friends), 1)
         self.assertTrue(request.respond_status)

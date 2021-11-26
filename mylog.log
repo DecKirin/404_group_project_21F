@@ -84,3 +84,20 @@ Traceback (most recent call last):
     raise exceptions.ValidationError(
 django.core.exceptions.ValidationError: ["“{'type': 'author', 'id': '18828c13-4595-4093-86d7-8260d035a215', 'username': 'qqqq', 'profile_image': '', 'email': '123@gmail.com', 'first_name': 'qq', 'last_name': 'z', 'github': '', 'host': '127.0.0.1:8000', 'api_url': 'http://127.0.0.1:8000/api/author/18828c13-4595-4093-86d7-8260d035a215/'}” is not a valid UUID."]
 DEBUG:asyncio:Using selector: KqueueSelector
+ERROR:django.request:Internal Server Error: /sentrequest/05465e54-c1d5-422d-85b0-f9aa053a32f5
+Traceback (most recent call last):
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/views/generic/base.py", line 98, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/Users/qianqiu/Documents/CMPUT404/project/404_group_project_21F/friends/views.py", line 263, in post
+    friend_request.accept_request(request_friend, to_befriend_friend)
+  File "/Users/qianqiu/Documents/CMPUT404/project/404_group_project_21F/friends/models.py", line 76, in accept_request
+    receiver_friend.add_friend(self.sender)
+AttributeError: 'tuple' object has no attribute 'add_friend'
+INFO:django.utils.autoreload:/Users/qianqiu/Documents/CMPUT404/project/404_group_project_21F/friends/views.py changed, reloading.
+DEBUG:asyncio:Using selector: KqueueSelector
