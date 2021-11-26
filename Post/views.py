@@ -354,7 +354,7 @@ class like_remote_post_view(View):
 
 class CommentRemotePostView(View):
     def get(self, request, author_id, post_id):
-        return render(request, 'remote_comment.html', None)
+        return render(request, 'comment.html', None)
 
     def post(self, request, author_id, post_id):
         post_url = request.GET.get("post_url")
