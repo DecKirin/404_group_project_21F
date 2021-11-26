@@ -15,6 +15,7 @@ from Author.views import APIAllProfileView, APIAuthorProfileView, APIAllPosts, A
 
 from Author.views import Remote_Author_Profile_View
 from Post.views import Remote_Specific_Post_View
+
 app_name = 'Author'
 urlpatterns = [
     path('', baseView.as_view(), name='index'),
