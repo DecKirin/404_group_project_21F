@@ -256,8 +256,8 @@ class process_friend_request(View):
         context['request_tobe'] = to_befriend['username']
         # logging.debug(request.method)
         if request.POST.get("status") == 'Accept':
-            request_user_type = User.objects.get(id=request_user['id'])
-            to_befriend_user = User.objects.get(id=to_befriend['id'])
+            request_user_type = User.objects.get(id=request_user['uuid'])
+            to_befriend_user = User.objects.get(id=to_befriend['uuid'])
             request_friend, request_create = Friend.objects.get_or_create(user=request_user_type)
             to_befriend_friend, to_be_create = Friend.objects.get_or_create(user=to_befriend_user)
             friend_request.accept_request(request_friend, to_befriend_friend)
