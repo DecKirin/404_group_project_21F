@@ -550,7 +550,7 @@ class InterFRInboxView(View):
                             item_list.append(item)
                     except:
                         continue
-
+        print(item_list)
         # inbox = Inbox.objects.filter(requests=friReqs)
         paginator = Paginator(item_list, per_page)
         page_object = paginator.page(page)
@@ -575,13 +575,15 @@ class InterPostInboxView(View):
         inbox = Inbox.objects.filter(author_id=curr_user.id)
         item_list = []
         for inb in inbox:
+            print(inb.author_id)
             for item in inb.items:
-                if item["type"] == "post":
+                print(item)
+                if item['type'] == 'post':
                     item_list.append(item)
 
         paginator = Paginator(item_list, per_page)
         page_object = paginator.page(page)
-
+        print(item_list)
         context = {
             'page_object': page_object,
             'page_range': paginator.page_range,
@@ -604,7 +606,7 @@ class InterLikeInboxView(View):
         item_list = []
         for inb in inbox:
             for item in inb.items:
-                if item["type"] == "post":
+                if item["type"] == "like":
                     item_list.append(item)
 
         paginator = Paginator(item_list, per_page)

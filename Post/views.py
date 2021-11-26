@@ -70,7 +70,7 @@ class NewPostView(View):
         return render(request, 'new_post.html', None)
 
     def post(self, request):
-        author_id = request.user.id
+        author = request.user
         title = request.POST.get('title', '')
         content_type = request.POST.get('content_type', '')
         content = request.POST.get('content', '')
@@ -102,6 +102,7 @@ class NewPostView(View):
                                    contentType=content_type, content=content, author=request.user,
                                    categories=categories,
                                    visibility=visibility, unlisted=unlisted, select_user=select_user, image=image)
+
         if post.author.url != "":
             post.url = post.author.url + "posts/" + post.id + "/"
             post.api_url = post.author.api_url + "posts/" + post.id + "/"
@@ -110,6 +111,24 @@ class NewPostView(View):
                 post.author.id) + "/posts/" + post.id + "/"
             post.api_url = request.scheme + "://" + request.META['HTTP_HOST'] + "/api/author/" + str(
                 post.author.id) + "/posts/" + post.id + "/"
+
+        if visibility == 3:
+            user = User.objects.get(username=select_user)
+            inbox, status = Inbox.objects.get_or_create(author=user)
+            inbox.items.append(PostSerializer(post).data)
+            inbox.save()
+        elif visibility == 2:
+            try:
+                friends = Friend.objects.get(user=author)
+                for friend in friends.friends:
+                    print(friend)
+                    fri_obj = User.objects.get(id=friend['uuid'])
+                    inbox, status = Inbox.objects.get_or_create(author=fri_obj)
+                    print(inbox.items)
+                    inbox.items.append(PostSerializer(post).data)
+                    inbox.save()
+            except:
+                pass
         post.save()
         return redirect(reverse('Author:index'))
 
