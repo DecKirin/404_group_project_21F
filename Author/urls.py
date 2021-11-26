@@ -6,7 +6,7 @@ from Author.views import baseView, RegisterView, LoginView, UserInfoView, Logout
     APIAuthorPostsView, APIPostByIdView, APIInbox, InterLikeInboxView
 from friends.views import friends_list_view, send_friend_request, process_friend_request, followers_list_view, \
     follows_list_view, follower_view, un_befriend, my_list, APIFollowsByIdView, APIFollowersByIdView, \
-    APIFriendsByIdView, remote_sent_request
+    APIFriendsByIdView, remote_sent_request, remote_un_befriend
 from Post.views import NewPostView, SpecificPostView, EditPostView, delete_post, like_post, unlike_post, \
     CreatePostComment, APICommentsByAuthorId, APILikesByAuthorId, APIComment, APILikesByPost, \
     like_remote_post_view, CommentRemotePostView
@@ -63,7 +63,8 @@ urlpatterns = [
     path('posts/allPublicPosts/', AllPublicPostsView.as_view(), name='all_public_posts'),
     # Un-befriend
     path('<uuid:id>/<delete>', un_befriend, name='un_befriend'),
-
+    # remote Un-befriend
+    path('remote/<delete>', remote_un_befriend.as_view(), name='remote_un_befriend'),
     # below are URLs for API only
     path('api/authors/',  APIAllProfileView.as_view(), name="api_authors"),
     path('api/author/<uuid:id>/', APIAuthorProfileView.as_view(), name="api_author_by_id"),

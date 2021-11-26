@@ -20,23 +20,6 @@ import logging
 
 
 # Create your views here.
-class remote_un_befriend(APIView):
-
-    def get (self, request, delete):
-        logging.basicConfig(filename='requestlog.log', level=logging.DEBUG)
-
-        authorAPIUrl = request.GET.get("url")
-        authorAPIUrl = urllib.parse.unquote(authorAPIUrl)
-        author_request = make_api_get_request(authorAPIUrl)
-        to_del_friend = author_request.json()
-        logging.debug(to_del_friend)
-        if delete == 'Un-follow':
-            follow = Follow.objects.get(user=user)
-            follow.delete_follow(UserSerializer(to_del_friend).data)
-            context['type'] = 'follow'
-        context['user'] = user
-        context['to_del_friend'] = to_del_friend
-        return render(request, 'delete_friend.html', context=context)
 
 def un_befriend(request, id, delete):
     context = {}
@@ -286,6 +269,35 @@ class remote_sent_request(APIView):
         # return render(request, 'request_send.html', context=context)
         return redirect(reverse('Author:my_list', kwargs={'relationship':'follows'}))
 
+class remote_un_befriend(APIView):
+
+    def get(self, request, delete):
+        # logging.basicConfig(filename='requestlog.log', level=logging.DEBUG)
+        user = request.user
+        context = {}
+        authorAPIUrl = request.GET.get("url")
+        logging.debug(authorAPIUrl)
+        authorAPIUrl = urllib.parse.unquote(authorAPIUrl)
+        author_request = make_api_get_request(authorAPIUrl)
+        to_del_friend = author_request.json()
+        logging.debug(to_del_friend)
+        if delete == 'Un-follow':
+            follow = Follow.objects.get(user=user)
+            follow.delete_follow(to_del_friend)
+            context['type'] = 'follows'
+        elif delete == 'Un-befriend':
+            friend = Friend.objects.get(user=user)
+            del_friend = Friend.objects.get(user=to_del_friend)
+            friend.delete_friend(UserSerializer(to_del_friend).data)
+            del_friend.delete_friend(UserSerializer(user).data)
+            context['type'] = 'friends'
+        elif delete == 'Un-follower':
+            follower = Follower.objects.get(user=user)
+            follower.delete_follower(UserSerializer(to_del_friend).data)
+            context['type'] = 'followers'
+        context['user'] = user
+        context['to_del_friend'] = to_del_friend
+        return redirect(reverse('Author:my_list', kwargs={'relationship':context['type']}))
 
 
 '''

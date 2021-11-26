@@ -31,6 +31,7 @@
                           <div class="col-7">
                               <h2 class="lead"><b>{{ friend.displayName }}</b></h2>
                               <p class="text-muted text-sm"><b>github: </b> {{ friend.github }} </p>
+                              <p class="text-muted text-sm"><b>url: </b> {{ friend.url }} </p>
                               <ul class="ml-4 mb-0 fa-ul text-muted">
                               </ul>
 
@@ -48,13 +49,14 @@
                           </a>
                               {%else%}
 
-                              <form id='remote_friend_url' method="get" action={% url 'Author:remote_un_befriend' delete=delete  %}>
-                              <input type="hidden" id="remote_url" name="url" value={{ author.url }}>
+                              <form id='remote_friend_url' method="get" action={% url 'Author:remote_un_befriend' delete=delete %}>
+                              <input type="hidden" id="friend_url" name="url" value={{ friend.url }}>
                               <button class="btn btn-sm btn-primary" type="submit" >
                                   <i class="fas fa-user"></i> {{delete}}(remote)
                               </button>
+                          </form>
                           <form id='remote_author_url' method="get" action={% url 'Author:remote_author_profile' %}>
-                              <input type="hidden" id="url" name="url" value={{ author.url }}>
+                              <input type="hidden" id="author_url" name="url" value={{ friend.url }}>
                               <button class="btn btn-sm btn-primary" type="submit" >
                                   <i class="fas fa-user"></i> View Profile(remote)
                               </button>
