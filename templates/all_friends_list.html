@@ -22,10 +22,20 @@
                       </div>
                       <div class="card-body pt-0">
                           <div class="row">
-                          <img src="{{ friend.profile_image }}}" alt="user-avatar" class="img-circle img-fluid">
-
+                          {% if friend.profile_image %}
+                                <img src="{{ friend.profile_image }}}" alt="user-avatar" class="img-circle img-fluid">
+                          {% elif author.profileImage %}
+                                <img src="{{ friend.profileImage }}}" alt="user-avatar" class="img-circle img-fluid">
+                          {% else %}
+                                <img src="{% static 'mine/images/default_avatar.png' %}" alt="user-avatar" class="img-circle img-fluid">
+                          {% endif %}
                           <div class="col-7">
+                              {% if friend.displayName %}
                               <h2 class="lead"><b>{{ friend.displayName }}</b></h2>
+                              {% else %}
+                              <h2 class="lead"><b>{{ friend.username }}</b></h2>
+
+                              {% endif %}
                               <p class="text-muted text-sm"><b>github: </b> {{ friend.github }} </p>
                               <ul class="ml-4 mb-0 fa-ul text-muted">
                               </ul>

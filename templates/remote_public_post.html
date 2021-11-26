@@ -20,14 +20,15 @@
                                 <img class="img-size-64" src="{% static 'mine/images/default_avatar.png' %}" alt="user image">
                                 <span class="description">Author:
                                     {% if author.username %}
-                                    <a href="" class="username">{{ post.author.username }}</a>
+                                    <a href="" class="username">{{ post.author.displayName }}</a>
                                     {% else %}
                                     <a href="" class="username">{{ post.author.displayName }}</a>
                                     {% endif %}
                                   <a href="{{ post.author.github }}" class="username">{{ post.author.github }}</a>
                                 </span>
                                 <span class="mailbox-read-time float-right">published:{{ post.published}}<br>
-                                  updated   : {{ post.updated }}
+                                        remote post
+
                                 </span>
                               </div>
 
