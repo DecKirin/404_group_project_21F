@@ -551,7 +551,7 @@ class InterFRInboxView(View):
                             item_list.append(item)
                     except:
                         continue
-
+        print(item_list)
         # inbox = Inbox.objects.filter(requests=friReqs)
         paginator = Paginator(item_list, per_page)
         page_object = paginator.page(page)

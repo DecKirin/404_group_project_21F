@@ -6,6 +6,7 @@ from Post.serializers import LikeSerializer, CommentSerializer
 
 class UserSerializer(serializers.ModelSerializer):
     id = serializers.SerializerMethodField()
+    uuid = serializers.SerializerMethodField()
 
     class Meta:
         model = User
@@ -14,6 +15,9 @@ class UserSerializer(serializers.ModelSerializer):
 
     def get_id(self, obj):
         return obj.api_url
+
+    def get_uuid(self,obj):
+        return obj.id
 
 
 
