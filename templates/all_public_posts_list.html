@@ -99,15 +99,15 @@
             <nav aria-label="Contacts Page Navigation">
             <ul class="pagination justify-content-center m-0">
                 <li>
-                  <a href="{% url 'Author:all_authors' %}?page={{current_page}}&&size={{ page_size }}" aria-label="Previous">
+                  <a href="{% url 'Author:all_public_posts' %}?page={{current_page}}&&size={{ page_size }}" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                   </a>
                 </li>
                 {% for page_index in page_range %}
-                    <li><a href="{% url 'Author:all_authors' %}?page={{ page_index }}&&size={{ page_size }}">{{ page_index }}</a></li>
+                    <li><a href="{% url 'Author:all_public_posts' %}?page={{ page_index }}&&size={{ page_size }}">{{ page_index }}</a></li>
                 {% endfor %}
                 <li>
-                  <a href="{% url 'Author:all_authors' %}?page={{current_page}}&&size={{ page_size }}" aria-label="Next">
+                  <a href="{% url 'Author:all_public_posts' %}?page={{current_page}}&&size={{ page_size }}" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                   </a>
                 </li>

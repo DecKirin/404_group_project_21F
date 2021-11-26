@@ -55,7 +55,6 @@ def make_api_get_request(api_url):
     request = requests.get(api_url, auth=HTTPBasicAuth("team11", "secret11"), verify=True)
     return request
 
-
 # check if validation by admin is required to activate an author account
 def check_if_confirmation_required():
     try:
@@ -117,15 +116,23 @@ def get_remote_public_posts():
 def get_all_remote_public_posts_through_remote_authors():
     remote_authors = get_remote_authors()
     all_remote_posts = []
+
     for author in remote_authors:
-        post_url = author["url"] + "/posts"
+        post_url = ""
+        if author["url"][-1] == "/":
+            post_url = author["url"] + "posts"
+        else:
+            post_url = author["url"] + "/posts"
         print(post_url)
         request = make_api_get_request(post_url)
         print("request.data:", request)
-        try:
-            posts = request.json()["items"]
-        except Exception:
-            posts = request.json()
+        if request.status_code==200:
+            try:
+                posts = request.json()["items"]
+            except Exception:
+                posts = request.json()
+        else:
+            continue
         all_remote_posts += posts
     print(all_remote_posts)
     return all_remote_posts
