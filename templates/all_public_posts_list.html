@@ -21,7 +21,12 @@
                       {% if post.author.host == curr_host %}
                             <h3><a href="{% url "Author:specific_post" post.author.id post.id %}">{{ post.title }}</a></h3>
                       {% else %}
+                            {% if post.url %}
                             <h3><a href="{% url "Author:remote_specific_post" %}?post_url={{ post.url }}">{{ post.title }}</a></h3>
+                            {% else %}
+                            <h3><a href="{% url "Author:remote_specific_post" %}?post_url={{ post.id }}">{{ post.title }}</a></h3>
+
+                            {% endif %}
                       {% endif %}
                   </div><!-- /.card-header -->
                   <div class="card-body">
@@ -36,7 +41,7 @@
                                 {% if post.author.host == curr_host %}
                                     <a href="{% url 'Author:profile' post.author.id %}" class="float-right btn-tool">{{ post.author.username }}</a>
                                 {% else %}
-                                    {% if post.author.url %}
+                                    {% if post.url %}
                                     <a href="{% url 'Author:remote_author_profile'%}?url={{  post.author.url  }}" class="float-right btn-tool">{{ post.author.displayName }}</a>
                                     {% else %}
                                     <a href="{% url 'Author:remote_author_profile'%}?url={{  post.author.id  }}" class="float-right btn-tool">{{ post.author.displayName }}</a>

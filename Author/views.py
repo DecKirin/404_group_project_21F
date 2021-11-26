@@ -33,14 +33,12 @@ from friends.serializers import FriendRequestSerializer
 from social_network.settings import SECRET_KEY
 
 """during test stage, use this instead of manually adding node using admin pannel"""
-all_remote_host = ['https://social-distribution-fall2021.herokuapp.com',
-                   'https://cmput404-team13-socialapp.herokuapp.com']
 
-# all_remote_host = ['https://cmput404-team13-socialapp.herokuapp.com']
-
+#    all_remote_host = ['https://social-distribution-fall2021.herokuapp.com',
+#                       'https://cmput404-team13-socialapp.herokuapp.com']
 """in case vpn issues, modify based on your own vpn"""
 
-
+'''
 # if proxy is needed, change the proxies according to your proxy setting
 def make_api_get_request(api_url):
     proxies = {
@@ -49,14 +47,14 @@ def make_api_get_request(api_url):
     }
     request = requests.get(api_url, proxies=proxies, auth=HTTPBasicAuth("team11", "secret11"), verify=True)
     return request
-
-
 '''
+
+
 # if proxy is not needed
 def make_api_get_request(api_url):
     request = requests.get(api_url, auth=HTTPBasicAuth("team11", "secret11"), verify=True)
     return request
-'''
+
 
 
 # check if validation by admin is required to activate an author account
@@ -81,8 +79,7 @@ def get_remote_nodes():
 
 
 def get_remote_authors():
-    all_remote_host = ['https://social-distribution-fall2021.herokuapp.com',
-                       'https://cmput404-team13-socialapp.herokuapp.com']
+    all_remote_host = get_remote_nodes()
 
     authors = []
     for host in all_remote_host:
