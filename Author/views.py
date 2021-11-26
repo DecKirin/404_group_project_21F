@@ -39,7 +39,6 @@ all_remote_host = ['https://social-distribution-fall2021.herokuapp.com',
 
 """in case vpn issues, modify based on your own vpn"""
 
-'''
 # if proxy is needed, change the proxies according to your proxy setting
 def make_api_get_request(api_url):
     proxies = {
@@ -48,13 +47,13 @@ def make_api_get_request(api_url):
     }
     request = requests.get(api_url, proxies=proxies, auth=HTTPBasicAuth("team11", "secret11"), verify=True)
     return request
-'''
 
+'''
 # if proxy is not needed
 def make_api_get_request(api_url):
     request = requests.get(api_url, auth=HTTPBasicAuth("team11", "secret11"), verify=True)
     return request
-
+'''
 
 # check if validation by admin is required to activate an author account
 def check_if_confirmation_required():
@@ -557,6 +556,7 @@ class InterFRInboxView(View):
         page_object = paginator.page(page)
 
         context = {
+            'curr_user':curr_user,
             'page_object': page_object,
             'page_range': paginator.page_range,
         }
@@ -1092,8 +1092,12 @@ class Remote_Author_Profile_View(View):
 
         posts_url = authorAPIUrl + "/posts"
         posts_request = make_api_get_request(posts_url)
-        remote_posts = posts_request.json()["items"]
 
+        print(posts_request.json())
+        try:
+            remote_posts = posts_request.json()["items"]
+        except Exception:
+            remote_posts = posts_request.json()["item"]
         paginator = Paginator(remote_posts, per_page)
         page_object = paginator.page(page)
 
