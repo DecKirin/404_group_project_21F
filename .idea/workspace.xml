@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6639ff7a-d651-48dc-9929-7225c60edcac" name="Changes" comment="" />
+    <list default="true" id="6639ff7a-d651-48dc-9929-7225c60edcac" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Author/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/Author/urls.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -59,7 +62,7 @@
       <recent name="C:\Users\lxd19\OneDrive\Documents\GitHub\404_group_project_21F\social_network\Author" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Django Server.CMPUT404">
     <configuration name="CMPUT404_test" type="DjangoTestsConfigurationType">
       <module name="social_network" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -157,6 +160,7 @@
       <workItem from="1637731535175" duration="556000" />
       <workItem from="1637798722249" duration="14073000" />
       <workItem from="1637834283720" duration="399000" />
+      <workItem from="1637921418708" duration="99000" />
     </task>
     <servers />
   </component>
