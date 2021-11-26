@@ -603,10 +603,14 @@ class InterLikeInboxView(View):
         item_list = []
         for inb in inbox:
             for item in inb.items:
-                print(item)
                 if item["type"] == "like":
-                    item_list.append(item)
+                    try:
+                        if item['post']:
+                            item_list.append(item)
+                    except:
+                        pass
 
+        print(item_list)
         paginator = Paginator(item_list, per_page)
         page_object = paginator.page(page)
 
@@ -970,7 +974,22 @@ class APICommentsByPostId(APIView):
         return response
 
     def post(self, request, authorId, postId):
-        pass
+        data = request.data
+        author_comment1 = data["author"]
+        comment_content = data["comment"]
+        comment_contentType = data["contentType"]  # TODO: add contentType to Comment and add md
+        published1 = models.DateTimeField(auto_now_add=True)
+        author_post = User.objects.get(id=authorId)
+        local_post = Post.objects.get(id=postId)
+        local_post.count = local_post.count + 1
+        local_post.save()
+        commentId = models.UUIDField(primary_key=True, default=uuid.uuid4, unique=True)
+        api_url1 = '/api' + '/author/' + str(authorId) + "/posts/" + str(postId) + "/comments/" + str(commentId)
+        comment = PostComment.objects.create(type="comment", id_comment=commentId, post=local_post, author_comment=author_comment1, author=author_post, comment=comment_content, published=published1, api_url=api_url1)
+        comment.save()
+        response = Response()
+        response.status_code = 200
+        return response
 
 
 class APIComment(APIView):
@@ -1037,6 +1056,9 @@ class APIInbox(APIView):
                                                           receiver=UserSerializer(local_author).data)
             inbox.items.append(FriendRequestSerializer(friend_request).data)
             inbox.save()
+            # add remote author to follower list of local author
+            follower, create_follower = Follower.objects.get_or_create(user=local_author)
+            follower.add_follower(UserSerializer(remote_author).data)
             response = Response()
             response.status_code = 200
             return response
