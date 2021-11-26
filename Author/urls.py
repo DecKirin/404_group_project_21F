@@ -83,12 +83,9 @@ urlpatterns = [
 
     path('api/posts/', APIAllPosts.as_view(), name="api_all_posts"),
 
-
-
-
-
     path('remote_author/', Remote_Author_Profile_View.as_view(), name="remote_author_profile"),
     path('remote_post/', Remote_Specific_Post_View.as_view(), name="remote_specific_post"),
-    path('remote_post/like', like_remote_post_view.as_view(), name="like_remote_post")
+    path('remote_post/like', like_remote_post_view.as_view(), name="like_remote_post"),
+    path('remote_author/befriend', remote_sent_request.as_view(), name="remote_friend_request"),
 
 ]

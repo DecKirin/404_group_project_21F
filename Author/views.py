@@ -1057,6 +1057,9 @@ class APIInbox(APIView):
                                                           receiver=UserSerializer(local_author).data)
             inbox.items.append(FriendRequestSerializer(friend_request).data)
             inbox.save()
+            # add remote author to follower list of local author
+            follower, create_follower = Follower.objects.get_or_create(user=local_author)
+            follower.add_follower(UserSerializer(remote_author).data)
             response = Response()
             response.status_code = 200
             return response

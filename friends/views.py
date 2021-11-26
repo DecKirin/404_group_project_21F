@@ -1,11 +1,13 @@
 import json
 from datetime import datetime
-
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
+import urllib
+from Author.views import make_api_get_request
+from Post.views import make_api_post_request
 from Author.serializers import UserSerializer
 from .models import Friend, FriendRequest, Follower, Follow
 from .serializers import FriendRequestSerializer
@@ -50,10 +52,11 @@ def friends_list_view(request, id, *args, **kwargs):
     if create:
         context['friends'] = ['Does not have friend yet']
     else:
-        friend_list = friend.friends.all()  #
+        friend_list = friend.friends #
         context['friends'] = friend_list
     context['delete'] = 'Un-befriend'
     context['type'] = 'Friend'
+    context['current_host'] = request.META['HTTP_HOST']
     return render(request, 'all_friends_list.html', context=context)
 
 
@@ -71,10 +74,11 @@ def followers_list_view(request, id, *args, **kwargs):
     if create:
         context['friends'] = ['Does not have follow yet']
     else:
-        friend_list = follower.followers.all()  #
+        friend_list = follower.followers  #
         context['friends'] = friend_list
     context['delete'] = 'Un-follow'
     context['type'] = 'Follower'
+    context['current_host'] = request.META['HTTP_HOST']
     return render(request, 'all_friends_list.html', context=context)
 
 
@@ -86,10 +90,11 @@ def follows_list_view(request, id, *args, **kwargs):
     if create:
         context['friends'] = ['Does not have follower yet']
     else:
-        friend_list = follower.follows.all()  #
+        friend_list = follower.follows#
         context['friends'] = friend_list
     context['delete'] = 'Un-follow'
     context['type'] = 'Follow'
+    context['current_host'] = request.META['HTTP_HOST']
     return render(request, 'all_friends_list.html', context=context)
 
 
@@ -97,8 +102,10 @@ def follows_list_view(request, id, *args, **kwargs):
 def my_list(request, relationship):
     context = {}
     user = request.user
+    context['current_host'] = request.META['HTTP_HOST']
+    logging.basicConfig(filename='mylog.log', level=logging.DEBUG)
     if relationship == 'follows':
-        # logging.basicConfig(filename='mylog.log', level=logging.DEBUG)
+
         follow, create = Follow.objects.get_or_create(user=user)  # class friend
         if create:
             context['friends'] = ['Does not have follower yet']
@@ -106,10 +113,11 @@ def my_list(request, relationship):
             friend_list = follow.follows# .all()  #
             # follow.delete_follow(user)
             context['friends'] = friend_list
-            # logging.debug(len(friend_list))
+            logging.debug(friend_list)
             # logging.debug(type(friend_list))
         context['delete'] = 'Un-follow'
         context['type'] = 'Follow'
+
     elif relationship == 'followers':
         user = request.user
         follower, create = Follower.objects.get_or_create(user=user)  # class friend
@@ -226,6 +234,44 @@ def send_friend_request(request, foreign_id, *args, **kwargs):
 
     return render(request, 'request_send.html', context=context)
 
+class remote_sent_request(APIView):
+
+    def get(self, request):
+        context = {}
+        user = request.user
+        authorAPIUrl = request.GET.get("url")
+        authorAPIUrl = urllib.parse.unquote(authorAPIUrl)
+        author_request = make_api_get_request(authorAPIUrl)
+        to_befriend = author_request.json()
+        logging.basicConfig(filename='requestlog.log', level=logging.DEBUG)
+        logging.debug(to_befriend)
+
+        inbox_info = dict()
+        inbox_info["type"] = "Follow"
+        logging.basicConfig(filename='requestlog.log', level=logging.DEBUG)
+        logging.debug(to_befriend)
+        inbox_info["summary"] = "%s wants to follow %s" % (user.username, to_befriend['displayName'])
+        inbox_info["actor"] = UserSerializer(user).data
+        inbox_info["object"] = to_befriend
+        inbox_info["send_at"] = datetime.now
+        follow, create_follow = Follow.objects.get_or_create(user=user)
+        follow.add_follow(to_befriend)
+
+        inbox_url = authorAPIUrl + "/inbox"
+        logging.debug(inbox_url)
+        logging.debug(inbox_info)
+        request = make_api_post_request(inbox_url, inbox_info)
+
+        print("inbox post request:!!!!!", request)
+        #
+        # context['request_user'] = user.username
+        # context['request_tobe'] = to_befriend['displayName']
+        # context['request_id'] = 'no'
+        # return render(request, 'request_send.html', context=context)
+        return redirect(reverse('Author:my_list', kwargs={'relationship':'follows'}))
+
+
+
 '''
 come after click on inbox message
 #todo: what happened after making decision
@@ -240,8 +286,8 @@ class process_friend_request(View):
         friend_request = FriendRequest.objects.get(request_id=request_id)
         request_user = friend_request.sender
         to_befriend = friend_request.receiver
-        context['request_user'] = request_user['displayName']
-        context['request_tobe'] = to_befriend['displayName']
+        context['request_user'] = request_user['username']
+        context['request_tobe'] = to_befriend['username']
         return render(request, 'request_process.html', context=context)
 
     def post(self, request, request_id):
@@ -252,8 +298,8 @@ class process_friend_request(View):
         request_user = friend_request.sender
         to_befriend = friend_request.receiver
 
-        context['request_user'] = request_user['displayName']
-        context['request_tobe'] = to_befriend['displayName']
+        context['request_user'] = request_user['username']
+        context['request_tobe'] = to_befriend['username']
         # logging.debug(request.method)
         if request.POST.get("status") == 'Accept':
             request_user_type = User.objects.get(id=request_user['uuid'])
@@ -262,12 +308,12 @@ class process_friend_request(View):
             to_befriend_friend, to_be_create = Friend.objects.get_or_create(user=to_befriend_user)
             friend_request.accept_request(request_friend, to_befriend_friend)
             # logging.debug(request.POST.get("status"))
-            context['choice'] = f"You've now {request_user['displayName']}'s friend"
+            context['choice'] = f"You've now {request_user['username']}'s friend"
 
         elif request.POST.get('status') == 'Decline':
             friend_request.decline_request()
             # logging.debug('Decline')
-            context['choice'] = f"You've declined {request_user['displayName']}'s request"
+            context['choice'] = f"You've declined {request_user['username']}'s request"
 
         # logging.debug('Nothing')
         return HttpResponseRedirect(reverse('Author:index'))

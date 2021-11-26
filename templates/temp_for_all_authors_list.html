@@ -45,6 +45,13 @@
                           {% if author.host == current_host %}
                           <a href="{% url 'Author:friend_request' author.id %}" class="btn btn-sm bg-teal">
                               <i class="fas fa-comments"></i> Be-Friend
+                              {%else%}
+                              <form id='remote_friend_url' method="get" action={% url 'Author:remote_friend_request' %}>
+                              <input type="hidden" id="remote_url" name="url" value={{ author.url }}>
+                              <button class="btn btn-sm btn-primary" type="submit" >
+                                  <i class="fas fa-user"></i> Be-Friend(remote)
+                              </button>
+                          </form>
                           {% endif %}
 
 
