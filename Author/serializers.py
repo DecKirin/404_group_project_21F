@@ -7,11 +7,22 @@ from Post.serializers import LikeSerializer, CommentSerializer
 class UserSerializer(serializers.ModelSerializer):
     id = serializers.SerializerMethodField()
     uuid = serializers.SerializerMethodField()
+    url = serializers.SerializerMethodField()
+    displayName = serializers.SerializerMethodField()
+    profileImage = serializers.SerializerMethodField()
 
     class Meta:
         model = User
-        fields = ['type', 'id', 'uuid', 'username', 'profile_image', 'email', 'first_name', 'last_name', 'github', 'host',
-                  'api_url']
+        fields = ['type', 'id', 'uuid', 'displayName', 'profileImage', 'email', 'github', 'host', 'url']
+
+    def get_profileImage(self,obj):
+        return obj.profile_image
+
+    def get_displayName(self, obj):
+        return obj.username
+
+    def get_url(self, obj):
+        return obj.api_url
 
     def get_id(self, obj):
         return obj.api_url
@@ -21,19 +32,16 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class PostSerializer(serializers.ModelSerializer):
-
     author = serializers.SerializerMethodField()
     comments = serializers.SerializerMethodField()
-
 
     def get_author(self, obj):
         return UserSerializer(User.objects.filter(id=obj.author.id).first()).data
 
-
     class Meta:
         model = Post
         fields = ['type', 'id', 'contentType', 'title', 'source', 'origin', 'description', 'content', 'author',
-                  'categories', 'count', 'published', 'updated', 'visibility', 'image', 'comments', 'api_url']
+                  'categories', 'count', 'published', 'updated', 'visibility', 'image', 'comments', 'url']
 
     def get_author(self, obj):
         return UserSerializer(User.objects.filter(id=obj.author.id).first()).data
