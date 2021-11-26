@@ -5,12 +5,13 @@ from Author.views import baseView, RegisterView, LoginView, UserInfoView, Logout
     UserProfileView, AllUserProfileView, SearchUserView, UserEditInfoView, MyStreamView, AllPublicPostsView, \
     APIAuthorPostsView, APIPostByIdView, APIInbox, InterLikeInboxView
 from friends.views import friends_list_view, send_friend_request, process_friend_request, followers_list_view, \
-    follows_list_view, follower_view, un_befriend, my_list, APIFollowsByIdView, APIFollowersByIdView, APIFriendsByIdView
+    follows_list_view, follower_view, un_befriend, my_list, APIFollowsByIdView, APIFollowersByIdView, \
+    APIFriendsByIdView, remote_sent_request
 from Post.views import NewPostView, SpecificPostView, EditPostView, delete_post, like_post, unlike_post, \
-    CreatePostComment, APICommentsByPostId, APICommentsByAuthorId, APILikesByAuthorId, APIComment, APILikesByPost, \
+    CreatePostComment, APICommentsByAuthorId, APILikesByAuthorId, APIComment, APILikesByPost, \
     like_remote_post_view, CommentRemotePostView
 
-from Author.views import APIAllProfileView, APIAuthorProfileView, APIAllPosts
+from Author.views import APIAllProfileView, APIAuthorProfileView, APIAllPosts, APICommentsByPostId
 
 from Author.views import Remote_Author_Profile_View
 from Post.views import Remote_Specific_Post_View
