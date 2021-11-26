@@ -1371,3 +1371,33 @@ Traceback (most recent call last):
     raise MissingSchema(error)
 requests.exceptions.MissingSchema: Invalid URL '': No schema supplied. Perhaps you meant http://?
 DEBUG:asyncio:Using proactor: IocpProactor
+DEBUG:MARKDOWN:Successfully imported extension module "markdown.extensions.toc".
+DEBUG:MARKDOWN:Successfully loaded extension "markdown.extensions.toc.TocExtension".
+DEBUG:MARKDOWN:Successfully imported extension module "markdown.extensions.toc".
+DEBUG:MARKDOWN:Successfully loaded extension "markdown.extensions.toc.TocExtension".
+ERROR:django.request:Internal Server Error: /api/author/e5e39531-c1a2-4353-9b03-e28e3c76c9ba/follows/
+Traceback (most recent call last):
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\views\generic\base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\friends\views.py", line 439, in get
+    follows_list = follows.follows.all().order_by()  #
+AttributeError: 'list' object has no attribute 'all'
+WARNING:django.request:Unauthorized: /api/author/e5e39531-c1a2-4353-9b03-e28e3c76c9ba/friends/
+DEBUG:MARKDOWN:Successfully imported extension module "markdown.extensions.toc".
+DEBUG:MARKDOWN:Successfully loaded extension "markdown.extensions.toc.TocExtension".
+INFO:django.utils.autoreload:C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\friends\serializers.py changed, reloading.
+DEBUG:asyncio:Using proactor: IocpProactor

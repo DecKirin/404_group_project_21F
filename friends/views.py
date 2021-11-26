@@ -3,6 +3,8 @@ from datetime import datetime
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
+from rest_framework.authentication import BasicAuthentication
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 import urllib
@@ -10,7 +12,7 @@ from Author.views import make_api_get_request
 from Post.views import make_api_post_request
 from Author.serializers import UserSerializer
 from .models import Friend, FriendRequest, Follower, Follow
-from .serializers import FriendRequestSerializer
+from .serializers import FriendRequestSerializer, FollowsSerializer, FollowersSerializer, FriendsSerializer
 from Author.models import User, Inbox
 from django.views import View
 from django.http import HttpResponseRedirect
@@ -351,31 +353,20 @@ class process_friend_request(View):
 
 
 class APIFriendsByIdView(APIView):
+    authentication_classes = [BasicAuthentication]
+    permission_classes = [IsAuthenticated]
     def get(self, request, id):
-        # alternative approach, just use username
-
         view_user = User.objects.get(id=id)
 
         page = int(request.GET.get("page", 1))
         per_page = int(request.GET.get("size", 10))
-        # something like only showing active user
-        # user_status = int(request.GET.get("user_status",1))
+
         friend, create = Friend.objects.get_or_create(user=view_user)  # class friend
-        if create:
-            response = Response()
-            response.status_code = 200
-            response.data = None
-        else:
-            friend_list = friend.friends.all().order_by()  #
-            paginator = Paginator(friend_list, per_page)
-            page_object = paginator.page(page)
-            serializer = UserSerializer(page_object, many=True)
-            response = Response()
-            data = {
-                "type": "friends",
-                "items": serializer.data}
-            response.status_code = 200
-            response.data = data
+        response = Response()
+        response.status_code = 200
+        serializer = FriendsSerializer(friend)
+        response.data = serializer.data
+
         return response
 
 
@@ -385,25 +376,15 @@ class APIFollowersByIdView(APIView):
 
         view_user = User.objects.get(id=id)
 
-        page = int(request.GET.get("page", 1))
-        per_page = int(request.GET.get("size", 10))
+        #page = int(request.GET.get("page", 1))
+        #per_page = int(request.GET.get("size", 10))
 
         follower, create = Follower.objects.get_or_create(user=view_user)  # class friend
-        if create:
-            response = Response()
-            response.status_code = 200
-            response.data = None
-        else:
-            follower_list = follower.followers.all().order_by()  #
-            paginator = Paginator(follower_list, per_page)
-            page_object = paginator.page(page)
-            serializer = UserSerializer(page_object, many=True)
-            data = {
-                "type": "followers",
-                "items": serializer.data}
-            response = Response()
-            response.status_code = 200
-            response.data = data
+        response = Response()
+        response.status_code = 200
+        serializer = FollowersSerializer(follower)
+        response.data = serializer.data
+
         return response
 
 
@@ -417,20 +398,9 @@ class APIFollowsByIdView(APIView):
         per_page = int(request.GET.get("size", 10))
 
         follows, create = Follow.objects.get_or_create(user=view_user)  # class friend
-        if create:
-            response = Response()
-            response.status_code = 200
-            response.data = None
-        else:
-            follows_list = follows.follows.all().order_by()  #
-            paginator = Paginator(follows_list, per_page)
-            page_object = paginator.page(page)
-            serializer = UserSerializer(page_object, many=True)
-            data = {
-                "type": "follows",
-                "items": serializer.data
-            }
-            response = Response()
-            response.status_code = 200
-            response.data = data
+        response = Response()
+        response.status_code = 200
+        serializer = FollowsSerializer(follows)
+        response.data = serializer.data
+
         return response
