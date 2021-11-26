@@ -43,14 +43,14 @@
                       <div class="card-footer">
                           <div class="text-right">
                           {% if author.host == current_host %}
-                          <!--a href="{#% url 'Author:friend_request' author.id %#}" class="btn btn-sm bg-teal"-->
+                          <a href="{% url 'Author:friend_request' author.id %}" class="btn btn-sm bg-teal">
                               <i class="fas fa-comments"></i> Be-Friend
                           {% endif %}
 
 
-                          <!--/a-->
+                          </a>
                           {% if author.host == current_host %}
-                          <a { href="{% url 'Author:profile' author.id %}"} class="btn btn-sm btn-primary"-->
+                          <a { href="{% url 'Author:profile' author.id %}"} class="btn btn-sm btn-primary">
                               <i class="fas fa-user"></i> View Profile
                           </a>
                           {% else %}

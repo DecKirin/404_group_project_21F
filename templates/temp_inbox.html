@@ -37,9 +37,16 @@
                               <a href="{% url 'Author:process_request' request.request_id %}" class="btn btn-sm bg-teal">
                                   <i class="fas fa-comments"></i> Process
                               </a>
-                              <a href="{% url 'Author:profile' request.sender.id %}" class="btn btn-sm btn-primary">
+                              {% if request.sender.host == curr_user.host %}
+                                  {% if request.sender.uuid %}
+                                    <a href="{% url 'Author:profile' request.sender.uuid %}" class="btn btn-sm btn-primary">
+                                    {% else %}
+                                    <a href="{% url 'Author:profile' request.sender.id %}" class="btn btn-sm btn-primary">
+                                  {% endif %}
                                   <i class="fas fa-user"></i> Profile
                               </a>
+                                  {% else %}
+                                  {% endif %}
                               </div>
                           </div>
                           </div>
@@ -59,7 +66,7 @@
                   </a>
                 </li>
                 {% for page_index in page_range %}
-                    <li><a href="{% url 'Author:all_authors' %}?page={{ page_index }}">{{ page_index }}</a></li>
+                    <li><a href="{% url 'Author:inter_FRinbox' %}?page={{ page_index }}">{{ page_index }}</a></li>
                 {% endfor %}
                 <li>
                   <a href="#" aria-label="Next">
