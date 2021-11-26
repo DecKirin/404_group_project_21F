@@ -59,26 +59,14 @@
                             <a href="" class="link-black text-sm"><i class="fas fa-share mr-1"></i> Share</a>
 
                             </p>
-                            <a href="" class="btn btn-sm bg-blue">
-                                <i class="fas fa-comment"></i> Comment
-                                <div>
-                                    <form method="post">
-                                        {% csrf_token %}
-                                        <textarea name="newcomment" id="newcomment" placeholder="add comments here"></textarea>
-                                        <button type="submit" class="btn" id="newCommentButton" >Comment</button>
-                                    </form>
-                                </div>
-                            </a>
-                            {% if isAuthor %}
 
-                                <a href="{% url 'Author:edit_post' post.author.id post.id %}" class="btn btn-sm bg-blue">
-                                    <i class="fas fa-edit"></i> Edit
-                                </a>
-
-                                <a href="{% url 'Author:delete_post' post.author.id post.id %}" class="btn btn-sm bg-red">
-                                    <i class="fas fa-trash"></i> Delete
-                                </a>
-                            {% endif %}
+                            <div>
+                                <form method="post">
+                                    {% csrf_token %}
+                                    <textarea name="newcomment" id="newcomment" placeholder="add comments here"></textarea>
+                                    <button type="submit" class="btn" id="newCommentButton" >Comment</button>
+                                </form>
+                            </div>
                             <div class="card-footer">
                             <fieldset><legend>comments:</legend></fieldset>
                             <!--show comment if is valid for view comments-->
