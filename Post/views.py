@@ -352,32 +352,32 @@ class like_remote_post_view(View):
 
 
 
-class CommentRemotePostView(View):
-    def get(self, request, author_id, post_id):
-        return render(request, 'comment.html', None)
-
-    def post(self, request, author_id, post_id):
-        post_url = request.GET.get("post_url")
-        post = make_api_get_request(post_url).json()
-
-        author_for_comment = request.user
-        comment_content = request.POST.get('newcomment', '')
-
-        data = {
-            "type": "comment",
-            "author": UserSerializer(author_for_comment).data,
-            "comment": comment_content,
-            "contentType": "text/plain",  # TODO: add markdown option
-        }
-
-        comment.url = request.scheme + "://" + request.META['HTTP_HOST'] + "/author/" + str(
-            author_id) + "/posts/" + str(post_id) + "/comments/" + str(comment.id_comment) + "/"
-        comment.api_url = request.scheme + "://" + request.META['HTTP_HOST'] + "/api/author/" + str(
-            author_id) + "/posts/" + str(post_id) + "/comments/" + str(comment.id_comment) + "/"
-        make_api_post_request(comment_url, json.dumps(data))
-        print(json.dumps(data))
-        # return redirect(reverse('Author:specific_post', args=(author_id, post_id)))
-        return redirect(reverse('Author:remote_specific_post') + "?post_url=%s" % post_url)
+# class CommentRemotePostView(View):
+#     def get(self, request, author_id, post_id):
+#         return render(request, 'comment.html', None)
+#
+#     def post(self, request, author_id, post_id):
+#         post_url = request.GET.get("post_url")
+#         post = make_api_get_request(post_url).json()
+#
+#         author_for_comment = request.user
+#         comment_content = request.POST.get('newcomment', '')
+#
+#         data = {
+#             "type": "comment",
+#             "author": UserSerializer(author_for_comment).data,
+#             "comment": comment_content,
+#             "contentType": "text/plain",  # TODO: add markdown option
+#         }
+#
+#         comment.url = request.scheme + "://" + request.META['HTTP_HOST'] + "/author/" + str(
+#             author_id) + "/posts/" + str(post_id) + "/comments/" + str(comment.id_comment) + "/"
+#         comment.api_url = request.scheme + "://" + request.META['HTTP_HOST'] + "/api/author/" + str(
+#             author_id) + "/posts/" + str(post_id) + "/comments/" + str(comment.id_comment) + "/"
+#         make_api_post_request(comment_url, json.dumps(data))
+#         print(json.dumps(data))
+#         # return redirect(reverse('Author:specific_post', args=(author_id, post_id)))
+#         return redirect(reverse('Author:remote_specific_post') + "?post_url=%s" % post_url)
 
 
 def unlike_post(request, author_id, post_id):
@@ -496,6 +496,20 @@ class Remote_Specific_Post_View(View):
         }
         print(context)
         return render(request, 'remote_public_post.html', context=context)
+
+    def post(self, request):
+        author_for_comment = request.user
+        comment_content = request.POST.get('newcomment', '')
+        data = {
+            "type": "comment",
+            "author": UserSerializer(author_for_comment).data,
+            "comment": comment_content,
+            "contentType": "text/plain",  # TODO: add markdown option
+        }
+        postAPIURL = request.GET.get("post_url")
+        make_api_post_request(postAPIURL + "comments/", json.dumps(data))
+        print(json.dumps(data))
+        return redirect(reverse('Author:remote_specific_post') + "?post_url=%s" % post_url)
 
 
 '''
