@@ -14,65 +14,34 @@
               </thead>
 
               <tbody>
-                {% for post in page_object.object_list %}
-                <div class="card">
-                  <div class="card-header">
-                      <h3><a class="nav-link active" href="#activity" data-toggle="tab">{{ post.title }}</a></h3>
-                  </div><!-- /.card-header -->
-                  <div class="card-body">
-                    <div class="tab-content">
-                      <div class="active tab-pane" id="activity">
-                        <!-- Post -->
-
-                        <div class="post">
-                          <div class="user-block">
-                            <img class="img-circle img-bordered-sm" src="{% static 'mine/images/default_avatar.png' %}" alt="user image">
-                              {% if post.author.host == curr_user.host %}
-                                {% if request.sender.uuid %}
-                                    <span class="username">
-                                      <a href="{% url 'Author:profile' post.author.uuid %}" class="float-right btn-tool">{{ post.author.username }}</a>
-                                    </span>
-                                    <span class="description">{{ post.published}}</span>
-                                {% else %}
-                                    <span class="username">
-                                      <a href="{% url 'Author:profile' post.author.id %}" class="float-right btn-tool">{{ post.author.username }}</a>
-                                    </span>
-                                    <span class="description">{{ post.published}}</span>
-                                {% endif %}
-                              {% endif %}
+                {% for like in page_object.object_list %}
+                      <tr>
+                        <div class="card bg-light d-flex flex-fill">
+                          <div class="card-header text-muted border-bottom-0">
+                              Friend_Request
                           </div>
-                          <!-- /.user-block -->
-                          <p>
-                              {{ post.content }}
-                          </p>
+                          <div class="card-body pt-0">
+                              <div class="row">
 
-                          <p>
-                            <a href="" class="link-black text-sm mr-2"><i class="fas fa-share mr-1"></i> Share</a>
-                            <a href="" class="link-black text-sm"><i class="far fa-thumbs-up mr-1"></i> Like</a>
-                            <span class="float-right">
-                              <a href="" class="link-black text-sm">
-                                <i class="far fa-comments mr-1"></i> {{ post.comment.count}}
+                              <div class="col-7">
+                                  <h2 class="lead"><b>{{ like.who_like.username }}</b></h2>
+                                  <p class="text-muted text-sm"> {{ like.who_like.username }} <b> Likes your post </b></p>
+                                  <ul class="ml-4 mb-0 fa-ul text-muted">
+                                  </ul>
+
+                              </div>
+                              </div>
+                          </div>
+                          <div class="card-footer">
+                              <div class="text-right">
+                              <a href="{% url url "Author:specific_post" curr_user.id like.post.id %}" class="btn btn-sm bg-teal">
+                                  <i class="fas fa-comments"></i> Post
                               </a>
-                            </span>
-                          </p>
-
-
-                          <input class="form-control form-control-sm" type="text" placeholder="Type a comment">
-                        </div>
-                        <!-- /.post -->
-                      </div>
-                      <!-- /.tab-pane -->
-
-                    </div>
-                    <!-- /.tab-content -->
-                  </div><!-- /.card-body -->
-                  <div class="card-footer">
-                     <p>
-                     categories:{{ post.categories}}
-                     </p>
-                  </div>
-                </div>
-                {% endfor %}
+                              </div>
+                          </div>
+                          </div>
+                      </tr>
+              {% endfor %}
               </tbody>
           </table>
         </div>
@@ -82,15 +51,15 @@
             <nav aria-label="Contacts Page Navigation">
             <ul class="pagination justify-content-center m-0">
                 <li>
-                  <a href="{% url 'Author:all_authors' %}?page={{current_page}}&&size={{ page_size }}" aria-label="Previous">
+                  <a href="#" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                   </a>
                 </li>
                 {% for page_index in page_range %}
-                    <li><a href="{% url 'Author:all_authors' %}?page={{ page_index }}&&size={{ page_size }}">{{ page_index }}</a></li>
+                    <li><a href="{% url 'Author:inter_FRinbox' %}?page={{ page_index }}">{{ page_index }}</a></li>
                 {% endfor %}
                 <li>
-                  <a href="{% url 'Author:all_authors' %}?page={{current_page}}&&size={{ page_size }}" aria-label="Next">
+                  <a href="#" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                   </a>
                 </li>
