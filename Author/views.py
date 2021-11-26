@@ -114,12 +114,9 @@ def get_remote_public_posts():
     return posts
 
 
-'''
-URL: ://service/author/register
-GET: visit register page
-POST: submit an author account registeration
-'''
-
+class baseView(View):
+    def get(self,request):
+        return HttpResponseRedirect(reverse("Author:login"))
 
 class RegisterView(View):
     def get(self, request):

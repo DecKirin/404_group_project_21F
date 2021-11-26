@@ -1,6 +1,6 @@
 from django.urls import path, re_path
 from django.contrib.auth.decorators import login_required
-from Author.views import RegisterView, LoginView, UserInfoView, LogoutView, UserPostsView, IndexView, InterFRInboxView, \
+from Author.views import baseView, RegisterView, LoginView, UserInfoView, LogoutView, UserPostsView, IndexView, InterFRInboxView, \
     InterPostInboxView, InboxView, \
     UserProfileView, AllUserProfileView, SearchUserView, UserEditInfoView, MyStreamView, AllPublicPostsView, \
     APIAuthorPostsView, APIPostByIdView, APIInbox, InterLikeInboxView
@@ -16,7 +16,7 @@ from Author.views import Remote_Author_Profile_View
 from Post.views import Remote_Specific_Post_View
 app_name = 'Author'
 urlpatterns = [
-
+    path('', baseView.as_view(), name='index'),
     path('newpost/', NewPostView.as_view(), name='newpost'),
     path('searchAuthor/', SearchUserView.as_view(), name='search_user'),
     path('author/<uuid:id>/friends/', friends_list_view, name='friend'),

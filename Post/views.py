@@ -325,7 +325,6 @@ def like_post(request, author_id, post_id):
     inbox_to_send.items.append(LikeSerializer(like).data)
     inbox_to_send.save()
 
-
     return redirect(reverse('Author:specific_post', args=(author_id, post_id)))
 
 
