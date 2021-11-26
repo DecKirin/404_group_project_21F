@@ -61,6 +61,13 @@
                             </p>
                             <a href="" class="btn btn-sm bg-blue">
                                 <i class="fas fa-comment"></i> Comment
+                                <div>
+                                    <form method="post">
+                                        {% csrf_token %}
+                                        <textarea name="newcomment" id="newcomment" placeholder="add comments here"></textarea>
+                                        <button type="submit" class="btn" id="newCommentButton" >Comment</button>
+                                    </form>
+                                </div>
                             </a>
                             {% if isAuthor %}
 
