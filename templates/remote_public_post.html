@@ -51,7 +51,8 @@
                             </a>
 
                             {% else %}
-                            <a href="{% url 'Author:like_remote_post' %}?post_url={{ post.id }}" class="btn btn-sm">
+
+                            <a href="{% url 'Author:like_remote_post' %}?post_url={{ post.url }}" class="btn btn-sm">
                                 <i class="fas fa-thumbs-up"></i> Like this post
                             </a>
                             {% endif %}

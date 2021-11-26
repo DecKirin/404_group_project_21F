@@ -345,11 +345,14 @@ class like_remote_post_view(View):
         print(data)
         inbox_url = post_author_url + "/inbox"
         print("inbox_url", inbox_url)
-        request = make_api_post_request(inbox_url, json.dumps(data))
-        print(json.dumps(data))
-        print("inbox post request:!!!!!", request)
-        return redirect(reverse('Author:remote_specific_post') + "?post_url=%s" % post_url)
+        try:
+            request = make_api_post_request(inbox_url, json.dumps(data))
+            print(json.dumps(data))
+            print("inbox post request:!!!!!", request)
+            return redirect(reverse('Author:remote_specific_post') + "?post_url=%s" % post_url)
 
+        except Exception:
+            return HttpResponse("failed to like the post")
 
 
 class CommentRemotePostView(View):
@@ -445,14 +448,16 @@ class Remote_Specific_Post_View(View):
         try:
             postlikes = postLikesRequest.json()["items"]
         except Exception:
-            postlikes = postLikesRequest.json()["likes"]
+            postlikes = None
         print("postlikes:", postlikes)
         postCommentsRequest = make_api_get_request(postCommentsAPIURL)
-        try:
-            comments = postCommentsRequest.json()["items"]
-        except Exception:
-            comments = postCommentsRequest.json()["comments"]
-        print("postcomments:", comments)
+        comments = None
+        if postCommentsRequest.status_code == 200:
+            try:
+                comments = postCommentsRequest.json()["items"]
+            except Exception:
+                comments = None
+            print("postcomments:", comments)
 
 
 

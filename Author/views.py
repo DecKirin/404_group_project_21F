@@ -11,7 +11,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.decorators import renderer_classes
-from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.authentication import BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -117,6 +117,23 @@ def get_remote_public_posts():
             posts_in_host = request.json()
             posts += posts_in_host
     return posts
+
+def get_all_remote_public_posts_through_remote_authors():
+    remote_authors = get_remote_authors()
+    all_remote_posts = []
+    for author in remote_authors:
+        post_url = author["url"] + "/posts"
+        print(post_url)
+        request = make_api_get_request(post_url)
+        print("request.data:", request)
+        try:
+            posts = request.json()["items"]
+        except Exception:
+            posts = request.json()
+        all_remote_posts += posts
+    print(all_remote_posts)
+    return all_remote_posts
+
 
 
 class baseView(View):
@@ -761,6 +778,7 @@ class AllPublicPostsView(View):
         local_public_posts = Post.objects.filter(visibility=1)
 
         remote_posts = get_remote_public_posts()
+        remote_posts = get_all_remote_public_posts_through_remote_authors()
 
         all_pub_posts = list(local_public_posts) + remote_posts
 
@@ -1006,7 +1024,7 @@ class APICommentsByPostId(APIView):
 
 
 class APIComment(APIView):
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    authentication_classes = [BasicAuthentication]
     permission_classes = [IsAuthenticated]
 
     def get(self, request, authorId, postId, commentId):
@@ -1019,7 +1037,7 @@ class APIComment(APIView):
 
 
 class APICommentsByAuthorId(APIView):
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    authentication_classes = [BasicAuthentication]
     permission_classes = [IsAuthenticated]
 
     def get(self, request, authorId):
@@ -1027,7 +1045,7 @@ class APICommentsByAuthorId(APIView):
 
 
 class APILikesByAuthorId(APIView):
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    authentication_classes = [BasicAuthentication]
     permission_classes = [IsAuthenticated]
 
     def get(self, request, authorId):

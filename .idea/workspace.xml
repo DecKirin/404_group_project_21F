@@ -6,15 +6,13 @@
   <component name="ChangeListManager">
     <list default="true" id="6639ff7a-d651-48dc-9929-7225c60edcac" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Author/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/Author/serializers.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Author/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Author/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Post/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/Post/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Post/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Post/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mylog.log" beforeDir="false" afterPath="$PROJECT_DIR$/mylog.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/base_main.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base_main.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/temp_for_all_authors_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/temp_for_all_authors_list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/temp_inbox_posts.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/temp_inbox_posts.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/all_public_posts_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/all_public_posts_list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/remote_author_profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/remote_author_profile.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/remote_public_post.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/remote_public_post.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -174,7 +172,7 @@
       <workItem from="1637834283720" duration="399000" />
       <workItem from="1637921418708" duration="99000" />
       <workItem from="1637929220630" duration="206000" />
-      <workItem from="1637930293380" duration="5889000" />
+      <workItem from="1637930293380" duration="11581000" />
     </task>
     <servers />
   </component>

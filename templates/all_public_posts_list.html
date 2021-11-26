@@ -18,7 +18,12 @@
                 {% for post in page_object.object_list %}
                 <div class="card">
                   <div class="card-header">
-                      <h3><a href="{% url "Author:specific_post" post.author.id post.id %}">{{ post.title }}</a></h3>
+                      {% if post.author.uuid %}
+                            <h3><a href="{% url "Author:specific_post" post.author.id post.id %}">{{ post.title }}</a></h3>
+                      {% else %}
+                            <h3><a href="{% url "Author:remote_specific_post" %}?post_url={{ post }}">{{ post.title }}</a></h3>
+
+                      {% endif %}
                   </div><!-- /.card-header -->
                   <div class="card-body">
                     <div class="tab-content">
