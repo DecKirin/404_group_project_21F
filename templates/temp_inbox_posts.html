@@ -27,19 +27,17 @@
                         <div class="post">
                           <div class="user-block">
                             <img class="img-circle img-bordered-sm" src="{% static 'mine/images/default_avatar.png' %}" alt="user image">
-                              {% if post.author.host == curr_user.host %}
-                                {% if request.sender.uuid %}
+                                {% if post.sender.uuid %}
                                     <span class="username">
                                       <a href="{% url 'Author:profile' post.author.uuid %}" class="float-right btn-tool">{{ post.author.username }}</a>
                                     </span>
                                     <span class="description">{{ post.published}}</span>
                                 {% else %}
                                     <span class="username">
-                                      <a href="{% url 'Author:profile' post.author.id %}" class="float-right btn-tool">{{ post.author.username }}</a>
+                                      <a href="{% url 'Author:remote_author_profile' post.author.url %}" class="float-right btn-tool">{{ post.author.displayName }}</a>
                                     </span>
-                                    <span class="description">{{ post.published}}</span>
+                                    <span class="description">{{post.published}}</span>
                                 {% endif %}
-                              {% endif %}
                           </div>
                           <!-- /.user-block -->
                           <p>
