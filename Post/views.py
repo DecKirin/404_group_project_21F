@@ -509,13 +509,16 @@ class Remote_Specific_Post_View(View):
             "type": "comment",
             "author": UserSerializer(author_for_comment).data,
             "comment": comment_content,
-            "contentType": "text/plain",  # TODO: add markdown option
+            "contentType": "text/plain"  # TODO: add markdown option
         }
-        postAPIURL = request.GET.get("post_url")
-        make_api_post_request(postAPIURL + "comments/", json.dumps(data))
-        print(json.dumps(data))
-        return redirect(reverse('Author:remote_specific_post') + "?post_url=%s" % post_url)
 
+        postAPIURL = request.GET.get("post_url")
+        commentAPIURL = urllib.parse.unquote(postAPIURL) + "comments/"
+        print(commentAPIURL, "\n\n\n")
+        request = make_api_post_request(commentAPIURL, json.dumps(data))
+        print('\n',data,'\n')
+        print("comment request:!!!!!", request)
+        return redirect(reverse('Author:remote_specific_post') + "?post_url=%s" % postAPIURL)
 
 '''
     def get(self, request):
