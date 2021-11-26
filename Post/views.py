@@ -329,8 +329,25 @@ class like_remote_post_view(View):
 
 class comment_remote_post_view(View):
     def get(self, request):
-        post_url = request.GET.get("post_url")
-        pass
+        comment_url = request.GET.get("comment_url")
+        current_author = request.user
+        comment = make_api_get_request(comment_url).json()
+
+        data = {
+            "type": "comment",
+            "author": UserSerializer(current_author).data,
+            "comment":comment["comment"]
+            "contentType":comment["contentType"]
+            "published":comment["published"]
+            "id": comment_url 
+        }
+        print(data)
+        inbox_url = post_author_url + "/inbox"
+        print("inbox_url", inbox_url)
+        request = make_api_post_request(inbox_url, json.dumps(data))
+        print(json.dumps(data))
+        print("inbox post request:!!!!!", request)
+        return redirect(reverse('Author:remote_specific_post') + "?post_url=%s" % post_url)
 
 
 def unlike_post(request, author_id, post_id):
