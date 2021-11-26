@@ -21,7 +21,7 @@ class PostLike(models.Model):
     type = 'like'
     published = models.DateTimeField(auto_now_add=True)
     post = models.ForeignKey(Post, related_name='post_like', on_delete=models.CASCADE, null=True, blank=True)
-    who_like = models.ForeignKey(User, related_name='likes', on_delete=models.CASCADE, blank=True)
+    who_like = models.ForeignKey(User, related_name='likes', on_delete=models.CASCADE, blank=True, null=True)
 
     author = models.JSONField(default=dict, max_length=2000,blank=False)
     object = models.URLField(max_length=200)
@@ -52,7 +52,7 @@ class PostComment(models.Model):
     id_comment = models.UUIDField(primary_key=True, default=uuid.uuid4, unique=True)
     post = models.ForeignKey(Post, related_name='comments', on_delete=models.CASCADE, null=False)
     # the author make this comment
-    author_comment = models.ForeignKey(User, related_name='comments', on_delete=models.CASCADE, default=1, blank=True)  # TODO: edit default value
+    author_comment = models.ForeignKey(User, related_name='comments', on_delete=models.CASCADE, default=1, blank=True, null=True)  # TODO: edit default value
     author = models.JSONField(default=dict, max_length=2000,null=True,blank=True)
     comment = models.TextField()
     published = models.DateTimeField(auto_now_add=True)

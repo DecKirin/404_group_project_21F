@@ -434,6 +434,7 @@ class Remote_Specific_Post_View(View):
         # post = Post.objects.get(id=post_id)
         # postlikes = PostLike.objects.filter(post=post)
         postAPIURL = request.GET.get("post_url")
+        print(postAPIURL)
         postAPIURL = urllib.parse.unquote(postAPIURL)
         postRequest = make_api_get_request(postAPIURL)
         post = postRequest.json()

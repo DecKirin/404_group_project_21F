@@ -81,7 +81,8 @@ def get_remote_nodes():
 
 
 def get_remote_authors():
-    # all_remote_host = get_remote_nodes()
+    all_remote_host = ['https://social-distribution-fall2021.herokuapp.com',
+                       'https://cmput404-team13-socialapp.herokuapp.com']
 
     authors = []
     for host in all_remote_host:
@@ -169,8 +170,8 @@ class RegisterView(View):
         user.host = request.META['HTTP_HOST']
         user.url = request.scheme + "://" + request.META['HTTP_HOST'] + "/author/" + str(user.id) + "/"
         user.api_url = request.scheme + "://" + request.META['HTTP_HOST'] + "/api/author/" + str(user.id) + "/"
-
         user.save()
+        Inbox.objects.create(author=user)
         error_msg_dic["code"] = "200"
         error_msg_dic["msg"] = "Successfully register"
         json_data.append(error_msg_dic)
@@ -870,7 +871,7 @@ class APIAuthorProfileView(APIView):
 
 # the posts of this particular author
 class APIAuthorPostsView(APIView):
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    authentication_classes = [BasicAuthentication]
     permission_classes = [IsAuthenticated]
 
     def get(self, request, id):
@@ -902,7 +903,7 @@ class APIAuthorPostsView(APIView):
 
 # todo:determine wether or not only return public posts
 class APIAllPosts(APIView):
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    authentication_classes = [BasicAuthentication]
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
@@ -932,7 +933,7 @@ class APIAllPosts(APIView):
 
 
 class APIPostByIdView(APIView):
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    authentication_classes = [BasicAuthentication]
     permission_classes = [IsAuthenticated]
 
     def get(self, request, authorId, postId):
@@ -1037,7 +1038,7 @@ class APILikesByAuthorId(APIView):
 
 
 class APIInbox(APIView):
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    authentication_classes = [BasicAuthentication]
     permission_classes = [IsAuthenticated]
 
     def get(self, request, authorId):
@@ -1049,11 +1050,7 @@ class APIInbox(APIView):
         serializer = InboxSerializer(inbox)
         response = Response()
         response.status_code = 200
-        data = {
-            "type": "inbox",
-            "items": serializer.data
-        }
-        response.data = data
+        response.data = serializer.data
         return response
 
     def post(self, request, authorId):
@@ -1064,13 +1061,22 @@ class APIInbox(APIView):
         inbox, created = Inbox.objects.get_or_create(author_id=authorId)
         if data['type'].lower() == "follow":
             remote_author = data['sender']
+            local_author = data["receiver"]
+            try:
+                local_author = data["receiver"]["uuid"]
+                local_author = User.objects.get(id=local_author)
+            except Exception:
+                local_author = User.objects.get(api_url=data["receiver"]["url"])
+
             friend_request = FriendRequest.objects.create(sender=remote_author,
                                                           receiver=UserSerializer(local_author).data)
             inbox.items.append(FriendRequestSerializer(friend_request).data)
             inbox.save()
             # add remote author to follower list of local author
             follower, create_follower = Follower.objects.get_or_create(user=local_author)
-            follower.add_follower(UserSerializer(remote_author).data)
+
+            #follower.add_follower(UserSerializer(remote_author).data)
+            follower.add_follower(remote_author)
             response = Response()
             response.status_code = 200
             return response
@@ -1088,10 +1094,13 @@ class APIInbox(APIView):
 
         # todo:handle post api for friend post/private post from remote author
         elif data['type'].lower() == "post":
+            '''
             remote_author = data['author']
             post_object = data['object']
             this_post = Post.objects.get(api_url=post_object)
             inbox.items.append(PostSerializer(this_post).data)
+            '''
+            inbox.items.append(data)
             inbox.save()
             response = Response()
             response.status_code = 200
@@ -1132,7 +1141,11 @@ class Remote_Author_Profile_View(View):
         try:
             remote_posts = posts_request.json()["items"]
         except Exception:
-            remote_posts = posts_request.json()["item"]
+            if type(posts_request.json()) == list:
+                remote_posts = posts_request.json()
+
+            else:
+                remote_posts = posts_request.json()["item"]
         paginator = Paginator(remote_posts, per_page)
         page_object = paginator.page(page)
 

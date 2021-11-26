@@ -17,7 +17,11 @@
                 {% for post in page_object.object_list %}
                 <div class="card">
                   <div class="card-header">
+                      {% if post.sender.uuid %}
                       <h3><a class="nav-link active" href="{% url "Author:specific_post" post.author.uuid post.id %}">{{ post.title }}</a></h3>
+                      {% else %}
+                      <h3><a class="nav-link active" href="{% url "Author:remote_specific_post" %}?post_url={{post.url}}">{{ post.title }}</a></h3>
+                      {% endif %}
                   </div><!-- /.card-header -->
                   <div class="card-body">
                     <div class="tab-content">
@@ -29,12 +33,12 @@
                             <img class="img-circle img-bordered-sm" src="{% static 'mine/images/default_avatar.png' %}" alt="user image">
                                 {% if post.sender.uuid %}
                                     <span class="username">
-                                      <a href="{% url 'Author:profile' post.author.uuid %}" class="float-right btn-tool">{{ post.author.username }}</a>
+                                      <a href="{% url 'Author:profile' post.author.uuid %}" class="float-right btn-tool">{{post.author.username}}</a>
                                     </span>
                                     <span class="description">{{ post.published}}</span>
                                 {% else %}
                                     <span class="username">
-                                      <a href="{% url 'Author:remote_author_profile' post.author.url %}" class="float-right btn-tool">{{ post.author.displayName }}</a>
+                                      <a href="{% url 'Author:remote_author_profile' %}?url={{post.author.url}}" class="float-right btn-tool">{{ post.author.displayName }}</a>
                                     </span>
                                     <span class="description">{{post.published}}</span>
                                 {% endif %}

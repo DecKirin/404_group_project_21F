@@ -34,7 +34,7 @@ class UserSerializer(serializers.ModelSerializer):
 class PostSerializer(serializers.ModelSerializer):
     author = serializers.SerializerMethodField()
     comments = serializers.SerializerMethodField()
-
+    url = serializers.SerializerMethodField()
     def get_author(self, obj):
         return UserSerializer(User.objects.filter(id=obj.author.id).first()).data
 
@@ -43,6 +43,8 @@ class PostSerializer(serializers.ModelSerializer):
         fields = ['type', 'id', 'contentType', 'title', 'source', 'origin', 'description', 'content', 'author',
                   'categories', 'count', 'published', 'updated', 'visibility', 'image', 'comments', 'url']
 
+    def get_url(self,obj):
+        return obj.api_url
     def get_author(self, obj):
         return UserSerializer(User.objects.filter(id=obj.author.id).first()).data
 
