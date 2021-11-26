@@ -981,12 +981,14 @@ class APICommentsByPostId(APIView):
         author_comment1 = data["author"]
         comment_content = data["comment"]
         comment_contentType = data["contentType"]  # TODO: add contentType to Comment and add md
-        published1 = data["published"]
+        published1 = models.DateTimeField(auto_now_add=True)
         author_post = User.objects.get(id=authorId)
-        local_posts = Post.objects.get(id=postId)
+        local_post = Post.objects.get(id=postId)
+        local_post.count = local_post.count + 1
+        local_post.save()
         commentId = models.UUIDField(primary_key=True, default=uuid.uuid4, unique=True)
         api_url1 = '/api' + '/author/' + str(authorId) + "/posts/" + str(postId) + "/comments/" + str(commentId)
-        comment = PostComment.objects.create(type="comment", id_comment=commentId, post=local_posts, author_comment=author_comment1, author=author_post, comment=comment_content, published=published1, api_url=api_url1)
+        comment = PostComment.objects.create(type="comment", id_comment=commentId, post=local_post, author_comment=author_comment1, author=author_post, comment=comment_content, published=published1, api_url=api_url1)
         comment.save()
         response = Response()
         response.status_code = 200

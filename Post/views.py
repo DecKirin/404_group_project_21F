@@ -1,6 +1,7 @@
 import json
 import urllib
 from urllib.parse import urlparse
+from django.utils import timezone
 
 import requests
 from django.core.paginator import Paginator
@@ -351,27 +352,33 @@ class like_remote_post_view(View):
         return redirect(reverse('Author:remote_specific_post') + "?post_url=%s" % post_url)
 
 
-# class comment_remote_post_view(View):
-#     def get(self, request):
-#         comment_url = request.GET.get("comment_url")
-#         current_author = request.user
-#         comment = make_api_get_request(comment_url).json()
-#
-#         data = {
-#             "type": "comment",
-#             "author": UserSerializer(current_author).data,
-#             "comment":comment["comment"],
-#             "contentType":comment["contentType"],
-#             "published":comment["published"],
-#             "id": comment_url
-#         }
-#         print(data)
-#         inbox_url = post_author_url + "/inbox"
-#         print("inbox_url", inbox_url)
-#         request = make_api_post_request(inbox_url, json.dumps(data))
-#         print(json.dumps(data))
-#         print("inbox post request:!!!!!", request)
-#         return redirect(reverse('Author:remote_specific_post') + "?post_url=%s" % post_url)
+
+class CommentRemotePostView(View):
+    def get(self, request, author_id, post_id):
+        return render(request, 'remote_comment.html', None)
+
+    def post(self, request, author_id, post_id):
+        post_url = request.GET.get("post_url")
+        post = make_api_get_request(post_url).json()
+
+        author_for_comment = request.user
+        comment_content = request.POST.get('newcomment', '')
+
+        data = {
+            "type": "comment",
+            "author": UserSerializer(author_for_comment).data,
+            "comment": comment_content,
+            "contentType": "text/plain",  # TODO: add markdown option
+        }
+
+        comment.url = request.scheme + "://" + request.META['HTTP_HOST'] + "/author/" + str(
+            author_id) + "/posts/" + str(post_id) + "/comments/" + str(comment.id_comment) + "/"
+        comment.api_url = request.scheme + "://" + request.META['HTTP_HOST'] + "/api/author/" + str(
+            author_id) + "/posts/" + str(post_id) + "/comments/" + str(comment.id_comment) + "/"
+        make_api_post_request(comment_url, json.dumps(data))
+        print(json.dumps(data))
+        # return redirect(reverse('Author:specific_post', args=(author_id, post_id)))
+        return redirect(reverse('Author:remote_specific_post') + "?post_url=%s" % post_url)
 
 
 def unlike_post(request, author_id, post_id):
