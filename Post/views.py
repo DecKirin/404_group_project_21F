@@ -50,7 +50,7 @@ class NewPostView(View):
         return render(request, 'new_post.html', None)
 
     def post(self, request):
-        author_id = request.user.id
+        author = request.user
         title = request.POST.get('title', '')
         content_type = request.POST.get('content_type', '')
         content = request.POST.get('content', '')
@@ -82,6 +82,7 @@ class NewPostView(View):
                                    contentType=content_type, content=content, author=request.user,
                                    categories=categories,
                                    visibility=visibility, unlisted=unlisted, select_user=select_user, image=image)
+
         if post.author.url != "":
             post.url = post.author.url + "posts/" + post.id + "/"
             post.api_url = post.author.api_url + "posts/" + post.id + "/"
@@ -91,6 +92,22 @@ class NewPostView(View):
             post.api_url = request.scheme + "://" + request.META['HTTP_HOST'] + "/api/author/" + str(
                 post.author.id) + "/posts/" + post.id + "/"
         post.save()
+
+        if visibility == 3:
+            user = User.objects.get(username=select_user)
+            inbox = Inbox.objects.get(author=user)
+            inbox.items.append(PostSerializer(post).data)
+            inbox.save()
+        elif visibility == 2:
+            try:
+                friends = Friend.objects.get(user=author)
+                for friend in friends.friends:
+                    inbox = inbox.objects.get(author_id=friend['id'])
+                    inbox.items.append(PostSerializer(post).data)
+                    inbox.save()
+            except:
+                pass
+
         return redirect(reverse('Author:index'))
 
     def select_private(self, request):  # TODO

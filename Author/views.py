@@ -576,7 +576,7 @@ class InterLikeInboxView(View):
         item_list = []
         for inb in inbox:
             for item in inb.items:
-                if item["type"] == "post":
+                if item["type"] == "like":
                     item_list.append(item)
 
         paginator = Paginator(item_list, per_page)
