@@ -1,23 +1,23 @@
 from django.urls import path, re_path
 from django.contrib.auth.decorators import login_required
-from Author.views import RegisterView, LoginView, UserInfoView, LogoutView, UserPostsView, IndexView, InterFRInboxView, \
+from Author.views import baseView, RegisterView, LoginView, UserInfoView, LogoutView, UserPostsView, IndexView, InterFRInboxView, \
     InterPostInboxView, InboxView, \
     UserProfileView, AllUserProfileView, SearchUserView, UserEditInfoView, MyStreamView, AllPublicPostsView, \
     APIAuthorPostsView, APIPostByIdView, APIInbox, InterLikeInboxView
 from friends.views import friends_list_view, send_friend_request, process_friend_request, followers_list_view, \
-    follows_list_view, follower_view, un_befriend, my_list, APIFollowsByIdView, APIFollowersByIdView, APIFriendsByIdView, \
-    remote_sent_request, remote_un_befriend
+    follows_list_view, follower_view, un_befriend, my_list, APIFollowsByIdView, APIFollowersByIdView, \
+    APIFriendsByIdView, remote_sent_request
 from Post.views import NewPostView, SpecificPostView, EditPostView, delete_post, like_post, unlike_post, \
-    CreatePostComment, APICommentsByPostId, APICommentsByAuthorId, APILikesByAuthorId, APIComment, APILikesByPost, \
+    CreatePostComment, APICommentsByAuthorId, APILikesByAuthorId, APIComment, APILikesByPost, \
     like_remote_post_view, CommentRemotePostView
 
-from Author.views import APIAllProfileView, APIAuthorProfileView, APIAllPosts
+from Author.views import APIAllProfileView, APIAuthorProfileView, APIAllPosts, APICommentsByPostId
 
 from Author.views import Remote_Author_Profile_View
 from Post.views import Remote_Specific_Post_View
 app_name = 'Author'
 urlpatterns = [
-
+    path('', baseView.as_view(), name='index'),
     path('newpost/', NewPostView.as_view(), name='newpost'),
     path('searchAuthor/', SearchUserView.as_view(), name='search_user'),
     path('author/<uuid:id>/friends/', friends_list_view, name='friend'),
@@ -63,8 +63,7 @@ urlpatterns = [
     path('posts/allPublicPosts/', AllPublicPostsView.as_view(), name='all_public_posts'),
     # Un-befriend
     path('<uuid:id>/<delete>', un_befriend, name='un_befriend'),
-    # remote Un-befriend
-    path('remote/<delete>', remote_un_befriend.as_view(), name='remote_un_befriend'),
+
     # below are URLs for API only
     path('api/authors/',  APIAllProfileView.as_view(), name="api_authors"),
     path('api/author/<uuid:id>/', APIAuthorProfileView.as_view(), name="api_author_by_id"),

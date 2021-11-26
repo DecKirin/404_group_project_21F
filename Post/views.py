@@ -326,7 +326,6 @@ def like_post(request, author_id, post_id):
     inbox_to_send.items.append(LikeSerializer(like).data)
     inbox_to_send.save()
 
-
     return redirect(reverse('Author:specific_post', args=(author_id, post_id)))
 
 
@@ -391,27 +390,6 @@ def unlike_post(request, author_id, post_id):
     return redirect(reverse('Author:specific_post', args=(author_id, post_id)))
 
 
-class APICommentsByPostId(APIView):
-    # authentication_classes = [BasicAuthentication]
-    # permission_classes = [IsAuthenticated]
-    def get(self, request, authorId, postId):
-        view_post = Post.objects.get(id=postId)
-        post_comments = view_post.comments
-
-        comments_serializer = CommentSerializer(post_comments, many=True)
-
-        response = Response()
-        response.status_code = 200
-        data = {
-            "type": "comments",
-            "items": comments_serializer.data
-        }
-        response.data = data
-        return response
-
-    # post: create a comment
-    def post(self, request, authorId, postId):
-        pass
 
 
 class APIComment(APIView):

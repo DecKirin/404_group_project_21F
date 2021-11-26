@@ -1,5 +1,7 @@
 import re
 import json
+import uuid
+
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.sites import requests
@@ -14,14 +16,14 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.renderers import JSONRenderer, BrowsableAPIRenderer
-
+from django.db import models
 from rest_framework.renderers import TemplateHTMLRenderer
 import urllib
 from Author.serializers import UserSerializer, PostSerializer, CommentSerializer, InboxSerializer
-from friends.models import FriendRequest
+from friends.models import FriendRequest, Follower
 from Post.serializers import LikeSerializer
 from Author.models import User, RegisterControl, Inbox, Post, Node
-from Post.models import PostComment,PostLike
+from Post.models import PostComment, PostLike
 # Create your views here.
 from django.views import View
 from django.contrib.auth import authenticate, login, logout
@@ -34,10 +36,10 @@ from social_network.settings import SECRET_KEY
 all_remote_host = ['https://social-distribution-fall2021.herokuapp.com',
                    'https://cmput404-team13-socialapp.herokuapp.com']
 
-
-#all_remote_host = ['https://cmput404-team13-socialapp.herokuapp.com']
+# all_remote_host = ['https://cmput404-team13-socialapp.herokuapp.com']
 
 """in case vpn issues, modify based on your own vpn"""
+
 
 # if proxy is needed, change the proxies according to your proxy setting
 def make_api_get_request(api_url):
@@ -48,12 +50,14 @@ def make_api_get_request(api_url):
     request = requests.get(api_url, proxies=proxies, auth=HTTPBasicAuth("team11", "secret11"), verify=True)
     return request
 
+
 '''
 # if proxy is not needed
 def make_api_get_request(api_url):
     request = requests.get(api_url, auth=HTTPBasicAuth("team11", "secret11"), verify=True)
     return request
 '''
+
 
 # check if validation by admin is required to activate an author account
 def check_if_confirmation_required():
@@ -77,7 +81,7 @@ def get_remote_nodes():
 
 
 def get_remote_authors():
-    #all_remote_host = get_remote_nodes()
+    # all_remote_host = get_remote_nodes()
 
     authors = []
     for host in all_remote_host:
@@ -114,11 +118,9 @@ def get_remote_public_posts():
     return posts
 
 
-'''
-URL: ://service/author/register
-GET: visit register page
-POST: submit an author account registeration
-'''
+class baseView(View):
+    def get(self, request):
+        return HttpResponseRedirect(reverse("Author:login"))
 
 
 class RegisterView(View):
@@ -509,7 +511,8 @@ class UserEditInfoView(LoginRequiredMixin, View):
                                                                    github=github)
         return HttpResponseRedirect(reverse("Author:mystream"))
 
-#Lagacy inbox
+
+# Lagacy inbox
 class InboxView(View):
 
     def get(self, request, id):
@@ -556,7 +559,7 @@ class InterFRInboxView(View):
         page_object = paginator.page(page)
 
         context = {
-            'curr_user':curr_user,
+            'curr_user': curr_user,
             'page_object': page_object,
             'page_range': paginator.page_range,
         }
@@ -809,7 +812,7 @@ class APIAllProfileView(APIView):
         response = Response()
         response.status_code = 200
         data = {
-            "types":"authors",
+            "types": "authors",
             "items": serializer.data
         }
         response.data = data
@@ -955,8 +958,8 @@ class APIPostByIdView(APIView):
 
 
 class APICommentsByPostId(APIView):
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
-    permission_classes = [IsAuthenticated]
+    # authentication_classes = [BasicAuthentication]
+    # permission_classes = [IsAuthenticated]
 
     def get(self, request, authorId, postId):
         view_user = User.objects.get(id=authorId)
@@ -970,28 +973,34 @@ class APICommentsByPostId(APIView):
         response = Response()
         response.status_code = 200
         data = {
-            "types":"comments",
+            "types": "comments",
             "items": comments_serializer.data
         }
         response.data = data
         return response
 
     def post(self, request, authorId, postId):
+
+        print("author:", authorId)
         data = request.data
+        print("data", data)
         author_comment1 = data["author"]
         comment_content = data["comment"]
         comment_contentType = data["contentType"]  # TODO: add contentType to Comment and add md
-        published1 = models.DateTimeField(auto_now_add=True)
         author_post = User.objects.get(id=authorId)
         local_post = Post.objects.get(id=postId)
+        print("postId", postId)
+
+        comment = PostComment.objects.create(post=local_post, author_comment=author_post, author=author_comment1, comment=comment_content)
+        api_url1 = "http://"+ request.scheme + request.META["HTTP_HOST"] + '/api' + '/author/' + str(authorId) + "/posts/" + str(postId) + "/comments/" + str(comment.id_comment)
+        comment.api_url = api_url1
+        comment.save()
         local_post.count = local_post.count + 1
         local_post.save()
-        commentId = models.UUIDField(primary_key=True, default=uuid.uuid4, unique=True)
-        api_url1 = '/api' + '/author/' + str(authorId) + "/posts/" + str(postId) + "/comments/" + str(commentId)
-        comment = PostComment.objects.create(type="comment", id_comment=commentId, post=local_post, author_comment=author_comment1, author=author_post, comment=comment_content, published=published1, api_url=api_url1)
-        comment.save()
+
         response = Response()
         response.status_code = 200
+        response.data = data
         return response
 
 
@@ -1093,6 +1102,7 @@ class APIInbox(APIView):
         response = Response()
         response.status_code = 200
         return response
+
 
 """remote author related view"""
 
