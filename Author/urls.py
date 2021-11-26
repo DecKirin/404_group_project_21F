@@ -8,7 +8,7 @@ from friends.views import friends_list_view, send_friend_request, process_friend
     follows_list_view, follower_view, un_befriend, my_list, APIFollowsByIdView, APIFollowersByIdView, APIFriendsByIdView
 from Post.views import NewPostView, SpecificPostView, EditPostView, delete_post, like_post, unlike_post, \
     CreatePostComment, APICommentsByPostId, APICommentsByAuthorId, APILikesByAuthorId, APIComment, APILikesByPost, \
-    like_remote_post_view
+    like_remote_post_view, CommentRemotePostView
 
 from Author.views import APIAllProfileView, APIAuthorProfileView, APIAllPosts
 
@@ -89,6 +89,7 @@ urlpatterns = [
 
     path('remote_author/', Remote_Author_Profile_View.as_view(), name="remote_author_profile"),
     path('remote_post/', Remote_Specific_Post_View.as_view(), name="remote_specific_post"),
-    path('remote_post/like', like_remote_post_view.as_view(), name="like_remote_post")
+    path('remote_post/like', like_remote_post_view.as_view(), name="like_remote_post"),
+    path('remote_post/comment', CommentRemotePostView.as_view(), name="comment_remote_post"),
 
 ]
