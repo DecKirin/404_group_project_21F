@@ -1,13 +1,15 @@
+import json
 import urllib
 from urllib.parse import urlparse
 
+import requests
 from django.core.paginator import Paginator
 from django.views import View
+from requests.auth import HTTPBasicAuth
 from rest_framework.views import APIView
 
 from Author.models import User, Inbox, Post
 from Author.serializers import PostSerializer, UserSerializer
-from Author.views import make_api_get_request
 from Post.serializers import CommentSerializer, LikeSerializer
 from friends.models import Friend
 from rest_framework.response import Response
@@ -17,7 +19,25 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.http import HttpResponse
 from Post.models import PostLike, PostComment
+from Author.views import make_api_get_request
 
+'''
+# use this one if you need to connect with vpn
+def make_api_post_request(api_url, json_object):
+    proxies = {
+        "http": "http://127.0.0.1:7890",
+        "https": "http://127.0.0.1:7890"
+    }
+    request = requests.post(api_url, data=json_object, auth=HTTPBasicAuth("team11", "secret11"), proxies=proxies)
+    return request
+
+'''
+
+
+# use this one if you do not need vpn
+def make_api_post_request(api_url, json_object):
+    request = requests.post(api_url, data=json_object, auth=HTTPBasicAuth("team11", "secret11"))
+    return request
 
 # class PostSerializer(serializers.ModelSerializer):
 #     class Meta:
@@ -302,6 +322,34 @@ def like_post(request, author_id, post_id):
     return redirect(reverse('Author:specific_post', args=(author_id, post_id)))
 
 
+class like_remote_post_view(View):
+    def get(self, request):
+        post_url = request.GET.get("post_url")
+        current_author = request.user
+        post = make_api_get_request(post_url).json()
+
+        post_author_url = post["author"]["url"]
+        data = {
+            "summary": "%s likes your post" % current_author.username,
+            "type": "like",
+            "author": UserSerializer(current_author).data,
+            "object": post["id"]
+        }
+        print(data)
+        inbox_url = post_author_url + "/inbox"
+        print("inbox_url", inbox_url)
+        request = make_api_post_request(inbox_url, json.dumps(data))
+        print(json.dumps(data))
+        print("inbox post request:!!!!!", request)
+        return redirect(reverse('Author:remote_specific_post') + "?post_url=%s" % post_url)
+
+
+class comment_remote_post_view(View):
+    def get(self, request):
+        post_url = request.GET.get("post_url")
+        pass
+
+
 def unlike_post(request, author_id, post_id):
     post = Post.objects.get(id=post_id)
     who_like = request.user
@@ -396,12 +444,16 @@ class Remote_Specific_Post_View(View):
             comments = postCommentsRequest.json()["comments"]
         print("postcomments:", comments)
 
+
+
         liked = False
+        '''
         for postlike in postlikes:
             if postlike["url"] == current_user.api_url:
                 liked = True
-
+        '''
         im_author = False
+
 
         '''
         if str(my_id) == str(author_id):

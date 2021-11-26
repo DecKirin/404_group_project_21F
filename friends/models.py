@@ -70,9 +70,9 @@ class FriendRequest(models.Model):
     respond_status = models.BooleanField(blank=False, null=False, default=False)
     created = models.DateTimeField(auto_now_add=True)
 
-    def accept_request(self):
-        sender_friend, create_sender = Friend.objects.get_or_create(user=self.sender)
-        receiver_friend, create_receiver = Friend.objects.get_or_create(user=self.receiver)
+    def accept_request(self, sender_friend, receiver_friend):
+        # sender_friend, create_sender = Friend.objects.get_or_create(user=self.sender)
+        # receiver_friend, create_receiver = Friend.objects.get_or_create(user=self.receiver)
         receiver_friend.add_friend(self.sender)
         sender_friend.add_friend(self.receiver)
         self.respond_status = True
