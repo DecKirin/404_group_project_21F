@@ -301,7 +301,12 @@ class SpecificPostView(View):
 def like_post(request, author_id, post_id):
     post = Post.objects.get(id=post_id)
     who_like = request.user
-    PostLike.objects.create(post=post, who_like=who_like, author=UserSerializer(request.user).data, object=post.api_url)
+    like = PostLike.objects.create(post=post, who_like=who_like, author=UserSerializer(request.user).data, object=post.api_url)
+    inbox_to_send = Inbox.objects.get(author_id=post.author.id)
+    inbox_to_send.items.append(LikeSerializer(like).data)
+    inbox_to_send.save()
+
+
     return redirect(reverse('Author:specific_post', args=(author_id, post_id)))
 
 
