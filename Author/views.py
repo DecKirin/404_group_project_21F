@@ -735,7 +735,7 @@ class MyStreamView(LoginRequiredMixin, View):
 
         page = int(request.GET.get("page", 1))
         per_page = int(request.GET.get("size", 10))
-        posts = Post.objects.filter(author_id=curr_user.id).filter(visibility=1)
+        posts = Post.objects.filter(visibility=1)
         # inbox = Inbox.objects.filter(requests=friReqs)
 
         paginator = Paginator(posts, per_page)
@@ -777,7 +777,7 @@ class AllPublicPostsView(View):
 
         local_public_posts = Post.objects.filter(visibility=1)
 
-        remote_posts = get_remote_public_posts()
+        # remote_posts = get_remote_public_posts()
         remote_posts = get_all_remote_public_posts_through_remote_authors()
 
         all_pub_posts = list(local_public_posts) + remote_posts
@@ -786,6 +786,7 @@ class AllPublicPostsView(View):
         page_object = paginator.page(page)
 
         context = {
+            'curr_host' : request.META['HTTP_HOST'],
             'page_object': page_object,
             'page_range': paginator.page_range,
             'page_size': per_page,

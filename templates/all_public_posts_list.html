@@ -18,11 +18,10 @@
                 {% for post in page_object.object_list %}
                 <div class="card">
                   <div class="card-header">
-                      {% if post.author.uuid %}
+                      {% if post.author.host == curr_host %}
                             <h3><a href="{% url "Author:specific_post" post.author.id post.id %}">{{ post.title }}</a></h3>
                       {% else %}
-                            <h3><a href="{% url "Author:remote_specific_post" %}?post_url={{ post }}">{{ post.title }}</a></h3>
-
+                            <h3><a href="{% url "Author:remote_specific_post" %}?post_url={{ post.url }}">{{ post.title }}</a></h3>
                       {% endif %}
                   </div><!-- /.card-header -->
                   <div class="card-body">
@@ -34,9 +33,21 @@
                           <div class="user-block">
                             <img class="img-circle img-bordered-sm" src="{% static 'mine/images/default_avatar.png' %}" alt="user image">
                             <span class="username">
-                              <a href="{% url 'Author:profile' post.author.id %}" class="float-right btn-tool">{{ post.author.username }}</a>
+                                {% if post.author.host == curr_host %}
+                                    <a href="{% url 'Author:profile' post.author.id %}" class="float-right btn-tool">{{ post.author.username }}</a>
+                                {% else %}
+                                    {% if post.author.url %}
+                                    <a href="{% url 'Author:remote_author_profile'%}?url={{  post.author.url  }}" class="float-right btn-tool">{{ post.author.displayName }}</a>
+                                    {% else %}
+                                    <a href="{% url 'Author:remote_author_profile'%}?url={{  post.author.id  }}" class="float-right btn-tool">{{ post.author.displayName }}</a>
+                                    {% endif %}
+                                {% endif %}
                             </span>
+                            {% if post.author.host == curr_host %}
                             <span class="description">{{ post.published}}</span>
+                            {% else %}
+                            <span class="description"> Remote</span>
+                            {% endif %}
                           </div>
                           <!-- /.user-block -->
                           <p>
