@@ -20,6 +20,23 @@ import logging
 
 
 # Create your views here.
+class remote_un_befriend(APIView):
+
+    def get (self, request, delete):
+        logging.basicConfig(filename='requestlog.log', level=logging.DEBUG)
+
+        authorAPIUrl = request.GET.get("url")
+        authorAPIUrl = urllib.parse.unquote(authorAPIUrl)
+        author_request = make_api_get_request(authorAPIUrl)
+        to_del_friend = author_request.json()
+        logging.debug(to_del_friend)
+        if delete == 'Un-follow':
+            follow = Follow.objects.get(user=user)
+            follow.delete_follow(UserSerializer(to_del_friend).data)
+            context['type'] = 'follow'
+        context['user'] = user
+        context['to_del_friend'] = to_del_friend
+        return render(request, 'delete_friend.html', context=context)
 
 def un_befriend(request, id, delete):
     context = {}
@@ -114,7 +131,6 @@ def my_list(request, relationship):
             # follow.delete_follow(user)
             context['friends'] = friend_list
             logging.debug(friend_list)
-            # logging.debug(type(friend_list))
         context['delete'] = 'Un-follow'
         context['type'] = 'Follow'
 
