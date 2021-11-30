@@ -1082,13 +1082,17 @@ class APIInbox(APIView):
 
         inbox, created = Inbox.objects.get_or_create(author_id=authorId)
         if data['type'].lower() == "follow":
-            remote_author = data['sender']
+            try:
+                remote_author = data["actor"]
+            except Exception:
+                remote_author = data["sender"]
+
             local_author = data["receiver"]
             try:
                 local_author = data["receiver"]["uuid"]
                 local_author = User.objects.get(id=local_author)
             except Exception:
-                local_author = User.objects.get(api_url=data["receiver"]["url"])
+                local_author = User.objects.get(api_url=data["object"]["url"])
 
             friend_request = FriendRequest.objects.create(sender=remote_author,
                                                           receiver=UserSerializer(local_author).data)
