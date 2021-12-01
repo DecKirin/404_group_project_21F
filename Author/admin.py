@@ -54,10 +54,10 @@ class UserProfileAdmin(admin.ModelAdmin):
     fieldsets = (
         (None, {'fields': ('email', 'username', 'first_name', 'last_name', 'u_phone',)}),
         ('Permissions', {'fields': ('is_active',)}),
-        ('links', {'fields': ('github', 'profile_image',)}),
+        ('links', {'fields': ('github', 'profile_image', 'host', 'url', 'api_url',)}),
         ('date', {'fields': ('created', 'updated',)}),
     )
-    readonly_fields = ['created', 'updated']
+    readonly_fields = ['created', 'updated', 'host', 'url', 'api_url',]
     actions = [activate_user, deactivate_user]
 
     def view_posts_link(self, obj):

@@ -40,12 +40,6 @@ def make_api_post_request(api_url, json_object):
     request = requests.post(api_url, data=json_object, auth=HTTPBasicAuth("team11", "secret11"))
     return request
 
-# class PostSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Post
-#         fields = ['type', 'title', 'id', 'source', 'origin', 'description', 'contentType', 'content', 'author',
-#                   'categories', 'count', 'comments', 'published', 'visibility', 'unlisted']
-#
 
 # return relative path
 def get_path(old_path):
@@ -520,39 +514,4 @@ class Remote_Specific_Post_View(View):
         print("comment request:!!!!!", request)
         return redirect(reverse('Author:remote_specific_post') + "?post_url=%s" % postAPIURL)
 
-'''
-    def get(self, request):
-        curr_user = request.user
 
-        authorAPIUrl = request.GET.get("url")
-        authorAPIUrl = urllib.parse.unquote(authorAPIUrl)
-        author_request = make_api_get_request(authorAPIUrl)
-        remote_author = author_request.json()
-
-        page = int(request.GET.get("page", 1))
-        per_page = int(request.GET.get("size", 10))
-
-        try:
-            github = remote_author.github
-            githubUname = github.split("/")[-1]
-        except Exception:
-            githubUname = None
-
-        posts_url = authorAPIUrl + "/posts"
-        posts_request = make_api_get_request(posts_url)
-        remote_posts = posts_request.json()["items"]
-
-        paginator = Paginator(remote_posts, per_page)
-        page_object = paginator.page(page)
-
-        context = {
-            'current_author': curr_user,
-            'githubName': githubUname,
-            'myPosts': remote_posts,
-            'page_object': page_object,
-            'page_range': paginator.page_range,
-            'view_author': remote_author,
-        }
-        print(context)
-        return render(request, 'remote_author_profile.html', context=context)
-'''

@@ -20,14 +20,18 @@
                   <tr>
                     <div class="card bg-light d-flex flex-fill">
                       <div class="card-header text-muted border-bottom-0">
-                          Author
+                          {% if author.host == current_host %}
+                                Local
+                          {% else %}
+                              Remote
+                          {% endif %}
                       </div>
                       <div class="card-body pt-0">
                           <div class="row">
                               {% if author.profile_image %}
-                                    <img src="{{ author.profile_image }}}" alt="user-avatar" class="img-circle img-fluid">
+                                    <img src="{{ author.profile_image }}" alt="user-avatar" class="img-circle img-fluid">
                               {% elif author.profileImage %}
-                                    <img src="{{ author.profileImage }}}" alt="user-avatar" class="img-circle img-fluid">
+                                    <img src="{{ author.profileImage }}" alt="user-avatar" class="img-circle img-fluid">
                               {% else %}
                                     <img src="{% static 'mine/images/default_avatar.png' %}" alt="user-avatar" class="img-circle img-fluid">
                               {% endif %}
@@ -37,6 +41,7 @@
                               {% else %}
                               <h2 class="lead"><b>{{ author.displayName }}</b></h2>
                               {% endif %}
+                              <br>
                               <p class="text-muted text-sm"><b>github: </b> {{ author.github }} </p>
                               <p class="text-muted text-sm"><b>url: </b> {{ author.url }} </p>
                               <ul class="ml-4 mb-0 fa-ul text-muted">

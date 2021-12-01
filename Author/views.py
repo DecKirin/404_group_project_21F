@@ -45,7 +45,14 @@ def make_api_get_request(api_url):
         "http": "http://127.0.0.1:7890",
         "https": "http://127.0.0.1:7890"
     }
+    #uname = "team11"
+    #pas = "secret11"
+    print("api_request:", api_url)
     request = requests.get(api_url, proxies=proxies, auth=HTTPBasicAuth("team11", "secret11"), verify=True)
+    print("code:", request.status_code)
+    if request.status_code in [403, 401]:
+        #request = requests.get(api_url, proxies=proxies, auth=HTTPBasicAuth("7c70c1c8-04fe-46e0-ae71-8969061adac0", "123456"), verify=True)
+        request = requests.get(api_url, proxies=proxies, verify=True)
     return request
 '''
 
@@ -53,6 +60,9 @@ def make_api_get_request(api_url):
 # if proxy is not needed
 def make_api_get_request(api_url):
     request = requests.get(api_url, auth=HTTPBasicAuth("team11", "secret11"), verify=True)
+    if request.status_code in [403, 401]:
+        #request = requests.get(api_url, proxies=proxies, auth=HTTPBasicAuth("7c70c1c8-04fe-46e0-ae71-8969061adac0", "123456"), verify=True)
+        request = requests.get(api_url, verify=True)
     return request
 
 # check if validation by admin is required to activate an author account
@@ -73,6 +83,8 @@ def get_remote_nodes():
     nodes = Node.objects.all()
     all_host = [node.host for node in nodes]
     print(all_host)
+    #to test with team17
+    #all_host = ["https://cmput404f21t17.herokuapp.com"]
     return all_host
 
 
@@ -82,13 +94,15 @@ def get_remote_authors():
     authors = []
     for host in all_remote_host:
         api_uri = host + '/api' + '/authors/'
-        print(api_uri)
+        if host == "https://cmput404f21t17.herokuapp.com":
+            api_uri = host + '/service/authors/'
+        print("api_uri:",api_uri)
         ####todo:authentication information
         ####request = requests.get(api_uri, auth=HTTPBasicAuth(auth_user, auth_pass))
 
         # proxies = {"http": None, "https": None}66
         request = make_api_get_request(api_uri)
-        print(request.json().items)
+        print("request", request.json())
         if request.status_code == 200:
             try:
                 authors_in_host = request.json()["items"]
@@ -107,6 +121,10 @@ def get_remote_public_posts():
     posts = []
     for host in all_remote_host:
         api_uri = host + '/api' + '/posts/'
+
+        if host == "https://cmput404f21t17.herokuapp.com":
+            api_uri = host + '/service/authors/'
+
         request = requests.get(api_uri)
         if request.status_code == 200:
             posts_in_host = request.json()
@@ -1065,7 +1083,7 @@ class APIInbox(APIView):
 
     def get(self, request, authorId):
         try:
-            inbox = Inbox.objects.get(author_id=authorId)
+            inbox, created = Inbox.objects.get_or_create(author_id=authorId)
         except Inbox.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
@@ -1087,7 +1105,7 @@ class APIInbox(APIView):
             except Exception:
                 remote_author = data["sender"]
 
-            local_author = data["receiver"]
+            #local_author = data["receiver"]
             try:
                 local_author = data["receiver"]["uuid"]
                 local_author = User.objects.get(id=local_author)
@@ -1104,6 +1122,7 @@ class APIInbox(APIView):
             #follower.add_follower(UserSerializer(remote_author).data)
             follower.add_follower(remote_author)
             response = Response()
+            response.data = data
             response.status_code = 200
             return response
         # todo:handle post api for like from remote author
