@@ -244,24 +244,32 @@ class remote_sent_request(APIView):
         authorAPIUrl = urllib.parse.unquote(authorAPIUrl)
         author_request = make_api_get_request(authorAPIUrl)
         to_befriend = author_request.json()
-        logging.basicConfig(filename='requestlog.log', level=logging.DEBUG)
-        logging.debug(to_befriend)
 
         inbox_info = dict()
         inbox_info["type"] = "Follow"
-        logging.basicConfig(filename='requestlog.log', level=logging.DEBUG)
+        logging.basicConfig(filename='another.log', level=logging.DEBUG)
         logging.debug(to_befriend)
         inbox_info["summary"] = "%s wants to follow %s" % (user.username, to_befriend['displayName'])
-        inbox_info["actor"] = UserSerializer(user).data
+        # inbox_info["actor"] = UserSerializer(user).data
+        author_json = {'type': 'author'}
+        author_json['id'] = UserSerializer(user).data['uuid']
+        author_json['displayName'] = UserSerializer(user).data['displayName']
+        author_json['url'] = UserSerializer(user).data['id']
+        author_json['host'] = UserSerializer(user).data['host']
+        author_json['github'] = UserSerializer(user).data['github']
+        author_json['avatar'] = None
+        inbox_info["actor"] = author_json
         inbox_info["object"] = to_befriend
-        inbox_info["send_at"] = datetime.now
+        # inbox_info["send_at"] = datetime.now
         follow, create_follow = Follow.objects.get_or_create(user=user)
         follow.add_follow(to_befriend)
+        logging.basicConfig(filename='requestlog.log', level=logging.DEBUG)
+        logging.debug(inbox_info)
 
         inbox_url = authorAPIUrl + "/inbox"
         logging.debug(inbox_url)
-        logging.debug(inbox_info)
-        request = make_api_post_request(inbox_url, inbox_info)
+        logging.debug(json.dumps(inbox_info))
+        request = make_api_post_request(inbox_url, json.dumps(inbox_info))
 
         print("inbox post request:!!!!!", request)
         #
