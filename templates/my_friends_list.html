@@ -49,10 +49,10 @@
                       <div class="card-footer">
                           <div class="text-right">
                             {% if friend.host == current_host %}
-                          <a href="{% url 'Author:un_befriend' id=friend.id delete=delete %}" class="btn btn-sm bg-teal">
+                          <a href="{% url 'Author:un_befriend' id=friend.uuid delete=delete %}" class="btn btn-sm bg-teal">
                               <i class="fas fa-comments"></i> {{delete}}
                           </a>
-                          <a href="{% url 'Author:profile' friend.id %}" class="btn btn-sm btn-primary">
+                          <a href="{% url 'Author:profile' friend.uuid %}" class="btn btn-sm btn-primary">
                               <i class="fas fa-user"></i> View Profile
                           </a>
                               {%else%}

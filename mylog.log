@@ -1411,3 +1411,252 @@ DEBUG:urllib3.connectionpool:http://127.0.0.1:7890 "GET http://cmput404-team13-s
 DEBUG:MARKDOWN:Successfully imported extension module "markdown.extensions.fenced_code".
 DEBUG:MARKDOWN:Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
 DEBUG:asyncio:Using proactor: IocpProactor
+DEBUG:root:[{'type': 'author', 'id': '08f26f95-71fb-485e-b151-0283a27d5fec', 'username': 'qqq_another', 'profile_image': '', 'email': '1234@gmail.com', 'first_name': 'qqq', 'last_name': 'z', 'github': '', 'host': '127.0.0.1:8000', 'api_url': 'http://127.0.0.1:8000/api/author/08f26f95-71fb-485e-b151-0283a27d5fec/'}, {'type': 'author', 'id': 'https://social-distribution-fall2021.herokuapp.com/api/author/73', 'host': 'https://social-distribution-fall2021.herokuapp.com/api/', 'displayName': 'Diego', 'url': 'https://social-distribution-fall2021.herokuapp.com/api/author/73', 'github': '', 'profileImage': ''}, {'type': 'author', 'id': 'https://social-distribution-fall2021.herokuapp.com/api/author/c1084885-d411-46e2-a9a1-73338545d541', 'host': 'https://social-distribution-fall2021.herokuapp.com/api/', 'displayName': 'zepeng', 'url': 'https://social-distribution-fall2021.herokuapp.com/api/author/c1084885-d411-46e2-a9a1-73338545d541', 'github': '', 'profileImage': ''}, {'type': 'author', 'id': 'f24cb837-9eb6-4b31-add5-325f5dec96f9', 'displayName': 'team11', 'url': 'http://cmput404-team13-socialapp.herokuapp.com/api/author/f24cb837-9eb6-4b31-add5-325f5dec96f9', 'host': 'http://cmput404-team13-socialapp.herokuapp.com', 'github': '', 'avatar': None}]
+DEBUG:MARKDOWN:Successfully imported extension module "markdown.extensions.fenced_code".
+DEBUG:MARKDOWN:Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+DEBUG:MARKDOWN:Successfully imported extension module "markdown.extensions.toc".
+DEBUG:MARKDOWN:Successfully loaded extension "markdown.extensions.toc.TocExtension".
+INFO:django.utils.autoreload:/Users/qianqiu/Documents/CMPUT404/project/404_group_project_21F/friends/views.py changed, reloading.
+DEBUG:asyncio:Using selector: KqueueSelector
+ERROR:django.request:Internal Server Error: /api/author/08f26f95-71fb-485e-b151-0283a27d5fec/followers/08f26f95-71fb-485e-b151-0283a27d5fec
+Traceback (most recent call last):
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/core/handlers/base.py", line 204, in _get_response
+    response = response.render()
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/template/response.py", line 105, in render
+    self.content = self.rendered_content
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/rest_framework/response.py", line 55, in rendered_content
+    assert renderer, ".accepted_renderer not set on Response"
+AssertionError: .accepted_renderer not set on Response
+INFO:django.utils.autoreload:/Users/qianqiu/Documents/CMPUT404/project/404_group_project_21F/friends/views.py changed, reloading.
+DEBUG:asyncio:Using selector: KqueueSelector
+INFO:django.utils.autoreload:/Users/qianqiu/Documents/CMPUT404/project/404_group_project_21F/friends/views.py changed, reloading.
+DEBUG:asyncio:Using selector: KqueueSelector
+DEBUG:root:[{'type': 'author', 'id': 'http://127.0.0.1:8000/api/author/18828c13-4595-4093-86d7-8260d035a215/', 'uuid': '18828c13-4595-4093-86d7-8260d035a215', 'displayName': 'qqqq', 'profileImage': '', 'email': '123@gmail.com', 'github': '', 'host': '127.0.0.1:8000', 'url': 'http://127.0.0.1:8000/api/author/18828c13-4595-4093-86d7-8260d035a215/'}]
+ERROR:django.request:Internal Server Error: /myfollowslist/
+Traceback (most recent call last):
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/contrib/auth/decorators.py", line 21, in _wrapped_view
+    return view_func(request, *args, **kwargs)
+  File "/Users/qianqiu/Documents/CMPUT404/project/404_group_project_21F/friends/views.py", line 143, in my_list
+    return render(request, 'my_friends_list.html', context=context)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/shortcuts.py", line 19, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/template/base.py", line 170, in render
+    return self._render(context)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/template/base.py", line 162, in _render
+    return self.nodelist.render(context)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/template/base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/template/base.py", line 905, in render_annotated
+    return self.render(context)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/template/loader_tags.py", line 150, in render
+    return compiled_parent._render(context)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/template/base.py", line 162, in _render
+    return self.nodelist.render(context)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/template/base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/template/base.py", line 905, in render_annotated
+    return self.render(context)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/template/loader_tags.py", line 150, in render
+    return compiled_parent._render(context)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/template/base.py", line 162, in _render
+    return self.nodelist.render(context)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/template/base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/template/base.py", line 905, in render_annotated
+    return self.render(context)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/template/loader_tags.py", line 150, in render
+    return compiled_parent._render(context)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/template/base.py", line 162, in _render
+    return self.nodelist.render(context)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/template/base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/template/base.py", line 905, in render_annotated
+    return self.render(context)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/template/loader_tags.py", line 62, in render
+    result = block.nodelist.render(context)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/template/base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/template/base.py", line 905, in render_annotated
+    return self.render(context)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/template/loader_tags.py", line 62, in render
+    result = block.nodelist.render(context)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/template/base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/template/base.py", line 905, in render_annotated
+    return self.render(context)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/template/defaulttags.py", line 211, in render
+    nodelist.append(node.render_annotated(context))
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/template/base.py", line 905, in render_annotated
+    return self.render(context)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/template/defaulttags.py", line 312, in render
+    return nodelist.render(context)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/template/base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/template/base.py", line 905, in render_annotated
+    return self.render(context)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/template/defaulttags.py", line 446, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/urls/base.py", line 87, in reverse
+    return iri_to_uri(resolver._reverse_with_prefix(view, prefix, *args, **kwargs))
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/urls/resolvers.py", line 685, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'un_befriend' with keyword arguments '{'id': 'http://127.0.0.1:8000/api/author/18828c13-4595-4093-86d7-8260d035a215/', 'delete': 'Un-follow'}' not found. 1 pattern(s) tried: ['(?P<id>[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})/(?P<delete>[^/]+)$']
+DEBUG:root:[{'type': 'author', 'id': 'http://127.0.0.1:8000/api/author/18828c13-4595-4093-86d7-8260d035a215/', 'uuid': '18828c13-4595-4093-86d7-8260d035a215', 'displayName': 'qqqq', 'profileImage': '', 'email': '123@gmail.com', 'github': '', 'host': '127.0.0.1:8000', 'url': 'http://127.0.0.1:8000/api/author/18828c13-4595-4093-86d7-8260d035a215/'}]
+WARNING:django.request:Not Found: /login/
+DEBUG:MARKDOWN:Successfully imported extension module "markdown.extensions.fenced_code".
+DEBUG:MARKDOWN:Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+DEBUG:MARKDOWN:Successfully imported extension module "markdown.extensions.toc".
+DEBUG:MARKDOWN:Successfully loaded extension "markdown.extensions.toc.TocExtension".
+WARNING:django.request:Not Found: /api/author/18828c13-4595-4093-86d7-8260d035a215/followers/c9c31b89-6b62-42c0-9416-90e5fc458489/
+DEBUG:MARKDOWN:Successfully imported extension module "markdown.extensions.toc".
+DEBUG:MARKDOWN:Successfully loaded extension "markdown.extensions.toc.TocExtension".
+DEBUG:root:[{'type': 'author', 'id': '08f26f95-71fb-485e-b151-0283a27d5fec', 'username': 'qqq_another', 'profile_image': '', 'email': '1234@gmail.com', 'first_name': 'qqq', 'last_name': 'z', 'github': '', 'host': '127.0.0.1:8000', 'api_url': 'http://127.0.0.1:8000/api/author/08f26f95-71fb-485e-b151-0283a27d5fec/'}, {'type': 'author', 'id': 'https://social-distribution-fall2021.herokuapp.com/api/author/73', 'host': 'https://social-distribution-fall2021.herokuapp.com/api/', 'displayName': 'Diego', 'url': 'https://social-distribution-fall2021.herokuapp.com/api/author/73', 'github': '', 'profileImage': ''}, {'type': 'author', 'id': 'https://social-distribution-fall2021.herokuapp.com/api/author/c1084885-d411-46e2-a9a1-73338545d541', 'host': 'https://social-distribution-fall2021.herokuapp.com/api/', 'displayName': 'zepeng', 'url': 'https://social-distribution-fall2021.herokuapp.com/api/author/c1084885-d411-46e2-a9a1-73338545d541', 'github': '', 'profileImage': ''}, {'type': 'author', 'id': 'f24cb837-9eb6-4b31-add5-325f5dec96f9', 'displayName': 'team11', 'url': 'http://cmput404-team13-socialapp.herokuapp.com/api/author/f24cb837-9eb6-4b31-add5-325f5dec96f9', 'host': 'http://cmput404-team13-socialapp.herokuapp.com', 'github': '', 'avatar': None}]
+ERROR:django.request:Internal Server Error: /myfollowslist/
+Traceback (most recent call last):
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/contrib/auth/decorators.py", line 21, in _wrapped_view
+    return view_func(request, *args, **kwargs)
+  File "/Users/qianqiu/Documents/CMPUT404/project/404_group_project_21F/friends/views.py", line 143, in my_list
+    return render(request, 'my_friends_list.html', context=context)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/shortcuts.py", line 19, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/template/base.py", line 170, in render
+    return self._render(context)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/template/base.py", line 162, in _render
+    return self.nodelist.render(context)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/template/base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/template/base.py", line 905, in render_annotated
+    return self.render(context)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/template/loader_tags.py", line 150, in render
+    return compiled_parent._render(context)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/template/base.py", line 162, in _render
+    return self.nodelist.render(context)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/template/base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/template/base.py", line 905, in render_annotated
+    return self.render(context)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/template/loader_tags.py", line 150, in render
+    return compiled_parent._render(context)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/template/base.py", line 162, in _render
+    return self.nodelist.render(context)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/template/base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/template/base.py", line 905, in render_annotated
+    return self.render(context)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/template/loader_tags.py", line 150, in render
+    return compiled_parent._render(context)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/template/base.py", line 162, in _render
+    return self.nodelist.render(context)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/template/base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/template/base.py", line 905, in render_annotated
+    return self.render(context)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/template/loader_tags.py", line 62, in render
+    result = block.nodelist.render(context)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/template/base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/template/base.py", line 905, in render_annotated
+    return self.render(context)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/template/loader_tags.py", line 62, in render
+    result = block.nodelist.render(context)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/template/base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/template/base.py", line 905, in render_annotated
+    return self.render(context)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/template/defaulttags.py", line 211, in render
+    nodelist.append(node.render_annotated(context))
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/template/base.py", line 905, in render_annotated
+    return self.render(context)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/template/defaulttags.py", line 312, in render
+    return nodelist.render(context)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/template/base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/template/base.py", line 905, in render_annotated
+    return self.render(context)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/template/defaulttags.py", line 446, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/urls/base.py", line 87, in reverse
+    return iri_to_uri(resolver._reverse_with_prefix(view, prefix, *args, **kwargs))
+  File "/Users/qianqiu/Documents/CMPUT404/project/venv/lib/python3.8/site-packages/django/urls/resolvers.py", line 685, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'un_befriend' with keyword arguments '{'id': '', 'delete': 'Un-follow'}' not found. 1 pattern(s) tried: ['(?P<id>[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})/(?P<delete>[^/]+)$']
+DEBUG:MARKDOWN:Successfully imported extension module "markdown.extensions.fenced_code".
+DEBUG:MARKDOWN:Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/authors/ HTTP/1.1" 200 4500
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404-team13-socialapp.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404-team13-socialapp.herokuapp.com:443 "GET /api/authors/ HTTP/1.1" 200 1072
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/authors/ HTTP/1.1" 200 518
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/15a5aaac-26cf-442d-a1a7-c158e7f9c5ac/posts HTTP/1.1" 200 58
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/20dc960d-84b7-4ad1-a1e1-8c14230426a0/posts HTTP/1.1" 200 617471
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/c1084885-d411-46e2-a9a1-73338545d541/posts HTTP/1.1" 200 58
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/0c5bd7e6-b336-409d-8637-2b4168da7f5a/posts HTTP/1.1" 200 58
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/f39932fe-5375-40c5-b7b1-2d1192912669/posts HTTP/1.1" 200 58
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/c1a4621f-e76a-4374-b0d5-3781403d5c0f/posts HTTP/1.1" 200 58
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/a73d772b-eb7f-41f9-8c0a-2732e46ddd31/posts HTTP/1.1" 200 58
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/bf9a8d0c-0118-49cb-a3af-104111255657/posts HTTP/1.1" 200 58
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/ec581171-4b7f-41f4-b31e-55d53934f9e4/posts HTTP/1.1" 200 58
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/819b1813-2898-4722-8ffb-9c86a6aa6227/posts HTTP/1.1" 200 58
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/efd6a7af-82e7-4b5a-a4b4-664070dfcc79/posts HTTP/1.1" 200 58
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/366116b4-90e8-4579-a4a9-d6d634d93738/posts HTTP/1.1" 200 58
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/12c4f0c5-9d18-45a4-8cb5-aa62496ca434/posts HTTP/1.1" 200 5301
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 127.0.0.1:7890
+DEBUG:urllib3.connectionpool:http://127.0.0.1:7890 "GET http://cmput404-team13-socialapp.herokuapp.com/api/author/f24cb837-9eb6-4b31-add5-325f5dec96f9/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:Resetting dropped connection: 127.0.0.1
+DEBUG:urllib3.connectionpool:http://127.0.0.1:7890 "GET http://cmput404-team13-socialapp.herokuapp.com/api/author/f24cb837-9eb6-4b31-add5-325f5dec96f9/posts/ HTTP/1.1" 200 676
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 127.0.0.1:7890
+DEBUG:urllib3.connectionpool:http://127.0.0.1:7890 "GET http://cmput404-team13-socialapp.herokuapp.com/api/author/b5359bf3-3001-486a-b873-975a12d9a2da/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:Resetting dropped connection: 127.0.0.1
+DEBUG:urllib3.connectionpool:http://127.0.0.1:7890 "GET http://cmput404-team13-socialapp.herokuapp.com/api/author/b5359bf3-3001-486a-b873-975a12d9a2da/posts/ HTTP/1.1" 200 25
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 127.0.0.1:7890
+DEBUG:urllib3.connectionpool:http://127.0.0.1:7890 "GET http://cmput404-team13-socialapp.herokuapp.com/api/author/24e9ca23-66fe-4437-b7e4-bf5f3c7054b1/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:Resetting dropped connection: 127.0.0.1
+DEBUG:urllib3.connectionpool:http://127.0.0.1:7890 "GET http://cmput404-team13-socialapp.herokuapp.com/api/author/24e9ca23-66fe-4437-b7e4-bf5f3c7054b1/posts/ HTTP/1.1" 200 25
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 127.0.0.1:7890
+DEBUG:urllib3.connectionpool:http://127.0.0.1:7890 "GET http://cmput404-team13-socialapp.herokuapp.com/api/author/posts HTTP/1.1" 404 5082
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /author/03e31e9c-7193-40d1-9c40-a4af6118cb24/posts HTTP/1.1" 404 2665
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /author/4e9deafd-29bf-4f18-92d7-954c3322bd53/posts HTTP/1.1" 404 2665
+DEBUG:MARKDOWN:Successfully imported extension module "markdown.extensions.fenced_code".
+DEBUG:MARKDOWN:Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+DEBUG:MARKDOWN:Successfully imported extension module "markdown.extensions.fenced_code".
+DEBUG:MARKDOWN:Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+DEBUG:MARKDOWN:Successfully imported extension module "markdown.extensions.fenced_code".
+DEBUG:MARKDOWN:Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+DEBUG:MARKDOWN:Successfully imported extension module "markdown.extensions.toc".
+DEBUG:MARKDOWN:Successfully loaded extension "markdown.extensions.toc.TocExtension".
+INFO:django.utils.autoreload:/Users/qianqiu/Documents/CMPUT404/project/404_group_project_21F/friends/views.py changed, reloading.
+DEBUG:asyncio:Using selector: KqueueSelector

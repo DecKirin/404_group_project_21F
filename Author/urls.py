@@ -5,7 +5,7 @@ from Author.views import baseView, RegisterView, LoginView, UserInfoView, Logout
     UserProfileView, AllUserProfileView, SearchUserView, UserEditInfoView, MyStreamView, AllPublicPostsView, \
     APIAuthorPostsView, APIPostByIdView, APIInbox, InterLikeInboxView
 from friends.views import friends_list_view, send_friend_request, process_friend_request, followers_list_view, \
-    follows_list_view, follower_view, un_befriend, my_list, APIFollowsByIdView, APIFollowersByIdView, \
+    follows_list_view, API_follower_view, un_befriend, my_list, APIFollowsByIdView, APIFollowersByIdView, \
     APIFriendsByIdView, remote_sent_request, remote_un_befriend
 from Post.views import NewPostView, SpecificPostView, EditPostView, delete_post, like_post, unlike_post, \
     CreatePostComment, APICommentsByAuthorId, APILikesByAuthorId, APIComment, APILikesByPost, \
@@ -22,8 +22,8 @@ urlpatterns = [
     path('newpost/', NewPostView.as_view(), name='newpost'),
     path('searchAuthor/', SearchUserView.as_view(), name='search_user'),
     path('author/<uuid:id>/friends/', friends_list_view, name='friend'),
-    path('author/<uuid:id>/followers/', followers_list_view, name='follower'),
-    path('author/<uuid:id>/followers/<foreign_id>', follower_view.as_view(), name='foreign_follower'),
+    path('author/<uuid:id>/followers/', followers_list_view.as_view(), name='follower'),
+    # path('author/<uuid:id>/followers/<foreign_id>', follower_view.as_view(), name='foreign_follower'),
     path('author/<uuid:id>/follows/', follows_list_view, name='follow'),
     path('author/<uuid:author_id>/posts/<post_id>/', SpecificPostView.as_view(), name='specific_post'),
     path('author/<uuid:author_id>/posts/<post_id>/edit/', EditPostView.as_view(), name='edit_post'),
@@ -72,6 +72,7 @@ urlpatterns = [
     path('api/author/<uuid:id>/follows/', APIFollowsByIdView.as_view(), name="api_follows_by_id"),
     path('api/author/<uuid:id>/followers/', APIFollowersByIdView.as_view(), name="api_followers_by_id"),
     path('api/author/<uuid:id>/friends/', APIFriendsByIdView.as_view(), name="api_friends_by_id"),
+    path('api/author/<uuid:id>/followers/<uuid:foreign_id>', API_follower_view.as_view(), name="api_followers_check"),
     path('api/author/<uuid:id>/posts/', APIAuthorPostsView.as_view(), name="api_posts_by_authorId"),
     path('api/author/<uuid:authorId>/posts/<postId>/', APIPostByIdView.as_view(), name="api_post_by_postId"),
 

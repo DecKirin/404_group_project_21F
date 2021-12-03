@@ -67,21 +67,21 @@ URL: ://service/author/{AUTHOR_ID}/followers
 GET: get a list of authors who are their followers
 '''
 
-
-def followers_list_view(request, id, *args, **kwargs):
-    context = {}
-    user = request.user
-    view_user = User.objects.get(id=id)
-    follower, create = Follower.objects.get_or_create(user=view_user)  # class friend
-    if create:
-        context['friends'] = ['Does not have follow yet']
-    else:
-        friend_list = follower.followers  #
-        context['friends'] = friend_list
-    context['delete'] = 'Un-follow'
-    context['type'] = 'Follower'
-    context['current_host'] = request.META['HTTP_HOST']
-    return render(request, 'all_friends_list.html', context=context)
+class followers_list_view(APIView):
+    def get(self, request, id):
+        context = {}
+        user = request.user
+        view_user = User.objects.get(id=id)
+        follower, create = Follower.objects.get_or_create(user=view_user)  # class friend
+        if create:
+            context['friends'] = ['Does not have follow yet']
+        else:
+            friend_list = follower.followers  #
+            context['friends'] = friend_list
+        context['delete'] = 'Un-follow'
+        context['type'] = 'Follower'
+        context['current_host'] = request.META['HTTP_HOST']
+        return render(request, 'all_friends_list.html', context=context)
 
 
 def follows_list_view(request, id, *args, **kwargs):
@@ -141,44 +141,6 @@ def my_list(request, relationship):
         context['delete'] = 'Un-befriend'
         context['type'] = 'Friend'
     return render(request, 'my_friends_list.html', context=context)
-
-
-'''
-URL: ://service/author/{AUTHOR_ID}/followers/{FOREIGN_AUTHOR_ID}
-DELETE: remove a follower
-PUT: Add a follower (must be authenticated)
-GET check if follower
-'''
-
-
-class follower_view(View):
-    def get(self, request, id, foreign_id):
-        context = {}
-        cur_user = User.objects.get(id=id)
-        view_user = User.objects.get(id=foreign_id)
-        follower, create = Follower.objects.get_or_create(user=cur_user)
-        # check if foreign key is follower of author_id
-        exists = False
-        if not create:
-            if view_user in follower.followers:
-                exists = True
-                context['author'] = UserSerializer(cur_user).data
-                context['follower'] = UserSerializer(view_user).data
-        context['exists'] = exists
-        return render(request, 'follower.html', context=context)
-
-    def put(self, request, id, foreign_id):
-        cur_user = User.objects.get(id=id)
-        view_user = User.objects.get(id=foreign_id)
-        follower, create = Follower.objects.get_or_create(user=cur_user)
-        if cur_user.is_authenticated:
-            follower.add_follower(UserSerializer(view_user).data)
-
-    def delete(self, request, id, foreign_id):
-        cur_user = User.objects.get(id=id)
-        view_user = User.objects.get(id=foreign_id)
-        follower, create = Follower.objects.get_or_create(user=cur_user)
-        follower.delete_follower(UserSerializer(view_user).data)
 
 
 # todo: add user to tobefriend's follower
@@ -412,3 +374,51 @@ class APIFollowsByIdView(APIView):
         response.data = serializer.data
 
         return response
+
+
+'''
+URL: ://service/author/{AUTHOR_ID}/followers/{FOREIGN_AUTHOR_ID}
+DELETE: remove a follower
+PUT: Add a follower (must be authenticated)
+GET check if follower
+'''
+
+
+class API_follower_view(APIView):
+    def get(self, request, id, foreign_id):
+        context = {}
+        cur_user = User.objects.get(id=id)
+        view_user = User.objects.get(id=foreign_id)
+        follower, create = Follower.objects.get_or_create(user=cur_user)
+        # check if foreign key is follower of author_id
+        exists = False
+        if not create:
+            if UserSerializer(view_user).data in follower.followers:
+                exists = True
+                context['author'] = UserSerializer(cur_user).data
+                context['follower'] = UserSerializer(view_user).data
+        context['exists'] = exists
+        response = Response()
+        response.status_code = 200
+        check_info = {
+            'status': exists,
+            'author': cur_user.username,
+            'follower': view_user.username
+        }
+        response.data = json.dumps(check_info)
+        return response
+        # return render(request, 'follower.html', context=context)
+
+    def put(self, request, id, foreign_id):
+        cur_user = User.objects.get(id=id)
+        view_user = User.objects.get(id=foreign_id)
+        follower, create = Follower.objects.get_or_create(user=cur_user)
+        if cur_user.is_authenticated:
+            follower.add_follower(UserSerializer(view_user).data)
+        return response(follower)
+
+    def delete(self, request, id, foreign_id):
+        cur_user = User.objects.get(id=id)
+        view_user = User.objects.get(id=foreign_id)
+        follower, create = Follower.objects.get_or_create(user=cur_user)
+        follower.delete_follower(UserSerializer(view_user).data)
