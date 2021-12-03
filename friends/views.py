@@ -341,11 +341,14 @@ class APIFriendsByIdView(APIView):
 
 
 class APIFollowersByIdView(APIView):
+
     def get(self, request, id):
         # alternative approach, just use username
 
-        view_user = User.objects.get(id=id)
-
+        try:
+            view_user = User.objects.get(id=id)
+        except User.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
         #page = int(request.GET.get("page", 1))
         #per_page = int(request.GET.get("size", 10))
 
@@ -386,24 +389,34 @@ GET check if follower
 
 class API_follower_view(APIView):
     def get(self, request, id, foreign_id):
+        try:
+            cur_user = User.objects.get(id=id)
+        except User.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
         context = {}
-        cur_user = User.objects.get(id=id)
-        view_user = User.objects.get(id=foreign_id)
+
         follower, create = Follower.objects.get_or_create(user=cur_user)
         # check if foreign key is follower of author_id
         exists = False
+        view_user = None
         if not create:
-            if UserSerializer(view_user).data in follower.followers:
-                exists = True
-                context['author'] = UserSerializer(cur_user).data
-                context['follower'] = UserSerializer(view_user).data
+            # logging.basicConfig(filename='another.log', level=logging.DEBUG)
+            # logging.debug(foreign_id)
+            for f in follower.followers:
+                logging.debug(f['uuid'])
+                if str(foreign_id) == str(f['uuid']):
+                    exists = True
+                    context['author'] = UserSerializer(cur_user).data
+                    context['follower'] = f
+                    view_user = f
+                    break
         context['exists'] = exists
         response = Response()
         response.status_code = 200
         check_info = {
             'status': exists,
-            'author': cur_user.username,
-            'follower': view_user.username
+            'author': cur_user.username
+            # 'follower': view_user['displayName']
         }
         response.data = json.dumps(check_info)
         return response
