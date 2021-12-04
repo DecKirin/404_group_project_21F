@@ -47,14 +47,39 @@
             <input type="text" id="select_user" name="select_user" maxlength="1000" size="40">
         </div>
         
+        {% csrf_token %}
         <div>
-            <label for="file">Choose image to upload</label>
-            <input type="file" name="image">
+            <input type="file" name="img" id="img"> <input onclick="upload_img()" type="button" value="Submit Image">
         </div>
+
         <div>
             <button>Submit</button>
         </div>
     </form>
+    <script type="text/javascript">
+        function upload_img() {
+            let formData = new FormData($("#img-form")[0]);
+            $.ajax({
+                url: "/newpost/",
+                type: 'POST',
+                data: formData,
+                dataType: "JSON",
+                contentType: false,
+                processData: false,
+                cache: false,
+                success: function (data) {
+                    if (data === 1) {
+                        alert("success");
+                    }else if (data === 0) {
+                        alert("fail");
+                    }
+                },
+                error: function (data) {
+                    console.log(data);
+                }
+            });
+        }
+    </script>
 
 
 </body>
