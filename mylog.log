@@ -2134,3 +2134,5 @@ Traceback (most recent call last):
 django.db.utils.IntegrityError: NOT NULL constraint failed: sys_user_info.email
 INFO:django.utils.autoreload:C:\Users\lxd19\OneDrive\Documents\GitHub\404_group_project_21F\Author\views.py changed, reloading.
 DEBUG:asyncio:Using proactor: IocpProactor
+DEBUG:root:[]
+DEBUG:root:[]
