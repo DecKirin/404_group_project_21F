@@ -613,7 +613,7 @@ class InterFRInboxView(View):
         page_object = paginator.page(page)
 
         context = {
-            'curr_user': curr_user,
+            'current_author': curr_user,
             'page_object': page_object,
             'page_range': paginator.page_range,
         }
