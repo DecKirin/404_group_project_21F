@@ -25,7 +25,6 @@
                             <h3><a href="{% url "Author:remote_specific_post" %}?post_url={{ post.url }}">{{ post.title }}</a></h3>
                             {% else %}
                             <h3><a href="{% url "Author:remote_specific_post" %}?post_url={{ post.id }}">{{ post.title }}</a></h3>
-
                             {% endif %}
                       {% endif %}
                   </div><!-- /.card-header -->
@@ -53,6 +52,11 @@
                             {% else %}
                             <span class="description"> Remote</span>
                             {% endif %}
+                              {% if post.image%}
+                                        <div class="card-img-bottom">
+                                         <img src="{{ post.image }}" class="img-responsive" style="width: auto; lenth: auto; float: right; margin-right: auto;" />
+                                        </div>
+                                {% endif %}
                           </div>
                           <!-- /.user-block -->
                           <p>
