@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User, AbstractUser
 from friends.models import FriendRequest
 import uuid
+import base64
 from django.utils import timezone
 
 # for slug and unique id
@@ -22,7 +23,7 @@ class User(AbstractUser):
     # id = models.UUIDField(primary_key=True, default=uuid.uuid4())
     # id = models.AutoField(primary_key=True)
     username = models.CharField(max_length=20, unique=True)
-    profile_image = models.URLField(blank=True)
+    profile_image = models.TextField()
     email = models.CharField(max_length=20, unique=True)
     # url path of user profile images
     is_active = models.BooleanField(default=True)
@@ -35,6 +36,7 @@ class User(AbstractUser):
     url = models.URLField(editable=False)
     host = models.URLField(editable=False)
     api_url = models.URLField(editable=False)
+
 
     class Meta:
         db_table = 'sys_user_info'
@@ -79,8 +81,9 @@ class Post(models.Model):
     updated = models.DateTimeField(auto_now_add=True)
     visibility = models.SmallIntegerField(default=1, choices=visibility_choices)
     unlisted = models.BooleanField(default=False)
-    image = models.ImageField(upload_to='post_image')
+    #image_file = models.ImageField(upload_to='post_image')
     select_user = models.CharField(max_length=20, blank=True)
+    image = models.TextField()
 
     class Meta:
         ordering = ('published',)
