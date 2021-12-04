@@ -46,12 +46,17 @@
                         processData: false,
                         cache: false,
                         success: function (data) {
+                                                window.location.href = '/editProfile/'
+
+                            },
+                            /*
                             if (data === 1) {
                                 alert("success");
                             }else if (data === 0) {
                                 alert("fail");
                             }
                         },
+                        */
                         error: function (data) {
                             console.log(data);
                         }

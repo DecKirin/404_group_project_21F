@@ -60,9 +60,11 @@ def make_api_get_request(api_url):
 def make_api_get_request(api_url):
     request = requests.get(api_url, auth=HTTPBasicAuth("team11", "secret11"), verify=True)
     if request.status_code in [403, 401]:
-        #request = requests.get(api_url, proxies=proxies, auth=HTTPBasicAuth("7c70c1c8-04fe-46e0-ae71-8969061adac0", "123456"), verify=True)
-        request = requests.get(api_url, auth=HTTPBasicAuth("7c70c1c8-04fe-46e0-ae71-8969061adac0", "123456"), verify=True)
+        # request = requests.get(api_url, proxies=proxies, auth=HTTPBasicAuth("7c70c1c8-04fe-46e0-ae71-8969061adac0", "123456"), verify=True)
+        request = requests.get(api_url, auth=HTTPBasicAuth("7c70c1c8-04fe-46e0-ae71-8969061adac0", "123456"),
+                               verify=True)
     return request
+
 
 # check if validation by admin is required to activate an author account
 def check_if_confirmation_required():
@@ -82,7 +84,7 @@ def get_remote_nodes():
     nodes = Node.objects.all()
     all_host = [node.host for node in nodes]
     print(all_host)
-    #to test with team17
+    # to test with team17
     all_host = ["https://social-distribution-fall2021.herokuapp.com",
                 "https://cmput404f21t17.herokuapp.com",
                 "https://cmput404-team13-socialapp.herokuapp.com"]
@@ -97,7 +99,7 @@ def get_remote_authors():
         api_uri = host + '/api' + '/authors/'
         if host == "https://cmput404f21t17.herokuapp.com":
             api_uri = host + '/service/authors/'
-        print("api_uri:",api_uri)
+        print("api_uri:", api_uri)
         ####todo:authentication information
         ####request = requests.get(api_uri, auth=HTTPBasicAuth(auth_user, auth_pass))
 
@@ -132,6 +134,7 @@ def get_remote_public_posts():
             posts += posts_in_host
     return posts
 
+
 def get_all_remote_public_posts_through_remote_authors():
     remote_authors = get_remote_authors()
     all_remote_posts = []
@@ -145,7 +148,7 @@ def get_all_remote_public_posts_through_remote_authors():
         print(post_url)
         request = make_api_get_request(post_url)
         print("request.data:", request)
-        if request.status_code==200:
+        if request.status_code == 200:
             try:
                 posts = request.json()["items"]
             except Exception:
@@ -155,7 +158,6 @@ def get_all_remote_public_posts_through_remote_authors():
         all_remote_posts += posts
     print(all_remote_posts)
     return all_remote_posts
-
 
 
 class baseView(View):
@@ -495,6 +497,7 @@ GET: visit edit profile page(need login)
 POST: change profile by send post data of editable fields
 '''
 
+
 class UserEditInfoView(LoginRequiredMixin, View):
     def get(self, request):
         # current logged in user
@@ -518,6 +521,7 @@ class UserEditInfoView(LoginRequiredMixin, View):
         current_user = request.user
         image = request.FILES.get('img')
         if image:
+            print("image:", image)
             name, fileformat = image.name.split('.')
 
             image64 = base64.b64encode(image.read())
@@ -525,70 +529,59 @@ class UserEditInfoView(LoginRequiredMixin, View):
             image64 = 'data:image/%s;base64,%s' % (fileformat, image64.decode('utf-8'))
 
             User.objects.filter(username=current_user.username).update(profile_image=image64)
-
-        try:
+            error_msg_dic["code"] = "200"
+            error_msg_dic["msg"] = "Successfully update profile image"
+            json_data.append(error_msg_dic)
+            return HttpResponse(json.dumps(json_data))
+        else:
             username = request.POST.get('username')
             # username = request.POST['username']
             first_name = request.POST.get('firstname')
             last_name = request.POST.get('lastname')
             email = request.POST.get('email')
             github = request.POST.get('github')
-            User.objects.filter(username=current_user.username).update(email=email,
-                                                                       first_name=first_name, last_name=last_name,
-                                                                       github=github)
 
-        except:
-            print("profile needs to be done")
+            print("receive edit profile information")
 
-        print("receive edit profile information")
+            if not all([username, first_name, last_name, email, github]):
+                error_msg_dic["code"] = "400"
+                error_msg_dic["msg"] = "data missing"
+                json_data.append(error_msg_dic)
+                return HttpResponse(json.dumps(json_data))
 
+            print(username)
+            print(first_name)
+            print(last_name)
+            print(github)
+            print(email)
+            old_username = current_user.username
 
-        if not all([username, first_name, last_name, email, github]):
-            error_msg_dic["code"] = "400"
-            error_msg_dic["msg"] = "data missing"
-            json_data.append(error_msg_dic)
-            return HttpResponse(json.dumps(json_data))
+            try:
+                exist_user = User.objects.get(username=username)
+            except User.DoesNotExist:
+                # new username is unique
+                exist_user = None
 
-        print(username)
-        print(first_name)
-        print(last_name)
-        print(github)
-        print(email)
-        old_username = current_user.username
+            if exist_user is None or exist_user.id == current_user.id:
+                update_user = User.objects.get(id=current_user.id)
+                # update_user.username = username
+                update_user.email = email
+                update_user.first_name = first_name
+                update_user.last_name = last_name
+                update_user.github = github
+                # update_user.update(username=username, email=email, first_name=first_name,last_name=last_name, github=github)
+                update_user.save()
+                error_msg_dic["code"] = "200"
+                error_msg_dic["msg"] = "Successfully update"
+                json_data.append(error_msg_dic)
 
-        try:
-            exist_user = User.objects.get(username=username)
-        except User.DoesNotExist:
-            # new username is unique
-            exist_user = None
-
-
-        if exist_user is None or exist_user.id == current_user.id:
-            update_user = User.objects.get(id=current_user.id)
-            #update_user.username = username
-            update_user.email = email
-            update_user.first_name=first_name
-            update_user.last_name=last_name
-            update_user.github=github
-            #update_user.update(username=username, email=email, first_name=first_name,last_name=last_name, github=github)
-            update_user.save()
-            error_msg_dic["code"] = "200"
-            error_msg_dic["msg"] = "Successfully update"
-            json_data.append(error_msg_dic)
-
-        else :
-            error_msg_dic["code"] = "403"
-            error_msg_dic["msg"] = "Cannot update cause the username is already taken"
-            json_data.append(error_msg_dic)
+            else:
+                error_msg_dic["code"] = "403"
+                error_msg_dic["msg"] = "Cannot update cause the username is already taken"
+                json_data.append(error_msg_dic)
 
         return HttpResponse(json.dumps(json_data))
-        '''
-        User.objects.filter(username=current_user.username).update(email=email,
-                                                                   first_name=first_name, last_name=last_name,
-                                                                   github=github)
 
-        return HttpResponseRedirect(reverse("Author:mystream"))
-        '''
 
 # Lagacy inbox
 class InboxView(View):
@@ -846,7 +839,7 @@ class AllPublicPostsView(View):
         page_object = paginator.page(page)
 
         context = {
-            'curr_host' : request.META['HTTP_HOST'],
+            'curr_host': request.META['HTTP_HOST'],
             'page_object': page_object,
             'page_range': paginator.page_range,
             'page_size': per_page,
@@ -1060,7 +1053,6 @@ class APICommentsByPostId(APIView):
         return response
 
     def post(self, request, authorId, postId):
-
         print("author:", authorId)
         data = request.data
         print("data", data)
@@ -1071,8 +1063,10 @@ class APICommentsByPostId(APIView):
         local_post = Post.objects.get(id=postId)
         print("postId", postId)
 
-        comment = PostComment.objects.create(post=local_post, author_comment=author_post, author=author_comment1, comment=comment_content)
-        api_url1 = "http://"+ request.scheme + request.META["HTTP_HOST"] + '/api' + '/author/' + str(authorId) + "/posts/" + str(postId) + "/comments/" + str(comment.id_comment)
+        comment = PostComment.objects.create(post=local_post, author_comment=author_post, author=author_comment1,
+                                             comment=comment_content)
+        api_url1 = "http://" + request.scheme + request.META["HTTP_HOST"] + '/api' + '/author/' + str(
+            authorId) + "/posts/" + str(postId) + "/comments/" + str(comment.id_comment)
         comment.api_url = api_url1
         comment.save()
         local_post.count = local_post.count + 1
@@ -1144,7 +1138,7 @@ class APIInbox(APIView):
             except Exception:
                 remote_author = data["sender"]
 
-            #local_author = data["receiver"]
+            # local_author = data["receiver"]
             try:
                 local_author = data["receiver"]["uuid"]
                 local_author = User.objects.get(id=local_author)
@@ -1158,7 +1152,7 @@ class APIInbox(APIView):
             # add remote author to follower list of local author
             follower, create_follower = Follower.objects.get_or_create(user=local_author)
 
-            #follower.add_follower(UserSerializer(remote_author).data)
+            # follower.add_follower(UserSerializer(remote_author).data)
             follower.add_follower(remote_author)
             response = Response()
             response.data = data
