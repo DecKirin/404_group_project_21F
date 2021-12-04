@@ -25,7 +25,7 @@ import base64
 from PIL import Image
 from io import BytesIO
 
-
+'''
 # use this one if you need to connect with vpn
 def make_api_post_request(api_url, json_object):
     proxies = {
@@ -33,6 +33,8 @@ def make_api_post_request(api_url, json_object):
         "https": "http://127.0.0.1:7890"
     }
     request = requests.post(api_url, data=json_object, auth=HTTPBasicAuth("team11", "secret11"), proxies=proxies)
+    if request.status_code in [403, 401]:
+        request = requests.get(api_url, data=json_object, proxies=proxies, auth=HTTPBasicAuth("7c70c1c8-04fe-46e0-ae71-8969061adac0", "123456"), verify=True)
     return request
 '''
 
@@ -41,8 +43,11 @@ def make_api_post_request(api_url, json_object):
 
 def make_api_post_request(api_url, json_object):
     request = requests.post(api_url, data=json_object, auth=HTTPBasicAuth("team11", "secret11"))
+    if request.status_code in [403, 401]:
+        request = requests.get(api_url, data=json_object, auth=HTTPBasicAuth("7c70c1c8-04fe-46e0-ae71-8969061adac0", "123456"), verify=True)
+
     return request
-'''
+
 
 # return relative path
 def get_path(old_path):
