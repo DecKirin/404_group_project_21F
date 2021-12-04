@@ -1,7 +1,8 @@
 import re
 import json
+import base64
 import uuid
-
+from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.sites import requests
@@ -496,7 +497,6 @@ GET: visit edit profile page(need login)
 POST: change profile by send post data of editable fields
 '''
 
-
 class UserEditInfoView(LoginRequiredMixin, View):
     def get(self, request):
         # current logged in user
@@ -518,12 +518,29 @@ class UserEditInfoView(LoginRequiredMixin, View):
             "code": ""
         }
         current_user = request.user
-        username = request.POST.get('username')
-        # username = request.POST['username']
-        first_name = request.POST.get('firstname')
-        last_name = request.POST.get('lastname')
-        email = request.POST.get('email')
-        github = request.POST.get('github')
+        image = request.FILES.get('img')
+        if image:
+            name, fileformat = image.name.split('.')
+
+            image64 = base64.b64encode(image.read())
+
+            image64 = 'data:image/%s;base64,%s' % (fileformat, image64.decode('utf-8'))
+
+            User.objects.filter(username=current_user.username).update(profile_image=image64)
+
+        try:
+            username = request.POST.get('username')
+            # username = request.POST['username']
+            first_name = request.POST.get('firstname')
+            last_name = request.POST.get('lastname')
+            email = request.POST.get('email')
+            github = request.POST.get('github')
+            User.objects.filter(username=current_user.username).update(email=email,
+                                                                       first_name=first_name, last_name=last_name,
+                                                                       github=github)
+
+        except:
+            print("profile needs to be done")
 
         print("receive edit profile information")
 
@@ -571,7 +588,7 @@ class UserEditInfoView(LoginRequiredMixin, View):
         User.objects.filter(username=current_user.username).update(email=email,
                                                                    first_name=first_name, last_name=last_name,
                                                                    github=github)
-                                                            
+
         return HttpResponseRedirect(reverse("Author:mystream"))
         '''
 
@@ -622,7 +639,7 @@ class InterFRInboxView(View):
         page_object = paginator.page(page)
 
         context = {
-            'curr_user': curr_user,
+            'current_author': curr_user,
             'page_object': page_object,
             'page_range': paginator.page_range,
         }

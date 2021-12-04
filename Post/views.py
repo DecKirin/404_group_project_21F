@@ -21,6 +21,9 @@ from django.urls import reverse
 from django.http import HttpResponse
 from Post.models import PostLike, PostComment
 from Author.views import make_api_get_request
+import base64
+from PIL import Image
+from io import BytesIO
 
 
 # use this one if you need to connect with vpn
@@ -89,14 +92,27 @@ class NewPostView(View):
                 return HttpResponse("Failed: No such user.")
 
         try:
-            image = request.FILES['image']
+            image = request.FILES['img']
         except Exception:
             image = None
+
+        name, fileformat = image.name.split('.')
+
+        image64 = base64.b64encode(image.read())
+
+        image64 = 'data:image/%s;base64,%s' % (fileformat, image64.decode('utf-8'))
+        print(image64)
 
         post = Post.objects.create(title=title, id=post_id, source=source, origin=origin, description=description,
                                    contentType=content_type, content=content, author=request.user,
                                    categories=categories,
-                                   visibility=visibility, unlisted=unlisted, select_user=select_user, image=image)
+                                   visibility=visibility, unlisted=unlisted, select_user=select_user, image=image64)
+        # image_url = post.image.url
+        # print(image_url)
+        #
+        # with open(image_url, "rb") as image_file:
+        #     data = base64.b64encode(image_file.read())
+
 
         if post.author.url != "":
             post.url = post.author.url + "posts/" + post.id + "/"

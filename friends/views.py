@@ -17,6 +17,7 @@ from Author.models import User, Inbox
 from django.views import View
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from rest_framework import status
 from django.core.paginator import Paginator
 import logging
 
@@ -67,21 +68,21 @@ URL: ://service/author/{AUTHOR_ID}/followers
 GET: get a list of authors who are their followers
 '''
 
-
-def followers_list_view(request, id, *args, **kwargs):
-    context = {}
-    user = request.user
-    view_user = User.objects.get(id=id)
-    follower, create = Follower.objects.get_or_create(user=view_user)  # class friend
-    if create:
-        context['friends'] = ['Does not have follow yet']
-    else:
-        friend_list = follower.followers  #
-        context['friends'] = friend_list
-    context['delete'] = 'Un-follow'
-    context['type'] = 'Follower'
-    context['current_host'] = request.META['HTTP_HOST']
-    return render(request, 'all_friends_list.html', context=context)
+class followers_list_view(APIView):
+    def get(self, request, id):
+        context = {}
+        user = request.user
+        view_user = User.objects.get(id=id)
+        follower, create = Follower.objects.get_or_create(user=view_user)  # class friend
+        if create:
+            context['friends'] = ['Does not have follow yet']
+        else:
+            friend_list = follower.followers  #
+            context['friends'] = friend_list
+        context['delete'] = 'Un-follow'
+        context['type'] = 'Follower'
+        context['current_host'] = request.META['HTTP_HOST']
+        return render(request, 'all_friends_list.html', context=context)
 
 
 def follows_list_view(request, id, *args, **kwargs):
@@ -141,44 +142,6 @@ def my_list(request, relationship):
         context['delete'] = 'Un-befriend'
         context['type'] = 'Friend'
     return render(request, 'my_friends_list.html', context=context)
-
-
-'''
-URL: ://service/author/{AUTHOR_ID}/followers/{FOREIGN_AUTHOR_ID}
-DELETE: remove a follower
-PUT: Add a follower (must be authenticated)
-GET check if follower
-'''
-
-
-class follower_view(View):
-    def get(self, request, id, foreign_id):
-        context = {}
-        cur_user = User.objects.get(id=id)
-        view_user = User.objects.get(id=foreign_id)
-        follower, create = Follower.objects.get_or_create(user=cur_user)
-        # check if foreign key is follower of author_id
-        exists = False
-        if not create:
-            if view_user in follower.followers:
-                exists = True
-                context['author'] = UserSerializer(cur_user).data
-                context['follower'] = UserSerializer(view_user).data
-        context['exists'] = exists
-        return render(request, 'follower.html', context=context)
-
-    def put(self, request, id, foreign_id):
-        cur_user = User.objects.get(id=id)
-        view_user = User.objects.get(id=foreign_id)
-        follower, create = Follower.objects.get_or_create(user=cur_user)
-        if cur_user.is_authenticated:
-            follower.add_follower(UserSerializer(view_user).data)
-
-    def delete(self, request, id, foreign_id):
-        cur_user = User.objects.get(id=id)
-        view_user = User.objects.get(id=foreign_id)
-        follower, create = Follower.objects.get_or_create(user=cur_user)
-        follower.delete_follower(UserSerializer(view_user).data)
 
 
 # todo: add user to tobefriend's follower
@@ -244,24 +207,32 @@ class remote_sent_request(APIView):
         authorAPIUrl = urllib.parse.unquote(authorAPIUrl)
         author_request = make_api_get_request(authorAPIUrl)
         to_befriend = author_request.json()
-        logging.basicConfig(filename='requestlog.log', level=logging.DEBUG)
-        logging.debug(to_befriend)
 
         inbox_info = dict()
         inbox_info["type"] = "Follow"
-        logging.basicConfig(filename='requestlog.log', level=logging.DEBUG)
+        logging.basicConfig(filename='another.log', level=logging.DEBUG)
         logging.debug(to_befriend)
         inbox_info["summary"] = "%s wants to follow %s" % (user.username, to_befriend['displayName'])
-        inbox_info["actor"] = UserSerializer(user).data
+        # inbox_info["actor"] = UserSerializer(user).data
+        author_json = {'type': 'author'}
+        author_json['id'] = UserSerializer(user).data['uuid']
+        author_json['displayName'] = UserSerializer(user).data['displayName']
+        author_json['url'] = UserSerializer(user).data['id']
+        author_json['host'] = UserSerializer(user).data['host']
+        author_json['github'] = UserSerializer(user).data['github']
+        author_json['avatar'] = None
+        inbox_info["actor"] = author_json
         inbox_info["object"] = to_befriend
-        inbox_info["send_at"] = datetime.now
+        # inbox_info["send_at"] = datetime.now
         follow, create_follow = Follow.objects.get_or_create(user=user)
         follow.add_follow(to_befriend)
+        logging.basicConfig(filename='requestlog.log', level=logging.DEBUG)
+        logging.debug(inbox_info)
 
         inbox_url = authorAPIUrl + "/inbox"
         logging.debug(inbox_url)
-        logging.debug(inbox_info)
-        request = make_api_post_request(inbox_url, inbox_info)
+        logging.debug(json.dumps(inbox_info))
+        request = make_api_post_request(inbox_url, json.dumps(inbox_info))
 
         print("inbox post request:!!!!!", request)
         #
@@ -371,11 +342,14 @@ class APIFriendsByIdView(APIView):
 
 
 class APIFollowersByIdView(APIView):
+
     def get(self, request, id):
         # alternative approach, just use username
 
-        view_user = User.objects.get(id=id)
-
+        try:
+            view_user = User.objects.get(id=id)
+        except User.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
         #page = int(request.GET.get("page", 1))
         #per_page = int(request.GET.get("size", 10))
 
@@ -404,3 +378,61 @@ class APIFollowsByIdView(APIView):
         response.data = serializer.data
 
         return response
+
+
+'''
+URL: ://service/author/{AUTHOR_ID}/followers/{FOREIGN_AUTHOR_ID}
+DELETE: remove a follower
+PUT: Add a follower (must be authenticated)
+GET check if follower
+'''
+
+
+class API_follower_view(APIView):
+    def get(self, request, id, foreign_id):
+        try:
+            cur_user = User.objects.get(id=id)
+        except User.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        context = {}
+
+        follower, create = Follower.objects.get_or_create(user=cur_user)
+        # check if foreign key is follower of author_id
+        exists = False
+        view_user = None
+        if not create:
+            # logging.basicConfig(filename='another.log', level=logging.DEBUG)
+            # logging.debug(foreign_id)
+            for f in follower.followers:
+                logging.debug(f['uuid'])
+                if str(foreign_id) == str(f['uuid']):
+                    exists = True
+                    context['author'] = UserSerializer(cur_user).data
+                    context['follower'] = f
+                    view_user = f
+                    break
+        context['exists'] = exists
+        response = Response()
+        response.status_code = 200
+        check_info = {
+            'status': exists,
+            'author': cur_user.username
+            # 'follower': view_user['displayName']
+        }
+        response.data = json.dumps(check_info)
+        return response
+        # return render(request, 'follower.html', context=context)
+
+    def put(self, request, id, foreign_id):
+        cur_user = User.objects.get(id=id)
+        view_user = User.objects.get(id=foreign_id)
+        follower, create = Follower.objects.get_or_create(user=cur_user)
+        if cur_user.is_authenticated:
+            follower.add_follower(UserSerializer(view_user).data)
+        return response(follower)
+
+    def delete(self, request, id, foreign_id):
+        cur_user = User.objects.get(id=id)
+        view_user = User.objects.get(id=foreign_id)
+        follower, create = Follower.objects.get_or_create(user=cur_user)
+        follower.delete_follower(UserSerializer(view_user).data)

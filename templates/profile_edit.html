@@ -16,24 +16,49 @@
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form method="Post" action="{% url 'Author:edit_profile' %}">
+              <form id="profile_image" method="Post" action="{% url 'Author:edit_profile' %}">
+              {% csrf_token %}
                 <div class="card-body">
                   <div class="form-group">
                     <label for="exampleInputFile">Profile image</label>
                     <div class="input-group">
                       <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="Profile image upload">
+                        <input type="file" class="custom-file-input" id="img" name="img">
                         <label class="custom-file-label" for="exampleInputFile">Choose file</label>
                       </div>
                     </div>
                   </div>
                 </div>
                 <!-- /.card-body -->
-
                 <div class="card-footer">
-                  <button type="submit" class="btn btn-primary">Submit</button>
+                  <button onclick="upload_img()" class="btn btn-primary">Submit</button>
                 </div>
               </form>
+                <script type="text/javascript">
+                function upload_img() {
+                    let formData = new FormData($("#profile_image")[0]);
+                    $.ajax({
+                        url: "/editProfile/",
+                        type: 'POST',
+                        data: formData,
+                        dataType: "JSON",
+                        contentType: false,
+                        processData: false,
+                        cache: false,
+                        success: function (data) {
+                            if (data === 1) {
+                                alert("success");
+                            }else if (data === 0) {
+                                alert("fail");
+                            }
+                        },
+                        error: function (data) {
+                            console.log(data);
+                        }
+                    });
+                }
+            </script>
+
             </div>
             <!-- /.card -->
           </div>
@@ -81,6 +106,7 @@
                     <p id="profile_info_editor" style="color:red;"></p>
                 </div>
               <!--/form-->
+              </form>
             </div>
             <!-- /.card -->
           </div>
