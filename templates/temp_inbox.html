@@ -37,7 +37,7 @@
                               <a href="{% url 'Author:process_request' request.request_id %}" class="btn btn-sm bg-teal">
                                   <i class="fas fa-comments"></i> Process
                               </a>
-                              {% if request.sender.host == curr_user.host %}
+                              {% if request.sender.host == current_author.host %}
                                   {% if request.sender.uuid %}
                                     <a href="{% url 'Author:profile' request.sender.uuid %}" class="btn btn-sm btn-primary">
                                     {% else %}

@@ -2136,3 +2136,5 @@ INFO:django.utils.autoreload:C:\Users\lxd19\OneDrive\Documents\GitHub\404_group_
 DEBUG:asyncio:Using proactor: IocpProactor
 DEBUG:root:[]
 DEBUG:root:[]
+INFO:django.utils.autoreload:C:\Users\lxd19\OneDrive\Documents\GitHub\404_group_project_21F\Author\views.py changed, reloading.
+DEBUG:asyncio:Using proactor: IocpProactor
