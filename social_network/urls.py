@@ -19,11 +19,20 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.conf.urls import url
 from django.views.static import serve
+
+from Author.views import APIAllProfileView, APIAllPosts
+
 from . import settings
 
+from rest_framework import routers
+#router = routers.DefaultRouter()
+#router.register(r'authors', APIAllProfileView)
+#router.register(r'posts', APIAllPosts)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include("Author.urls", "Author"), name="Author"),
     url(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
+    #path('realapi/', include(router.urls)),
+
 ]

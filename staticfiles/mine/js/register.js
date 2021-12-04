@@ -11,17 +11,23 @@ $("#btnregister").on("click", function () {
             title: 'Please agree user term.'
         });
     } else {
+        var uname = $("#user_name").val();
+        var fname = $("#user_fname").val();
+        var lname = $("#user_lname").val();
         var pwd1 = $("#pwd").val();
         var pwd2 = $("#pwd2").val();
         var email = $("#email").val()
         var myreg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
-        var myregUname = /^[a-z0-9]+$/i;
+        var myregUname = /^[a-zA-Z0-9_-]+$/;
+        var myregName = /^[a-zA-Z0-9]+$/;
+        /*
         if (pwd1 != pwd2) {
             Toast.fire({
                 icon: 'info',
                 title: 'The two passwords do not match.'
             });
         }
+
         else if (pwd1.length<6) {
             Toast.fire({
                 icon: 'info',
@@ -33,7 +39,28 @@ $("#btnregister").on("click", function () {
                 icon: 'info',
                 title: 'The email format is not valid!'
             });
-        } else {
+        }
+        else if (!myregUname.test(uname)) {
+            Toast.fire({
+                icon: 'info',
+                title: 'The username(displayname) can only be alphanumerical'
+            });
+        }
+        else if (!myregName.test(fname) || !myregName.test(lname)){
+            Toast.fire({
+                icon: 'info',
+                title: 'The Name Area can only be alphabetical(A-Z a-z)'
+            });
+        }
+        */
+
+        if (!myregUname.test(uname)){
+            Toast.fire({
+                icon: 'info',
+                title: 'The username(displayname) can only be alphanumerical'
+            });
+        }
+        else{
             var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
             $.ajax({
                 url: "/author/register/",
@@ -44,7 +71,8 @@ $("#btnregister").on("click", function () {
                     pwd: $("#pwd").val(),
                     email: $("#email").val(),
                     user_fname:$("#user_fname").val(),
-                    user_lname:$("#user_lname").val()
+                    user_lname:$("#user_lname").val(),
+                    github:$("#github").val()
                 },
                 success: function (da) {
                     var data = eval(da)

@@ -8,7 +8,7 @@
 
       <!-- Default box -->
         <div class="card-header">
-            <h2> Here are result authors of your search:</h2>
+            <h2 style="text-align: center"> Here are result authors of your search:</h2>
         </div>
 
         <div class="card-body p-0">
@@ -20,20 +20,20 @@
               {% for author in page_object.object_list %}
                   <tr>
                     <div class="card bg-light d-flex flex-fill">
-                      <div class="card-header text-muted border-bottom-0">
-                          Author
-                      </div>
+
                       <div class="card-body pt-0">
                           <div class="row">
                               {% if author.profile_image %}
                                     <img src="{{ author.profile_image }}" alt="user-avatar" class="img-circle img-fluid">
                               {% elif author.profileImage %}
-                                    <img src="{{ author.profileImage }}" alt="user-avatar" class="img-circle img-fluid">
+                                    <img src="{{ author.profileImage }}" alt="user-avatar" class="img-circle img-fluid" width="128px" height="128px">
                               {% else %}
                                     <img src="{% static 'mine/images/default_avatar.png' %}" alt="user-avatar" class="img-circle img-fluid">
                               {% endif %}
                           <div class="col-7">
+                              <br>
                               <h2 class="lead"><b>{{ author.username }}</b></h2>
+                              <br>
                               <p class="text-muted text-sm"><b>github: </b> {{ author.github }} </p>
                               <ul class="ml-4 mb-0 fa-ul text-muted">
                               </ul>

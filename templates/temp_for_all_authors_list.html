@@ -31,9 +31,9 @@
                               {% if author.profile_image %}
                                     <img src="{{ author.profile_image }}" alt="user-avatar" class="img-circle img-fluid">
                               {% elif author.profileImage %}
-                                    <img src="{{ author.profileImage }}" alt="user-avatar" class="img-circle img-fluid">
+                                    <img src="{{ author.profileImage }}" alt="user-avatar" width="128px" height="128px" class="img-circle img-fluid">
                               {% else %}
-                                    <img src="{% static 'mine/images/default_avatar.png' %}" alt="user-avatar" class="img-circle img-fluid">
+                                    <img src="{% static 'mine/images/default_avatar.png' %}" alt="user-avatar" class="img-circle img-fluid" >
                               {% endif %}
                           <div class="col-7">
                               {% if author.username %}

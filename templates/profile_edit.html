@@ -48,8 +48,8 @@
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form action="{% url 'Author:edit_profile' %}" method="post" enctype="multipart/form-data">
-                {% csrf_token %}
+              <!--form action="{    !% url 'Author:edit_profile' %}" method="post" enctype="multipart/form-data"-->
+                {%csrf_token %}
                 <div class="card-body">
                   <div class="form-group">
                     <label for="exampleInputEmail1">UserName</label>
@@ -67,6 +67,7 @@
                     <label for="exampleInputEmail1">Email</label>
                     <input type="email" class="form-control" id="email" name="email" value={{ current_author.email }}>
                   </div>
+
                   <div class="form-group">
                     <label for="exampleInputPassword1">Github</label>
                     <input type="text" class="form-control" id="github" name="github" value={{ current_author.github }}>
@@ -76,6 +77,8 @@
 
                 <div class="card-footer">
                   <button type="submit" id="btn_edit_profile" class="btn btn-primary">Submit</button>
+                    <br>
+                    <p id="profile_info_editor" style="color:red;"></p>
                 </div>
               <!--/form-->
             </div>
@@ -92,3 +95,11 @@
 <!-- /.content-wrapper -->
 
 {% endblock Content_Wrapper%}
+
+{% block bottomfiles %}
+
+    <script src="{% static 'adminlte/plugins/sweetalert2/sweetalert2.min.js' %}"></script>
+    <script src="{% static 'mine/js/editProfile.js' %}"></script>
+
+
+{% endblock bottomfiles %}

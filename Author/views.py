@@ -38,7 +38,7 @@ from social_network.settings import SECRET_KEY
 #                       'https://social-distribution-fall2021.herokuapp.com']
 """in case vpn issues, modify based on your own vpn"""
 
-'''
+
 # if proxy is needed, change the proxies according to your proxy setting
 def make_api_get_request(api_url):
     proxies = {
@@ -52,7 +52,7 @@ def make_api_get_request(api_url):
     print("code:", request.status_code)
     if request.status_code in [403, 401]:
         #request = requests.get(api_url, proxies=proxies, auth=HTTPBasicAuth("7c70c1c8-04fe-46e0-ae71-8969061adac0", "123456"), verify=True)
-        request = requests.get(api_url, proxies=proxies, verify=True)
+        request = requests.get(api_url, proxies=proxies, auth=HTTPBasicAuth("7c70c1c8-04fe-46e0-ae71-8969061adac0", "123456"), verify=True)
     return request
 '''
 
@@ -64,7 +64,7 @@ def make_api_get_request(api_url):
         #request = requests.get(api_url, proxies=proxies, auth=HTTPBasicAuth("7c70c1c8-04fe-46e0-ae71-8969061adac0", "123456"), verify=True)
         request = requests.get(api_url, verify=True)
     return request
-
+'''
 # check if validation by admin is required to activate an author account
 def check_if_confirmation_required():
     try:
@@ -84,7 +84,9 @@ def get_remote_nodes():
     all_host = [node.host for node in nodes]
     print(all_host)
     #to test with team17
-    #all_host = ["https://cmput404f21t17.herokuapp.com"]
+    all_host = ["https://social-distribution-fall2021.herokuapp.com",
+                "https://cmput404f21t17.herokuapp.com",
+                "https://cmput404-team13-socialapp.herokuapp.com"]
     return all_host
 
 
@@ -518,12 +520,25 @@ class UserEditInfoView(LoginRequiredMixin, View):
         current_user = request.user
         username = request.POST.get('username')
         # username = request.POST['username']
-        first_name = request.POST.get('first_name')
-        last_name = request.POST.get('last_name')
+        first_name = request.POST.get('firstname')
+        last_name = request.POST.get('lastname')
         email = request.POST.get('email')
         github = request.POST.get('github')
 
-        '''
+        print("receive edit profile information")
+
+
+        if not all([username, first_name, last_name, email, github]):
+            error_msg_dic["code"] = "400"
+            error_msg_dic["msg"] = "data missing"
+            json_data.append(error_msg_dic)
+            return HttpResponse(json.dumps(json_data))
+
+        print(username)
+        print(first_name)
+        print(last_name)
+        print(github)
+        print(email)
         old_username = current_user.username
 
         try:
@@ -534,22 +549,31 @@ class UserEditInfoView(LoginRequiredMixin, View):
 
 
         if exist_user is None or exist_user.id == current_user.id:
-            User.objects.filter(username=current_user.username).update(username=username, email=email, first_name=first_name,last_name=last_name, github=github)
-            messages.success(request, "Your change has been saved!")
-            return HttpResponseRedirect(reverse("Author:index"))
+            update_user = User.objects.get(id=current_user.id)
+            #update_user.username = username
+            update_user.email = email
+            update_user.first_name=first_name
+            update_user.last_name=last_name
+            update_user.github=github
+            #update_user.update(username=username, email=email, first_name=first_name,last_name=last_name, github=github)
+            update_user.save()
+            error_msg_dic["code"] = "200"
+            error_msg_dic["msg"] = "Successfully update"
+            json_data.append(error_msg_dic)
 
         else :
             error_msg_dic["code"] = "403"
             error_msg_dic["msg"] = "Cannot update cause the username is already taken"
             json_data.append(error_msg_dic)
-            messages.error(request, "This username is taken by someone else")
-            return render(request, 'profile_edit.html', context=json_data)
+
+        return HttpResponse(json.dumps(json_data))
         '''
         User.objects.filter(username=current_user.username).update(email=email,
                                                                    first_name=first_name, last_name=last_name,
                                                                    github=github)
+                                                            
         return HttpResponseRedirect(reverse("Author:mystream"))
-
+        '''
 
 # Lagacy inbox
 class InboxView(View):
@@ -1168,6 +1192,7 @@ class Remote_Author_Profile_View(View):
         authorAPIUrl = request.GET.get("url")
         authorAPIUrl = urllib.parse.unquote(authorAPIUrl)
         author_request = make_api_get_request(authorAPIUrl)
+        print("author_request", author_request)
         remote_author = author_request.json()
 
         page = int(request.GET.get("page", 1))
