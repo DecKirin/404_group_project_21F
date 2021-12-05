@@ -20,11 +20,54 @@
                                 <form method="post">
                                     {% csrf_token %}
                                     <textarea name="newcomment" id="newcomment" placeholder="add comments here"></textarea>
-                                    <button type="submit" class="btn" id="newCommentButton" >Comment</button>
+                                    <button onclick="make_comments" class="btn" id="newCommentButton" >Comment</button>
                                 </form>
                                 
                             </div>
-                
+
+                            <script type="text/javascript">
+                                function make_comments() {
+                                var comment1 = $("#newcomment").val();
+                                
+                                if (comment1.length<4 || comment1.length>1000 ){
+                                    Toast.fire({
+                                        target: document.getElementById('comments'),
+                                        icon: 'info',
+                                        title: 'The length of comments not satisfied'
+                                    });
+                                }
+
+                                else{
+                        
+                                    var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+                                    $.ajax({
+                                        url: "/commentpost/",
+                                        type: "POST",
+                                        headers: {'X-CSRFToken': csrftoken},
+                                        data: {
+                                            comment : $("#newcomment").val(),
+                                        },
+                                        success: function (da) {
+                                            var data = eval(da)
+                                            var code = data[0].code
+                                            var msg = data[0].msg
+                                            if (code == "200") {
+                                                Toast.fire({
+                                                    icon: 'success',
+                                                    title: 'Make a comment'
+                                                });
+                                                window.location.href = '//commentpost//'
+                                            } else {
+                                                Toast.fire({
+                                                    icon: 'error',
+                                                    title: msg
+                                                });
+                                            }
+                                        }
+                                    })
+                                }
+                            }
+                            </script>
                             
                         </div>
                         <!-- /.card -->
