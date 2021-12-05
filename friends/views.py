@@ -451,10 +451,12 @@ class API_follower_view(APIView):
                 if not exists:
                     return Response(status=status.HTTP_404_NOT_FOUND)
             finally:
-                follower.add_follower(view_user)
-                response.status_code = 200
-                response.data = json.dumps(follower.followers)
-                return response
+                if view_user is not None:
+                    follower.add_follower(view_user)
+                    response.status_code = 200
+                    response.data = json.dumps(follower.followers)
+                    return response
+                
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     def delete(self, request, id, foreign_id):
