@@ -46,16 +46,67 @@
             <label for="select_user">Enter a username to allow this user see this post</label>
             <input type="text" id="select_user" name="select_user" maxlength="1000" size="40">
         </div>
-        
+
         {% csrf_token %}
         <div>
             <input type="file" name="img" id="img"> <input onclick="upload_img()" type="button" value="Submit Image">
         </div>
 
         <div>
-            <button>Submit</button>
+            <button onclick="make_post">Submit</button>
         </div>
     </form>
+
+    <script type="text/javascript">
+        function make_post() {
+        var title1 = $("#title").val();
+        var content_type1 = $("#content_type").val();
+        var description1 = $("#description").val();
+        var content1 = $("#content").val()
+        var categories1 =$("#categories").val()
+        if (title1.length<4 || title1.length>100 ){
+            Toast.fire({
+                target: document.getElementById('title'),
+                icon: 'info',
+                title: 'The length of title not satisfied'
+            });
+        }
+        
+
+        var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+        $.ajax({
+            url: "/newpost/",
+            type: "POST",
+            headers: {'X-CSRFToken': csrftoken},
+            data: {
+                title: $("#title").val(),
+                content_type: $("#content_type").val(),
+                description: $("#description").val(),
+                content:$("#content").val(),
+                categories:$("#categories").val()
+            },
+            success: function (da) {
+                var data = eval(da)
+                var code = data[0].code
+                var msg = data[0].msg
+                if (code == "200") {
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Make a new post'
+                    });
+                    window.location.href = '/newpost/'
+                } else {
+                    Toast.fire({
+                        icon: 'error',
+                        title: msg
+                    });
+                }
+            }
+        })
+    }
+    </script>
+    
+    
     <script type="text/javascript">
         function upload_img() {
             let formData = new FormData($("#img-form")[0]);
