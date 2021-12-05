@@ -308,10 +308,10 @@ class process_friend_request(View):
         context['request_tobe'] = to_befriend['displayName']
         # logging.debug(request.method)
         if request.POST.get("status") == 'Accept':
-            if f.get('id') is not None:
-                uuid = f.get('id').split('/')[-1]
-            elif f.get('uuid') is not None:
-                uuid = f.get('uuid')
+            if request_user.get('uuid') is not None:
+                uuid = request_user.get('uuid')
+            else:
+                uuid = request_user.get('id').split('/')[-1]
             request_user_type = User.objects.get(id=uuid)
             request_friend, request_create = Friend.objects.get_or_create(user=request_user_type)
 
