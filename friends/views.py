@@ -309,7 +309,7 @@ class process_friend_request(View):
         # logging.debug(request.method)
         if request.POST.get("status") == 'Accept':
            
-            request_user_type = User.objects.get(id=str(request_user['uuid']))
+            request_user_type = User.objects.get(id=str(request_user['id']))
             request_friend, request_create = Friend.objects.get_or_create(user=request_user_type)
 
             if to_befriend['host'] == request.META['HTTP_HOST']:
