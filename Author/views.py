@@ -1150,10 +1150,10 @@ class APIInbox(APIView):
             inbox.items.append(FriendRequestSerializer(friend_request).data)
             inbox.save()
             # add remote author to follower list of local author
-            follower, create_follower = Follower.objects.get_or_create(user=local_author)
+#             follower, create_follower = Follower.objects.get_or_create(user=local_author)
 
             # follower.add_follower(UserSerializer(remote_author).data)
-            follower.add_follower(remote_author)
+#             follower.add_follower(remote_author)
             response = Response()
             response.data = data
             response.status_code = 200
