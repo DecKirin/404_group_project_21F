@@ -14,7 +14,7 @@ admin.site.index_title = 'Administration'
 admin.site.site_header = 'Social Distribution Admin Page'
 admin.site.site_title = 'admin home page'
 
-
+'''
 # @admin.action(description='allow user to be on the server/activate user')
 def activate_user(modeladmin, request, queryset):
     queryset.update(is_active=True)
@@ -70,7 +70,7 @@ class UserProfileAdmin(admin.ModelAdmin):
     view_posts_link.short_description = "Posts"
 
     # ----------------------------------not finished yet----------------------------------
-    '''
+    ''''''
     def view_friends_link(self, obj):
         count = obj.curuser.count()
         url = (
@@ -80,7 +80,8 @@ class UserProfileAdmin(admin.ModelAdmin):
 
     view_friends_link.short_description = "Friends"
     '''
-    '''
+
+'''
     def view_follow_link(self, obj):
         count = obj.follows.count()
         url = (
@@ -96,7 +97,7 @@ class UserProfileAdmin(admin.ModelAdmin):
         )
         return format_html('<a href="{}">{} Posts</a>', url, count)
     view_followers_link.short_description = "followers"
-    '''
+    ''''''
 
     def view_likes_link(self, obj):
         count = obj.likes.count()
@@ -153,7 +154,7 @@ class PostsAdmin(admin.ModelAdmin):
 
 # Register your models here.
 class CommentsAdmin(admin.ModelAdmin):
-    list_display = ("id_comment", "post", "comment", "published")
+    list_display = ("id_comment", "post", "comment", "published", "api_url")
     search_fields = ("post__id", "author__id", "author__username")
     list_filter = ("published", "author")
 
@@ -232,7 +233,8 @@ class FollowerAdmin(admin.ModelAdmin):
     view_author_link.short_description = "Author"
 
     def show_all_followers(self, obj):
-        return "\n".join([a.username for a in obj.followers.all()])
+        print("obj:", obj.followers)
+        return "\n".join([a for a in obj.followers[0]])
 
 
 class FriendAdmin(admin.ModelAdmin):
@@ -247,8 +249,8 @@ class FriendAdmin(admin.ModelAdmin):
 
     def show_all_friends(self, obj):
         return "\n".join([a.username for a in obj.friends.all()])
-
-
+'''
+'''
 admin.site.register(User, UserProfileAdmin)
 admin.site.register(Post, PostsAdmin)
 admin.site.register(PostComment, CommentsAdmin)
@@ -257,5 +259,13 @@ admin.site.register(Friend, FriendAdmin)
 admin.site.register(RegisterControl, RegisterControlAdmin)
 admin.site.register(Follow, FollowAdmin)
 admin.site.register(Follower, FollowerAdmin)
-
+'''
 admin.site.register(Node)
+admin.site.register(User)
+admin.site.register(Post)
+admin.site.register(PostComment)
+admin.site.register(PostLike)
+admin.site.register(Friend)
+admin.site.register(RegisterControl)
+admin.site.register(Follow)
+admin.site.register(Follower)

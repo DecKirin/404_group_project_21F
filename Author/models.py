@@ -33,9 +33,9 @@ class User(AbstractUser):
     first_name = models.CharField(max_length=20)
     last_name = models.CharField(max_length=20)
     github = models.CharField(max_length=100, blank=True)
-    url = models.URLField(editable=False)
-    host = models.URLField(editable=False)
-    api_url = models.URLField(editable=False)
+    url = models.URLField()
+    host = models.URLField()
+    api_url = models.URLField()
 
 
     class Meta:

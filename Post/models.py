@@ -62,7 +62,8 @@ class PostComment(models.Model):
     class Meta:
         ordering = ('published',)
         db_table = 'postcomment'
-
+    '''
     def __str__(self):
         return 'Comment by {} on {} with content{}'.format(self.author.username, self.post.title,
-                                                           self.comment)
+                                                        self.comment)
+    '''
