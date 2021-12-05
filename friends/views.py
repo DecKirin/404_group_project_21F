@@ -409,7 +409,8 @@ class API_follower_view(APIView):
             # logging.debug(foreign_id)
             for f in follower.followers:
                 # logging.debug(f['id'])
-                if str(foreign_id) == str(f.get('id')) or str(foreign_id) == str(f.get('uuid')):
+                if str(foreign_id) == str(f.get('id').split('/')[-1]) or str(foreign_id) == str(f.get('uuid')):
+
                     exists = True
                     context['author'] = UserSerializer(cur_user).data
                     context['follower'] = f
