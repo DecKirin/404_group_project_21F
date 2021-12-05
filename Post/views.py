@@ -300,8 +300,20 @@ class SpecificPostView(View):
         current_user = request.user
         post = Post.objects.get(id=post_id)
         postlikes = PostLike.objects.filter(post=post)
+        like_usernames = ""
+
+        isPublic = False
+        if str(post.visibility) == "1":
+            isPublic = True
+
+        isFriend = False
+        if str(post.visibility) == "2":
+            isFriend = True
+
         liked = False
         for postlike in postlikes:
+            if isFriend:
+                like_usernames += str(postlike.who_like)
             if postlike.who_like == current_user:
                 liked = True
         im_author = False
@@ -316,19 +328,17 @@ class SpecificPostView(View):
         if comments:
             hasComments = True
 
-        isPublic = False
-        if str(post.visibility) == "1":
-            isPublic = True
-
         context = {
             'author': current_user,
             'isPublic': isPublic,
+            'isFriend': isFriend,
             'post': post,
             'liked': liked,
             'author__id': author_id,
             'isAuthor': im_author,
             'hasComments': hasComments,
-            'comments': comments  # return render(request, 'posts/comments.html', context=context)
+            'comments': comments,
+            'likes_usernames': like_usernames,
         }
         return render(request, 'post_legal.html', context=context)
 
