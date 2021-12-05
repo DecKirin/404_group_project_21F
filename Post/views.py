@@ -99,14 +99,14 @@ class NewPostView(View):
         try:
             image = request.FILES['img']
         except Exception:
-            image = None
+            image64 = None
+        else:
+            name, fileformat = image.name.split('.')
 
-        name, fileformat = image.name.split('.')
+            image64 = base64.b64encode(image.read())
 
-        image64 = base64.b64encode(image.read())
-
-        image64 = 'data:image/%s;base64,%s' % (fileformat, image64.decode('utf-8'))
-        print(image64)
+            image64 = 'data:image/%s;base64,%s' % (fileformat, image64.decode('utf-8'))
+            print(image64)
 
         post = Post.objects.create(title=title, id=post_id, source=source, origin=origin, description=description,
                                    contentType=content_type, content=content, author=request.user,
