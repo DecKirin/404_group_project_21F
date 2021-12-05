@@ -497,8 +497,7 @@ GET: visit edit profile page(need login)
 POST: change profile by send post data of editable fields
 '''
 
-
-class UserEditInfoView(LoginRequiredMixin, View):
+class UserEditProfileImageView(LoginRequiredMixin, View):
     def get(self, request):
         # current logged in user
         curr_user = request.user
@@ -509,7 +508,7 @@ class UserEditInfoView(LoginRequiredMixin, View):
 
         # used for testing
 
-        return render(request, 'profile_edit.html', context=context)
+        return render(request, 'profile_img_edit.html', context=context)
 
     def post(self, request):
         json_data = []
@@ -532,54 +531,100 @@ class UserEditInfoView(LoginRequiredMixin, View):
             error_msg_dic["code"] = "200"
             error_msg_dic["msg"] = "Successfully update profile image"
             json_data.append(error_msg_dic)
+            print("message OK")
+        else :
+            error_msg_dic["code"] = "400"
+            error_msg_dic["msg"] = "Fail to upload the image, please try to upload again"
+            json_data.append(error_msg_dic)
+            print("fail to upload")
+        return HttpResponse(json.dumps(json_data))
+
+
+class UserEditInfoView(LoginRequiredMixin, View):
+    def get(self, request):
+        # current logged in user
+        curr_user = request.user
+
+        context = {
+            'current_author': curr_user,
+        }
+
+        # used for testing
+
+        return render(request, 'profile_edit.html', context=context)
+
+    def post(self, request):
+        json_data = []
+        error_msg_dic = {
+            "data": "",
+            "msg": "",
+            "code": ""
+        }
+        current_user = request.user
+        '''
+        image = request.FILES.get('img')
+        if image:
+            print("image:", image)
+            name, fileformat = image.name.split('.')
+
+            image64 = base64.b64encode(image.read())
+
+            image64 = 'data:image/%s;base64,%s' % (fileformat, image64.decode('utf-8'))
+
+            User.objects.filter(username=current_user.username).update(profile_image=image64)
+            error_msg_dic["code"] = "200"
+            error_msg_dic["msg"] = "Successfully update profile image"
+            json_data.append(error_msg_dic)
+            print("message OK")
             return HttpResponse(json.dumps(json_data))
+
         else:
-            username = request.POST.get('username')
-            # username = request.POST['username']
-            first_name = request.POST.get('firstname')
-            last_name = request.POST.get('lastname')
-            email = request.POST.get('email')
-            github = request.POST.get('github')
+        '''
+        username = request.POST.get('username')
+        # username = request.POST['username']
+        first_name = request.POST.get('firstname')
+        last_name = request.POST.get('lastname')
+        email = request.POST.get('email')
+        github = request.POST.get('github')
 
-            print("receive edit profile information")
+        print("receive edit profile information")
 
-            if not all([username, first_name, last_name, email, github]):
-                error_msg_dic["code"] = "400"
-                error_msg_dic["msg"] = "data missing"
-                json_data.append(error_msg_dic)
-                return HttpResponse(json.dumps(json_data))
+        if not all([username, first_name, last_name, email]):
+            error_msg_dic["code"] = "400"
+            error_msg_dic["msg"] = "data missing"
+            json_data.append(error_msg_dic)
+            return HttpResponse(json.dumps(json_data))
 
-            print(username)
-            print(first_name)
-            print(last_name)
-            print(github)
-            print(email)
-            old_username = current_user.username
+        print(username)
+        print(first_name)
+        print(last_name)
+        print(github)
+        print(email)
+        old_username = current_user.username
 
-            try:
-                exist_user = User.objects.get(username=username)
-            except User.DoesNotExist:
-                # new username is unique
-                exist_user = None
+        try:
+            exist_user = User.objects.get(username=username)
+        except User.DoesNotExist:
+            # new username is unique
+            exist_user = None
 
-            if exist_user is None or exist_user.id == current_user.id:
-                update_user = User.objects.get(id=current_user.id)
-                # update_user.username = username
-                update_user.email = email
-                update_user.first_name = first_name
-                update_user.last_name = last_name
-                update_user.github = github
-                # update_user.update(username=username, email=email, first_name=first_name,last_name=last_name, github=github)
-                update_user.save()
-                error_msg_dic["code"] = "200"
-                error_msg_dic["msg"] = "Successfully update"
-                json_data.append(error_msg_dic)
+        if exist_user is None or exist_user.id == current_user.id:
+            update_user = User.objects.get(id=current_user.id)
+            # update_user.username = username
+            update_user.email = email
+            update_user.first_name = first_name
+            update_user.last_name = last_name
+            update_user.github = github
+            # update_user.update(username=username, email=email, first_name=first_name,last_name=last_name, github=github)
+            update_user.save()
+            error_msg_dic["code"] = "200"
+            error_msg_dic["msg"] = "Successfully update"
+            json_data.append(error_msg_dic)
 
-            else:
-                error_msg_dic["code"] = "403"
-                error_msg_dic["msg"] = "Cannot update cause the username is already taken"
-                json_data.append(error_msg_dic)
-
+        else:
+            error_msg_dic["code"] = "403"
+            error_msg_dic["msg"] = "Cannot update cause the username is already taken"
+            json_data.append(error_msg_dic)
         return HttpResponse(json.dumps(json_data))
 
 
@@ -939,6 +984,8 @@ class APIAuthorProfileView(APIView):
             update_user.api_url = request.build_absolute_uri()
             update_user.save()
             return Response(status=status.HTTP_200_OK)
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 # the posts of this particular author

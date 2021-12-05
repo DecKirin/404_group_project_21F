@@ -16,7 +16,7 @@
 
               <tbody>
                 {% for post in page_object.object_list %}
-                <div class="card">
+                <div class="card" >
                   <div class="card-header">
                       {% if post.author.host == curr_host %}
                             <h3><a href="{% url "Author:specific_post" post.author.id post.id %}">{{ post.title }}</a></h3>
@@ -67,7 +67,7 @@
                               {% endif %}
                           </p>
 
-                          <p>
+                          <!--p>
                             <a href="" class="link-black text-sm mr-2"><i class="fas fa-share mr-1"></i> Share</a>
                             <a href="" class="link-black text-sm"><i class="far fa-thumbs-up mr-1"></i> Like</a>
                             <span class="float-right">
@@ -78,7 +78,7 @@
                           </p>
 
 
-                          <input class="form-control form-control-sm" type="text" placeholder="Type a comment">
+                          <input class="form-control form-control-sm" type="text" placeholder="Type a comment"-->
                         </div>
                         <!-- /.post -->
                       </div>

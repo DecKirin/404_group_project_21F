@@ -1589,3 +1589,489 @@ Traceback (most recent call last):
     return "\n".join([a.username for a in obj.followers.all()])
 AttributeError: 'list' object has no attribute 'all'
 DEBUG:asyncio:Using proactor: IocpProactor
+ERROR:django.request:Internal Server Error: /myfollowerslist/
+Traceback (most recent call last):
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\contrib\auth\decorators.py", line 21, in _wrapped_view
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\friends\views.py", line 144, in my_list
+    return render(request, 'my_friends_list.html', context=context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\shortcuts.py", line 19, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\backends\django.py", line 61, in render
+    return self.template.render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 170, in render
+    return self._render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 162, in _render
+    return self.nodelist.render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 905, in render_annotated
+    return self.render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\loader_tags.py", line 150, in render
+    return compiled_parent._render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 162, in _render
+    return self.nodelist.render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 905, in render_annotated
+    return self.render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\loader_tags.py", line 150, in render
+    return compiled_parent._render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 162, in _render
+    return self.nodelist.render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 905, in render_annotated
+    return self.render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\loader_tags.py", line 150, in render
+    return compiled_parent._render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 162, in _render
+    return self.nodelist.render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 905, in render_annotated
+    return self.render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\loader_tags.py", line 62, in render
+    result = block.nodelist.render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 905, in render_annotated
+    return self.render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\loader_tags.py", line 62, in render
+    result = block.nodelist.render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 905, in render_annotated
+    return self.render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\defaulttags.py", line 211, in render
+    nodelist.append(node.render_annotated(context))
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 905, in render_annotated
+    return self.render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\defaulttags.py", line 312, in render
+    return nodelist.render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 905, in render_annotated
+    return self.render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\defaulttags.py", line 446, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\urls\base.py", line 86, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\urls\resolvers.py", line 694, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'un_befriend' with keyword arguments '{'id': '', 'delete': 'Un-follow'}' not found. 1 pattern(s) tried: ['(?P<id>[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})/(?P<delete>[^/]+)$']
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/authors/ HTTP/1.1" 200 6940
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/authors/ HTTP/1.1" 200 2488
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404-team13-socialapp.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404-team13-socialapp.herokuapp.com:443 "GET /api/authors/ HTTP/1.1" 200 1651
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/15a5aaac-26cf-442d-a1a7-c158e7f9c5ac/posts HTTP/1.1" 200 3509
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/20dc960d-84b7-4ad1-a1e1-8c14230426a0/posts HTTP/1.1" 200 615615
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/c1084885-d411-46e2-a9a1-73338545d541/posts HTTP/1.1" 200 58
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/c1a4621f-e76a-4374-b0d5-3781403d5c0f/posts HTTP/1.1" 200 58
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/bf9a8d0c-0118-49cb-a3af-104111255657/posts HTTP/1.1" 200 2649
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/ec581171-4b7f-41f4-b31e-55d53934f9e4/posts HTTP/1.1" 200 58
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/819b1813-2898-4722-8ffb-9c86a6aa6227/posts HTTP/1.1" 200 58
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/efd6a7af-82e7-4b5a-a4b4-664070dfcc79/posts HTTP/1.1" 200 58
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/366116b4-90e8-4579-a4a9-d6d634d93738/posts HTTP/1.1" 200 58
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/12c4f0c5-9d18-45a4-8cb5-aa62496ca434/posts HTTP/1.1" 200 4766
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/51da3038-6402-42fc-8a9a-0d98744b33a7/posts HTTP/1.1" 200 58
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/f9f4c341-708a-4f5f-ad9a-62a38238d5cd/posts HTTP/1.1" 200 58
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/fcdf7d0b-3e93-487a-82c2-1e687ff8ae58/posts HTTP/1.1" 200 58
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/ed71d6f8-f547-4676-bb4d-4a4fae845206/posts HTTP/1.1" 200 58
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/9ba385ba-e477-47c0-83bd-820335c0ff36/posts HTTP/1.1" 200 58
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/16503095-3b96-4662-9023-2dc4da81996e/posts HTTP/1.1" 200 58
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/24cfe477-9d90-4749-87ce-f74687b11c9b/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/24cfe477-9d90-4749-87ce-f74687b11c9b/posts/ HTTP/1.1" 200 27
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/03e31e9c-7193-40d1-9c40-a4af6118cb24/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/03e31e9c-7193-40d1-9c40-a4af6118cb24/posts/ HTTP/1.1" 200 1783
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/0fbc1b88-2d7c-44a4-83b9-ef5b1198f692/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/0fbc1b88-2d7c-44a4-83b9-ef5b1198f692/posts/ HTTP/1.1" 200 392095
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/b58fa1da-7b02-4e95-be15-7b913f8ff85b/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/b58fa1da-7b02-4e95-be15-7b913f8ff85b/posts/ HTTP/1.1" 200 27
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/904594e6-4c2c-4728-86c7-c77934613bd7/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/904594e6-4c2c-4728-86c7-c77934613bd7/posts/ HTTP/1.1" 200 27
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/8c0a5676-39ae-41c8-8e9f-c5f59a0b4605/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/8c0a5676-39ae-41c8-8e9f-c5f59a0b4605/posts/ HTTP/1.1" 200 27
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/c44358a2-383b-4639-ab25-b3678023d462/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/c44358a2-383b-4639-ab25-b3678023d462/posts/ HTTP/1.1" 200 27
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/4e9deafd-29bf-4f18-92d7-954c3322bd53/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/4e9deafd-29bf-4f18-92d7-954c3322bd53/posts/ HTTP/1.1" 200 891
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/da7c6766-da04-4830-8574-32e04afe0961/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/da7c6766-da04-4830-8574-32e04afe0961/posts/ HTTP/1.1" 200 27
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 127.0.0.1:7890
+DEBUG:urllib3.connectionpool:http://127.0.0.1:7890 "GET http://cmput404-team13-socialapp.herokuapp.com/api/author/f24cb837-9eb6-4b31-add5-325f5dec96f9/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:http://127.0.0.1:7890 "GET http://cmput404-team13-socialapp.herokuapp.com/api/author/f24cb837-9eb6-4b31-add5-325f5dec96f9/posts/ HTTP/1.1" 200 1655
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 127.0.0.1:7890
+DEBUG:urllib3.connectionpool:http://127.0.0.1:7890 "GET http://cmput404-team13-socialapp.herokuapp.com/api/author/b5359bf3-3001-486a-b873-975a12d9a2da/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:http://127.0.0.1:7890 "GET http://cmput404-team13-socialapp.herokuapp.com/api/author/b5359bf3-3001-486a-b873-975a12d9a2da/posts/ HTTP/1.1" 200 25
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 127.0.0.1:7890
+DEBUG:urllib3.connectionpool:http://127.0.0.1:7890 "GET http://cmput404-team13-socialapp.herokuapp.com/api/author/24e9ca23-66fe-4437-b7e4-bf5f3c7054b1/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:http://127.0.0.1:7890 "GET http://cmput404-team13-socialapp.herokuapp.com/api/author/24e9ca23-66fe-4437-b7e4-bf5f3c7054b1/posts/ HTTP/1.1" 200 25
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 127.0.0.1:7890
+DEBUG:urllib3.connectionpool:http://127.0.0.1:7890 "GET http://cmput404-team13-socialapp.herokuapp.com/api/author/posts HTTP/1.1" 404 5081
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 127.0.0.1:7890
+DEBUG:urllib3.connectionpool:http://127.0.0.1:7890 "GET http://cmput404-team13-socialapp.herokuapp.com/api/author/6b9d0617-ba6f-42a8-931b-2b355eb2d69a/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:http://127.0.0.1:7890 "GET http://cmput404-team13-socialapp.herokuapp.com/api/author/6b9d0617-ba6f-42a8-931b-2b355eb2d69a/posts/ HTTP/1.1" 200 25
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 127.0.0.1:7890
+DEBUG:urllib3.connectionpool:http://127.0.0.1:7890 "GET http://cmput404-team13-socialapp.herokuapp.com/api/author/31615133-93ab-45fa-bb55-fcbd9eab5405/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:http://127.0.0.1:7890 "GET http://cmput404-team13-socialapp.herokuapp.com/api/author/31615133-93ab-45fa-bb55-fcbd9eab5405/posts/ HTTP/1.1" 200 25
+DEBUG:MARKDOWN:Successfully imported extension module "markdown.extensions.fenced_code".
+DEBUG:MARKDOWN:Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+DEBUG:MARKDOWN:Successfully imported extension module "markdown.extensions.fenced_code".
+DEBUG:MARKDOWN:Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+WARNING:django.request:Not Found: /posts/allPublicPosts/post_image/IMG_20181227_153137.jpg
+WARNING:django.request:Not Found: /posts/allPublicPosts/post_image/IMG_20180814_155333.jpg
+DEBUG:MARKDOWN:Successfully imported extension module "markdown.extensions.fenced_code".
+DEBUG:MARKDOWN:Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+WARNING:django.request:Not Found: /author/e5e39531-c1a2-4353-9b03-e28e3c76c9ba/posts/260757995bd04ba7b5726fb00b3e9d00/post_image/IMG_20180814_155333.jpg
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/authors/ HTTP/1.1" 200 6940
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/authors/ HTTP/1.1" 200 2488
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404-team13-socialapp.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404-team13-socialapp.herokuapp.com:443 "GET /api/authors/ HTTP/1.1" 200 1651
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/15a5aaac-26cf-442d-a1a7-c158e7f9c5ac/posts HTTP/1.1" 200 3509
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/20dc960d-84b7-4ad1-a1e1-8c14230426a0/posts HTTP/1.1" 200 615615
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/c1084885-d411-46e2-a9a1-73338545d541/posts HTTP/1.1" 200 58
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/c1a4621f-e76a-4374-b0d5-3781403d5c0f/posts HTTP/1.1" 200 58
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/bf9a8d0c-0118-49cb-a3af-104111255657/posts HTTP/1.1" 200 2649
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/ec581171-4b7f-41f4-b31e-55d53934f9e4/posts HTTP/1.1" 200 58
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/819b1813-2898-4722-8ffb-9c86a6aa6227/posts HTTP/1.1" 200 58
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/efd6a7af-82e7-4b5a-a4b4-664070dfcc79/posts HTTP/1.1" 200 58
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/366116b4-90e8-4579-a4a9-d6d634d93738/posts HTTP/1.1" 200 58
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/12c4f0c5-9d18-45a4-8cb5-aa62496ca434/posts HTTP/1.1" 200 4766
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/51da3038-6402-42fc-8a9a-0d98744b33a7/posts HTTP/1.1" 200 58
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/f9f4c341-708a-4f5f-ad9a-62a38238d5cd/posts HTTP/1.1" 200 58
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/fcdf7d0b-3e93-487a-82c2-1e687ff8ae58/posts HTTP/1.1" 200 58
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/ed71d6f8-f547-4676-bb4d-4a4fae845206/posts HTTP/1.1" 200 58
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/9ba385ba-e477-47c0-83bd-820335c0ff36/posts HTTP/1.1" 200 58
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/16503095-3b96-4662-9023-2dc4da81996e/posts HTTP/1.1" 200 1850
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/24cfe477-9d90-4749-87ce-f74687b11c9b/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/24cfe477-9d90-4749-87ce-f74687b11c9b/posts/ HTTP/1.1" 200 27
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/03e31e9c-7193-40d1-9c40-a4af6118cb24/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/03e31e9c-7193-40d1-9c40-a4af6118cb24/posts/ HTTP/1.1" 200 1783
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/0fbc1b88-2d7c-44a4-83b9-ef5b1198f692/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/0fbc1b88-2d7c-44a4-83b9-ef5b1198f692/posts/ HTTP/1.1" 200 392095
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/b58fa1da-7b02-4e95-be15-7b913f8ff85b/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/b58fa1da-7b02-4e95-be15-7b913f8ff85b/posts/ HTTP/1.1" 200 27
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/904594e6-4c2c-4728-86c7-c77934613bd7/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/904594e6-4c2c-4728-86c7-c77934613bd7/posts/ HTTP/1.1" 200 27
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/8c0a5676-39ae-41c8-8e9f-c5f59a0b4605/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/8c0a5676-39ae-41c8-8e9f-c5f59a0b4605/posts/ HTTP/1.1" 200 27
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/c44358a2-383b-4639-ab25-b3678023d462/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/c44358a2-383b-4639-ab25-b3678023d462/posts/ HTTP/1.1" 200 27
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/4e9deafd-29bf-4f18-92d7-954c3322bd53/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/4e9deafd-29bf-4f18-92d7-954c3322bd53/posts/ HTTP/1.1" 200 891
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/da7c6766-da04-4830-8574-32e04afe0961/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/da7c6766-da04-4830-8574-32e04afe0961/posts/ HTTP/1.1" 200 27
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 127.0.0.1:7890
+DEBUG:urllib3.connectionpool:http://127.0.0.1:7890 "GET http://cmput404-team13-socialapp.herokuapp.com/api/author/f24cb837-9eb6-4b31-add5-325f5dec96f9/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:http://127.0.0.1:7890 "GET http://cmput404-team13-socialapp.herokuapp.com/api/author/f24cb837-9eb6-4b31-add5-325f5dec96f9/posts/ HTTP/1.1" 200 1655
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 127.0.0.1:7890
+DEBUG:urllib3.connectionpool:http://127.0.0.1:7890 "GET http://cmput404-team13-socialapp.herokuapp.com/api/author/b5359bf3-3001-486a-b873-975a12d9a2da/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:http://127.0.0.1:7890 "GET http://cmput404-team13-socialapp.herokuapp.com/api/author/b5359bf3-3001-486a-b873-975a12d9a2da/posts/ HTTP/1.1" 200 25
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 127.0.0.1:7890
+DEBUG:urllib3.connectionpool:http://127.0.0.1:7890 "GET http://cmput404-team13-socialapp.herokuapp.com/api/author/24e9ca23-66fe-4437-b7e4-bf5f3c7054b1/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:http://127.0.0.1:7890 "GET http://cmput404-team13-socialapp.herokuapp.com/api/author/24e9ca23-66fe-4437-b7e4-bf5f3c7054b1/posts/ HTTP/1.1" 200 25
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 127.0.0.1:7890
+DEBUG:urllib3.connectionpool:http://127.0.0.1:7890 "GET http://cmput404-team13-socialapp.herokuapp.com/api/author/posts HTTP/1.1" 404 5081
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 127.0.0.1:7890
+DEBUG:urllib3.connectionpool:http://127.0.0.1:7890 "GET http://cmput404-team13-socialapp.herokuapp.com/api/author/6b9d0617-ba6f-42a8-931b-2b355eb2d69a/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:http://127.0.0.1:7890 "GET http://cmput404-team13-socialapp.herokuapp.com/api/author/6b9d0617-ba6f-42a8-931b-2b355eb2d69a/posts/ HTTP/1.1" 200 25
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 127.0.0.1:7890
+DEBUG:urllib3.connectionpool:http://127.0.0.1:7890 "GET http://cmput404-team13-socialapp.herokuapp.com/api/author/31615133-93ab-45fa-bb55-fcbd9eab5405/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:http://127.0.0.1:7890 "GET http://cmput404-team13-socialapp.herokuapp.com/api/author/31615133-93ab-45fa-bb55-fcbd9eab5405/posts/ HTTP/1.1" 200 25
+DEBUG:MARKDOWN:Successfully imported extension module "markdown.extensions.fenced_code".
+DEBUG:MARKDOWN:Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+DEBUG:MARKDOWN:Successfully imported extension module "markdown.extensions.fenced_code".
+DEBUG:MARKDOWN:Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+WARNING:django.request:Not Found: /posts/allPublicPosts/post_image/IMG_20181227_153137.jpg
+WARNING:django.request:Not Found: /posts/allPublicPosts/post_image/IMG_20180814_155333.jpg
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/20dc960d-84b7-4ad1-a1e1-8c14230426a0/posts/e39667e7-c2b1-4db4-96b4-59597269215a HTTP/1.1" 200 609506
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/20dc960d-84b7-4ad1-a1e1-8c14230426a0/posts/e39667e7-c2b1-4db4-96b4-59597269215a/likes HTTP/1.1" 200 662
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/20dc960d-84b7-4ad1-a1e1-8c14230426a0/posts/e39667e7-c2b1-4db4-96b4-59597269215a/comments HTTP/1.1" 200 1076
+DEBUG:MARKDOWN:Successfully imported extension module "markdown.extensions.fenced_code".
+DEBUG:MARKDOWN:Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+ERROR:django.request:Internal Server Error: /remote_post/
+Traceback (most recent call last):
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\urllib3\connection.py", line 174, in _new_conn
+    conn = connection.create_connection(
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\urllib3\util\connection.py", line 96, in create_connection
+    raise err
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\urllib3\util\connection.py", line 86, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [WinError 10061] No connection could be made because the target machine actively refused it
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\urllib3\connectionpool.py", line 696, in urlopen
+    self._prepare_proxy(conn)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\urllib3\connectionpool.py", line 964, in _prepare_proxy
+    conn.connect()
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\urllib3\connection.py", line 358, in connect
+    conn = self._new_conn()
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\urllib3\connection.py", line 186, in _new_conn
+    raise NewConnectionError(
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPSConnection object at 0x000002AA887A56F0>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\requests\adapters.py", line 439, in send
+    resp = conn.urlopen(
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\urllib3\connectionpool.py", line 755, in urlopen
+    retries = retries.increment(
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\urllib3\util\retry.py", line 574, in increment
+    raise MaxRetryError(_pool, url, error or ResponseError(cause))
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='social-distribution-fall2021.herokuapp.com', port=443): Max retries exceeded with url: /api/author/20dc960d-84b7-4ad1-a1e1-8c14230426a0/posts/e39667e7-c2b1-4db4-96b4-59597269215a (Caused by ProxyError('Cannot connect to proxy.', NewConnectionError('<urllib3.connection.HTTPSConnection object at 0x000002AA887A56F0>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\views\generic\base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\views\generic\base.py", line 98, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\Post\views.py", line 457, in get
+    postRequest = make_api_get_request(postAPIURL)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\Author\views.py", line 50, in make_api_get_request
+    request = requests.get(api_url, proxies=proxies, auth=HTTPBasicAuth("team11", "secret11"), verify=True)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\requests\api.py", line 75, in get
+    return request('get', url, params=params, **kwargs)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\requests\api.py", line 61, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\requests\sessions.py", line 542, in request
+    resp = self.send(prep, **send_kwargs)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\requests\sessions.py", line 655, in send
+    r = adapter.send(request, **kwargs)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\requests\adapters.py", line 510, in send
+    raise ProxyError(e, request=request)
+requests.exceptions.ProxyError: HTTPSConnectionPool(host='social-distribution-fall2021.herokuapp.com', port=443): Max retries exceeded with url: /api/author/20dc960d-84b7-4ad1-a1e1-8c14230426a0/posts/e39667e7-c2b1-4db4-96b4-59597269215a (Caused by ProxyError('Cannot connect to proxy.', NewConnectionError('<urllib3.connection.HTTPSConnection object at 0x000002AA887A56F0>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')))
+DEBUG:asyncio:Using proactor: IocpProactor
+DEBUG:root:[{'type': 'author', 'id': 'http://127.0.0.1:8000/api/author/df91d343-21b1-4eb4-8f8e-f04e0f1d2d19/', 'username': 'localauthor', 'profile_image': '', 'email': 'local@author.com', 'first_name': 'local', 'last_name': 'author', 'github': '', 'host': '127.0.0.1:8000', 'api_url': 'http://127.0.0.1:8000/api/author/df91d343-21b1-4eb4-8f8e-f04e0f1d2d19/'}]
+ERROR:django.request:Internal Server Error: /myfollowslist/
+Traceback (most recent call last):
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\contrib\auth\decorators.py", line 21, in _wrapped_view
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\friends\views.py", line 144, in my_list
+    return render(request, 'my_friends_list.html', context=context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\shortcuts.py", line 19, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\backends\django.py", line 61, in render
+    return self.template.render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 170, in render
+    return self._render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 162, in _render
+    return self.nodelist.render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 905, in render_annotated
+    return self.render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\loader_tags.py", line 150, in render
+    return compiled_parent._render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 162, in _render
+    return self.nodelist.render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 905, in render_annotated
+    return self.render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\loader_tags.py", line 150, in render
+    return compiled_parent._render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 162, in _render
+    return self.nodelist.render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 905, in render_annotated
+    return self.render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\loader_tags.py", line 150, in render
+    return compiled_parent._render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 162, in _render
+    return self.nodelist.render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 905, in render_annotated
+    return self.render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\loader_tags.py", line 62, in render
+    result = block.nodelist.render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 905, in render_annotated
+    return self.render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\loader_tags.py", line 62, in render
+    result = block.nodelist.render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 905, in render_annotated
+    return self.render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\defaulttags.py", line 211, in render
+    nodelist.append(node.render_annotated(context))
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 905, in render_annotated
+    return self.render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\defaulttags.py", line 312, in render
+    return nodelist.render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 905, in render_annotated
+    return self.render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\defaulttags.py", line 446, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\urls\base.py", line 86, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\urls\resolvers.py", line 694, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'un_befriend' with keyword arguments '{'id': '', 'delete': 'Un-follow'}' not found. 1 pattern(s) tried: ['(?P<id>[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})/(?P<delete>[^/]+)$']
+ERROR:django.request:Internal Server Error: /myfollowerslist/
+Traceback (most recent call last):
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\contrib\auth\decorators.py", line 21, in _wrapped_view
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\friends\views.py", line 144, in my_list
+    return render(request, 'my_friends_list.html', context=context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\shortcuts.py", line 19, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\backends\django.py", line 61, in render
+    return self.template.render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 170, in render
+    return self._render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 162, in _render
+    return self.nodelist.render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 905, in render_annotated
+    return self.render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\loader_tags.py", line 150, in render
+    return compiled_parent._render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 162, in _render
+    return self.nodelist.render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 905, in render_annotated
+    return self.render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\loader_tags.py", line 150, in render
+    return compiled_parent._render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 162, in _render
+    return self.nodelist.render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 905, in render_annotated
+    return self.render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\loader_tags.py", line 150, in render
+    return compiled_parent._render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 162, in _render
+    return self.nodelist.render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 905, in render_annotated
+    return self.render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\loader_tags.py", line 62, in render
+    result = block.nodelist.render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 905, in render_annotated
+    return self.render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\loader_tags.py", line 62, in render
+    result = block.nodelist.render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 905, in render_annotated
+    return self.render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\defaulttags.py", line 211, in render
+    nodelist.append(node.render_annotated(context))
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 905, in render_annotated
+    return self.render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\defaulttags.py", line 312, in render
+    return nodelist.render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 905, in render_annotated
+    return self.render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\defaulttags.py", line 446, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\urls\base.py", line 86, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\urls\resolvers.py", line 694, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'un_befriend' with keyword arguments '{'id': '', 'delete': 'Un-follow'}' not found. 1 pattern(s) tried: ['(?P<id>[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})/(?P<delete>[^/]+)$']
+DEBUG:MARKDOWN:Successfully imported extension module "markdown.extensions.fenced_code".
+DEBUG:MARKDOWN:Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+DEBUG:MARKDOWN:Successfully imported extension module "markdown.extensions.fenced_code".
+DEBUG:MARKDOWN:Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+DEBUG:asyncio:Using proactor: IocpProactor

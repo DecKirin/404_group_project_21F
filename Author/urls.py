@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from Author.views import baseView, RegisterView, LoginView, UserInfoView, LogoutView, UserPostsView, IndexView, InterFRInboxView, \
     InterPostInboxView, InboxView, \
     UserProfileView, AllUserProfileView, SearchUserView, UserEditInfoView, MyStreamView, AllPublicPostsView, \
-    APIAuthorPostsView, APIPostByIdView, APIInbox, InterLikeInboxView
+    APIAuthorPostsView, APIPostByIdView, APIInbox, InterLikeInboxView, UserEditProfileImageView
 from friends.views import friends_list_view, send_friend_request, process_friend_request, followers_list_view, \
     follows_list_view, API_follower_view, un_befriend, my_list, APIFollowsByIdView, APIFollowersByIdView, \
     APIFriendsByIdView, remote_sent_request, remote_un_befriend
@@ -51,6 +51,7 @@ urlpatterns = [
     path('author/myStream/', login_required(MyStreamView.as_view()), name='mystream'),
 
     path('editProfile/', login_required(UserEditInfoView.as_view()), name='edit_profile'),
+    path('editImage/', UserEditProfileImageView.as_view(), name='edit_profile_image'),
     # display all user profiles
     # page to view other user's profile
 

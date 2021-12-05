@@ -1,0 +1,122 @@
+{% extends 'base_main.html' %}
+{% load static %}
+<!-- Content Wrapper. Contains page content -->
+{% block Content_Wrapper %}
+    <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 center-block">
+
+            <!-- Profile Image -->
+            <div class="card card-primary card-outline">
+              <div class="card-body box-profile">
+                <div class="text-center">
+                  <img class="profile-user-img img-fluid img-circle"
+                       {% if not current_author.profile_image %}
+                       src="{% static 'mine/images/default_avatar.png' %}"
+                       {% else %}
+                       src="{{ current_author.profile_image }}"
+                       {% endif %}
+                       alt="User profile picture"
+                  >
+                </div>
+
+                <h3 class="profile-username text-center"> {{ current_author.username }} </h3>
+                <h4 class="profile-username text-center"> {{ current_author.first_name }} {{ current_author.last_name }}</h4>
+                <p class="text-muted text-center"> {{ current_author.email }}</p>
+                <p class="text-muted text-center"> <a href="{{ current_author.github }}">{{ current_author.github }}</a></p>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">Change your profile image</h3>
+              </div>
+              <!-- /.card-header -->
+              <!-- form start -->
+              <form id="profile_image" method="Post" action="{% url 'Author:edit_profile_image' %}">
+              <!--form id="profile_image" -->
+                  {% csrf_token %}
+
+                <div class="card-body">
+                  <div class="form-group">
+                    <label for="exampleInputFile">Profile image</label>
+                    <div class="input-group">
+                      <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="img" name="img">
+                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+                <!-- /.card-body -->
+                <div class="card-footer">
+                  <button onclick="upload_img()" class="btn btn-primary">Submit</button>
+                </div>
+                <script type="text/javascript">
+                function upload_img() {
+                    let formData = new FormData($("#profile_image")[0]);
+                    //let formData = $("img").val();
+                    var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+
+                    $.ajax({
+                        url: "/editImage/",
+                        type: 'POST',
+                        headers: {'X-CSRFToken': csrftoken},
+
+                        data: formData,
+
+                        dataType: "JSON",
+                        contentType: false,
+                        processData: false,
+                        cache: false,
+                        success: function (data) {
+
+
+                            if (data === 1) {
+                                alert("success");
+                            }else if (data === 0) {
+                                alert("fail");
+                            }
+                            window.location.href = '/editImage/'
+                        },
+                        error: function (data) {
+                            console.log(data);
+                        }
+                    });
+                }
+            </script>
+
+            </div>
+            <!-- /.card -->
+          </div>
+          <!--/.col (right) -->
+        </div>
+
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+<!-- /.content-wrapper -->
+
+{% endblock Content_Wrapper%}
+
+{% block bottomfiles %}
+
+    <script src="{% static 'adminlte/plugins/sweetalert2/sweetalert2.min.js' %}"></script>
+    <script src="{% static 'mine/js/editProfile.js' %}"></script>
+
+
+{% endblock bottomfiles %}
