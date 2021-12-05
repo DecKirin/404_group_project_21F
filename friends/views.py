@@ -79,6 +79,7 @@ class followers_list_view(APIView):
         else:
             friend_list = follower.followers  #
             context['friends'] = friend_list
+        context['current_author'] = user
         context['delete'] = 'Un-follow'
         context['type'] = 'Follower'
         context['current_host'] = request.META['HTTP_HOST']
@@ -95,6 +96,7 @@ def follows_list_view(request, id, *args, **kwargs):
     else:
         friend_list = follower.follows#
         context['friends'] = friend_list
+    context['current_author'] = user
     context['delete'] = 'Un-follow'
     context['type'] = 'Follow'
     context['current_host'] = request.META['HTTP_HOST']
@@ -139,8 +141,10 @@ def my_list(request, relationship):
         else:
             friend_list = friend.friends#.all()  #
             context['friends'] = friend_list
+
         context['delete'] = 'Un-befriend'
         context['type'] = 'Friend'
+    context['current_author'] = user
     return render(request, 'my_friends_list.html', context=context)
 
 
@@ -191,6 +195,7 @@ def send_friend_request(request, foreign_id, *args, **kwargs):
         context['request_user'] = user.username
         context['request_tobe'] = to_befriend.username
         context['request_id'] = cur_request_id
+        context['current_author'] = user
 
     ##if foriegn author todo:deal with api of remore author
     else:

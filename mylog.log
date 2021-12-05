@@ -2313,3 +2313,161 @@ WARNING:django.request:Not Found: /posts/allPublicPosts/post_image/IMG_20180814_
 WARNING:django.request:Not Found: /posts/allPublicPosts/post_image/IMG_20181227_153137.jpg
 INFO:django.utils.autoreload:C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\Author\models.py changed, reloading.
 DEBUG:asyncio:Using proactor: IocpProactor
+DEBUG:root:[]
+INFO:django.utils.autoreload:C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\friends\views.py changed, reloading.
+DEBUG:asyncio:Using proactor: IocpProactor
+DEBUG:root:[]
+DEBUG:MARKDOWN:Successfully imported extension module "markdown.extensions.fenced_code".
+DEBUG:MARKDOWN:Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+DEBUG:MARKDOWN:Successfully imported extension module "markdown.extensions.fenced_code".
+DEBUG:MARKDOWN:Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 127.0.0.1:5454
+ERROR:django.request:Internal Server Error: /remote_author/
+Traceback (most recent call last):
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\urllib3\connection.py", line 174, in _new_conn
+    conn = connection.create_connection(
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\urllib3\util\connection.py", line 96, in create_connection
+    raise err
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\urllib3\util\connection.py", line 86, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [WinError 10061] No connection could be made because the target machine actively refused it
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\urllib3\connectionpool.py", line 699, in urlopen
+    httplib_response = self._make_request(
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\urllib3\connectionpool.py", line 394, in _make_request
+    conn.request(method, url, **httplib_request_kw)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\urllib3\connection.py", line 239, in request
+    super(HTTPConnection, self).request(method, url, body=body, headers=headers)
+  File "C:\Python310\lib\http\client.py", line 1276, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "C:\Python310\lib\http\client.py", line 1322, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "C:\Python310\lib\http\client.py", line 1271, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "C:\Python310\lib\http\client.py", line 1031, in _send_output
+    self.send(msg)
+  File "C:\Python310\lib\http\client.py", line 969, in send
+    self.connect()
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\urllib3\connection.py", line 205, in connect
+    conn = self._new_conn()
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\urllib3\connection.py", line 186, in _new_conn
+    raise NewConnectionError(
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x0000011F049889D0>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\requests\adapters.py", line 439, in send
+    resp = conn.urlopen(
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\urllib3\connectionpool.py", line 755, in urlopen
+    retries = retries.increment(
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\urllib3\util\retry.py", line 574, in increment
+    raise MaxRetryError(_pool, url, error or ResponseError(cause))
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='127.0.0.1', port=5454): Max retries exceeded with url: /author/9de17f29c12e8f97bcbbd34cc908f1baba40658e (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x0000011F049889D0>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\views\generic\base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\views\generic\base.py", line 98, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\Author\views.py", line 1250, in get
+    author_request = make_api_get_request(authorAPIUrl)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\Author\views.py", line 61, in make_api_get_request
+    request = requests.get(api_url, auth=HTTPBasicAuth("team11", "secret11"), verify=True)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\requests\api.py", line 75, in get
+    return request('get', url, params=params, **kwargs)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\requests\api.py", line 61, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\requests\sessions.py", line 542, in request
+    resp = self.send(prep, **send_kwargs)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\requests\sessions.py", line 655, in send
+    r = adapter.send(request, **kwargs)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\requests\adapters.py", line 516, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='127.0.0.1', port=5454): Max retries exceeded with url: /author/9de17f29c12e8f97bcbbd34cc908f1baba40658e (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x0000011F049889D0>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))
+ERROR:django.request:Internal Server Error: /author/df91d343-21b1-4eb4-8f8e-f04e0f1d2d19/follows/
+Traceback (most recent call last):
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\friends\views.py", line 103, in follows_list_view
+    return render(request, 'all_friends_list.html', context=context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\shortcuts.py", line 19, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\backends\django.py", line 61, in render
+    return self.template.render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 170, in render
+    return self._render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 162, in _render
+    return self.nodelist.render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 905, in render_annotated
+    return self.render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\loader_tags.py", line 150, in render
+    return compiled_parent._render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 162, in _render
+    return self.nodelist.render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 905, in render_annotated
+    return self.render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\loader_tags.py", line 150, in render
+    return compiled_parent._render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 162, in _render
+    return self.nodelist.render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 905, in render_annotated
+    return self.render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\loader_tags.py", line 150, in render
+    return compiled_parent._render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 162, in _render
+    return self.nodelist.render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 905, in render_annotated
+    return self.render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\loader_tags.py", line 62, in render
+    result = block.nodelist.render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 905, in render_annotated
+    return self.render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\loader_tags.py", line 62, in render
+    result = block.nodelist.render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 905, in render_annotated
+    return self.render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\defaulttags.py", line 211, in render
+    nodelist.append(node.render_annotated(context))
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 905, in render_annotated
+    return self.render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\defaulttags.py", line 312, in render
+    return nodelist.render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\base.py", line 905, in render_annotated
+    return self.render(context)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\template\defaulttags.py", line 446, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\urls\base.py", line 86, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\lib\site-packages\django\urls\resolvers.py", line 694, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'profile' with arguments '('http://127.0.0.1:8000/api/author/e5e39531-c1a2-4353-9b03-e28e3c76c9ba/',)' not found. 1 pattern(s) tried: ['author/(?P<id>[^/]+)/$']
+INFO:django.utils.autoreload:C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\Author\admin.py changed, reloading.
+DEBUG:asyncio:Using proactor: IocpProactor
