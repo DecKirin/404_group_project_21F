@@ -308,7 +308,7 @@ class process_friend_request(View):
         context['request_tobe'] = to_befriend['displayName']
         # logging.debug(request.method)
         if request.POST.get("status") == 'Accept':
-            uuid = ['id']
+            uuid = 'id'
             if request_user['host'] == request.META['HTTP_HOST']:
                 uuid = 'uuid'
 
