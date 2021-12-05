@@ -8,7 +8,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 import urllib
-from Author.views import make_api_get_request
+from Author.views import make_api_get_request, get_remote_authors
 from Post.views import make_api_post_request
 from Author.serializers import UserSerializer
 from .models import Friend, FriendRequest, Follower, Follow
@@ -389,6 +389,8 @@ GET check if follower
 
 
 class API_follower_view(APIView):
+    # http_method_names = ['GET', 'PUT', 'DELETE']
+
     def get(self, request, id, foreign_id):
         try:
             cur_user = User.objects.get(id=id)
@@ -400,12 +402,17 @@ class API_follower_view(APIView):
         # check if foreign key is follower of author_id
         exists = False
         view_user = None
-        if not create:
-            # logging.basicConfig(filename='another.log', level=logging.DEBUG)
-            # logging.debug(foreign_id)
+
+        if not create and len(follower.followers) > 0:
             for f in follower.followers:
-                logging.debug(f['uuid'])
-                if str(foreign_id) == str(f['uuid']):
+                # logging.debug(f['id'])
+                if f.get('id') is not None:
+                    uuid = f.get('id').split('/')[-1]
+                elif f.get('uuid') is not None:
+                    uuid = f.get('uuid')
+                else:
+                    continue
+                if str(foreign_id) == str(uuid):
                     exists = True
                     context['author'] = UserSerializer(cur_user).data
                     context['follower'] = f
@@ -425,14 +432,50 @@ class API_follower_view(APIView):
 
     def put(self, request, id, foreign_id):
         cur_user = User.objects.get(id=id)
-        view_user = User.objects.get(id=foreign_id)
-        follower, create = Follower.objects.get_or_create(user=cur_user)
+        response = Response()
         if cur_user.is_authenticated:
-            follower.add_follower(UserSerializer(view_user).data)
-        return response(follower)
+            follower, create = Follower.objects.get_or_create(user=cur_user)
+            view_user = None
+            try:
+                view_user = User.objects.get(id=foreign_id)
+                view_user = UserSerializer(view_user).data
+            except User.DoesNotExist:
+                exists = False
+                authors = get_remote_authors()
+                for author in authors:
+                    if str(foreign_id) == str(author.get('id').split('/')[-1]) or str(foreign_id) == str(author.get('uuid')):
+                        logging.basicConfig(filename='another.log', level=logging.DEBUG)
+                        logging.debug(author)
+                        exists = True
+                        view_user = author
+                if not exists:
+                    return Response(status=status.HTTP_404_NOT_FOUND)
+            finally:
+                if view_user is not None:
+                    follower.add_follower(view_user)
+                    response.status_code = 200
+                    response.data = json.dumps(follower.followers)
+                    return response
+                
+        return Response(status=status.HTTP_404_NOT_FOUND)
 
     def delete(self, request, id, foreign_id):
         cur_user = User.objects.get(id=id)
-        view_user = User.objects.get(id=foreign_id)
         follower, create = Follower.objects.get_or_create(user=cur_user)
-        follower.delete_follower(UserSerializer(view_user).data)
+        # view_user = User.objects.get(id=foreign_id)
+        for f in follower.followers:
+            if f.get('id') is not None:
+                uuid = f.get('id').split('/')[-1]
+            elif f.get('uuid') is not None:
+                uuid = f.get('uuid')
+            else:
+                continue
+            if str(foreign_id) == str(uuid):
+                follower.delete_follower(f)
+                response = Response()
+                response.status_code = 200
+                response.data = json.dumps(follower.followers)
+                return response
+        # author to be deleted does not exists in user's follower lists
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
