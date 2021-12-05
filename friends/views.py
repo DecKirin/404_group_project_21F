@@ -389,10 +389,14 @@ GET check if follower
 
 
 class API_follower_view(APIView):
+    # http_method_names = ['GET', 'PUT', 'DELETE']
+
     def get(self, request, id, foreign_id):
         try:
             cur_user = User.objects.get(id=id)
         except User.DoesNotExist:
+            logging.basicConfig(filename='another.log', level=logging.DEBUG)
+            logging.debug(id)
             return Response(status=status.HTTP_404_NOT_FOUND)
         context = {}
 
@@ -404,8 +408,8 @@ class API_follower_view(APIView):
             # logging.basicConfig(filename='another.log', level=logging.DEBUG)
             # logging.debug(foreign_id)
             for f in follower.followers:
-                logging.debug(f['uuid'])
-                if str(foreign_id) == str(f['uuid']):
+                # logging.debug(f['id'])
+                if str(foreign_id) == str(f.get('id')) or str(foreign_id) == str(f.get('uuid')):
                     exists = True
                     context['author'] = UserSerializer(cur_user).data
                     context['follower'] = f
