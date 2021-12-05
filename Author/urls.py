@@ -9,7 +9,7 @@ from friends.views import friends_list_view, send_friend_request, process_friend
     APIFriendsByIdView, remote_sent_request, remote_un_befriend
 from Post.views import NewPostView, SpecificPostView, EditPostView, delete_post, like_post, unlike_post, \
     CreatePostComment, APICommentsByAuthorId, APILikesByAuthorId, APIComment, APILikesByPost, \
-    like_remote_post_view
+    like_remote_post_view, share_local_post, share_remote_post
 
 from Author.views import APIAllProfileView, APIAuthorProfileView, APIAllPosts, APICommentsByPostId
 
@@ -29,6 +29,7 @@ urlpatterns = [
     path('author/<uuid:author_id>/posts/<post_id>/edit/', EditPostView.as_view(), name='edit_post'),
     path('author/<uuid:author_id>/posts/<post_id>/delete/', delete_post, name='delete_post'),
     path('author/<uuid:author_id>/posts/<post_id>/like/', like_post, name='like_post'),
+    path('author/<uuid:author_id>/posts/<post_id>/sharelocal/', share_local_post, name='share_local_post'),
     path('author/<uuid:author_id>/posts/<post_id>/unlike/', unlike_post, name='unlike_post'),
     path('author/<uuid:author_id>/posts/<post_id>/comment/', CreatePostComment.as_view(), name='post_comment'),
     # author successfully send the friend request
@@ -91,6 +92,7 @@ urlpatterns = [
     path('remote_author/', Remote_Author_Profile_View.as_view(), name="remote_author_profile"),
     path('remote_post/', Remote_Specific_Post_View.as_view(), name="remote_specific_post"),
     path('remote_post/like', like_remote_post_view.as_view(), name="like_remote_post"),
+    path('remote_post/shareremote', share_remote_post, name="share_remote_post"),
     path('remote_author/befriend', remote_sent_request.as_view(), name="remote_friend_request"),
 
 ]

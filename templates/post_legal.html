@@ -51,7 +51,7 @@
                                 <i class="fas fa-thumbs-up"></i> Like this post
                             </a>
                             {% endif %}
-                            <a href="" class="link-black text-sm"><i class="fas fa-share mr-1"></i> Share</a>
+                            <a href="{% url 'Author:share_local_post' post.author.id post.id%}" class="link-black text-sm"><i class="fas fa-share mr-1"></i> Share</a>
 
                             </p>
                             <a href="{% url 'Author:post_comment' post.author.id post.id %}" class="btn btn-sm bg-blue">

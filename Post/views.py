@@ -82,8 +82,6 @@ class NewPostView(View):
         categories = process_categories(categories)
 
         description = request.POST.get('description', '')
-        source = request.build_absolute_uri(request.path)
-        origin = request.build_absolute_uri(request.path)
         unlisted = False  # TODO
         post_id = uuid.uuid4().hex
         post_id = str(post_id)
@@ -108,7 +106,7 @@ class NewPostView(View):
             image64 = 'data:image/%s;base64,%s' % (fileformat, image64.decode('utf-8'))
             print(image64)
 
-        post = Post.objects.create(title=title, id=post_id, source=source, origin=origin, description=description,
+        post = Post.objects.create(title=title, id=post_id, description=description,
                                    contentType=content_type, content=content, author=request.user,
                                    categories=categories,
                                    visibility=visibility, unlisted=unlisted, select_user=select_user, image=image64)
@@ -127,7 +125,8 @@ class NewPostView(View):
                 post.author.id) + "/posts/" + post.id + "/"
             post.api_url = request.scheme + "://" + request.META['HTTP_HOST'] + "/api/author/" + str(
                 post.author.id) + "/posts/" + post.id + "/"
-
+        post.source = post.url
+        post.origin = post.url
         if visibility == 3:
             user = User.objects.get(username=select_user)
             inbox, status = Inbox.objects.get_or_create(author=user)
@@ -352,6 +351,13 @@ def like_post(request, author_id, post_id):
     inbox_to_send.save()
 
     return redirect(reverse('Author:specific_post', args=(author_id, post_id)))
+
+
+def share_local_post(request, post_author_id, post_id):
+    ...
+
+def share_remote_post(request, post_author_id, post_id):
+    ...
 
 
 class like_remote_post_view(View):
