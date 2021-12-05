@@ -406,18 +406,19 @@ class API_follower_view(APIView):
         if not create and len(follower.followers) > 0:
             for f in follower.followers:
                 # logging.debug(f['id'])
-                if f.get('id') is not None:
-                    uuid = f.get('id').split('/')[-1]
-                elif f.get('uuid') is not None:
-                    uuid = f.get('uuid')
-                else:
-                    continue
-                if str(foreign_id) == str(uuid):
-                    exists = True
-                    context['author'] = UserSerializer(cur_user).data
-                    context['follower'] = f
-                    view_user = f
-                    break
+                if f is not None:
+                    if f.get('id') is not None:
+                        uuid = f.get('id').split('/')[-1]
+                    elif f.get('uuid') is not None:
+                        uuid = f.get('uuid')
+                    else:
+                        continue
+                    if str(foreign_id) == str(uuid):
+                        exists = True
+                        context['author'] = UserSerializer(cur_user).data
+                        context['follower'] = f
+                        view_user = f
+                        break
         context['exists'] = exists
         response = Response()
         response.status_code = 200
@@ -442,10 +443,28 @@ class API_follower_view(APIView):
             except User.DoesNotExist:
                 exists = False
                 authors = get_remote_authors()
+#                 logging.basicConfig(filename='another.log', level=logging.DEBUG)
+#                 logging.debug(authors)
+                for f in follower.followers:
+                    if f is not None:
+                        if f.get('id') is not None:
+                            uuid = f.get('id').split('/')[-1]
+                        elif f.get('uuid') is not None:
+                            uuid = f.get('uuid')
+                        else:
+                            continue
+                        if str(foreign_id) == str(uuid):
+                            response.status_code = 200
+                            return response
                 for author in authors:
-                    if str(foreign_id) == str(author.get('id').split('/')[-1]) or str(foreign_id) == str(author.get('uuid')):
-                        logging.basicConfig(filename='another.log', level=logging.DEBUG)
-                        logging.debug(author)
+                    if author.get('id') is not None:
+                        uuid = author.get('id').split('/')[-1]
+                    elif author.get('uuid') is not None:
+                        uuid = author.get('uuid')
+                    else:
+                        continue
+                    if str(foreign_id) == str(uuid):
+
                         exists = True
                         view_user = author
                 if not exists:

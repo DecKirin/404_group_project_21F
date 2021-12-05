@@ -99,7 +99,7 @@ class NewPostView(View):
         try:
             image = request.FILES['img']
         except Exception:
-            image64 = None
+            image64 = ''
         else:
             name, fileformat = image.name.split('.')
 
