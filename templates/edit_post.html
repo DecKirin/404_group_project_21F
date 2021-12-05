@@ -31,13 +31,92 @@
         </fieldset>
 
         <div>
-            <label for="file">Choose image to upload</label>
-            <input type="file" id="file" name="file" multiple>
-        </div>
-        <div>
-            <button>Submit</button>
+            <button onclick="edit_post">Submit</button>
         </div>
     </form>
+
+    <script type="text/javascript">
+        function edit_post() {
+        var title1 = $("#title").val();
+        var content_type1 = $("#content_type").val();
+        var description1 = $("#description").val();
+        var content1 = $("#content").val()
+        var categories1 =$("#categories").val()
+        if (title1.length<4 || title1.length>100 ){
+            Toast.fire({
+                target: document.getElementById('title'),
+                icon: 'info',
+                title: 'The length of title not satisfied'
+            });
+        }
+
+        else if (content_type1 != "text/plain" || content_type1 != "text/markdown"){
+            Toast.fire({
+                target: document.getElementById('content_type'),
+                icon: 'info',
+                title: 'The content type is not correct'
+            });
+        }
+
+        else if (description1.length<4 || description1.length>1000 ){
+            Toast.fire({
+                target: document.getElementById('description'),
+                icon: 'info',
+                title: 'The length of description not satisfied'
+            });
+        }
+
+        else if (content1.length<4 || content1.length>1000 ){
+            Toast.fire({
+                target: document.getElementById('content'),
+                icon: 'info',
+                title: 'The length of content not satisfied'
+            });
+        }
+
+        else if (categories1.length<4 || categories1.length>1000 ){
+            Toast.fire({
+                target: document.getElementById('categories'),
+                icon: 'info',
+                title: 'The length of categories not satisfied'
+            });
+        }
+
+        else{
+
+            var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+            $.ajax({
+                url: "/editpost/",
+                type: "POST",
+                headers: {'X-CSRFToken': csrftoken},
+                data: {
+                    title: $("#title").val(),
+                    content_type: $("#content_type").val(),
+                    description: $("#description").val(),
+                    content:$("#content").val(),
+                    categories:$("#categories").val()
+                },
+                success: function (da) {
+                    var data = eval(da)
+                    var code = data[0].code
+                    var msg = data[0].msg
+                    if (code == "200") {
+                        Toast.fire({
+                            icon: 'success',
+                            title: 'Make a new post'
+                        });
+                        window.location.href = '/editpost/'
+                    } else {
+                        Toast.fire({
+                            icon: 'error',
+                            title: msg
+                        });
+                    }
+                }
+            })
+        }
+    }
+    </script>
 
 
 </body>
