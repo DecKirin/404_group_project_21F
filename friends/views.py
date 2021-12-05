@@ -488,18 +488,19 @@ class API_follower_view(APIView):
         follower, create = Follower.objects.get_or_create(user=cur_user)
         # view_user = User.objects.get(id=foreign_id)
         for f in follower.followers:
-            if f.get('id') is not None:
-                uuid = f.get('id').split('/')[-1]
-            elif f.get('uuid') is not None:
-                uuid = f.get('uuid')
-            else:
-                continue
-            if str(foreign_id) == str(uuid):
-                follower.delete_follower(f)
-                response = Response()
-                response.status_code = 200
-                response.data = json.dumps(follower.followers)
-                return response
+            if f is not None:
+                if f.get('id') is not None:
+                    uuid = f.get('id').split('/')[-1]
+                elif f.get('uuid') is not None:
+                    uuid = f.get('uuid')
+                else:
+                    continue
+                if str(foreign_id) == str(uuid):
+                    follower.delete_follower(f)
+                    response = Response()
+                    response.status_code = 200
+                    response.data = json.dumps(follower.followers)
+                    return response
         # author to be deleted does not exists in user's follower lists
         return Response(status=status.HTTP_404_NOT_FOUND)
 
