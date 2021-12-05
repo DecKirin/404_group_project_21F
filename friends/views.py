@@ -288,7 +288,7 @@ class process_friend_request(View):
 
     def get(self, request, request_id):
         context = {}
-        logging.basicConfig(filename='mylog.log', level=logging.DEBUG)
+        # logging.basicConfig(filename='mylog.log', level=logging.DEBUG)
         friend_request = FriendRequest.objects.get(request_id=request_id)
         request_user = friend_request.sender
         to_befriend = friend_request.receiver
@@ -308,8 +308,14 @@ class process_friend_request(View):
         context['request_tobe'] = to_befriend['displayName']
         # logging.debug(request.method)
         if request.POST.get("status") == 'Accept':
+           
+            if to_befriend['host'] == request.META['HTTP_HOST']:
+                to_befriend_id = to_befriend['uuid']
+            else:
+                to_befriend_id = to_befriend.get('id').split('/')[-1]
+
             request_user_type = User.objects.get(id=request_user['uuid'])
-            to_befriend_user = User.objects.get(id=to_befriend['uuid'])
+            to_befriend_user = User.objects.get(id=to_befriend_id)
             request_friend, request_create = Friend.objects.get_or_create(user=request_user_type)
             to_befriend_friend, to_be_create = Friend.objects.get_or_create(user=to_befriend_user)
             friend_request.accept_request(request_friend, to_befriend_friend)
