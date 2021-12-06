@@ -446,7 +446,7 @@ def share_local_post(request, author_id, post_id):
                     if remote_author_api_url[-1] == '/':
                         inbox_url = remote_author_api_url + 'inbox'
                     else:
-                        inbox_url = remote_author_api_url + '/inbox'
+                        inbox_url = remote_author_api_url + '/inbox/'
                     request = requests.post(inbox_url, json.dumps(data), auth=HTTPBasicAuth("team11", "secret11"))
         except:
             pass
@@ -560,7 +560,7 @@ def share_remote_post(request):
                     if remote_author_api_url[-1] == '/':
                         inbox_url = remote_author_api_url + 'inbox'
                     else:
-                        inbox_url = remote_author_api_url + '/inbox'
+                        inbox_url = remote_author_api_url + '/inbox/'
                     request = requests.post(inbox_url, json.dumps(data), auth=HTTPBasicAuth("team11", "secret11"))
         except Exception:
             pass
