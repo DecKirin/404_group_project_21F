@@ -14,7 +14,7 @@ admin.site.index_title = 'Administration'
 admin.site.site_header = 'Social Distribution Admin Page'
 admin.site.site_title = 'admin home page'
 
-'''
+
 # @admin.action(description='allow user to be on the server/activate user')
 def activate_user(modeladmin, request, queryset):
     queryset.update(is_active=True)
@@ -57,7 +57,7 @@ class UserProfileAdmin(admin.ModelAdmin):
         ('links', {'fields': ('github', 'profile_image', 'host', 'url', 'api_url',)}),
         ('date', {'fields': ('created', 'updated',)}),
     )
-    readonly_fields = ['created', 'updated', 'host', 'url', 'api_url',]
+    readonly_fields = ['created', 'updated']
     actions = [activate_user, deactivate_user]
 
     def view_posts_link(self, obj):
@@ -205,9 +205,11 @@ class RegisterControlAdmin(admin.ModelAdmin):
 
 
 class FollowAdmin(admin.ModelAdmin):
-    list_display = ("id", "view_author_link", "show_all_follows")
-    search_fields = ("user",)
+    list_display = ("id", "user")
 
+    #list_display = ("id", "view_author_link", "show_all_follows")
+    search_fields = ("user",)
+    '''
     def view_author_link(self, obj):
         url = (
                 reverse("admin:Author_user_changelist") + "?" + urlencode({"q": f"{obj.user.id}"})
@@ -218,12 +220,14 @@ class FollowAdmin(admin.ModelAdmin):
 
     def show_all_follows(self, obj):
         return "\n".join([a.username for a in obj.follows.all()])
-
+    '''
 
 class FollowerAdmin(admin.ModelAdmin):
-    list_display = ("id", "view_author_link", "show_all_followers")
-    search_fields = ("user",)
+    list_display = ("id", "user")
 
+    #list_display = ("id", "view_author_link", "show_all_followers")
+    search_fields = ("user",)
+    '''
     def view_author_link(self, obj):
         url = (
                 reverse("admin:Author_user_changelist") + "?" + urlencode({"q": f"{obj.user.id}"})
@@ -235,12 +239,12 @@ class FollowerAdmin(admin.ModelAdmin):
     def show_all_followers(self, obj):
         print("obj:", obj.followers)
         return "\n".join([a for a in obj.followers[0]])
-
+    '''
 
 class FriendAdmin(admin.ModelAdmin):
-    list_display = ("id", "view_author_link", "show_all_friends")
+    list_display = ("id", "user")
     search_fields = ("user",)
-
+    '''
     def view_author_link(self, obj):
         url = (
                 reverse("admin:Author_user_changelist") + "?" + urlencode({"q": f"{obj.user.id}"})
@@ -249,6 +253,15 @@ class FriendAdmin(admin.ModelAdmin):
 
     def show_all_friends(self, obj):
         return "\n".join([a.username for a in obj.friends.all()])
+    '''
+class FrRequestAdmin(admin.ModelAdmin):
+    list_display = ("request_id", "sender", "receiver")
+
+    search_fields = ("sender",)
+
+class InboxAdmin(admin.ModelAdmin):
+    list_display = ("author",)
+    search_fields = ("author",)
 '''
 '''
 admin.site.register(User, UserProfileAdmin)
@@ -269,5 +282,6 @@ admin.site.register(Friend)
 admin.site.register(RegisterControl)
 admin.site.register(Follow)
 admin.site.register(Follower)
-admin.site.register(FriendRequest)
-admin.site.register(Inbox)
+'''
+admin.site.register(FriendRequest, FrRequestAdmin)
+admin.site.register(Inbox, InboxAdmin)
