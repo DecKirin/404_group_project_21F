@@ -237,9 +237,7 @@ class remote_sent_request(APIView):
         logging.debug(inbox_info)
 
         inbox_url = authorAPIUrl + "/inbox"
-        logging.debug(inbox_url)
-        logging.debug(json.dumps(inbox_info))
-        request = make_api_post_request(inbox_url, str(inbox_info))
+        request = make_api_post_request(inbox_url, inbox_info.json())
         
         response = Response()
         response.status_code = 200
