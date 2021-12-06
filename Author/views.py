@@ -127,9 +127,9 @@ def get_team_flag():
     for host in all_remote_host:
         if host == "https://social-distribution-fall2021.herokuapp.com/api/":
             flag = 4
-        else if host =="https://cmput404f21t17.herokuapp.com/":
+        elif host =="https://cmput404f21t17.herokuapp.com/":
             flag = 17
-        else if host =="http://cmput404-team13-socialapp.herokuapp.com":
+        elif host =="http://cmput404-team13-socialapp.herokuapp.com":
             flag = 13
         else:
             flag = 1
