@@ -39,9 +39,9 @@
                                   {{ post.content | markdown | safe }}
                                 {% endif %}
                                 </div>
-                                {% if post.image.url != None %}
+                                {% if image != None %}
                                     <div class="card-img-bottom">
-                                    <img src="{{ post.image.url }}" class="img-responsive" style="width: 100%; float: left; margin-right: 10px;" />
+                                    <img src="{{ image }}" class="img-responsive" style="width: 100%; float: left; margin-right: 10px;" />
                                     </div>
                                 {% endif %}
                             </div>

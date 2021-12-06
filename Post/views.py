@@ -490,7 +490,7 @@ class Remote_Specific_Post_View(View):
                 comments = postCommentsRequest.json()
             print("postcomments:", comments)
 
-
+        image = post['contentType'] + post['content']
 
         liked = False
         '''
@@ -527,6 +527,7 @@ class Remote_Specific_Post_View(View):
             'liked': liked,
             'author__id': author_id,
             'isAuthor': im_author,
+            'image': image,
             'hasComments': hasComments,
             'comments': comments  # return render(request, 'posts/comments.html', context=context)
         }
