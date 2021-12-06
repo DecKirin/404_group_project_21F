@@ -409,7 +409,7 @@ def share_local_post(request, author_id, post_id):
             post.author.id) + "/posts/" + post.id + "/"
     if visibility == 2:
         try:
-            friends = Friend.objects.get(user=author)
+            friends = Friend.objects.get(user=request.user)
             for friend in friends.friends:
                 print(friend)
                 fri_obj = User.objects.get(id=friend['uuid'])
