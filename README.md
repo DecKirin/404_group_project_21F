@@ -1,5 +1,5 @@
-# Social_Network - CMPUT404FALL2021TEAM11
-
+# Social_Network
+Social Network build by CMPUT404 FALL2021 TEAM11
 ## Team Member
  * Junqi Zou          -zoujunqi
  * Lyuyang Wang       -Lyuyang0130
