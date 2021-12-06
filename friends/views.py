@@ -15,6 +15,7 @@ from rest_framework.authentication import BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from requests.auth import HTTPBasicAuth
 
 from Author.models import User, Inbox
 from Author.serializers import UserSerializer
