@@ -46,7 +46,8 @@ def make_api_post_request(api_url, json_object):
 def make_api_post_request(api_url, json_object):
     request = requests.post(api_url, data=json_object, auth=HTTPBasicAuth("team11", "secret11"))
     if request.status_code in [403, 401]:
-        request = requests.get(api_url, data=json_object, auth=HTTPBasicAuth("7c70c1c8-04fe-46e0-ae71-8969061adac0", "123456"), verify=True)
+        request = requests.get(api_url, data=json_object,
+                               auth=HTTPBasicAuth("7c70c1c8-04fe-46e0-ae71-8969061adac0", "123456"), verify=True)
     return request
 
 
@@ -54,7 +55,8 @@ def make_api_put_request(api_url, json_object):
     print("im mamking put request")
     request = requests.put(api_url, data=json_object, auth=HTTPBasicAuth("team11", "secret11"))
     if request.status_code in [403, 401]:
-        request = requests.get(api_url, data=json_object, auth=HTTPBasicAuth("7c70c1c8-04fe-46e0-ae71-8969061adac0", "123456"), verify=True)
+        request = requests.get(api_url, data=json_object,
+                               auth=HTTPBasicAuth("7c70c1c8-04fe-46e0-ae71-8969061adac0", "123456"), verify=True)
     return request
 
 
@@ -124,7 +126,6 @@ class NewPostView(View):
         #
         # with open(image_url, "rb") as image_file:
         #     data = base64.b64encode(image_file.read())
-
 
         if post.author.url != "":
             post.url = post.author.url + "posts/" + post.id + "/"
@@ -368,7 +369,7 @@ class SpecificPostView(View):
             is_shared = True
 
         context = {
-            'current_author':current_user,
+            'current_author': current_user,
             'author': current_user,
             'isPublic': isPublic,
             'isFriend': isFriend,
@@ -384,12 +385,11 @@ class SpecificPostView(View):
         return render(request, 'post_legal.html', context=context)
 
 
-
-
 def like_post(request, author_id, post_id):
     post = Post.objects.get(id=post_id)
     who_like = request.user
-    like = PostLike.objects.create(post=post, who_like=who_like, author=UserSerializer(request.user).data, object=post.api_url)
+    like = PostLike.objects.create(post=post, who_like=who_like, author=UserSerializer(request.user).data,
+                                   object=post.api_url)
     inbox_to_send = Inbox.objects.get(author_id=post.author.id)
     inbox_to_send.items.append(LikeSerializer(like).data)
     inbox_to_send.save()
@@ -471,7 +471,7 @@ def share_remote_post(request):
         print("The host is not in our connected group")
         return redirect(reverse('Author:remote_specific_post') + "?post_url=%s" % postAPIURL)
 
-    #image = post['contentType'] + post['content']
+    # image = post['contentType'] + post['content']
 
     isPublic = False
     isFriend = False
@@ -607,8 +607,6 @@ def unlike_post(request, author_id, post_id):
     return redirect(reverse('Author:specific_post', args=(author_id, post_id)))
 
 
-
-
 class APIComment(APIView):
     def get(self, request, authorId, postId, commentId):
         comment = PostComment.objects.get(id_comment=commentId)
@@ -656,7 +654,7 @@ class Remote_Specific_Post_View(View):
         postRequest = make_api_get_request(postAPIURL)
         post = postRequest.json()
         print("remote post be like:", post)
-        team_flag = 0 
+        team_flag = 0
 
         try:
             author_413 = post["author"]
@@ -665,7 +663,7 @@ class Remote_Specific_Post_View(View):
                 team_flag = 13
             elif host_413 == "https://social-distribution-fall2021.herokuapp.com/api/":
                 team_flag = 4
-        except Exception: #TODO
+        except Exception:  # TODO
             print("Wrong")
             '''
             all_info = post["items"]
@@ -673,7 +671,7 @@ class Remote_Specific_Post_View(View):
             host_17 = author_17["host"]
             if host_17 == "https://cmput404f21t17.herokuapp.com/":
                 team_flag = 17 '''
-        
+
         if team_flag == 0:
             print("The host is not in our connected group")
             return None
@@ -700,7 +698,7 @@ class Remote_Specific_Post_View(View):
                 comments = comments_request["comments"]
             elif team_flag == 13:
                 comments = comments_request
-        
+
         print("postcomments:", comments)
 
         image = post['contentType'] + post['content']
@@ -712,7 +710,6 @@ class Remote_Specific_Post_View(View):
                 liked = True
         '''
         im_author = False
-
 
         '''
         if str(my_id) == str(author_id):
@@ -755,7 +752,7 @@ class Remote_Specific_Post_View(View):
         postRequest = make_api_get_request(postAPIURL)
         post = postRequest.json()
         print("remote post be like:", post)
-        team_flag = 0 
+        team_flag = 0
 
         try:
             author_413 = post["author"]
@@ -764,7 +761,7 @@ class Remote_Specific_Post_View(View):
                 team_flag = 13
             elif host_413 == "https://social-distribution-fall2021.herokuapp.com/api/":
                 team_flag = 4
-        except Exception: #TODO
+        except Exception:  # TODO
             print("Wrong")
 
         json_data = []
@@ -779,7 +776,7 @@ class Remote_Specific_Post_View(View):
         comment_id = uuid.uuid4().hex
         postAPIURL = request.GET.get("post_url")
         commentAPIURL = urllib.parse.unquote(postAPIURL) + "comments/"
-        if team_flag==13:
+        if team_flag == 13:
             data = {
                 "type": "comment",
                 "author": UserSerializer(author_for_comment).data,
@@ -792,11 +789,11 @@ class Remote_Specific_Post_View(View):
                 error_msg_dic["code"] = "200"
                 error_msg_dic["msg"] = "Successfully comment the post"
                 json_data.append(error_msg_dic)
-                #print("message OK")
-                
-                #print(commentAPIURL, "\n\n\n")
+                # print("message OK")
+
+                # print(commentAPIURL, "\n\n\n")
                 request = make_api_post_request(commentAPIURL, json.dumps(data))
-                #return redirect(reverse('Author:remote_specific_post') + "?post_url=%s" % postAPIURL )
+                # return redirect(reverse('Author:remote_specific_post') + "?post_url=%s" % postAPIURL )
 
             else:
                 error_msg_dic["code"] = "400"
@@ -804,4 +801,30 @@ class Remote_Specific_Post_View(View):
                 json_data.append(error_msg_dic)
                 print("fail to comment")
 
-        return redirect(reverse('Author:remote_specific_post') + "?post_url=%s" % postAPIURL )
+        elif team_flag == 4:
+            current_author = request.user
+            post_author_url = post["author"]["url"]
+            data = {
+                "@contex:"
+                "summary": "%s commented on your post" % current_author.username,
+                "type": "comment",
+                "author": UserSerializer(current_author).data,
+                "commentType": "text/plain",
+                "object": post["id"]
+            }
+            print(data)
+            if post_author_url[-1] == '/':
+                inbox_url = post_author_url + "inbox"
+            else:
+                inbox_url = post_author_url + "/inbox"
+            print("inbox_url", inbox_url)
+            try:
+                request = make_api_post_request(inbox_url, json.dumps(data))
+                print(json.dumps(data))
+                print("inbox post request:", request)
+                return redirect(reverse('Author:remote_specific_post') + "?post_url=%s" % postAPIURL)
+
+            except Exception:
+                return HttpResponse("failed to comment on the post")
+
+        return redirect(reverse('Author:remote_specific_post') + "?post_url=%s" % postAPIURL)
