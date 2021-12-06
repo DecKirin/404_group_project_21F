@@ -252,6 +252,8 @@ class remote_sent_request(APIView):
 class remote_un_befriend(APIView):
 
     def get(self, request, delete):
+        user = request.user
+        context = {}
         authorAPIUrl = request.GET.get("url")
         # logging.debug(authorAPIUrl)
         authorAPIUrl = urllib.parse.unquote(authorAPIUrl)
