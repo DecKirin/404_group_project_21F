@@ -68,7 +68,7 @@
                             {% endif %}
                             </p>
 
-                            <div>
+                            <div class="card-footer">
                                 <form method="post">
                                     {% csrf_token %}
                                     <fieldset>
@@ -91,7 +91,7 @@
                                         });
                                     }
                                     else{
-                            
+
                                         var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
                                         $.ajax({
                                             url: "/remotecomment/",
@@ -122,29 +122,9 @@
                                     }
                                 }
                                 </script>
-                                                        
-                            </div>
-                            <div class="card-footer">
-                            <fieldset><legend>comments:</legend></fieldset>
-                            <!--show comment if is valid for view comments-->
-                            {% if isPublic %}
-                                {% if hasComments %}
-                                    {% for comment1 in comments %}
-                                    <span>{{comment1.comment}}</span><br>
-                                    <span>{{comment1.text}}</span><br>
-                                    {% endfor %}
-                                {% endif %}
 
-                            {% else %}
-                                {% if isAuthor %}
-                                    {% if hasComments %}
-                                        {% for comment1 in comments %}
-                                        <span>{{comment1.comment}}</span><br>
-                                        <span>{{comment1.text}}</span><br>
-                                        {% endfor %}
-                                    {% endif %}
-                                {% endif %}
-                            {% endif %}
+
+
                             </div>
 
                             
@@ -156,6 +136,102 @@
                 <!-- /.row -->
             </section>
             <!-- /.content -->
+            <section class="content">
+
+              <!-- Default box -->
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">Comments</h3>
+
+                  <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                      <i class="fas fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+                      <i class="fas fa-times"></i>
+                    </button>
+                  </div>
+                </div>
+                <div class="card-body">
+                      <div class="row">
+                        <div class="col-12">
+                          {% if isPublic %}
+                            {% if hasComments %}
+                                {% for comment in comments %}
+                                    <div class="post clearfix">
+                                      <div class="user-block">
+                                        {% if comment.author.profileImage %}
+                                            <img class="img-circle img-bordered-sm" src="{{ author.profileImage }}" alt="profile image">
+                                        {% else %}
+                                            <img class="img-circle img-bordered-sm" src="{% static 'mine/images/default_avatar.png' %}" alt="profile image">
+                                        {% endif %}
+                                        <span class="username">
+                                            {% if comment.author.displayName %}
+                                                {% if comment.author.uuid %}
+                                                    <a href="{% url 'Author:profile' comment.author.uuid %}">{{ comment.author.displayName }}</a>
+                                                {% else %}
+                                                    <a href="{% url 'Author:remote_author_profile'%}?url={{  comment.author.url  }}"></a>
+                                                {% endif %}
+                                            {% else %}
+                                                <a href=href="{% url 'Author:profile' comment.author.uuid %}">{{ comment.author.username }}</a>
+                                            {% endif %}
+                                        </span>
+                                        <span class="description">{{ comment.published }}</span>
+                                      </div>
+                                      <p>
+                                        {{comment.comment|linebreaks}}
+                                      </p>
+                                      <!--p>
+                                        <a href="#" class="link-black text-sm"><i class="fas fa-link mr-1"></i> Demo File 2</a>
+                                      </p-->
+                                    </div>
+                                  {% endfor %}
+                                {% endif %}
+                            {% else %}
+                              {% if isAuthor %}
+                                {% if hasComments %}
+                                  {% for comment in comments %}
+                                      <div class="post clearfix">
+                                        <div class="user-block">
+                                          {% if comment.author.profileImage %}
+                                              <img class="img-circle img-bordered-sm" src="{{ author.profileImage }}" alt="profile image">
+                                          {% else %}
+                                              <img class="img-circle img-bordered-sm" src="{% static 'mine/images/default_avatar.png' %}" alt="profile image">
+                                          {% endif %}
+                                          <span class="username">
+                                              {% if comment.author.displayName %}
+                                                  {% if comment.author.uuid %}
+                                                      <a href="{% url 'Author:profile' comment.author.uuid %}">{{ comment.author.displayName }}</a>
+                                                  {% else %}
+                                                      <a href="{% url 'Author:remote_author_profile'%}?url={{  comment.author.url  }}"></a>
+                                                  {% endif %}
+                                              {% else %}
+                                                  <a href=href="{% url 'Author:profile' comment.author.uuid %}">{{ comment.author.username }}</a>
+                                              {% endif %}
+                                          </span>
+                                          <span class="description">{{ comment.published }}</span>
+                                        </div>
+                                        <p>
+                                          {{comment.comment|linebreaks}}
+                                        </p>
+                                        <!--p>
+                                          <a href="#" class="link-black text-sm"><i class="fas fa-link mr-1"></i> Demo File 2</a>
+                                        </p-->
+                                      </div>
+                                  {% endfor %}
+                                {% endif %}
+                              {% endif %}
+                            {% endif %}
+
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+            </section>
+
+
+
         </div>
 
     </div>

@@ -285,3 +285,4 @@ admin.site.register(Follower)
 '''
 admin.site.register(FriendRequest, FrRequestAdmin)
 admin.site.register(Inbox, InboxAdmin)
+admin.site.register(Node)
