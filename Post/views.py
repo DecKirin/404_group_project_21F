@@ -367,6 +367,8 @@ class SpecificPostView(View):
         return render(request, 'post_legal.html', context=context)
 
 
+
+
 def like_post(request, author_id, post_id):
     post = Post.objects.get(id=post_id)
     who_like = request.user
@@ -631,21 +633,42 @@ class Remote_Specific_Post_View(View):
         return render(request, 'remote_public_post.html', context=context)
 
     def post(self, request):
+        json_data = []
+        error_msg_dic = {
+            "data": "",
+            "msg": "",
+            "code": ""
+        }
         author_for_comment = request.user
-        comment_content = request.POST.get('newcomment', '')
+        comment_content = request.POST.get('newcommentremote', '')
+        comment_type = request.POST.get('typeremote', '')
+        comment_id = uuid.uuid4().hex
         data = {
             "type": "comment",
             "author": UserSerializer(author_for_comment).data,
             "comment": comment_content,
-            "contentType": "text/plain"  # TODO: add markdown option
+            "contentType": comment_type,  # TODO: add markdown option
+
         }
 
-        postAPIURL = request.GET.get("post_url")
-        commentAPIURL = urllib.parse.unquote(postAPIURL) + "comments/"
-        print(commentAPIURL, "\n\n\n")
-        request = make_api_post_request(commentAPIURL, json.dumps(data))
-        print('\n',data,'\n')
-        print("comment request:!!!!!", request)
-        return redirect(reverse('Author:remote_specific_post') + "?post_url=%s" % postAPIURL)
+        if data:
+            error_msg_dic["code"] = "200"
+            error_msg_dic["msg"] = "Successfully comment the post"
+            json_data.append(error_msg_dic)
+            #print("message OK")
+            postAPIURL = request.GET.get("post_url")
+            commentAPIURL = urllib.parse.unquote(postAPIURL) + "comments/"
+            #print(commentAPIURL, "\n\n\n")
+            request = make_api_post_request(commentAPIURL, json.dumps(data))
+            #return redirect(reverse('Author:remote_specific_post') + "?post_url=%s" % postAPIURL )
+
+        else:
+            error_msg_dic["code"] = "400"
+            error_msg_dic["msg"] = "Fail to comment the post, please try  again"
+            json_data.append(error_msg_dic)
+            print("fail to comment")
+
+        return redirect(reverse('Author:remote_specific_post') + "?post_url=%s" % postAPIURL )
+
 
 
