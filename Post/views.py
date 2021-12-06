@@ -648,8 +648,6 @@ class Remote_Specific_Post_View(View):
             "author": UserSerializer(author_for_comment).data,
             "comment": comment_content,
             "contentType": comment_type,  # TODO: add markdown option
-            "published": "2021-12-05T12:29:13.027243Z",
-            "id":comment_id,
 
         }
 
@@ -662,7 +660,7 @@ class Remote_Specific_Post_View(View):
             commentAPIURL = urllib.parse.unquote(postAPIURL) + "comments/"
             #print(commentAPIURL, "\n\n\n")
             request = make_api_post_request(commentAPIURL, json.dumps(data))
-            #return redirect(reverse('Author:remote_specific_post') + "?post_url=%s" % commentAPIURL)
+            #return redirect(reverse('Author:remote_specific_post') + "?post_url=%s" % postAPIURL )
 
         else:
             error_msg_dic["code"] = "400"
@@ -670,7 +668,7 @@ class Remote_Specific_Post_View(View):
             json_data.append(error_msg_dic)
             print("fail to comment")
 
-        return HttpResponse(json.dumps(data))
+        return redirect(reverse('Author:remote_specific_post') + "?post_url=%s" % postAPIURL )
 
 
 
