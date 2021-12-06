@@ -71,9 +71,58 @@
                             <div>
                                 <form method="post">
                                     {% csrf_token %}
-                                    <textarea name="newcomment" id="newcomment" placeholder="add comments here"></textarea>
-                                    <button type="submit" class="btn" id="newCommentButton" >Comment</button>
+                                    <fieldset>
+                                        <legend>Choose your content type</legend>
+                                        <input type="radio" name = "typeremote" id="typeremote" value="text/plain">text/plain<br>
+                                        <input type="radio" name = "typeremote" id="typeremote" value="text/markdown">text/markdown<br>
+                                    </fieldset>
+                                    <textarea name="newcommentremote" id="newcommentremote" placeholder="add comments here"></textarea>
+                                    <button onclick="remote_comment" class="btn" id="newCommentButton" >Comment</button>
                                 </form>
+                                <script type="text/javascript">
+                                    function remote_comment() {
+                                    var commentr1 =$("#newcommentremote").val()
+                                    var type1 = $("#newcommentremote").val()
+                                    if (commentr1.length<1 || commentr1.length>100 ){
+                                        Toast.fire({
+                                            target: document.getElementById('newcommentremote'),
+                                            icon: 'info',
+                                            title: 'The length of comment not satisfied'
+                                        });
+                                    }
+                                    else{
+                            
+                                        var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+                                        $.ajax({
+                                            url: "/remotecomment/",
+                                            type: "POST",
+                                            headers: {'X-CSRFToken': csrftoken},
+                                            data: {
+                                                comment: $("#newcommentremote").val(),
+                                                content_type: $("#typeremote").val()
+                                            },
+                                            success: function (da) {
+                                                var data = eval(da)
+                                                var code = data[0].code
+                                                var msg = data[0].msg
+                                                if (code == "200") {
+                                                    Toast.fire({
+                                                        icon: 'success',
+                                                        title: 'Make a new remote'
+                                                    });
+                                                    window.location.href = '/remotecomment/'
+                                                } else {
+                                                    Toast.fire({
+                                                        icon: 'error',
+                                                        title: msg
+                                                    });
+                                                }
+                                            }
+                                        })
+                                    }
+                                }
+                                </script>
+                                                        
                             </div>
                             <div class="card-footer">
                             <fieldset><legend>comments:</legend></fieldset>

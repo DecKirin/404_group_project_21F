@@ -140,10 +140,29 @@ def my_list(request, relationship):
         user = request.user
         friend, create = Friend.objects.get_or_create(user=user)  # class friend
         if create:
-            context['friends'] = ['Does not have friend yet']
+            # context['friends'] = ['Does not have friend yet']
+            friend_list = []
         else:
             friend_list = friend.friends#.all()  #
             context['friends'] = friend_list
+
+        follow, create = Follow.objects.get_or_create(user=user)
+        if not create:
+            for author in follow.follows:
+                if author not in friend_list:
+                    api_url = author.get('url')
+                    if api_url[-1] != '/':
+                        api_url += '/'
+                    api_url += 'followers/' + str(user.id)
+                    print(api_url)
+                    if author.get('host') == "https://social-distribution-fall2021.herokuapp.com/api/":
+                        response = requests.get(api_url, auth=HTTPBasicAuth("team11", "secret11"), verify=True)
+                        if response.status_code == 200:
+                            friend.add_friend(author)
+                    elif author.get('host') == "http://cmput404-team13-socialapp.herokuapp.com":
+                        make_api_get_request(api_url).json()
+                        if exists['if_follow']:
+                            friend.add_friend(author)
 
         context['delete'] = 'Un-befriend'
         context['type'] = 'Friend'
@@ -204,7 +223,7 @@ def send_friend_request(request, foreign_id, *args, **kwargs):
     else:
         pass
 
-    return render(request, 'request_send.html', context=context)
+    return redirect(reverse('Author:my_list', kwargs={'relationship':'follows'}))
 
 class remote_sent_request(APIView):
 
@@ -234,8 +253,11 @@ class remote_sent_request(APIView):
         # inbox_info["send_at"] = datetime.now
         follow, create_follow = Follow.objects.get_or_create(user=user)
         follow.add_follow(to_befriend)
-        logging.basicConfig(filename='requestlog.log', level=logging.DEBUG)
-        logging.debug(inbox_info)
+        to_befriend_url = to_befriend['url']
+        if to_befriend_url[-1] != '/':
+            to_befriend_url += '/'
+        api_url = to_befriend_url + 'followers/' + str(user.id)
+        request = requests.put(api_url, auth=HTTPBasicAuth("team11", "secret11"))
 
         inbox_url = authorAPIUrl + "/inbox"
 #         request = make_api_post_request(inbox_url, inbox_info)
@@ -266,9 +288,9 @@ class remote_un_befriend(APIView):
             context['type'] = 'follows'
         elif delete == 'Un-befriend':
             friend = Friend.objects.get(user=user)
-            del_friend = Friend.objects.get(user=to_del_friend)
+            # del_friend = Friend.objects.get(user=to_del_friend)
             friend.delete_friend(to_del_friend)
-            del_friend.delete_friend(UserSerializer(user).data)
+            # del_friend.delete_friend(UserSerializer(user).data)
             context['type'] = 'friends'
         elif delete == 'Un-follower':
             follower = Follower.objects.get(user=user)
@@ -326,6 +348,12 @@ class process_friend_request(View):
             else:
                 to_befriend_id = to_befriend.get('id').split('/')[-1]
                 request_friend.add_friend(to_befriend)
+                # put to_befriend followers request_user
+                to_befriend_url = friend_request.receiver['url']
+                if to_befriend_url[-1] != '/':
+                    to_befriend_url += '/'
+                api_url = to_befriend_url+'followers/' + request_user['uuid']
+                request = requests.put(api_url, auth=HTTPBasicAuth("team11", "secret11"))
 
             context['choice'] = f"You've now {request_user['displayName']}'s friend"
 
