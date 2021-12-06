@@ -872,7 +872,6 @@ class Remote_Specific_Post_View(View):
             data = {
                 "author": UserSerializer(author_for_comment).data,
                 "text": comment_content,
-
             }
             if data:
                 error_msg_dic["code"] = "200"
