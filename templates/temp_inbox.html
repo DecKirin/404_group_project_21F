@@ -41,8 +41,12 @@
                                   {% if request.sender.uuid %}
                                     <a href="{% url 'Author:profile' request.sender.uuid %}" class="btn btn-sm btn-primary">
                                     {% else %}
-                                    <a href="{% url 'Author:remote_author_profile' request.actor.url %}" class="btn btn-sm btn-primary">
-                                  {% endif %}
+                                      {% if request.sender %}
+                                            <a href="{% url 'Author:remote_author_profile' request.sender.url %}" class="btn btn-sm btn-primary">
+                                        {% else %}
+                                          <a href="{% url 'Author:remote_author_profile' request.actor.url %}" class="btn btn-sm btn-primary">
+                                      {% endif %}
+                                    {% endif %}
                                   <i class="fas fa-user"></i> Profile
                               </a>
                                   {% else %}
