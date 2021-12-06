@@ -759,8 +759,7 @@ class InterLikeInboxView(View):
             for item in inb.items:
                 if item["type"] == "like":
                     try:
-                        if item['post']:
-                            item_list.append(item)
+                        item_list.append(item)
                     except:
                         pass
 
