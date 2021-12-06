@@ -664,7 +664,7 @@ class Remote_Specific_Post_View(View):
             elif host_413 == "https://social-distribution-fall2021.herokuapp.com/api/":
                 team_flag = 4
         except Exception:  # TODO
-            print("Wrong")
+            team_flag = 17
             '''
             all_info = post["items"]
             author_17 = all_info["author"]
@@ -761,8 +761,9 @@ class Remote_Specific_Post_View(View):
                 team_flag = 13
             elif host_413 == "https://social-distribution-fall2021.herokuapp.com/api/":
                 team_flag = 4
+            
         except Exception:  # TODO
-            print("Wrong")
+                team_flag = 17
 
         json_data = []
         error_msg_dic = {
