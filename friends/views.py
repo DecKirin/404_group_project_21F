@@ -259,7 +259,7 @@ class remote_sent_request(APIView):
         api_url = to_befriend_url + 'followers/' + str(user.id)
         request = requests.put(api_url, auth=HTTPBasicAuth("team11", "secret11"))
 
-        inbox_url = authorAPIUrl + "/inbox"
+        inbox_url = authorAPIUrl + "/inbox/"
 #         request = make_api_post_request(inbox_url, inbox_info)
         request = requests.post(inbox_url, json=inbox_info, auth=HTTPBasicAuth("team11", "secret11"))
        
