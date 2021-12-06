@@ -172,11 +172,9 @@ class NewPostView(View):
                             "visibility": post.visibility,
                             "unlisted": post.unlisted,
                         }
+                        inbox_url = friend["id"] + "/inbox/"
+                        request = requests.post(inbox_url, json=inbox_info, auth=HTTPBasicAuth("team11", "secret11"))
 
-                        response = Response()
-                        response.status_code = 200
-                        response.data = data
-                        return response
             except:
                 pass
         post.save()
