@@ -9,6 +9,8 @@ Social Network build by CMPUT404 FALL2021 TEAM11
 
 [Contribution](https://github.com/DecKirin/404_group_project_21F/wiki/Contributions)
 
+[DEMO Video](https://youtu.be/qLJUqgpOd6s)
+
 
 # REQUIREMENT
 
