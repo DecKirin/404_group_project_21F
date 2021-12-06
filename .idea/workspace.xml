@@ -8,8 +8,6 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Author/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Author/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/friends/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/friends/serializers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/remote_author_profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/remote_author_profile.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -94,7 +92,7 @@
         <env name="PYTHONUNBUFFERED" value="1" />
         <env name="DJANGO_SETTINGS_MODULE" value="social_network.settings" />
       </envs>
-      <option name="SDK_HOME" value="C:\Users\lxd19\OneDrive\Documents\GitHub\404_group_project_21F\venv\Scripts\python.exe" />
+      <option name="SDK_HOME" value="C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\venv\Scripts\python.exe" />
       <option name="WORKING_DIRECTORY" value="" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
@@ -183,7 +181,7 @@
       <workItem from="1638680039152" duration="5881000" />
       <workItem from="1638707487256" duration="10439000" />
       <workItem from="1638751184214" duration="17152000" />
-      <workItem from="1638775915996" duration="1152000" />
+      <workItem from="1638775915996" duration="8298000" />
     </task>
     <servers />
   </component>

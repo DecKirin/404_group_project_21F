@@ -70,7 +70,6 @@ def make_api_get_request(api_url):
     return request
 
 
-
 # check if validation by admin is required to activate an author account
 def check_if_confirmation_required():
     try:

@@ -2504,3 +2504,391 @@ DEBUG:MARKDOWN:Successfully imported extension module "markdown.extensions.fence
 DEBUG:MARKDOWN:Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
 INFO:django.utils.autoreload:C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\friends\views.py changed, reloading.
 DEBUG:asyncio:Using proactor: IocpProactor
+DEBUG:MARKDOWN:Successfully imported extension module "markdown.extensions.fenced_code".
+DEBUG:MARKDOWN:Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/authors/ HTTP/1.1" 200 8590
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/authors/ HTTP/1.1" 500 161475
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/authors/ HTTP/1.1" 200 2934
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404-team13-socialapp.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404-team13-socialapp.herokuapp.com:443 "GET /api/authors/ HTTP/1.1" 200 2388
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/15a5aaac-26cf-442d-a1a7-c158e7f9c5ac/posts HTTP/1.1" 200 4186
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/20dc960d-84b7-4ad1-a1e1-8c14230426a0/posts HTTP/1.1" 200 612257
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/c1084885-d411-46e2-a9a1-73338545d541/posts HTTP/1.1" 200 3426
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/c1a4621f-e76a-4374-b0d5-3781403d5c0f/posts HTTP/1.1" 200 58
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/bf9a8d0c-0118-49cb-a3af-104111255657/posts HTTP/1.1" 200 2610
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/ec581171-4b7f-41f4-b31e-55d53934f9e4/posts HTTP/1.1" 200 58
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/819b1813-2898-4722-8ffb-9c86a6aa6227/posts HTTP/1.1" 200 58
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/efd6a7af-82e7-4b5a-a4b4-664070dfcc79/posts HTTP/1.1" 200 58
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/366116b4-90e8-4579-a4a9-d6d634d93738/posts HTTP/1.1" 200 1780
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/12c4f0c5-9d18-45a4-8cb5-aa62496ca434/posts HTTP/1.1" 200 1992
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/51da3038-6402-42fc-8a9a-0d98744b33a7/posts HTTP/1.1" 200 58
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/f9f4c341-708a-4f5f-ad9a-62a38238d5cd/posts HTTP/1.1" 200 58
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/fcdf7d0b-3e93-487a-82c2-1e687ff8ae58/posts HTTP/1.1" 200 58
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/ed71d6f8-f547-4676-bb4d-4a4fae845206/posts HTTP/1.1" 200 58
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/9ba385ba-e477-47c0-83bd-820335c0ff36/posts HTTP/1.1" 200 58
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/16503095-3b96-4662-9023-2dc4da81996e/posts HTTP/1.1" 200 3403
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/49402c29-5be5-4fa1-af26-4ae48da2523f/posts HTTP/1.1" 200 58
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/66e4519d-1cb9-4a58-ad7f-d46b7b6d2a03/posts HTTP/1.1" 200 58
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/0dc33d8d-0fd8-40f6-b85f-d3bb9e3f07f4/posts HTTP/1.1" 200 58
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/7066efff-35dc-45d0-b54b-7ae51a7c4bec/posts HTTP/1.1" 200 4460
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/24cfe477-9d90-4749-87ce-f74687b11c9b/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/24cfe477-9d90-4749-87ce-f74687b11c9b/posts/ HTTP/1.1" 500 162766
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/24cfe477-9d90-4749-87ce-f74687b11c9b/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/24cfe477-9d90-4749-87ce-f74687b11c9b/posts/ HTTP/1.1" 200 27
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/8f06df22-be9a-4b6e-ab2d-83fb762dfa16/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/8f06df22-be9a-4b6e-ab2d-83fb762dfa16/posts/ HTTP/1.1" 500 162764
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/8f06df22-be9a-4b6e-ab2d-83fb762dfa16/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/8f06df22-be9a-4b6e-ab2d-83fb762dfa16/posts/ HTTP/1.1" 200 27
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/03e31e9c-7193-40d1-9c40-a4af6118cb24/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/03e31e9c-7193-40d1-9c40-a4af6118cb24/posts/ HTTP/1.1" 500 162764
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/03e31e9c-7193-40d1-9c40-a4af6118cb24/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/03e31e9c-7193-40d1-9c40-a4af6118cb24/posts/ HTTP/1.1" 200 17115
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/0fbc1b88-2d7c-44a4-83b9-ef5b1198f692/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/0fbc1b88-2d7c-44a4-83b9-ef5b1198f692/posts/ HTTP/1.1" 500 162764
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/0fbc1b88-2d7c-44a4-83b9-ef5b1198f692/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/0fbc1b88-2d7c-44a4-83b9-ef5b1198f692/posts/ HTTP/1.1" 200 392153
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/40aec04a-a040-412b-b77d-a2c6744d9d7e/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/40aec04a-a040-412b-b77d-a2c6744d9d7e/posts/ HTTP/1.1" 500 162766
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/40aec04a-a040-412b-b77d-a2c6744d9d7e/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/40aec04a-a040-412b-b77d-a2c6744d9d7e/posts/ HTTP/1.1" 200 3415
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/c05cea60-2ca2-4b0a-92e6-fe70ec60d761/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/c05cea60-2ca2-4b0a-92e6-fe70ec60d761/posts/ HTTP/1.1" 500 162766
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/c05cea60-2ca2-4b0a-92e6-fe70ec60d761/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/c05cea60-2ca2-4b0a-92e6-fe70ec60d761/posts/ HTTP/1.1" 200 843
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/b58fa1da-7b02-4e95-be15-7b913f8ff85b/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/b58fa1da-7b02-4e95-be15-7b913f8ff85b/posts/ HTTP/1.1" 500 163094
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/b58fa1da-7b02-4e95-be15-7b913f8ff85b/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/b58fa1da-7b02-4e95-be15-7b913f8ff85b/posts/ HTTP/1.1" 200 27
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/904594e6-4c2c-4728-86c7-c77934613bd7/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/904594e6-4c2c-4728-86c7-c77934613bd7/posts/ HTTP/1.1" 500 163094
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/904594e6-4c2c-4728-86c7-c77934613bd7/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/904594e6-4c2c-4728-86c7-c77934613bd7/posts/ HTTP/1.1" 200 27
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/8c0a5676-39ae-41c8-8e9f-c5f59a0b4605/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/8c0a5676-39ae-41c8-8e9f-c5f59a0b4605/posts/ HTTP/1.1" 500 163094
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/8c0a5676-39ae-41c8-8e9f-c5f59a0b4605/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/8c0a5676-39ae-41c8-8e9f-c5f59a0b4605/posts/ HTTP/1.1" 200 27
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/c44358a2-383b-4639-ab25-b3678023d462/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/c44358a2-383b-4639-ab25-b3678023d462/posts/ HTTP/1.1" 500 163094
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/c44358a2-383b-4639-ab25-b3678023d462/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/c44358a2-383b-4639-ab25-b3678023d462/posts/ HTTP/1.1" 200 27
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 127.0.0.1:7890
+DEBUG:urllib3.connectionpool:http://127.0.0.1:7890 "GET http://cmput404-team13-socialapp.herokuapp.com/api/author/f24cb837-9eb6-4b31-add5-325f5dec96f9/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:http://127.0.0.1:7890 "GET http://cmput404-team13-socialapp.herokuapp.com/api/author/f24cb837-9eb6-4b31-add5-325f5dec96f9/posts/ HTTP/1.1" 200 3364
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 127.0.0.1:7890
+DEBUG:urllib3.connectionpool:http://127.0.0.1:7890 "GET http://cmput404-team13-socialapp.herokuapp.com/api/author/b5359bf3-3001-486a-b873-975a12d9a2da/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:http://127.0.0.1:7890 "GET http://cmput404-team13-socialapp.herokuapp.com/api/author/b5359bf3-3001-486a-b873-975a12d9a2da/posts/ HTTP/1.1" 200 25
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 127.0.0.1:7890
+DEBUG:urllib3.connectionpool:http://127.0.0.1:7890 "GET http://cmput404-team13-socialapp.herokuapp.com/api/author/24e9ca23-66fe-4437-b7e4-bf5f3c7054b1/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:http://127.0.0.1:7890 "GET http://cmput404-team13-socialapp.herokuapp.com/api/author/24e9ca23-66fe-4437-b7e4-bf5f3c7054b1/posts/ HTTP/1.1" 200 25
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 127.0.0.1:7890
+DEBUG:urllib3.connectionpool:http://127.0.0.1:7890 "GET http://cmput404-team13-socialapp.herokuapp.com/api/author/posts HTTP/1.1" 404 5081
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 127.0.0.1:7890
+DEBUG:urllib3.connectionpool:http://127.0.0.1:7890 "GET http://cmput404-team13-socialapp.herokuapp.com/api/author/posts HTTP/1.1" 404 5081
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 127.0.0.1:7890
+DEBUG:urllib3.connectionpool:http://127.0.0.1:7890 "GET http://cmput404-team13-socialapp.herokuapp.com/api/author/1ec9959c-23f0-40e5-b551-f7a62d6e12fe/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:http://127.0.0.1:7890 "GET http://cmput404-team13-socialapp.herokuapp.com/api/author/1ec9959c-23f0-40e5-b551-f7a62d6e12fe/posts/ HTTP/1.1" 200 2310
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 127.0.0.1:7890
+DEBUG:urllib3.connectionpool:http://127.0.0.1:7890 "GET http://cmput404-team13-socialapp.herokuapp.com/api/author/8f0e54bf-69a7-4757-a672-a533b8924c52/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:http://127.0.0.1:7890 "GET http://cmput404-team13-socialapp.herokuapp.com/api/author/8f0e54bf-69a7-4757-a672-a533b8924c52/posts/ HTTP/1.1" 200 1637
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 127.0.0.1:7890
+DEBUG:urllib3.connectionpool:http://127.0.0.1:7890 "GET http://cmput404-team13-socialapp.herokuapp.com/api/author/posts HTTP/1.1" 404 5081
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 127.0.0.1:7890
+DEBUG:urllib3.connectionpool:http://127.0.0.1:7890 "GET http://cmput404-team13-socialapp.herokuapp.com/api/author/d3856a49-1c1e-40ae-9658-348076e91f3e/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:http://127.0.0.1:7890 "GET http://cmput404-team13-socialapp.herokuapp.com/api/author/d3856a49-1c1e-40ae-9658-348076e91f3e/posts/ HTTP/1.1" 200 1047
+DEBUG:MARKDOWN:Successfully imported extension module "markdown.extensions.fenced_code".
+DEBUG:MARKDOWN:Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+DEBUG:MARKDOWN:Successfully imported extension module "markdown.extensions.fenced_code".
+DEBUG:MARKDOWN:Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+DEBUG:MARKDOWN:Successfully imported extension module "markdown.extensions.fenced_code".
+DEBUG:MARKDOWN:Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+DEBUG:MARKDOWN:Successfully imported extension module "markdown.extensions.fenced_code".
+DEBUG:MARKDOWN:Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+DEBUG:MARKDOWN:Successfully imported extension module "markdown.extensions.fenced_code".
+DEBUG:MARKDOWN:Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+DEBUG:MARKDOWN:Successfully imported extension module "markdown.extensions.fenced_code".
+DEBUG:MARKDOWN:Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+DEBUG:MARKDOWN:Successfully imported extension module "markdown.extensions.fenced_code".
+DEBUG:MARKDOWN:Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+DEBUG:MARKDOWN:Successfully imported extension module "markdown.extensions.fenced_code".
+DEBUG:MARKDOWN:Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+DEBUG:MARKDOWN:Successfully imported extension module "markdown.extensions.fenced_code".
+DEBUG:MARKDOWN:Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+DEBUG:MARKDOWN:Successfully imported extension module "markdown.extensions.fenced_code".
+DEBUG:MARKDOWN:Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/authors/ HTTP/1.1" 200 8590
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/authors/ HTTP/1.1" 500 161801
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/authors/ HTTP/1.1" 200 2934
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404-team13-socialapp.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404-team13-socialapp.herokuapp.com:443 "GET /api/authors/ HTTP/1.1" 200 2388
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/15a5aaac-26cf-442d-a1a7-c158e7f9c5ac/posts HTTP/1.1" 200 4186
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/20dc960d-84b7-4ad1-a1e1-8c14230426a0/posts HTTP/1.1" 200 612257
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/c1084885-d411-46e2-a9a1-73338545d541/posts HTTP/1.1" 200 3426
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/c1a4621f-e76a-4374-b0d5-3781403d5c0f/posts HTTP/1.1" 200 58
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/authors/ HTTP/1.1" 200 8590
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/bf9a8d0c-0118-49cb-a3af-104111255657/posts HTTP/1.1" 200 2610
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/authors/ HTTP/1.1" 500 161799
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/ec581171-4b7f-41f4-b31e-55d53934f9e4/posts HTTP/1.1" 200 58
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/authors/ HTTP/1.1" 200 2934
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404-team13-socialapp.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/819b1813-2898-4722-8ffb-9c86a6aa6227/posts HTTP/1.1" 200 58
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404-team13-socialapp.herokuapp.com:443 "GET /api/authors/ HTTP/1.1" 200 2388
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/efd6a7af-82e7-4b5a-a4b4-664070dfcc79/posts HTTP/1.1" 200 58
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/366116b4-90e8-4579-a4a9-d6d634d93738/posts HTTP/1.1" 200 1780
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/12c4f0c5-9d18-45a4-8cb5-aa62496ca434/posts HTTP/1.1" 200 1992
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/51da3038-6402-42fc-8a9a-0d98744b33a7/posts HTTP/1.1" 200 58
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/f9f4c341-708a-4f5f-ad9a-62a38238d5cd/posts HTTP/1.1" 200 58
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/fcdf7d0b-3e93-487a-82c2-1e687ff8ae58/posts HTTP/1.1" 200 58
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/authors/ HTTP/1.1" 200 8590
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/ed71d6f8-f547-4676-bb4d-4a4fae845206/posts HTTP/1.1" 200 58
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/authors/ HTTP/1.1" 500 161799
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/9ba385ba-e477-47c0-83bd-820335c0ff36/posts HTTP/1.1" 200 58
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/16503095-3b96-4662-9023-2dc4da81996e/posts HTTP/1.1" 200 3403
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/authors/ HTTP/1.1" 200 2934
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404-team13-socialapp.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/49402c29-5be5-4fa1-af26-4ae48da2523f/posts HTTP/1.1" 200 58
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404-team13-socialapp.herokuapp.com:443 "GET /api/authors/ HTTP/1.1" 200 2388
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/66e4519d-1cb9-4a58-ad7f-d46b7b6d2a03/posts HTTP/1.1" 200 58
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/0dc33d8d-0fd8-40f6-b85f-d3bb9e3f07f4/posts HTTP/1.1" 200 58
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/author/7066efff-35dc-45d0-b54b-7ae51a7c4bec/posts HTTP/1.1" 200 4460
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/24cfe477-9d90-4749-87ce-f74687b11c9b/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/24cfe477-9d90-4749-87ce-f74687b11c9b/posts/ HTTP/1.1" 500 163092
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/24cfe477-9d90-4749-87ce-f74687b11c9b/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/24cfe477-9d90-4749-87ce-f74687b11c9b/posts/ HTTP/1.1" 200 27
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/8f06df22-be9a-4b6e-ab2d-83fb762dfa16/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/8f06df22-be9a-4b6e-ab2d-83fb762dfa16/posts/ HTTP/1.1" 500 163094
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/8f06df22-be9a-4b6e-ab2d-83fb762dfa16/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/8f06df22-be9a-4b6e-ab2d-83fb762dfa16/posts/ HTTP/1.1" 200 27
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/03e31e9c-7193-40d1-9c40-a4af6118cb24/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/03e31e9c-7193-40d1-9c40-a4af6118cb24/posts/ HTTP/1.1" 500 163094
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/authors/ HTTP/1.1" 200 8590
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/03e31e9c-7193-40d1-9c40-a4af6118cb24/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/03e31e9c-7193-40d1-9c40-a4af6118cb24/posts/ HTTP/1.1" 200 17115
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/authors/ HTTP/1.1" 500 161799
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/0fbc1b88-2d7c-44a4-83b9-ef5b1198f692/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/0fbc1b88-2d7c-44a4-83b9-ef5b1198f692/posts/ HTTP/1.1" 500 163094
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/authors/ HTTP/1.1" 200 2934
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404-team13-socialapp.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/0fbc1b88-2d7c-44a4-83b9-ef5b1198f692/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:https://cmput404-team13-socialapp.herokuapp.com:443 "GET /api/authors/ HTTP/1.1" 200 2388
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/0fbc1b88-2d7c-44a4-83b9-ef5b1198f692/posts/ HTTP/1.1" 200 392153
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/40aec04a-a040-412b-b77d-a2c6744d9d7e/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/40aec04a-a040-412b-b77d-a2c6744d9d7e/posts/ HTTP/1.1" 500 163096
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/40aec04a-a040-412b-b77d-a2c6744d9d7e/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/40aec04a-a040-412b-b77d-a2c6744d9d7e/posts/ HTTP/1.1" 200 3415
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/c05cea60-2ca2-4b0a-92e6-fe70ec60d761/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/c05cea60-2ca2-4b0a-92e6-fe70ec60d761/posts/ HTTP/1.1" 500 163094
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/c05cea60-2ca2-4b0a-92e6-fe70ec60d761/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/c05cea60-2ca2-4b0a-92e6-fe70ec60d761/posts/ HTTP/1.1" 200 843
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/b58fa1da-7b02-4e95-be15-7b913f8ff85b/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/b58fa1da-7b02-4e95-be15-7b913f8ff85b/posts/ HTTP/1.1" 500 163092
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/b58fa1da-7b02-4e95-be15-7b913f8ff85b/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/b58fa1da-7b02-4e95-be15-7b913f8ff85b/posts/ HTTP/1.1" 200 27
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/904594e6-4c2c-4728-86c7-c77934613bd7/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/904594e6-4c2c-4728-86c7-c77934613bd7/posts/ HTTP/1.1" 500 163094
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/904594e6-4c2c-4728-86c7-c77934613bd7/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/904594e6-4c2c-4728-86c7-c77934613bd7/posts/ HTTP/1.1" 200 27
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/8c0a5676-39ae-41c8-8e9f-c5f59a0b4605/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/8c0a5676-39ae-41c8-8e9f-c5f59a0b4605/posts/ HTTP/1.1" 500 163094
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/8c0a5676-39ae-41c8-8e9f-c5f59a0b4605/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/8c0a5676-39ae-41c8-8e9f-c5f59a0b4605/posts/ HTTP/1.1" 200 27
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/c44358a2-383b-4639-ab25-b3678023d462/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/c44358a2-383b-4639-ab25-b3678023d462/posts/ HTTP/1.1" 500 163096
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/c44358a2-383b-4639-ab25-b3678023d462/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/author/c44358a2-383b-4639-ab25-b3678023d462/posts/ HTTP/1.1" 200 27
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 127.0.0.1:7890
+DEBUG:urllib3.connectionpool:http://127.0.0.1:7890 "GET http://cmput404-team13-socialapp.herokuapp.com/api/author/f24cb837-9eb6-4b31-add5-325f5dec96f9/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:http://127.0.0.1:7890 "GET http://cmput404-team13-socialapp.herokuapp.com/api/author/f24cb837-9eb6-4b31-add5-325f5dec96f9/posts/ HTTP/1.1" 200 3364
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 127.0.0.1:7890
+DEBUG:urllib3.connectionpool:http://127.0.0.1:7890 "GET http://cmput404-team13-socialapp.herokuapp.com/api/author/b5359bf3-3001-486a-b873-975a12d9a2da/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:http://127.0.0.1:7890 "GET http://cmput404-team13-socialapp.herokuapp.com/api/author/b5359bf3-3001-486a-b873-975a12d9a2da/posts/ HTTP/1.1" 200 25
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 127.0.0.1:7890
+DEBUG:urllib3.connectionpool:http://127.0.0.1:7890 "GET http://cmput404-team13-socialapp.herokuapp.com/api/author/24e9ca23-66fe-4437-b7e4-bf5f3c7054b1/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:http://127.0.0.1:7890 "GET http://cmput404-team13-socialapp.herokuapp.com/api/author/24e9ca23-66fe-4437-b7e4-bf5f3c7054b1/posts/ HTTP/1.1" 200 25
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 127.0.0.1:7890
+DEBUG:urllib3.connectionpool:http://127.0.0.1:7890 "GET http://cmput404-team13-socialapp.herokuapp.com/api/author/posts HTTP/1.1" 404 5081
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 127.0.0.1:7890
+DEBUG:urllib3.connectionpool:http://127.0.0.1:7890 "GET http://cmput404-team13-socialapp.herokuapp.com/api/author/posts HTTP/1.1" 404 5081
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 127.0.0.1:7890
+DEBUG:urllib3.connectionpool:http://127.0.0.1:7890 "GET http://cmput404-team13-socialapp.herokuapp.com/api/author/1ec9959c-23f0-40e5-b551-f7a62d6e12fe/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:http://127.0.0.1:7890 "GET http://cmput404-team13-socialapp.herokuapp.com/api/author/1ec9959c-23f0-40e5-b551-f7a62d6e12fe/posts/ HTTP/1.1" 200 2310
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 127.0.0.1:7890
+DEBUG:urllib3.connectionpool:http://127.0.0.1:7890 "GET http://cmput404-team13-socialapp.herokuapp.com/api/author/8f0e54bf-69a7-4757-a672-a533b8924c52/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:http://127.0.0.1:7890 "GET http://cmput404-team13-socialapp.herokuapp.com/api/author/8f0e54bf-69a7-4757-a672-a533b8924c52/posts/ HTTP/1.1" 200 1637
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 127.0.0.1:7890
+DEBUG:urllib3.connectionpool:http://127.0.0.1:7890 "GET http://cmput404-team13-socialapp.herokuapp.com/api/author/posts HTTP/1.1" 404 5081
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 127.0.0.1:7890
+DEBUG:urllib3.connectionpool:http://127.0.0.1:7890 "GET http://cmput404-team13-socialapp.herokuapp.com/api/author/d3856a49-1c1e-40ae-9658-348076e91f3e/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:http://127.0.0.1:7890 "GET http://cmput404-team13-socialapp.herokuapp.com/api/author/d3856a49-1c1e-40ae-9658-348076e91f3e/posts/ HTTP/1.1" 200 1047
+DEBUG:MARKDOWN:Successfully imported extension module "markdown.extensions.fenced_code".
+DEBUG:MARKDOWN:Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+DEBUG:MARKDOWN:Successfully imported extension module "markdown.extensions.fenced_code".
+DEBUG:MARKDOWN:Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+DEBUG:MARKDOWN:Successfully imported extension module "markdown.extensions.fenced_code".
+DEBUG:MARKDOWN:Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+DEBUG:MARKDOWN:Successfully imported extension module "markdown.extensions.fenced_code".
+DEBUG:MARKDOWN:Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+DEBUG:MARKDOWN:Successfully imported extension module "markdown.extensions.fenced_code".
+DEBUG:MARKDOWN:Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+DEBUG:MARKDOWN:Successfully imported extension module "markdown.extensions.fenced_code".
+DEBUG:MARKDOWN:Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+DEBUG:MARKDOWN:Successfully imported extension module "markdown.extensions.fenced_code".
+DEBUG:MARKDOWN:Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+DEBUG:MARKDOWN:Successfully imported extension module "markdown.extensions.fenced_code".
+DEBUG:MARKDOWN:Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+DEBUG:MARKDOWN:Successfully imported extension module "markdown.extensions.fenced_code".
+DEBUG:MARKDOWN:Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/authors/ HTTP/1.1" 200 8590
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/authors/ HTTP/1.1" 500 161801
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/authors/ HTTP/1.1" 200 2934
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404-team13-socialapp.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404-team13-socialapp.herokuapp.com:443 "GET /api/authors/ HTTP/1.1" 200 2388
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/authors/ HTTP/1.1" 200 8590
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/authors/ HTTP/1.1" 500 161801
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/authors/ HTTP/1.1" 200 2934
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404-team13-socialapp.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404-team13-socialapp.herokuapp.com:443 "GET /api/authors/ HTTP/1.1" 200 2388
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): social-distribution-fall2021.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/authors/ HTTP/1.1" 200 8590
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://social-distribution-fall2021.herokuapp.com:443 "GET /api/authors/ HTTP/1.1" 200 8590
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/authors/ HTTP/1.1" 500 161801
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/authors/ HTTP/1.1" 500 161801
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/authors/ HTTP/1.1" 200 2934
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404-team13-socialapp.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404f21t17.herokuapp.com:443 "GET /service/authors/ HTTP/1.1" 200 2934
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404-team13-socialapp.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404-team13-socialapp.herokuapp.com:443 "GET /api/authors/ HTTP/1.1" 200 2388
+DEBUG:urllib3.connectionpool:https://cmput404-team13-socialapp.herokuapp.com:443 "GET /api/authors/ HTTP/1.1" 200 2388
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 127.0.0.1:7890
+DEBUG:urllib3.connectionpool:http://127.0.0.1:7890 "GET http://cmput404-team13-socialapp.herokuapp.com/api/author/1ec9959c-23f0-40e5-b551-f7a62d6e12fe HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:http://127.0.0.1:7890 "GET http://cmput404-team13-socialapp.herokuapp.com/api/author/1ec9959c-23f0-40e5-b551-f7a62d6e12fe/ HTTP/1.1" 200 269
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 127.0.0.1:7890
+DEBUG:urllib3.connectionpool:http://127.0.0.1:7890 "GET http://cmput404-team13-socialapp.herokuapp.com/api/author/1ec9959c-23f0-40e5-b551-f7a62d6e12fe/posts HTTP/1.1" 301 0
+DEBUG:urllib3.connectionpool:http://127.0.0.1:7890 "GET http://cmput404-team13-socialapp.herokuapp.com/api/author/1ec9959c-23f0-40e5-b551-f7a62d6e12fe/posts/ HTTP/1.1" 200 2310
+DEBUG:MARKDOWN:Successfully imported extension module "markdown.extensions.fenced_code".
+DEBUG:MARKDOWN:Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404-team13-socialapp.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404-team13-socialapp.herokuapp.com:443 "GET /api/author/1ec9959c-23f0-40e5-b551-f7a62d6e12fe/posts/e3433cf3-ed78-476a-9db1-d8a728769baf/ HTTP/1.1" 200 2308
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404-team13-socialapp.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404-team13-socialapp.herokuapp.com:443 "GET /api/author/1ec9959c-23f0-40e5-b551-f7a62d6e12fe/posts/e3433cf3-ed78-476a-9db1-d8a728769baf//likes HTTP/1.1" 404 5325
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404-team13-socialapp.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404-team13-socialapp.herokuapp.com:443 "GET /api/author/1ec9959c-23f0-40e5-b551-f7a62d6e12fe/posts/e3433cf3-ed78-476a-9db1-d8a728769baf//comments HTTP/1.1" 404 5334
+DEBUG:MARKDOWN:Successfully imported extension module "markdown.extensions.fenced_code".
+DEBUG:MARKDOWN:Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+WARNING:django.request:Not Found: /remote_post/text/markdownHeading=======Sub-heading-----------
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404-team13-socialapp.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404-team13-socialapp.herokuapp.com:443 "GET /api/author/1ec9959c-23f0-40e5-b551-f7a62d6e12fe/posts/e3433cf3-ed78-476a-9db1-d8a728769baf/ HTTP/1.1" 200 2308
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404-team13-socialapp.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404-team13-socialapp.herokuapp.com:443 "GET /api/author/1ec9959c-23f0-40e5-b551-f7a62d6e12fe/posts/e3433cf3-ed78-476a-9db1-d8a728769baf//likes HTTP/1.1" 404 5325
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404-team13-socialapp.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404-team13-socialapp.herokuapp.com:443 "GET /api/author/1ec9959c-23f0-40e5-b551-f7a62d6e12fe/posts/e3433cf3-ed78-476a-9db1-d8a728769baf//comments HTTP/1.1" 404 5334
+DEBUG:MARKDOWN:Successfully imported extension module "markdown.extensions.fenced_code".
+DEBUG:MARKDOWN:Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+WARNING:django.request:Not Found: /remote_post/text/markdownHeading=======Sub-heading-----------
+INFO:django.utils.autoreload:C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\Author\views.py changed, reloading.
+DEBUG:asyncio:Using proactor: IocpProactor
