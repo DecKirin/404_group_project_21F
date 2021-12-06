@@ -781,7 +781,7 @@ class Remote_Specific_Post_View(View):
                 "type": "comment",
                 "author": UserSerializer(author_for_comment).data,
                 "comment": comment_content,
-                "contentType": comment_type,  # TODO: add markdown option
+                "contentType": comment_type, 
 
             }
 
@@ -805,14 +805,15 @@ class Remote_Specific_Post_View(View):
             current_author = request.user
             post_author_url = post["author"]["url"]
             data = {
-                "@contex:"
+                "@contex": "https://www.w3.org/ns/activitystreams",
                 "summary": "%s commented on your post" % current_author.username,
                 "type": "comment",
                 "author": UserSerializer(current_author).data,
-                "commentType": "text/plain",
-                "object": post["id"]
+                "comment":comment_content,
+                "commentType": comment_type,
+                "object": post["id"],
             }
-            print(data)
+            
             if post_author_url[-1] == '/':
                 inbox_url = post_author_url + "inbox"
             else:
