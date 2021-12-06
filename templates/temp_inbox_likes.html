@@ -33,19 +33,11 @@
                               </div>
                           </div>
                           <div class="card-footer">
-                            {% if current_author.uuidt %}
                               <div class="text-right">
                               <a href="{% url "Author:specific_post" current_author.uuid like.post %}" class="btn btn-sm bg-teal">
                                   <i class="fas fa-comments"></i> Post
                               </a>
                               </div>
-                            {% else %}
-                              <div class="text-right">
-                              <a href="{% url "Author:specific_post" current_author.id like.post %}" class="btn btn-sm bg-teal">
-                                  <i class="fas fa-comments"></i> Post
-                              </a>
-                              </div>
-                            {% endif %}
                           </div>
                           </div>
                       </tr>
