@@ -43,9 +43,9 @@
                                     {% endif %}
                               {% else %}
                                   {% if request.sender %}
-                                      <a href="{% url 'Author:remote_author_profile' request.sender.url %}" class="btn btn-sm btn-primary">
+                                      <a href="{% url 'Author:remote_author_profile'%}?url={{ request.sender.url }}" class="btn btn-sm btn-primary">
                                   {% else %}
-                                      <a href="{% url 'Author:remote_author_profile' request.actor.url %}" class="btn btn-sm btn-primary">
+                                      <a href="{% url 'Author:remote_author_profile' %}?url={{ request.actor.url }}" class="btn btn-sm btn-primary">
                                   {% endif %}
                                   <i class="fas fa-user"></i> Profile
                               </a>

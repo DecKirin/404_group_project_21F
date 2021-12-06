@@ -532,7 +532,7 @@ class Remote_Specific_Post_View(View):
         postAPIURL = urllib.parse.unquote(postAPIURL)
         postRequest = make_api_get_request(postAPIURL)
         post = postRequest.json()
-
+        print("remote post be like:", post)
         team_flag = 0 
 
         try:
@@ -555,8 +555,13 @@ class Remote_Specific_Post_View(View):
             print("The host is not in our connected group")
             return None
 
-        postLikesAPIURL = postAPIURL + "/likes"
-        postCommentsAPIURL = postAPIURL + "/comments"
+        if postAPIURL[-1] == "/":
+            postLikesAPIURL = postAPIURL + "likes"
+            postCommentsAPIURL = postAPIURL + "comments"
+        else:
+            postLikesAPIURL = postAPIURL + "/likes"
+            postCommentsAPIURL = postAPIURL + "/comments"
+
         postLikesRequest = make_api_get_request(postLikesAPIURL)
 
         try:
@@ -568,7 +573,7 @@ class Remote_Specific_Post_View(View):
         comments = None
         if postCommentsRequest.status_code == 200:
             comments_request = postCommentsRequest.json()
-            if team_flag ==4:
+            if team_flag == 4:
                 comments = comments_request["comments"]
             elif team_flag == 13:
                 comments = comments_request

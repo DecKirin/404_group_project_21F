@@ -55,9 +55,9 @@ def make_api_get_request(api_url):
         request = requests.get(api_url, proxies=proxies,
                                auth=HTTPBasicAuth("7c70c1c8-04fe-46e0-ae71-8969061adac0", "123456"), verify=True)
     return request
-
-
 '''
+
+
 
 
 def process_categories(categories):
