@@ -19,7 +19,7 @@
                        {% if not view_author.profileImage %}
                        src="{% static 'mine/images/default_avatar.png' %}"
                        {% else %}
-                       src="{% static view_author.profile_image %}"
+                       src="{{ view_author.profileImage }}"
                        {% endif %}
                        alt="User profile picture">
                 </div>
@@ -96,7 +96,7 @@
                   {% if post.url %}
                     <h3><a href="{% url 'Author:remote_specific_post' %}?post_url={{ post.url }}">{{ post.title }}</a></h3>
                   {% else %}
-                    <h3><a href="{% url 'Author:remote_specific_post' %}?post_url={{ post.id }}">{{ post.title }}</a></h3>
+                    <h3><a href="{% url 'Author:remote_specific_post' %}?post_url={{ post.source }}">{{ post.title }}</a></h3>
                   {% endif %}
               </div><!-- /.card-header -->
               <div class="card-body">

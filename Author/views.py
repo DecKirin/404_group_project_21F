@@ -44,15 +44,19 @@ def make_api_get_request(api_url):
         "http": "http://127.0.0.1:7890",
         "https": "http://127.0.0.1:7890"
     }
-    #uname = "team11"
-    #pas = "secret11"
+    # uname = "team11"
+    # pas = "secret11"
     print("api_request:", api_url)
     request = requests.get(api_url, proxies=proxies, auth=HTTPBasicAuth("team11", "secret11"), verify=True)
     print("code:", request.status_code)
     if request.status_code in [403, 401, 500]:
-        #request = requests.get(api_url, proxies=proxies, auth=HTTPBasicAuth("7c70c1c8-04fe-46e0-ae71-8969061adac0", "123456"), verify=True)
-        request = requests.get(api_url, proxies=proxies, auth=HTTPBasicAuth("7c70c1c8-04fe-46e0-ae71-8969061adac0", "123456"), verify=True)
+        # request = requests.get(api_url, proxies=proxies, auth=HTTPBasicAuth("7c70c1c8-04fe-46e0-ae71-8969061adac0",
+        # "123456"), verify=True)
+        request = requests.get(api_url, proxies=proxies,
+                               auth=HTTPBasicAuth("7c70c1c8-04fe-46e0-ae71-8969061adac0", "123456"), verify=True)
     return request
+
+
 '''
 
 
@@ -64,6 +68,7 @@ def make_api_get_request(api_url):
         request = requests.get(api_url, auth=HTTPBasicAuth("7c70c1c8-04fe-46e0-ae71-8969061adac0", "123456"),
                                verify=True)
     return request
+
 
 
 # check if validation by admin is required to activate an author account
@@ -105,7 +110,7 @@ def get_remote_authors():
         ####todo:authentication information
         ####request = requests.get(api_uri, auth=HTTPBasicAuth(auth_user, auth_pass))
         try:
-        # proxies = {"http": None, "https": None}66
+            # proxies = {"http": None, "https": None}66
             request = make_api_get_request(api_uri)
             print("request", request.json())
             if request.status_code == 200:
@@ -505,6 +510,7 @@ GET: visit edit profile page(need login)
 POST: change profile by send post data of editable fields
 '''
 
+
 class UserEditProfileImageView(LoginRequiredMixin, View):
     def get(self, request):
         # current logged in user
@@ -540,7 +546,7 @@ class UserEditProfileImageView(LoginRequiredMixin, View):
             error_msg_dic["msg"] = "Successfully update profile image"
             json_data.append(error_msg_dic)
             print("message OK")
-        else :
+        else:
             error_msg_dic["code"] = "400"
             error_msg_dic["msg"] = "Fail to upload the image, please try to upload again"
             json_data.append(error_msg_dic)
@@ -1205,10 +1211,10 @@ class APIInbox(APIView):
             inbox.items.append(FriendRequestSerializer(friend_request).data)
             inbox.save()
             # add remote author to follower list of local author
-#             follower, create_follower = Follower.objects.get_or_create(user=local_author)
+            #             follower, create_follower = Follower.objects.get_or_create(user=local_author)
 
             # follower.add_follower(UserSerializer(remote_author).data)
-#             follower.add_follower(remote_author)
+            #             follower.add_follower(remote_author)
             response = Response()
             response.data = data
             response.status_code = 200
