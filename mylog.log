@@ -2892,3 +2892,15 @@ DEBUG:MARKDOWN:Successfully loaded extension "markdown.extensions.fenced_code.Fe
 WARNING:django.request:Not Found: /remote_post/text/markdownHeading=======Sub-heading-----------
 INFO:django.utils.autoreload:C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\Author\views.py changed, reloading.
 DEBUG:asyncio:Using proactor: IocpProactor
+DEBUG:root:[]
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404-team13-socialapp.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404-team13-socialapp.herokuapp.com:443 "GET /api/author/1ec9959c-23f0-40e5-b551-f7a62d6e12fe/posts/e3433cf3-ed78-476a-9db1-d8a728769baf/ HTTP/1.1" 200 2308
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404-team13-socialapp.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404-team13-socialapp.herokuapp.com:443 "GET /api/author/1ec9959c-23f0-40e5-b551-f7a62d6e12fe/posts/e3433cf3-ed78-476a-9db1-d8a728769baf//likes HTTP/1.1" 404 5325
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404-team13-socialapp.herokuapp.com:443
+DEBUG:urllib3.connectionpool:https://cmput404-team13-socialapp.herokuapp.com:443 "GET /api/author/1ec9959c-23f0-40e5-b551-f7a62d6e12fe/posts/e3433cf3-ed78-476a-9db1-d8a728769baf//comments HTTP/1.1" 404 5334
+DEBUG:MARKDOWN:Successfully imported extension module "markdown.extensions.fenced_code".
+DEBUG:MARKDOWN:Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+WARNING:django.request:Not Found: /remote_post/text/markdownHeading=======Sub-heading-----------
+INFO:django.utils.autoreload:C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\Author\views.py changed, reloading.
+DEBUG:asyncio:Using proactor: IocpProactor
