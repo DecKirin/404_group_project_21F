@@ -554,7 +554,10 @@ class like_remote_post_view(View):
             "object": post["id"]
         }
         print(data)
-        inbox_url = post_author_url + "/inbox"
+        if post_author_url[-1] == '/':
+            inbox_url = post_author_url + "inbox"
+        else:
+            inbox_url = post_author_url + "/inbox"
         print("inbox_url", inbox_url)
         try:
             request = make_api_post_request(inbox_url, json.dumps(data))
@@ -782,6 +785,4 @@ class Remote_Specific_Post_View(View):
             print("fail to comment")
 
         return redirect(reverse('Author:remote_specific_post') + "?post_url=%s" % postAPIURL )
-
-
 

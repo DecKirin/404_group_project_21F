@@ -21,7 +21,7 @@ from django.db import models
 from rest_framework.renderers import TemplateHTMLRenderer
 import urllib
 from Author.serializers import UserSerializer, PostSerializer, CommentSerializer, InboxSerializer
-from friends.models import FriendRequest, Follower
+from friends.models import FriendRequest, Follower, Friend
 from Post.serializers import LikeSerializer
 from Author.models import User, RegisterControl, Inbox, Post, Node
 from Post.models import PostComment, PostLike

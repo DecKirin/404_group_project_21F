@@ -58,7 +58,7 @@ class PostComment(models.Model):
     published = models.DateTimeField(auto_now_add=True)
     url = models.URLField(editable=False, default="")
     api_url = models.URLField(editable=False,default="")
-
+    # contentType = models.CharField(default="text/plain")
     class Meta:
         ordering = ('published',)
         db_table = 'postcomment'
