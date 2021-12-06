@@ -3,18 +3,18 @@ from .models import FriendRequest, Friend, Follow, Follower
 
 
 class FriendRequestSerializer(serializers.ModelSerializer):
-    actor = serializers.SerializerMethodField()
-    object = serializers.SerializerMethodField()
+#     actor = serializers.SerializerMethodField()
+#     object = serializers.SerializerMethodField()
 
     class Meta:
         model = FriendRequest
         fields = ['type', 'request_id', 'sender', 'receiver', 'respond_status']
 
-    def get_actor(self, obj):
-        return obj.sender
+#     def get_actor(self, obj):
+#         return obj.sender
 
-    def get_object(self, obj):
-        return obj.receiver
+#     def get_object(self, obj):
+#         return obj.receiver
 
 
 class FriendsSerializer(serializers.ModelSerializer):
