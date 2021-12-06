@@ -35,13 +35,7 @@
                           <div class="card-footer">
                             {% if like.post %}
                               <div class="text-right">
-                              <a href="" class="btn btn-sm bg-teal">
-                                  <i class="fas fa-comments"></i> Post
-                              </a>
-                              </div>
-                            {% else %}
-                              <div class="text-right">
-                              <a href="" class="btn btn-sm bg-teal">
+                              <a href="{% url "Author:specific_post" current_author.id like.post %}" class="btn btn-sm bg-teal">
                                   <i class="fas fa-comments"></i> Post
                               </a>
                               </div>
