@@ -263,7 +263,6 @@ class remote_un_befriend(APIView):
         print(author_request)
 
         to_del_friend = author_request.json()
-#         to_del_friend = json.load(author_request)
         if delete == 'Un-follow':
             follow = Follow.objects.get(user=user)
             follow.delete_follow(to_del_friend)
