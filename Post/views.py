@@ -424,6 +424,7 @@ def share_local_post(request, author_id, post_id):
             post.author.id) + "/posts/" + post.id + "/"
         post.api_url = request.scheme + "://" + request.META['HTTP_HOST'] + "/api/author/" + str(
             post.author.id) + "/posts/" + post.id + "/"
+    author = request.user
     if visibility == 2:
         try:
             friends = Friend.objects.get(user=author)
@@ -537,6 +538,7 @@ def share_remote_post(request):
             post.author.id) + "/posts/" + post.id + "/"
         post.api_url = request.scheme + "://" + request.META['HTTP_HOST'] + "/api/author/" + str(
             post.author.id) + "/posts/" + post.id + "/"
+    author = request.user
     if visibility == 2:
         try:
             friends = Friend.objects.get(user=author)
