@@ -437,7 +437,7 @@ def share_local_post(request, author_id, post_id):
         except:
             pass
     post.save()
-    return redirect(reverse('Author:index'))
+    return redirect(reverse('Author:specific_post', args=(post.author.id, post.id)))
 
 
 def share_remote_post(request):
@@ -537,7 +537,7 @@ def share_remote_post(request):
             pass
     post.save()
 
-    return redirect(reverse('Author:index'))
+    return redirect(reverse('Author:remote_specific_post') + "?post_url=%s" % postAPIURL)
 
 
 class like_remote_post_view(View):
