@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.utils.html import format_html
 from django.utils.http import urlencode
 
-from .models import User, RegisterControl, Post, Node
+from .models import User, RegisterControl, Post, Node, Inbox
 from friends.models import Friend, Follower, Follow, FriendRequest
 from Post.models import PostComment, PostLike
 
@@ -270,3 +270,4 @@ admin.site.register(RegisterControl)
 admin.site.register(Follow)
 admin.site.register(Follower)
 admin.site.register(FriendRequest)
+admin.site.register(Inbox)
