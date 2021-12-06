@@ -345,6 +345,10 @@ class SpecificPostView(View):
         hasComments = False
         if comments:
             hasComments = True
+        if post.origin == post.url:
+            is_shared = False
+        else:
+            is_shared = True
 
         context = {
             'current_author':current_user,
@@ -358,6 +362,7 @@ class SpecificPostView(View):
             'hasComments': hasComments,
             'comments': comments,
             'likes_usernames': like_usernames,
+            'isShared': is_shared,
         }
         return render(request, 'post_legal.html', context=context)
 
