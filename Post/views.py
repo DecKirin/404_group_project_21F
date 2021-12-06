@@ -663,6 +663,9 @@ class Remote_Specific_Post_View(View):
                 team_flag = 13
             elif host_413 == "https://social-distribution-fall2021.herokuapp.com/api/":
                 team_flag = 4
+            else:
+                team_flag = 17
+
         except Exception:  # TODO
             team_flag = 17
             '''
@@ -761,6 +764,8 @@ class Remote_Specific_Post_View(View):
                 team_flag = 13
             elif host_413 == "https://social-distribution-fall2021.herokuapp.com/api/":
                 team_flag = 4
+            else:
+                team_flag = 17
             
         except Exception:  # TODO
                 team_flag = 17
@@ -834,5 +839,8 @@ class Remote_Specific_Post_View(View):
                 error_msg_dic["msg"] = "Fail to comment the post, please try  again"
                 json_data.append(error_msg_dic)
                 print("fail to comment")
+            
+        
+
 
         return redirect(reverse('Author:remote_specific_post') + "?post_url=%s" % postAPIURL)
