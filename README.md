@@ -1,4 +1,4 @@
-# 404_group_project_21F
+# Social_Network - CMPUT404FALL2021TEAM11
 
 ## Team Member
  * Junqi Zou          -zoujunqi
