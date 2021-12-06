@@ -1340,8 +1340,7 @@ class APIInbox(APIView):
             print("here")
             remote_author = data['author']
             like_object = data['object']
-
-            liked_post = Post.objects.get(api_url=like_object)
+            liked_post = Post.objects.filter(api_url=like_object).first()
             try:
                 like = PostLike.objects.create(post=liked_post, author=remote_author, object=like_object)
                 inbox.items.append(LikeSerializer(like).data)
