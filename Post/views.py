@@ -103,7 +103,7 @@ class NewPostView(View):
             image64 = base64.b64encode(image.read())
 
             image64 = 'data:image/%s;base64,%s' % (fileformat, image64.decode('utf-8'))
-            print(image64)
+            # print(image64)
 
         post = Post.objects.create(title=title, id=post_id, description=description,
                                    contentType=content_type, content=content, author=request.user,
@@ -261,6 +261,16 @@ class EditPostView(View):
             cur_post.categories = categories_update
         if description_update is not None:
             cur_post.description = description_update
+
+        try:
+            image = request.FILES['img']
+            name, fileformat = image.name.split('.')
+            image64 = base64.b64encode(image.read())
+            image64 = 'data:image/%s;base64,%s' % (fileformat, image64.decode('utf-8'))
+            cur_post.image = image64
+        except Exception:
+            image64 = ''
+
         cur_post.save()
         return redirect(reverse('Author:specific_post', args=(author_id, post_id)))
 

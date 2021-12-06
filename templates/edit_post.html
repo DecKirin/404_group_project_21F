@@ -33,7 +33,62 @@
         <div>
             <button onclick="edit_post">Submit</button>
         </div>
+
     </form>
+
+          <form id="post_image" method="Post" action="{% url 'Author:edit_profile_image' %}">
+              <!--form id="profile_image" -->
+              {% csrf_token %}
+
+                <div class="card-body">
+                  <div class="form-group">
+                    <label for="exampleInputFile">Edit Post Image</label>
+                    <div class="input-group">
+                      <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="img" name="img">
+                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+                <!-- /.card-body -->
+                <div class="card-footer">
+                  <button onclick="upload_img()" class="btn btn-primary">Submit Image</button>
+                </div>
+                <script type="text/javascript">
+                function upload_img() {
+                    let formData = new FormData($("#post_image")[0]);
+                    //let formData = $("img").val();
+                    var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+
+                    $.ajax({
+                        url: "/editpost/",
+                        type: 'POST',
+                        headers: {'X-CSRFToken': csrftoken},
+
+                        data: formData,
+
+                        dataType: "JSON",
+                        contentType: false,
+                        processData: false,
+                        cache: false,
+                        success: function (data) {
+
+
+                            if (data === 1) {
+                                alert("success");
+                            }else if (data === 0) {
+                                alert("fail");
+                            }
+                            window.location.href = '/editImage/'
+                        },
+                        error: function (data) {
+                            console.log(data);
+                        }
+                    });
+                }
+            </script>
 
     <script type="text/javascript">
         function edit_post() {
