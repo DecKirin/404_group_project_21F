@@ -363,8 +363,10 @@ class process_friend_request(View):
             context['choice'] = f"You've declined {request_user['displayName']}'s request"
 
         # logging.debug('Nothing')
-        return render(request, 'mystream.html')
+#         return render(request, 'mystream.html')
         # return HttpResponseRedirect(reverse('Author:index'))
+        return redirect(reverse('Author:my_list', kwargs={'relationship':'friends'}))
+
 
 
 ''''''''''''''''''''''''''''''''''''''''follower/follows/friends related api'''''''''''''''''''''''''''''''''''''''''''''''
