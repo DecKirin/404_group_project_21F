@@ -240,6 +240,11 @@ class remote_sent_request(APIView):
         logging.debug(inbox_url)
         logging.debug(json.dumps(inbox_info))
         request = make_api_post_request(inbox_url, inbox_info)
+        
+        response = Response()
+        response.status_code = 200
+        response.data = request.status_code
+        return response
        
         return redirect(reverse('Author:my_list', kwargs={'relationship':'follows'}))
 
