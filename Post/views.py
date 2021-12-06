@@ -533,9 +533,32 @@ class Remote_Specific_Post_View(View):
         postRequest = make_api_get_request(postAPIURL)
         post = postRequest.json()
 
+        team_flag = 0 
+
+        try:
+            author_413 = post["author"]
+            host_413 = author_413["host"]
+            if host_413 == "http://cmput404-team13-socialapp.herokuapp.com":
+                team_flag = 13
+            elif host_413 == "https://social-distribution-fall2021.herokuapp.com/api/":
+                team_flag = 4
+        except Exception: #TODO
+            print("Wrong")
+            '''
+            all_info = post["items"]
+            author_17 = all_info["author"]
+            host_17 = author_17["host"]
+            if host_17 == "https://cmput404f21t17.herokuapp.com/":
+                team_flag = 17 '''
+        
+        if team_flag == 0:
+            print("The host is not in our connected group")
+            return None
+
         postLikesAPIURL = postAPIURL + "/likes"
         postCommentsAPIURL = postAPIURL + "/comments"
         postLikesRequest = make_api_get_request(postLikesAPIURL)
+
         try:
             postlikes = postLikesRequest.json()["items"]
         except Exception:
@@ -544,11 +567,13 @@ class Remote_Specific_Post_View(View):
         postCommentsRequest = make_api_get_request(postCommentsAPIURL)
         comments = None
         if postCommentsRequest.status_code == 200:
-            try:
-                comments = postCommentsRequest.json()["items"]
-            except Exception:
-                comments = postCommentsRequest.json()
-            print("postcomments:", comments)
+            comments_request = postCommentsRequest.json()
+            if team_flag ==4:
+                comments = comments_request["comments"]
+            elif team_flag == 13:
+                comments = comments_request
+        
+        print("postcomments:", comments)
 
         image = post['contentType'] + post['content']
 
@@ -589,7 +614,8 @@ class Remote_Specific_Post_View(View):
             'isAuthor': im_author,
             'image': image,
             'hasComments': hasComments,
-            'comments': comments  # return render(request, 'posts/comments.html', context=context)
+            'comments': comments,  # return render(request, 'posts/comments.html', context=context)
+            'flag': team_flag
         }
         print(context)
         return render(request, 'remote_public_post.html', context=context)

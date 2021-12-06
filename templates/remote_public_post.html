@@ -76,16 +76,16 @@
                             <!--show comment if is valid for view comments-->
                             {% if isPublic %}
                                 {% if hasComments %}
-                                    {% for comment in comments %}
-                                    <span>{{comment.comment}}</span><br>
+                                    {% for comment1 in comments %}
+                                    <span>{{comment1.comment}}</span><br>
                                     {% endfor %}
                                 {% endif %}
 
                             {% else %}
                                 {% if isAuthor %}
                                     {% if hasComments %}
-                                        {% for comment in comments %}
-                                        <span>{{comment.comment}}</span><br>
+                                        {% for comment1 in comments %}
+                                        <span>{{comment1.comment}}</span><br>
                                         {% endfor %}
                                     {% endif %}
                                 {% endif %}
