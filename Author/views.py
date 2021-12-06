@@ -37,7 +37,7 @@ from social_network.settings import SECRET_KEY
 
 """in case vpn issues, modify based on your own vpn"""
 
-
+'''
 # if proxy is needed, change the proxies according to your proxy setting
 def make_api_get_request(api_url):
     proxies = {
@@ -53,7 +53,7 @@ def make_api_get_request(api_url):
 
         request = requests.get(api_url, proxies=proxies, auth=HTTPBasicAuth("7c70c1c8-04fe-46e0-ae71-8969061adac0", "123456"), verify=True)
     return request
-
+'''
 
 
 def process_categories(categories):
@@ -62,7 +62,7 @@ def process_categories(categories):
         categories[i] = categories[i].strip()
     return str(categories)
 
-'''
+
 # if proxy is not needed
 def make_api_get_request(api_url):
     if "https://cmput404f21t17.herokuapp.com" in api_url:
@@ -73,7 +73,7 @@ def make_api_get_request(api_url):
     # if request.status_code in [403, 401, 500]:
     #    request = requests.get(api_url, auth=HTTPBasicAuth("7c70c1c8-04fe-46e0-ae71-8969061adac0", "123456"), verify=True)
     return request
-'''
+
 
 # check if validation by admin is required to activate an author account
 def check_if_confirmation_required():
