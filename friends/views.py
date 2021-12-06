@@ -258,7 +258,7 @@ class remote_un_befriend(APIView):
         response = Response()
         response.status_code = 200
         response.data = authorAPIUrl
-        return response
+#         return response
         author_request = make_api_get_request(authorAPIUrl)
         print(author_request)
 
