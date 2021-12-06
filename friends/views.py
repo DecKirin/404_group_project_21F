@@ -241,7 +241,7 @@ class remote_sent_request(APIView):
         
         response = Response()
         response.status_code = 200
-        response.data = type(inbox_info) + request.status_code
+        response.data = type(inbox_info)
         return response
        
         return redirect(reverse('Author:my_list', kwargs={'relationship':'follows'}))
