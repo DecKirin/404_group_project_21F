@@ -1,25 +1,27 @@
 import json
+import logging
+import requests
+import urllib
 from datetime import datetime
-from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.urls import reverse
+from django.views import View
+from rest_framework import status
 from rest_framework.authentication import BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-import urllib
+
+from Author.models import User, Inbox
+from Author.serializers import UserSerializer
 from Author.views import make_api_get_request, get_remote_authors
 from Post.views import make_api_post_request
-from Author.serializers import UserSerializer
 from .models import Friend, FriendRequest, Follower, Follow
 from .serializers import FriendRequestSerializer, FollowsSerializer, FollowersSerializer, FriendsSerializer
-from Author.models import User, Inbox
-from django.views import View
-from django.http import HttpResponseRedirect
-from django.urls import reverse
-from rest_framework import status
-from django.core.paginator import Paginator
-import logging
 
 
 # Create your views here.
@@ -250,37 +252,38 @@ class remote_sent_request(APIView):
 class remote_un_befriend(APIView):
 
     def get(self, request, delete):
-        logging.basicConfig(filename='requestlog.log', level=logging.DEBUG)
+        # logging.basicConfig(filename='requestlog.log', level=logging.DEBUG)
         user = request.user
         context = {}
         authorAPIUrl = request.GET.get("url")
-        authorAPIUrl = urllib.parse.unquote(authorAPIUrl)
-        author_request = request.get(authorAPIUrl)
-        
+        # logging.debug(authorAPIUrl)
+        # authorAPIUrl = urllib.parse.unquote(authorAPIUrl)
+
+        author_request = requests.get(authorAPIUrl)
         print(author_request)
 
         response = Response()
         response.status_code = 200
         response.data = author_request.content
         return response
-        
+        to_del_friend = json.load(author_request)
         if delete == 'Un-follow':
             follow = Follow.objects.get(user=user)
             follow.delete_follow(to_del_friend)
             context['type'] = 'follows'
         elif delete == 'Un-befriend':
             friend = Friend.objects.get(user=user)
-            del_friend = Friend.objects.get(user=to_del_friend)
-            friend.delete_friend(UserSerializer(to_del_friend).data)
-            del_friend.delete_friend(UserSerializer(user).data)
+            # del_friend = Friend.objects.get(user=to_del_friend)
+            friend.delete_friend(to_del_friend)
+            # del_friend.delete_friend(UserSerializer(user).data)
             context['type'] = 'friends'
         elif delete == 'Un-follower':
             follower = Follower.objects.get(user=user)
-            follower.delete_follower(UserSerializer(to_del_friend).data)
+            follower.delete_follower(to_del_friend)
             context['type'] = 'followers'
         context['user'] = user
         context['to_del_friend'] = to_del_friend
-        return redirect(reverse('Author:my_list', kwargs={'relationship':context['type']}))
+        # return redirect(reverse('Author:my_list', kwargs={'relationship':context['type']}))
 
 
 '''
