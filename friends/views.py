@@ -237,8 +237,8 @@ class remote_sent_request(APIView):
         logging.debug(inbox_info)
 
         inbox_url = authorAPIUrl + "/inbox"
-        request = make_api_post_request(inbox_url, inbox_info)
-       
+#         request = make_api_post_request(inbox_url, inbox_info)
+        request = requests.post(api_url, json=inbox_info, auth=HTTPBasicAuth("team11", "secret11"))
        
         return redirect(reverse('Author:my_list', kwargs={'relationship':'follows'}))
 
