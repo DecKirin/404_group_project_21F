@@ -240,8 +240,10 @@ class remote_sent_request(APIView):
         logging.debug(inbox_url)
         logging.debug(json.dumps(inbox_info))
         request = make_api_post_request(inbox_url, inbox_info)
-        print("inbox post request:!!!!!", request)
-       
+        response = Response()
+        response.status_code = 200
+        response.data = request
+        return response
         return redirect(reverse('Author:my_list', kwargs={'relationship':'follows'}))
 
 class remote_un_befriend(APIView):
