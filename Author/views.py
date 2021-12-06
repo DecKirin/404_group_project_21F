@@ -60,6 +60,13 @@ def make_api_get_request(api_url):
 '''
 
 
+def process_categories(categories):
+    categories = categories.split(',')
+    for i in range(len(categories)):
+        categories[i] = categories[i].strip()
+    return str(categories)
+
+
 # if proxy is not needed
 def make_api_get_request(api_url):
     request = requests.get(api_url, auth=HTTPBasicAuth("team11", "secret11"), verify=True)
@@ -1099,6 +1106,104 @@ class APIPostByIdView(APIView):
 
     def post(self, request, authorId, postId):
         pass
+
+    def put(self, request, authorId, postId):
+
+        author = User.objects.get(id=authorId)
+        response = Response()
+        data = json.loads(request.body)
+        print(data)
+        try:
+            post = Post.objects.get(id=postId)
+        except Exception:
+            pass
+        else:
+            response.status_code = 404  # the post_id is occupied and cannot create post
+            response.data = 'the post id is occupied, please try with a different id'
+            return response
+
+        if data['type'] != 'post':
+            response.status_code = 404
+            response.data = 'type is not post'
+            return response
+
+        author = request.user
+        try:
+            title = data['title']
+            content_type = data['content_type']
+            content = data['content']
+            categories = data['categories']
+            categories = process_categories(categories)
+            description = data['description']
+            visibility = int(data['visibility'])
+        except Exception:
+            response.status_code = 404
+            response.data = 'required info missing'
+            return response
+
+        if 'source' in data:
+            source = data['source']
+        else:
+            source = request.build_absolute_uri(request.path)
+        if 'origin' in data:
+            origin = data['origin']
+        else:
+            origin = request.build_absolute_uri(request.path)
+        unlisted = False  # TODO
+
+
+        if 'select_user' in data:
+            select_user = data['select_user']
+        else:
+            select_user = ''
+        if select_user != '' and visibility == 3:
+            try:
+                user = User.objects.get(username=select_user) # TODO: might be foreign author
+            except Exception:
+                return HttpResponse("Failed: No such user.")
+        try:
+            image = request.FILES['img']
+        except Exception:
+            image64 = ''
+        else:
+            name, fileformat = image.name.split('.')
+            image64 = base64.b64encode(image.read())
+            image64 = 'data:image/%s;base64,%s' % (fileformat, image64.decode('utf-8'))
+            print(image64)
+        post = Post.objects.create(title=title, id=postId, source=source, origin=origin, description=description,
+                                   contentType=content_type, content=content, author=request.user,
+                                   categories=categories,
+                                   visibility=visibility, unlisted=unlisted, select_user=select_user, image=image64)
+
+        if post.author.url != "":
+            post.url = post.author.url + "posts/" + post.id + "/"
+            post.api_url = post.author.api_url + "posts/" + post.id + "/"
+        else:
+            post.url = request.scheme + "://" + request.META['HTTP_HOST'] + "/author/" + str(
+                post.author.id) + "/posts/" + post.id + "/"
+            post.api_url = request.scheme + "://" + request.META['HTTP_HOST'] + "/api/author/" + str(
+                post.author.id) + "/posts/" + post.id + "/"
+
+        if visibility == 3:
+            user = User.objects.get(username=select_user)
+            inbox, status = Inbox.objects.get_or_create(author=user)
+            inbox.items.append(PostSerializer(post).data)
+            inbox.save()
+        elif visibility == 2:
+            try:
+                friends = Friend.objects.get(user=author)
+                for friend in friends.friends:
+                    print(friend)
+                    fri_obj = User.objects.get(id=friend['uuid'])
+                    inbox, status = Inbox.objects.get_or_create(author=fri_obj)
+                    print(inbox.items)
+                    inbox.items.append(PostSerializer(post).data)
+                    inbox.save()
+            except:
+                pass
+        post.save()
+        response.status_code = 200
+        return response
 
 
 '''''''''''''''                                Comment/Like related API                      '''''''''''''''
