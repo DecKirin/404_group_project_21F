@@ -248,7 +248,7 @@ class remote_sent_request(APIView):
         to_befriend_url = to_befriend['url']
         if to_befriend_url[-1] != '/':
             to_befriend_url += '/'
-        api_url = to_befriend_url + 'followers/' + request_user['uuid']
+        api_url = to_befriend_url + 'followers/' + user.uuid
         request = requests.put(api_url, auth=HTTPBasicAuth("team11", "secret11"))
 
         inbox_url = authorAPIUrl + "/inbox"
