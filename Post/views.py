@@ -881,15 +881,12 @@ class Remote_Specific_Post_View(View):
 
                 # print(commentAPIURL, "\n\n\n")
                 request = make_api_post_request(commentAPIURL, json.dumps(data))
-                # return redirect(reverse('Author:remote_specific_post') + "?post_url=%s" % postAPIURL )
 
             else:
                 error_msg_dic["code"] = "400"
                 error_msg_dic["msg"] = "Fail to comment the post, please try  again"
                 json_data.append(error_msg_dic)
                 print("fail to comment")
-            
-        
-
+    
 
         return redirect(reverse('Author:remote_specific_post') + "?post_url=%s" % postAPIURL)
