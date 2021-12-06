@@ -728,6 +728,8 @@ class Remote_Specific_Post_View(View):
                 comments = comments_request["comments"]
             elif team_flag == 13:
                 comments = comments_request
+            else:
+                comments = comments_request
 
         print("postcomments:", comments)
 
