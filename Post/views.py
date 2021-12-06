@@ -169,7 +169,7 @@ class NewPostView(View):
 
                         request = requests.post(inbox_url, json.dumps(data), auth=HTTPBasicAuth("team11", "secret11"))
 
-            except:
+            except Exception:
                 pass
         post.save()
         return redirect(reverse('Author:index'))
@@ -426,16 +426,30 @@ def share_local_post(request, author_id, post_id):
             post.author.id) + "/posts/" + post.id + "/"
     if visibility == 2:
         try:
-            friends = Friend.objects.get(user=request.user)
+            friends = Friend.objects.get(user=author)
             for friend in friends.friends:
-                print(friend)
-                fri_obj = User.objects.get(id=friend['uuid'])
-                inbox, status = Inbox.objects.get_or_create(author=fri_obj)
-                print(inbox.items)
-                inbox.items.append(PostSerializer(post).data)
-                inbox.save()
+                if friend['host'] == author.host:
+                    fri_obj = User.objects.get(id=friend['uuid'])
+                    inbox, status = Inbox.objects.get_or_create(author=fri_obj)
+                    print(inbox.items)
+                    inbox.items.append(PostSerializer(post).data)
+                    inbox.save()
+                else:
+                    # author_serilized = UserSerializer(author).data
+                    data = PostSerializer(post).data
+                    inbox_url = ''
+                    try:
+                        remote_author_api_url = friend["url"]
+                    except Exception:
+                        remote_author_api_url = friend["id"]
+                    if remote_author_api_url[-1] == '/':
+                        inbox_url = remote_author_api_url + 'inbox'
+                    else:
+                        inbox_url = remote_author_api_url + '/inbox'
+                    request = requests.post(inbox_url, json.dumps(data), auth=HTTPBasicAuth("team11", "secret11"))
         except:
             pass
+
     post.save()
     return redirect(reverse('Author:specific_post', args=(post.author.id, post.id)))
 
@@ -527,13 +541,26 @@ def share_remote_post(request):
         try:
             friends = Friend.objects.get(user=author)
             for friend in friends.friends:
-                print(friend)
-                fri_obj = User.objects.get(id=friend['uuid'])
-                inbox, status = Inbox.objects.get_or_create(author=fri_obj)
-                print(inbox.items)
-                inbox.items.append(PostSerializer(post).data)
-                inbox.save()
-        except:
+                if friend['host'] == author.host:
+                    fri_obj = User.objects.get(id=friend['uuid'])
+                    inbox, status = Inbox.objects.get_or_create(author=fri_obj)
+                    print(inbox.items)
+                    inbox.items.append(PostSerializer(post).data)
+                    inbox.save()
+                else:
+                    # author_serilized = UserSerializer(author).data
+                    data = PostSerializer(post).data
+                    inbox_url = ''
+                    try:
+                        remote_author_api_url = friend["url"]
+                    except Exception:
+                        remote_author_api_url = friend["id"]
+                    if remote_author_api_url[-1] == '/':
+                        inbox_url = remote_author_api_url + 'inbox'
+                    else:
+                        inbox_url = remote_author_api_url + '/inbox'
+                    request = requests.post(inbox_url, json.dumps(data), auth=HTTPBasicAuth("team11", "secret11"))
+        except Exception:
             pass
     post.save()
 
@@ -663,8 +690,11 @@ class Remote_Specific_Post_View(View):
                 team_flag = 13
             elif host_413 == "https://social-distribution-fall2021.herokuapp.com/api/":
                 team_flag = 4
+            else:
+                team_flag = 17
+
         except Exception:  # TODO
-            print("Wrong")
+            team_flag = 17
             '''
             all_info = post["items"]
             author_17 = all_info["author"]
@@ -761,8 +791,11 @@ class Remote_Specific_Post_View(View):
                 team_flag = 13
             elif host_413 == "https://social-distribution-fall2021.herokuapp.com/api/":
                 team_flag = 4
+            else:
+                team_flag = 17
+            
         except Exception:  # TODO
-            print("Wrong")
+                team_flag = 17
 
         json_data = []
         error_msg_dic = {
@@ -833,5 +866,8 @@ class Remote_Specific_Post_View(View):
                 error_msg_dic["msg"] = "Fail to comment the post, please try  again"
                 json_data.append(error_msg_dic)
                 print("fail to comment")
+            
+        
+
 
         return redirect(reverse('Author:remote_specific_post') + "?post_url=%s" % postAPIURL)
