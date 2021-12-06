@@ -151,7 +151,7 @@ def my_list(request, relationship):
                 api_url = author.get('url')
                 if api_url[-1] != '/':
                     api_url += '/'
-                api_url += 'followers/' + user.uuid
+                api_url += 'followers/' + str(user.id)
                 exists = make_api_get_request(api_url).json()
                 if exists['if_follow']:
                     friend.add_friend(author)
