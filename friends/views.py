@@ -159,10 +159,10 @@ def my_list(request, relationship):
                         response = requests.get(api_url, auth=HTTPBasicAuth("team11", "secret11"), verify=True)
                         if response.status_code == 200:
                             friend.add_friend(author)
-                    elif author.get('host') == "http://cmput404-team13-socialapp.herokuapp.com":
-                        make_api_get_request(api_url).json()
-                        if exists['if_follow']:
-                            friend.add_friend(author)
+#                     elif author.get('host') == "http://cmput404-team13-socialapp.herokuapp.com":
+#                         make_api_get_request(api_url).json()
+#                         if exists['if_follow']:
+#                             friend.add_friend(author)
 
         context['delete'] = 'Un-befriend'
         context['type'] = 'Friend'
