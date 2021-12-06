@@ -281,7 +281,7 @@ class remote_un_befriend(APIView):
             context['type'] = 'followers'
         context['user'] = user
         context['to_del_friend'] = to_del_friend
-        # return redirect(reverse('Author:my_list', kwargs={'relationship':context['type']}))
+        return redirect(reverse('Author:my_list', kwargs={'relationship':context['type']}))
 
 
 '''
