@@ -26,17 +26,17 @@ python manage.py runserver
 ```
 
 # REST API DOCUMENTATION
-```
+
 https://github.com/DecKirin/404_group_project_21F/wiki/API-documentation
-```
+
 # AJAX DUCUMENTATION
-```
+
 https://github.com/DecKirin/404_group_project_21F/wiki/AJAX-documentation
-```
+
 
 
 # Deployment
-```
+
 http://cmput404fall21g11.herokuapp.com/
-```
+
 
