@@ -50,14 +50,10 @@ def make_api_get_request(api_url):
     request = requests.get(api_url, proxies=proxies, auth=HTTPBasicAuth("team11", "secret11"), verify=True)
     print("code:", request.status_code)
     if request.status_code in [403, 401, 500]:
-        # request = requests.get(api_url, proxies=proxies, auth=HTTPBasicAuth("7c70c1c8-04fe-46e0-ae71-8969061adac0",
-        # "123456"), verify=True)
-        request = requests.get(api_url, proxies=proxies,
-                               auth=HTTPBasicAuth("7c70c1c8-04fe-46e0-ae71-8969061adac0", "123456"), verify=True)
+
+        request = requests.get(api_url, proxies=proxies, auth=HTTPBasicAuth("7c70c1c8-04fe-46e0-ae71-8969061adac0", "123456"), verify=True)
     return request
 '''
-
-
 
 
 def process_categories(categories):
@@ -69,11 +65,13 @@ def process_categories(categories):
 
 # if proxy is not needed
 def make_api_get_request(api_url):
-    request = requests.get(api_url, auth=HTTPBasicAuth("team11", "secret11"), verify=True)
-    if request.status_code in [403, 401]:
-        # request = requests.get(api_url, proxies=proxies, auth=HTTPBasicAuth("7c70c1c8-04fe-46e0-ae71-8969061adac0", "123456"), verify=True)
+    if "https://cmput404f21t17.herokuapp.com" in api_url:
         request = requests.get(api_url, auth=HTTPBasicAuth("7c70c1c8-04fe-46e0-ae71-8969061adac0", "123456"),
                                verify=True)
+    else:
+        request = requests.get(api_url, auth=HTTPBasicAuth("team11", "secret11"), verify=True)
+    # if request.status_code in [403, 401, 500]:
+    #    request = requests.get(api_url, auth=HTTPBasicAuth("7c70c1c8-04fe-46e0-ae71-8969061adac0", "123456"), verify=True)
     return request
 
 
@@ -98,9 +96,8 @@ def get_remote_nodes():
     print(all_host)
     # to test with team17
 
-    all_host = ["https://social-distribution-fall2021.herokuapp.com",
-                "https://cmput404f21t17.herokuapp.com",
-                "https://cmput404-team13-socialapp.herokuapp.com"]
+    all_host = ["https://cmput404f21t17.herokuapp.com", "https://social-distribution-fall2021.herokuapp.com","https://cmput404-team13-socialapp.herokuapp.com"]
+    # all_host = ["https://cmput404f21t17.herokuapp.com"]
     return all_host
 
 
@@ -132,15 +129,16 @@ def get_remote_authors():
     print(authors)
     return authors
 
+
 def get_team_flag():
     all_remote_host = get_remote_nodes()
     flag = 0
     for host in all_remote_host:
         if host == "https://social-distribution-fall2021.herokuapp.com/api/":
             flag = 4
-        elif host =="https://cmput404f21t17.herokuapp.com/":
+        elif host == "https://cmput404f21t17.herokuapp.com/":
             flag = 17
-        elif host =="http://cmput404-team13-socialapp.herokuapp.com":
+        elif host == "http://cmput404-team13-socialapp.herokuapp.com":
             flag = 13
         else:
             flag = 1
@@ -1151,14 +1149,13 @@ class APIPostByIdView(APIView):
             origin = request.build_absolute_uri(request.path)
         unlisted = False  # TODO
 
-
         if 'select_user' in data:
             select_user = data['select_user']
         else:
             select_user = ''
         if select_user != '' and visibility == 3:
             try:
-                user = User.objects.get(username=select_user) # TODO: might be foreign author
+                user = User.objects.get(username=select_user)  # TODO: might be foreign author
             except Exception:
                 return HttpResponse("Failed: No such user.")
         try:
