@@ -27,7 +27,7 @@ from io import BytesIO
 from rest_framework.authentication import BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
 
-'''
+
 # use this one if you need to connect with vpn
 def make_api_post_request(api_url, json_object):
     proxies = {
@@ -38,11 +38,11 @@ def make_api_post_request(api_url, json_object):
     if request.status_code in [403, 401]:
         request = requests.get(api_url, data=json_object, proxies=proxies, auth=HTTPBasicAuth("7c70c1c8-04fe-46e0-ae71-8969061adac0", "123456"), verify=True)
     return request
-'''
+
 
 
 # use this one if you do not need vpn
-
+'''
 def make_api_post_request(api_url, json_object):
     request = requests.post(api_url, data=json_object, auth=HTTPBasicAuth("team11", "secret11"))
     if request.status_code in [403, 401]:
@@ -50,7 +50,7 @@ def make_api_post_request(api_url, json_object):
                                auth=HTTPBasicAuth("7c70c1c8-04fe-46e0-ae71-8969061adac0", "123456"), verify=True)
     return request
 
-
+'''
 def make_api_put_request(api_url, json_object):
     print("im mamking put request")
     request = requests.put(api_url, data=json_object, auth=HTTPBasicAuth("team11", "secret11"))
@@ -810,10 +810,10 @@ class Remote_Specific_Post_View(View):
                 "type": "comment",
                 "author": UserSerializer(actor_author).data,
                 "comment":comment_content,
-                "commentType": comment_type,
+                "contentType": comment_type,
                 "object": post["id"],
             }
-            
+            print("data:",data)
             if post_author_url[-1] == '/':
                 inbox_url = post_author_url + "inbox"
             else:
@@ -823,9 +823,9 @@ class Remote_Specific_Post_View(View):
                 error_msg_dic["code"] = "200"
                 error_msg_dic["msg"] = "Successfully comment the post"
                 json_data.append(error_msg_dic)
-                # print("message OK")
 
                 request = make_api_post_request(inbox_url, json.dumps(data))
+
                 #return HttpResponse(json.dumps(data))
 
             else:
