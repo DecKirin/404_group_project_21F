@@ -24,7 +24,7 @@
                             {% if post.url %}
                             <h3><a href="{% url "Author:remote_specific_post" %}?post_url={{ post.url }}">{{ post.title }}</a></h3>
                             {% else %}
-                            <h3><a href="{% url "Author:remote_specific_post" %}?post_url={{ post.id }}">{{ post.title }}</a></h3>
+                            <h3><a href="{% url "Author:remote_specific_post" %}?post_url={{ post.source }}">{{ post.title }}</a></h3>
                             {% endif %}
                       {% endif %}
                   </div><!-- /.card-header -->

@@ -48,7 +48,6 @@ def make_api_post_request(api_url, json_object):
 
     return request
 
-
 # return relative path
 def get_path(old_path):
     new_path = 'https://{' + urlparse(old_path) + '.hostname}'
@@ -328,6 +327,7 @@ class SpecificPostView(View):
             hasComments = True
 
         context = {
+            'current_author':current_user,
             'author': current_user,
             'isPublic': isPublic,
             'isFriend': isFriend,
