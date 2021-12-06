@@ -159,10 +159,10 @@ def my_list(request, relationship):
                         response = requests.get(api_url, auth=HTTPBasicAuth("team11", "secret11"), verify=True)
                         if response.status_code == 200:
                             friend.add_friend(author)
-                    elif author.get('host') == "http://cmput404-team13-socialapp.herokuapp.com":
-                        make_api_get_request(api_url).json()
-                        if exists['if_follow']:
-                            friend.add_friend(author)
+#                     elif author.get('host') == "http://cmput404-team13-socialapp.herokuapp.com":
+#                         make_api_get_request(api_url).json()
+#                         if exists['if_follow']:
+#                             friend.add_friend(author)
 
         context['delete'] = 'Un-befriend'
         context['type'] = 'Friend'
@@ -259,7 +259,7 @@ class remote_sent_request(APIView):
         api_url = to_befriend_url + 'followers/' + str(user.id)
         request = requests.put(api_url, auth=HTTPBasicAuth("team11", "secret11"))
 
-        inbox_url = authorAPIUrl + "/inbox"
+        inbox_url = authorAPIUrl + "/inbox/"
 #         request = make_api_post_request(inbox_url, inbox_info)
         request = requests.post(inbox_url, json=inbox_info, auth=HTTPBasicAuth("team11", "secret11"))
        
