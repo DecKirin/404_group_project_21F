@@ -749,6 +749,24 @@ class Remote_Specific_Post_View(View):
         return render(request, 'remote_public_post.html', context=context)
 
     def post(self, request):
+        postAPIURL = request.GET.get("post_url")
+        print(postAPIURL)
+        postAPIURL = urllib.parse.unquote(postAPIURL)
+        postRequest = make_api_get_request(postAPIURL)
+        post = postRequest.json()
+        print("remote post be like:", post)
+        team_flag = 0 
+
+        try:
+            author_413 = post["author"]
+            host_413 = author_413["host"]
+            if host_413 == "http://cmput404-team13-socialapp.herokuapp.com":
+                team_flag = 13
+            elif host_413 == "https://social-distribution-fall2021.herokuapp.com/api/":
+                team_flag = 4
+        except Exception: #TODO
+            print("Wrong")
+
         json_data = []
         error_msg_dic = {
             "data": "",
@@ -759,30 +777,31 @@ class Remote_Specific_Post_View(View):
         comment_content = request.POST.get('newcommentremote', '')
         comment_type = request.POST.get('typeremote', '')
         comment_id = uuid.uuid4().hex
-        data = {
-            "type": "comment",
-            "author": UserSerializer(author_for_comment).data,
-            "comment": comment_content,
-            "contentType": comment_type,  # TODO: add markdown option
+        postAPIURL = request.GET.get("post_url")
+        commentAPIURL = urllib.parse.unquote(postAPIURL) + "comments/"
+        if team_flag==13:
+            data = {
+                "type": "comment",
+                "author": UserSerializer(author_for_comment).data,
+                "comment": comment_content,
+                "contentType": comment_type,  # TODO: add markdown option
 
-        }
+            }
 
-        if data:
-            error_msg_dic["code"] = "200"
-            error_msg_dic["msg"] = "Successfully comment the post"
-            json_data.append(error_msg_dic)
-            #print("message OK")
-            postAPIURL = request.GET.get("post_url")
-            commentAPIURL = urllib.parse.unquote(postAPIURL) + "comments/"
-            #print(commentAPIURL, "\n\n\n")
-            request = make_api_post_request(commentAPIURL, json.dumps(data))
-            #return redirect(reverse('Author:remote_specific_post') + "?post_url=%s" % postAPIURL )
+            if data:
+                error_msg_dic["code"] = "200"
+                error_msg_dic["msg"] = "Successfully comment the post"
+                json_data.append(error_msg_dic)
+                #print("message OK")
+                
+                #print(commentAPIURL, "\n\n\n")
+                request = make_api_post_request(commentAPIURL, json.dumps(data))
+                #return redirect(reverse('Author:remote_specific_post') + "?post_url=%s" % postAPIURL )
 
-        else:
-            error_msg_dic["code"] = "400"
-            error_msg_dic["msg"] = "Fail to comment the post, please try  again"
-            json_data.append(error_msg_dic)
-            print("fail to comment")
+            else:
+                error_msg_dic["code"] = "400"
+                error_msg_dic["msg"] = "Fail to comment the post, please try  again"
+                json_data.append(error_msg_dic)
+                print("fail to comment")
 
         return redirect(reverse('Author:remote_specific_post') + "?post_url=%s" % postAPIURL )
-
