@@ -152,28 +152,21 @@ class NewPostView(View):
                         inbox.items.append(PostSerializer(post).data)
                         inbox.save()
                     else:
-                        fri_obj = User.objects.get(id=friend['uuid'])
-                        inbox = Inbox.objects.get_or_create(author=fri_obj)
-                        author_serilized = UserSerializer(author).data
-                        post_comment, status = PostComment.objects.get_or_create(post=post)
-                        data = {
-                            "type": "post",
-                            "id": post.api_url,
-                            "source": post.api_url,
-                            "origin": post.api_url,
-                            "description": post.description,
-                            "contentType": post.contentType,
-                            "content": post.content,
-                            "author": author_serilized,
-                            "categories": post.categories,
-                            "count": post.count,
-                            "comment": post_comment.api_url,
-                            "published": post.published,
-                            "visibility": post.visibility,
-                            "unlisted": post.unlisted,
-                        }
-                        inbox_url = friend["id"] + "/inbox/"
-                        request = requests.post(inbox_url, json=inbox_info, auth=HTTPBasicAuth("team11", "secret11"))
+                        # author_serilized = UserSerializer(author).data
+                        data = PostSerializer(post).data
+                        inbox_url = ''
+                        try:
+                            remote_author_api_url = friend["url"]
+
+                        except Exception:
+                            remote_author_api_url = friend["id"]
+
+                        if remote_author_api_url[-1] == '/':
+                            inbox_url = remote_author_api_url + 'inbox'
+                        else:
+                            inbox_url = remote_author_api_url + '/inbox'
+
+                        request = requests.post(inbox_url, json.dumps(data), auth=HTTPBasicAuth("team11", "secret11"))
 
             except:
                 pass
