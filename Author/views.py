@@ -1336,14 +1336,20 @@ class APIInbox(APIView):
             return response
         # todo:handle post api for like from remote author
         elif data['type'].lower() == "like":
+
+            print("here")
             remote_author = data['author']
             like_object = data['object']
-            liked_post = Post.objects.get(api_url=like_object)
-            like = PostLike.objects.create(post=liked_post, author=remote_author, object=like_object, who_like=None)
-            inbox.items.append(LikeSerializer(like).data)
-            inbox.save()
-            response = Response()
-            response.status_code = 200
+            try:
+                liked_post = Post.objects.get(api_url=like_object)
+                like = PostLike.objects.create(post=liked_post, author=remote_author, object=like_object)
+                inbox.items.append(LikeSerializer(like).data)
+                inbox.save()
+                response = Response()
+                response.status_code = 200
+            except:
+                response=Response()
+                response.status_code = 222
             return response
 
         # todo:handle post api for friend post/private post from remote author
