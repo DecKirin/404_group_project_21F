@@ -44,15 +44,19 @@ def make_api_get_request(api_url):
         "http": "http://127.0.0.1:7890",
         "https": "http://127.0.0.1:7890"
     }
-    #uname = "team11"
-    #pas = "secret11"
+    # uname = "team11"
+    # pas = "secret11"
     print("api_request:", api_url)
     request = requests.get(api_url, proxies=proxies, auth=HTTPBasicAuth("team11", "secret11"), verify=True)
     print("code:", request.status_code)
-    if request.status_code in [403, 401]:
-        #request = requests.get(api_url, proxies=proxies, auth=HTTPBasicAuth("7c70c1c8-04fe-46e0-ae71-8969061adac0", "123456"), verify=True)
-        request = requests.get(api_url, proxies=proxies, auth=HTTPBasicAuth("7c70c1c8-04fe-46e0-ae71-8969061adac0", "123456"), verify=True)
+    if request.status_code in [403, 401, 500]:
+        # request = requests.get(api_url, proxies=proxies, auth=HTTPBasicAuth("7c70c1c8-04fe-46e0-ae71-8969061adac0",
+        # "123456"), verify=True)
+        request = requests.get(api_url, proxies=proxies,
+                               auth=HTTPBasicAuth("7c70c1c8-04fe-46e0-ae71-8969061adac0", "123456"), verify=True)
     return request
+
+
 '''
 
 
@@ -73,6 +77,7 @@ def make_api_get_request(api_url):
     return request
 
 
+
 # check if validation by admin is required to activate an author account
 def check_if_confirmation_required():
     try:
@@ -89,9 +94,11 @@ def check_if_confirmation_required():
 
 def get_remote_nodes():
     nodes = Node.objects.all()
+    nodes = Node.objects.filter(allow_connection=True)
     all_host = [node.host for node in nodes]
     print(all_host)
     # to test with team17
+
     all_host = ["https://social-distribution-fall2021.herokuapp.com",
                 "https://cmput404f21t17.herokuapp.com",
                 "https://cmput404-team13-socialapp.herokuapp.com"]
@@ -109,20 +116,36 @@ def get_remote_authors():
         print("api_uri:", api_uri)
         ####todo:authentication information
         ####request = requests.get(api_uri, auth=HTTPBasicAuth(auth_user, auth_pass))
-
-        # proxies = {"http": None, "https": None}66
-        request = make_api_get_request(api_uri)
-        print("request", request.json())
-        if request.status_code == 200:
-            try:
-                authors_in_host = request.json()["items"]
-            except Exception:
-                authors_in_host = request.json()
-            authors = authors + authors_in_host
-        else:
+        try:
+            # proxies = {"http": None, "https": None}66
+            request = make_api_get_request(api_uri)
+            print("request", request.json())
+            if request.status_code == 200:
+                try:
+                    authors_in_host = request.json()["items"]
+                except Exception:
+                    authors_in_host = request.json()
+                authors = authors + authors_in_host
+            else:
+                continue
+        except Exception:
             continue
     print(authors)
     return authors
+
+def get_team_flag():
+    all_remote_host = get_remote_nodes()
+    flag = 0
+    for host in all_remote_host:
+        if host == "https://social-distribution-fall2021.herokuapp.com/api/":
+            flag = 4
+        elif host =="https://cmput404f21t17.herokuapp.com/":
+            flag = 17
+        elif host =="http://cmput404-team13-socialapp.herokuapp.com":
+            flag = 13
+        else:
+            flag = 1
+    return flag
 
 
 def get_remote_public_posts():
@@ -153,16 +176,19 @@ def get_all_remote_public_posts_through_remote_authors():
         else:
             post_url = author["url"] + "/posts"
         print(post_url)
-        request = make_api_get_request(post_url)
-        print("request.data:", request)
-        if request.status_code == 200:
-            try:
-                posts = request.json()["items"]
-            except Exception:
-                posts = request.json()
-        else:
+        try:
+            request = make_api_get_request(post_url)
+            print("request.data:", request)
+            if request.status_code == 200:
+                try:
+                    posts = request.json()["items"]
+                except Exception:
+                    posts = request.json()
+            else:
+                continue
+            all_remote_posts += posts
+        except Exception:
             continue
-        all_remote_posts += posts
     print(all_remote_posts)
     return all_remote_posts
 
@@ -188,6 +214,7 @@ class RegisterView(View):
         userlname = request.POST.get('user_lname')
         password = request.POST.get('pwd')
         email = request.POST.get('email')
+        github = request.POST.get('github')
         # allow = request.POST.get('allow')
         if not all([username, password, email, userfname, userlname]):
             # missing data
@@ -213,7 +240,7 @@ class RegisterView(View):
             is_active = False
 
         user = User.objects.create_user(username=username, email=email, password=password, first_name=userfname,
-                                        last_name=userlname, is_active=is_active)
+                                        last_name=userlname, is_active=is_active, github=github)
         # user.is_active = 1
         user.host = request.META['HTTP_HOST']
         user.url = request.scheme + "://" + request.META['HTTP_HOST'] + "/author/" + str(user.id) + "/"
@@ -504,6 +531,7 @@ GET: visit edit profile page(need login)
 POST: change profile by send post data of editable fields
 '''
 
+
 class UserEditProfileImageView(LoginRequiredMixin, View):
     def get(self, request):
         # current logged in user
@@ -539,7 +567,7 @@ class UserEditProfileImageView(LoginRequiredMixin, View):
             error_msg_dic["msg"] = "Successfully update profile image"
             json_data.append(error_msg_dic)
             print("message OK")
-        else :
+        else:
             error_msg_dic["code"] = "400"
             error_msg_dic["msg"] = "Fail to upload the image, please try to upload again"
             json_data.append(error_msg_dic)
@@ -1302,10 +1330,10 @@ class APIInbox(APIView):
             inbox.items.append(FriendRequestSerializer(friend_request).data)
             inbox.save()
             # add remote author to follower list of local author
-#             follower, create_follower = Follower.objects.get_or_create(user=local_author)
+            #             follower, create_follower = Follower.objects.get_or_create(user=local_author)
 
             # follower.add_follower(UserSerializer(remote_author).data)
-#             follower.add_follower(remote_author)
+            #             follower.add_follower(remote_author)
             response = Response()
             response.data = data
             response.status_code = 200

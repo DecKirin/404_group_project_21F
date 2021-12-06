@@ -1,25 +1,27 @@
 import json
+import logging
+import requests
+import urllib
 from datetime import datetime
-from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.urls import reverse
+from django.views import View
+from rest_framework import status
 from rest_framework.authentication import BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-import urllib
+
+from Author.models import User, Inbox
+from Author.serializers import UserSerializer
 from Author.views import make_api_get_request, get_remote_authors
 from Post.views import make_api_post_request
-from Author.serializers import UserSerializer
 from .models import Friend, FriendRequest, Follower, Follow
 from .serializers import FriendRequestSerializer, FollowsSerializer, FollowersSerializer, FriendsSerializer
-from Author.models import User, Inbox
-from django.views import View
-from django.http import HttpResponseRedirect
-from django.urls import reverse
-from rest_framework import status
-from django.core.paginator import Paginator
-import logging
 
 
 # Create your views here.
@@ -44,7 +46,7 @@ def un_befriend(request, id, delete):
         context['type'] = 'follow'
     context['user'] = user
     context['to_del_friend'] = to_del_friend
-    return render(request, 'delete_friend.html', context=context)
+    return redirect(reverse('Author:my_list', kwargs={'relationship': context['type']}))
 
 
 def friends_list_view(request, id, *args, **kwargs):
@@ -214,7 +216,7 @@ class remote_sent_request(APIView):
         to_befriend = author_request.json()
 
         inbox_info = dict()
-        inbox_info["type"] = "Follow"
+        inbox_info["type"] = "follow"
         logging.basicConfig(filename='another.log', level=logging.DEBUG)
         logging.debug(to_befriend)
         inbox_info["summary"] = "%s wants to follow %s" % (user.username, to_befriend['displayName'])
@@ -235,16 +237,13 @@ class remote_sent_request(APIView):
         logging.debug(inbox_info)
 
         inbox_url = authorAPIUrl + "/inbox"
-        logging.debug(inbox_url)
-        logging.debug(json.dumps(inbox_info))
-        request = make_api_post_request(inbox_url, json.dumps(inbox_info))
-
-        print("inbox post request:!!!!!", request)
-        #
-        # context['request_user'] = user.username
-        # context['request_tobe'] = to_befriend['displayName']
-        # context['request_id'] = 'no'
-        # return render(request, 'request_send.html', context=context)
+        request = make_api_post_request(inbox_url, inbox_info.json())
+        
+        response = Response()
+        response.status_code = 200
+        response.data = inbox_info.json() + request.status_code
+        return response
+       
         return redirect(reverse('Author:my_list', kwargs={'relationship':'follows'}))
 
 class remote_un_befriend(APIView):
@@ -254,11 +253,16 @@ class remote_un_befriend(APIView):
         user = request.user
         context = {}
         authorAPIUrl = request.GET.get("url")
-        logging.debug(authorAPIUrl)
+        # logging.debug(authorAPIUrl)
         authorAPIUrl = urllib.parse.unquote(authorAPIUrl)
+        response = Response()
+        response.status_code = 200
+        response.data = authorAPIUrl
+        # return response
         author_request = make_api_get_request(authorAPIUrl)
+        print(author_request)
+
         to_del_friend = author_request.json()
-        logging.debug(to_del_friend)
         if delete == 'Un-follow':
             follow = Follow.objects.get(user=user)
             follow.delete_follow(to_del_friend)
@@ -266,12 +270,12 @@ class remote_un_befriend(APIView):
         elif delete == 'Un-befriend':
             friend = Friend.objects.get(user=user)
             del_friend = Friend.objects.get(user=to_del_friend)
-            friend.delete_friend(UserSerializer(to_del_friend).data)
+            friend.delete_friend(to_del_friend)
             del_friend.delete_friend(UserSerializer(user).data)
             context['type'] = 'friends'
         elif delete == 'Un-follower':
             follower = Follower.objects.get(user=user)
-            follower.delete_follower(UserSerializer(to_del_friend).data)
+            follower.delete_follower(to_del_friend)
             context['type'] = 'followers'
         context['user'] = user
         context['to_del_friend'] = to_del_friend
@@ -301,25 +305,31 @@ class process_friend_request(View):
         context = {}
         user = request.user
         friend_request = FriendRequest.objects.get(request_id=request_id)
-        request_user = friend_request.sender
-        to_befriend = friend_request.receiver
+        request_user = friend_request.receiver
+        to_befriend = friend_request.sender
 
         context['request_user'] = request_user['displayName']
         context['request_tobe'] = to_befriend['displayName']
         # logging.debug(request.method)
         if request.POST.get("status") == 'Accept':
-           
+            if request_user.get('uuid') is not None:
+                uuid = request_user.get('uuid')
+            else:
+                uuid = request_user.get('id').split('/')[-1]
+            print(uuid)
+            request_user_type = User.objects.get(id=uuid)
+            request_friend, request_create = Friend.objects.get_or_create(user=request_user_type)
+
             if to_befriend['host'] == request.META['HTTP_HOST']:
                 to_befriend_id = to_befriend['uuid']
+                print(to_befriend_id)
+                to_befriend_user = User.objects.get(id=to_befriend_id)
+                to_befriend_friend, to_be_create = Friend.objects.get_or_create(user=to_befriend_user)
+                friend_request.accept_request(request_friend, to_befriend_friend)
             else:
                 to_befriend_id = to_befriend.get('id').split('/')[-1]
+                request_friend.add_friend(to_befriend)
 
-            request_user_type = User.objects.get(id=request_user['uuid'])
-            to_befriend_user = User.objects.get(id=to_befriend_id)
-            request_friend, request_create = Friend.objects.get_or_create(user=request_user_type)
-            to_befriend_friend, to_be_create = Friend.objects.get_or_create(user=to_befriend_user)
-            friend_request.accept_request(request_friend, to_befriend_friend)
-            # logging.debug(request.POST.get("status"))
             context['choice'] = f"You've now {request_user['displayName']}'s friend"
 
         elif request.POST.get('status') == 'Decline':
@@ -328,7 +338,8 @@ class process_friend_request(View):
             context['choice'] = f"You've declined {request_user['displayName']}'s request"
 
         # logging.debug('Nothing')
-        return HttpResponseRedirect(reverse('Author:index'))
+        return render(request, 'mystream.html')
+        # return HttpResponseRedirect(reverse('Author:index'))
 
 
 ''''''''''''''''''''''''''''''''''''''''follower/follows/friends related api'''''''''''''''''''''''''''''''''''''''''''''''

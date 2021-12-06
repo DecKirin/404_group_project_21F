@@ -2471,3 +2471,36 @@ Traceback (most recent call last):
 django.urls.exceptions.NoReverseMatch: Reverse for 'profile' with arguments '('http://127.0.0.1:8000/api/author/e5e39531-c1a2-4353-9b03-e28e3c76c9ba/',)' not found. 1 pattern(s) tried: ['author/(?P<id>[^/]+)/$']
 INFO:django.utils.autoreload:C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\Author\admin.py changed, reloading.
 DEBUG:asyncio:Using proactor: IocpProactor
+DEBUG:root:[]
+DEBUG:asyncio:Using proactor: IocpProactor
+DEBUG:MARKDOWN:Successfully imported extension module "markdown.extensions.fenced_code".
+DEBUG:MARKDOWN:Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+DEBUG:MARKDOWN:Successfully imported extension module "markdown.extensions.fenced_code".
+DEBUG:MARKDOWN:Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+DEBUG:MARKDOWN:Successfully imported extension module "markdown.extensions.fenced_code".
+DEBUG:MARKDOWN:Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+WARNING:django.security.csrf:Forbidden (CSRF token missing or incorrect.): /author/login/
+WARNING:django.security.csrf:Forbidden (CSRF token missing or incorrect.): /author/login/
+WARNING:django.security.csrf:Forbidden (CSRF token missing or incorrect.): /author/login/
+WARNING:django.security.csrf:Forbidden (CSRF token missing or incorrect.): /author/login/
+WARNING:django.security.csrf:Forbidden (CSRF token missing or incorrect.): /author/login/
+WARNING:django.security.csrf:Forbidden (CSRF token missing or incorrect.): /author/login/
+WARNING:django.security.csrf:Forbidden (CSRF token missing or incorrect.): /author/login/
+DEBUG:MARKDOWN:Successfully imported extension module "markdown.extensions.fenced_code".
+DEBUG:MARKDOWN:Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+DEBUG:MARKDOWN:Successfully imported extension module "markdown.extensions.fenced_code".
+DEBUG:MARKDOWN:Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+DEBUG:MARKDOWN:Successfully imported extension module "markdown.extensions.fenced_code".
+DEBUG:MARKDOWN:Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+DEBUG:MARKDOWN:Successfully imported extension module "markdown.extensions.fenced_code".
+DEBUG:MARKDOWN:Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+DEBUG:MARKDOWN:Successfully imported extension module "markdown.extensions.fenced_code".
+DEBUG:MARKDOWN:Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+DEBUG:MARKDOWN:Successfully imported extension module "markdown.extensions.fenced_code".
+DEBUG:MARKDOWN:Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+DEBUG:MARKDOWN:Successfully imported extension module "markdown.extensions.fenced_code".
+DEBUG:MARKDOWN:Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+DEBUG:MARKDOWN:Successfully imported extension module "markdown.extensions.fenced_code".
+DEBUG:MARKDOWN:Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+INFO:django.utils.autoreload:C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\friends\views.py changed, reloading.
+DEBUG:asyncio:Using proactor: IocpProactor

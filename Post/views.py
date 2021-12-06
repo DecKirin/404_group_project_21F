@@ -48,7 +48,6 @@ def make_api_post_request(api_url, json_object):
 
     return request
 
-
 # return relative path
 def get_path(old_path):
     new_path = 'https://{' + urlparse(old_path) + '.hostname}'
@@ -104,7 +103,7 @@ class NewPostView(View):
             image64 = base64.b64encode(image.read())
 
             image64 = 'data:image/%s;base64,%s' % (fileformat, image64.decode('utf-8'))
-            print(image64)
+            # print(image64)
 
         post = Post.objects.create(title=title, id=post_id, description=description,
                                    contentType=content_type, content=content, author=request.user,
@@ -262,6 +261,16 @@ class EditPostView(View):
             cur_post.categories = categories_update
         if description_update is not None:
             cur_post.description = description_update
+
+        try:
+            image = request.FILES['img']
+            name, fileformat = image.name.split('.')
+            image64 = base64.b64encode(image.read())
+            image64 = 'data:image/%s;base64,%s' % (fileformat, image64.decode('utf-8'))
+            cur_post.image = image64
+        except Exception:
+            image64 = ''
+
         cur_post.save()
         return redirect(reverse('Author:specific_post', args=(author_id, post_id)))
 
@@ -328,6 +337,7 @@ class SpecificPostView(View):
             hasComments = True
 
         context = {
+            'current_author':current_user,
             'author': current_user,
             'isPublic': isPublic,
             'isFriend': isFriend,
@@ -490,7 +500,7 @@ class Remote_Specific_Post_View(View):
                 comments = postCommentsRequest.json()
             print("postcomments:", comments)
 
-
+        image = post['contentType'] + post['content']
 
         liked = False
         '''
@@ -527,6 +537,7 @@ class Remote_Specific_Post_View(View):
             'liked': liked,
             'author__id': author_id,
             'isAuthor': im_author,
+            'image': image,
             'hasComments': hasComments,
             'comments': comments  # return render(request, 'posts/comments.html', context=context)
         }
