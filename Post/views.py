@@ -437,7 +437,7 @@ def share_local_post(request, author_id, post_id):
         except:
             pass
     post.save()
-    return redirect(reverse('Author:index'))
+    return redirect(reverse('Author:specific_post', args=(post.author.id, post.id)))
 
 
 def share_remote_post(request):
@@ -537,7 +537,7 @@ def share_remote_post(request):
             pass
     post.save()
 
-    return redirect(reverse('Author:index'))
+    return redirect(reverse('Author:remote_specific_post') + "?post_url=%s" % postAPIURL)
 
 
 class like_remote_post_view(View):
@@ -806,7 +806,6 @@ class Remote_Specific_Post_View(View):
             post_author_url = post["author"]["url"]
             actor_author = User.objects.get(id=current_author.id)
             data = {
-                "@contex": "https://www.w3.org/ns/activitystreams",
                 "summary": "%s commented on your post" % current_author.username,
                 "type": "comment",
                 "author": UserSerializer(actor_author).data,
@@ -819,14 +818,20 @@ class Remote_Specific_Post_View(View):
                 inbox_url = post_author_url + "inbox"
             else:
                 inbox_url = post_author_url + "/inbox"
-            print("inbox_url", inbox_url)
-            try:
-                request = make_api_post_request(inbox_url, json.dumps(data))
-                print(json.dumps(data))
-                print("inbox post request:", request)
-                return redirect(reverse('Author:remote_specific_post') + "?post_url=%s" % postAPIURL)
 
-            except Exception:
-                return HttpResponse("failed to comment on the post")
+            if data:
+                error_msg_dic["code"] = "200"
+                error_msg_dic["msg"] = "Successfully comment the post"
+                json_data.append(error_msg_dic)
+                # print("message OK")
+
+                request = make_api_post_request(inbox_url, json.dumps(data))
+                #return HttpResponse(json.dumps(data))
+
+            else:
+                error_msg_dic["code"] = "400"
+                error_msg_dic["msg"] = "Fail to comment the post, please try  again"
+                json_data.append(error_msg_dic)
+                print("fail to comment")
 
         return redirect(reverse('Author:remote_specific_post') + "?post_url=%s" % postAPIURL)
