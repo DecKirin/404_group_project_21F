@@ -97,6 +97,7 @@ def get_remote_nodes():
     all_host = ["https://social-distribution-fall2021.herokuapp.com",
                 "https://cmput404f21t17.herokuapp.com",
                 "https://cmput404-team13-socialapp.herokuapp.com"]
+    all_host = ["https://cmput404f21t17.herokuapp.com"]
     return all_host
 
 
