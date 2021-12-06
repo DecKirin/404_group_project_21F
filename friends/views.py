@@ -301,8 +301,8 @@ class process_friend_request(View):
         context = {}
         user = request.user
         friend_request = FriendRequest.objects.get(request_id=request_id)
-        request_user = friend_request.sender
-        to_befriend = friend_request.receiver
+        request_user = friend_request.receiver
+        to_befriend = friend_request.sender 
 
         context['request_user'] = request_user['displayName']
         context['request_tobe'] = to_befriend['displayName']
