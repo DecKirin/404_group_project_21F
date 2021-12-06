@@ -252,20 +252,17 @@ class remote_sent_request(APIView):
 class remote_un_befriend(APIView):
 
     def get(self, request, delete):
-        # logging.basicConfig(filename='requestlog.log', level=logging.DEBUG)
-        user = request.user
-        context = {}
         authorAPIUrl = request.GET.get("url")
         # logging.debug(authorAPIUrl)
         authorAPIUrl = urllib.parse.unquote(authorAPIUrl)
-
-        author_request = requests.get(authorAPIUrl)
-        print(author_request)
-
         response = Response()
         response.status_code = 200
-        response.data = author_request.content
+        response.data = authorAPIUrl
         return response
+        author_request = make_api_get_request(authorAPIUrl)
+        print(author_request)
+
+        to_del_friend = author_request.json()
         to_del_friend = json.load(author_request)
         if delete == 'Un-follow':
             follow = Follow.objects.get(user=user)
