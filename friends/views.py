@@ -216,7 +216,7 @@ class remote_sent_request(APIView):
         to_befriend = author_request.json()
 
         inbox_info = dict()
-        inbox_info["type"] = "Follow"
+        inbox_info["type"] = "follow"
         logging.basicConfig(filename='another.log', level=logging.DEBUG)
         logging.debug(to_befriend)
         inbox_info["summary"] = "%s wants to follow %s" % (user.username, to_befriend['displayName'])
@@ -239,18 +239,9 @@ class remote_sent_request(APIView):
         inbox_url = authorAPIUrl + "/inbox"
         logging.debug(inbox_url)
         logging.debug(json.dumps(inbox_info))
-        response = Response()
-        response.status_code = 200
-        response.data = inbox_info
-        return response
-        request = make_api_post_request(inbox_url, inbox_info)
 
         print("inbox post request:!!!!!", request)
-        #
-        # context['request_user'] = user.username
-        # context['request_tobe'] = to_befriend['displayName']
-        # context['request_id'] = 'no'
-        # return render(request, 'request_send.html', context=context)
+       
         return redirect(reverse('Author:my_list', kwargs={'relationship':'follows'}))
 
 class remote_un_befriend(APIView):
