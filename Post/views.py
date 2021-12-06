@@ -871,6 +871,8 @@ class Remote_Specific_Post_View(View):
                 json_data.append(error_msg_dic)
                 print("fail to comment")
         else:
+            commentAPIURL17 = urllib.parse.unquote(postAPIURL) + "/comments/"
+            #commentAPIURL17= "https://cmput404f21t17.herokuapp.com/service/post/810cf27d-3584-44be-ae45-e31003482e61/comments/"
             data = {
                 "author": UserSerializer(author_for_comment).data,
                 "text": comment_content,
@@ -882,7 +884,8 @@ class Remote_Specific_Post_View(View):
                 # print("message OK")
 
                 # print(commentAPIURL, "\n\n\n")
-                request = make_api_post_request(commentAPIURL, json.dumps(data))
+                request = make_api_post_request(commentAPIURL17, json.dumps(data))
+                #return HttpResponse(json.dumps(data))
 
             else:
                 error_msg_dic["code"] = "400"
