@@ -17,7 +17,7 @@
                 {% for post in page_object.object_list %}
                 <div class="card">
                   <div class="card-header">
-                      {% if post.sender.uuid %}
+                      {% if post.author.uuid %}
                       <h3><a class="nav-link active" href="{% url "Author:specific_post" post.author.uuid post.id %}">{{ post.title }}</a></h3>
                       {% else %}
                       <h3><a class="nav-link active" href="{% url "Author:remote_specific_post" %}?post_url={{post.url}}">{{ post.title }}</a></h3>

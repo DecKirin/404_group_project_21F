@@ -60,8 +60,12 @@
                                 <i class="fas fa-thumbs-up"></i> Like this post
                             </a>
                             {% endif %}
-                            <a href="" class="link-black text-sm"><i class="fas fa-share mr-1"></i> Share</a>
 
+                            {% if post.url %}
+                                <a href="{% url 'Author:share_remote_post' %}?post_url={{ post.url }}" class="link-black text-sm"><i class="fas fa-share mr-1"></i> Share</a>
+                            {% else %}
+                                <a href="{% url 'Author:share_remote_post' %}?post_url={{ post.id }}" class="link-black text-sm"><i class="fas fa-share mr-1"></i> Share</a>
+                            {% endif %}
                             </p>
 
                             <div>
