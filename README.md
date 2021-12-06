@@ -7,6 +7,8 @@ Social Network build by CMPUT404 FALL2021 TEAM11
  * Xiding Luo         -DecKirin
  * Zepeng Xiao        -XZPshaw
 
+[Contribution](https://github.com/DecKirin/404_group_project_21F/wiki/Contributions)
+
 
 # REQUIREMENT
 
