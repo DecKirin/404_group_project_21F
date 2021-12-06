@@ -59,7 +59,7 @@
                               <form id='remote_friend_url' method="get" action={% url 'Author:remote_friend_request' %}>
                               <input type="hidden" id="remote_url" name="url" value={{ author.url }}>
                               <button class="btn btn-sm btn-primary" type="submit" >
-                                  <i class="fas fa-user"></i> Be-Friend(remote)
+                                  <i class="fas fa-user"></i> Make Friend
                               </button>
                           </form>
                           {% endif %}
@@ -74,7 +74,7 @@
                           <form id='remote_author_url' method="get" action={% url 'Author:remote_author_profile' %}>
                               <input type="hidden" id="url" name="url" value={{ author.url }}>
                               <button class="btn btn-sm btn-primary" type="submit" >
-                                  <i class="fas fa-user"></i> View Profile(remote)
+                                  <i class="fas fa-user"></i> View Profile
                               </button>
                           </form>
 

@@ -3197,3 +3197,20 @@ WARNING:django.request:Not Found: /remote_post/text/markdownText attributes _ita
 WARNING:django.request:Not Found: /remote_post/Icon-pictures.png
 INFO:django.utils.autoreload:C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\Post\views.py changed, reloading.
 DEBUG:asyncio:Using proactor: IocpProactor
+DEBUG:root:[]
+DEBUG:MARKDOWN:Successfully imported extension module "markdown.extensions.fenced_code".
+DEBUG:MARKDOWN:Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+DEBUG:MARKDOWN:Successfully imported extension module "markdown.extensions.fenced_code".
+DEBUG:MARKDOWN:Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+DEBUG:MARKDOWN:Successfully imported extension module "markdown.extensions.fenced_code".
+DEBUG:MARKDOWN:Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+DEBUG:MARKDOWN:Successfully imported extension module "markdown.extensions.fenced_code".
+DEBUG:MARKDOWN:Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:MARKDOWN:Successfully imported extension module "markdown.extensions.fenced_code".
+DEBUG:MARKDOWN:Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cmput404f21t17.herokuapp.com:443
+DEBUG:MARKDOWN:Successfully imported extension module "markdown.extensions.fenced_code".
+DEBUG:MARKDOWN:Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+INFO:django.utils.autoreload:C:\Users\xiaoz\Desktop\year4\cmput404\404_group_project_21F\Author\views.py changed, reloading.
+DEBUG:asyncio:Using proactor: IocpProactor

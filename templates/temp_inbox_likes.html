@@ -50,19 +50,12 @@
         <div class="card-footer">
             <nav aria-label="Contacts Page Navigation">
             <ul class="pagination justify-content-center m-0">
-                <li>
-                  <a href="#" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                  </a>
+
                 </li>
                 {% for page_index in page_range %}
-                    <li><a href="{% url 'Author:inter_FRinbox' %}?page={{ page_index }}">{{ page_index }}</a></li>
+                    <li><a href="{% url 'Author:inter_likeinbox' %}?page={{ page_index }}">{{ page_index }}</a></li>
                 {% endfor %}
-                <li>
-                  <a href="#" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                  </a>
-                </li>
+
             </ul>
             </nav>
         </div>
