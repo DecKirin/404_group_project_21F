@@ -126,6 +126,20 @@ def get_remote_authors():
     print(authors)
     return authors
 
+def get_team_flag():
+    all_remote_host = get_remote_nodes()
+    flag = 0
+    for host in all_remote_host:
+        if host == "https://social-distribution-fall2021.herokuapp.com/api/":
+            flag = 4
+        elif host =="https://cmput404f21t17.herokuapp.com/":
+            flag = 17
+        elif host =="http://cmput404-team13-socialapp.herokuapp.com":
+            flag = 13
+        else:
+            flag = 1
+    return flag
+
 
 def get_remote_public_posts():
     all_remote_host = get_remote_nodes()

@@ -216,7 +216,7 @@ class remote_sent_request(APIView):
         to_befriend = author_request.json()
 
         inbox_info = dict()
-        inbox_info["type"] = "Follow"
+        inbox_info["type"] = "follow"
         logging.basicConfig(filename='another.log', level=logging.DEBUG)
         logging.debug(to_befriend)
         inbox_info["summary"] = "%s wants to follow %s" % (user.username, to_befriend['displayName'])
@@ -239,40 +239,36 @@ class remote_sent_request(APIView):
         inbox_url = authorAPIUrl + "/inbox"
         logging.debug(inbox_url)
         logging.debug(json.dumps(inbox_info))
-        request = make_api_post_request(inbox_url, json.dumps(inbox_info))
-
-        print("inbox post request:!!!!!", request)
-        #
-        # context['request_user'] = user.username
-        # context['request_tobe'] = to_befriend['displayName']
-        # context['request_id'] = 'no'
-        # return render(request, 'request_send.html', context=context)
+        request = make_api_post_request(inbox_url, inbox_info)
+       
         return redirect(reverse('Author:my_list', kwargs={'relationship':'follows'}))
 
 class remote_un_befriend(APIView):
 
     def get(self, request, delete):
+        # logging.basicConfig(filename='requestlog.log', level=logging.DEBUG)
+        user = request.user
+        context = {}
         authorAPIUrl = request.GET.get("url")
         # logging.debug(authorAPIUrl)
         authorAPIUrl = urllib.parse.unquote(authorAPIUrl)
         response = Response()
         response.status_code = 200
         response.data = authorAPIUrl
-#         return response
+        # return response
         author_request = make_api_get_request(authorAPIUrl)
         print(author_request)
 
         to_del_friend = author_request.json()
-        to_del_friend = json.load(author_request)
         if delete == 'Un-follow':
             follow = Follow.objects.get(user=user)
             follow.delete_follow(to_del_friend)
             context['type'] = 'follows'
         elif delete == 'Un-befriend':
             friend = Friend.objects.get(user=user)
-            # del_friend = Friend.objects.get(user=to_del_friend)
+            del_friend = Friend.objects.get(user=to_del_friend)
             friend.delete_friend(to_del_friend)
-            # del_friend.delete_friend(UserSerializer(user).data)
+            del_friend.delete_friend(UserSerializer(user).data)
             context['type'] = 'friends'
         elif delete == 'Un-follower':
             follower = Follower.objects.get(user=user)
@@ -280,7 +276,7 @@ class remote_un_befriend(APIView):
             context['type'] = 'followers'
         context['user'] = user
         context['to_del_friend'] = to_del_friend
-        # return redirect(reverse('Author:my_list', kwargs={'relationship':context['type']}))
+        return redirect(reverse('Author:my_list', kwargs={'relationship':context['type']}))
 
 
 '''
