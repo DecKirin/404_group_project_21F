@@ -44,7 +44,7 @@ def un_befriend(request, id, delete):
         context['type'] = 'follow'
     context['user'] = user
     context['to_del_friend'] = to_del_friend
-    return render(request, 'delete_friend.html', context=context)
+    return redirect(reverse('Author:my_list', kwargs={'relationship': context['type']}))
 
 
 def friends_list_view(request, id, *args, **kwargs):
@@ -302,7 +302,7 @@ class process_friend_request(View):
         user = request.user
         friend_request = FriendRequest.objects.get(request_id=request_id)
         request_user = friend_request.receiver
-        to_befriend = friend_request.sender 
+        to_befriend = friend_request.sender
 
         context['request_user'] = request_user['displayName']
         context['request_tobe'] = to_befriend['displayName']
@@ -312,6 +312,7 @@ class process_friend_request(View):
                 uuid = request_user.get('uuid')
             else:
                 uuid = request_user.get('id').split('/')[-1]
+            print(uuid)
             request_user_type = User.objects.get(id=uuid)
             request_friend, request_create = Friend.objects.get_or_create(user=request_user_type)
 
@@ -324,6 +325,7 @@ class process_friend_request(View):
             else:
                 to_befriend_id = to_befriend.get('id').split('/')[-1]
                 request_friend.add_friend(to_befriend)
+
             context['choice'] = f"You've now {request_user['displayName']}'s friend"
 
         elif request.POST.get('status') == 'Decline':
@@ -332,7 +334,8 @@ class process_friend_request(View):
             context['choice'] = f"You've declined {request_user['displayName']}'s request"
 
         # logging.debug('Nothing')
-        return HttpResponseRedirect(reverse('Author:index'))
+        return render(request, 'mystream.html')
+        # return HttpResponseRedirect(reverse('Author:index'))
 
 
 ''''''''''''''''''''''''''''''''''''''''follower/follows/friends related api'''''''''''''''''''''''''''''''''''''''''''''''
