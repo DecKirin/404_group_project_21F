@@ -145,12 +145,38 @@ class NewPostView(View):
             try:
                 friends = Friend.objects.get(user=author)
                 for friend in friends.friends:
-                    print(friend)
-                    fri_obj = User.objects.get(id=friend['uuid'])
-                    inbox, status = Inbox.objects.get_or_create(author=fri_obj)
-                    print(inbox.items)
-                    inbox.items.append(PostSerializer(post).data)
-                    inbox.save()
+                    if friend['host'] == author.host:
+                        fri_obj = User.objects.get(id=friend['uuid'])
+                        inbox, status = Inbox.objects.get_or_create(author=fri_obj)
+                        print(inbox.items)
+                        inbox.items.append(PostSerializer(post).data)
+                        inbox.save()
+                    else:
+                        fri_obj = User.objects.get(id=friend['uuid'])
+                        inbox = Inbox.objects.get_or_create(author=fri_obj)
+                        author_serilized = UserSerializer(author).data
+                        post_comment, status = PostComment.objects.get_or_create(post=post)
+                        data = {
+                            "type": "post",
+                            "id": post.api_url,
+                            "source": post.api_url,
+                            "origin": post.api_url,
+                            "description": post.description,
+                            "contentType": post.contentType,
+                            "content": post.content,
+                            "author": author_serilized,
+                            "categories": post.categories,
+                            "count": post.count,
+                            "comment": post_comment.api_url,
+                            "published": post.published,
+                            "visibility": post.visibility,
+                            "unlisted": post.unlisted,
+                        }
+
+                        response = Response()
+                        response.status_code = 200
+                        response.data = data
+                        return response
             except:
                 pass
         post.save()
