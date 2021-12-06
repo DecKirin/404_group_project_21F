@@ -63,8 +63,8 @@ class Post(models.Model):
     type = 'post'
     title = models.CharField(max_length=128)
     id = models.CharField(max_length=128, primary_key=True)
-    url = models.URLField(editable=False)
-    api_url = models.URLField(editable=False)
+    url = models.URLField(editable=True)
+    api_url = models.URLField(editable=True)
     source = models.URLField(blank=True)
     origin = models.URLField(blank=True)
     description = models.CharField(max_length=500, blank=True)
