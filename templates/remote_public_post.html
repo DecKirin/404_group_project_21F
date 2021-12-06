@@ -131,6 +131,7 @@
                                 {% if hasComments %}
                                     {% for comment1 in comments %}
                                     <span>{{comment1.comment}}</span><br>
+                                    <span>{{comment1.text}}</span><br>
                                     {% endfor %}
                                 {% endif %}
 
@@ -139,6 +140,7 @@
                                     {% if hasComments %}
                                         {% for comment1 in comments %}
                                         <span>{{comment1.comment}}</span><br>
+                                        <span>{{comment1.text}}</span><br>
                                         {% endfor %}
                                     {% endif %}
                                 {% endif %}
