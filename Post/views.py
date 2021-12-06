@@ -169,7 +169,7 @@ class NewPostView(View):
 
                         request = requests.post(inbox_url, json.dumps(data), auth=HTTPBasicAuth("team11", "secret11"))
 
-            except:
+            except Exception:
                 pass
         post.save()
         return redirect(reverse('Author:index'))
@@ -426,16 +426,30 @@ def share_local_post(request, author_id, post_id):
             post.author.id) + "/posts/" + post.id + "/"
     if visibility == 2:
         try:
-            friends = Friend.objects.get(user=request.user)
+            friends = Friend.objects.get(user=author)
             for friend in friends.friends:
-                print(friend)
-                fri_obj = User.objects.get(id=friend['uuid'])
-                inbox, status = Inbox.objects.get_or_create(author=fri_obj)
-                print(inbox.items)
-                inbox.items.append(PostSerializer(post).data)
-                inbox.save()
+                if friend['host'] == author.host:
+                    fri_obj = User.objects.get(id=friend['uuid'])
+                    inbox, status = Inbox.objects.get_or_create(author=fri_obj)
+                    print(inbox.items)
+                    inbox.items.append(PostSerializer(post).data)
+                    inbox.save()
+                else:
+                    # author_serilized = UserSerializer(author).data
+                    data = PostSerializer(post).data
+                    inbox_url = ''
+                    try:
+                        remote_author_api_url = friend["url"]
+                    except Exception:
+                        remote_author_api_url = friend["id"]
+                    if remote_author_api_url[-1] == '/':
+                        inbox_url = remote_author_api_url + 'inbox'
+                    else:
+                        inbox_url = remote_author_api_url + '/inbox'
+                    request = requests.post(inbox_url, json.dumps(data), auth=HTTPBasicAuth("team11", "secret11"))
         except:
             pass
+
     post.save()
     return redirect(reverse('Author:specific_post', args=(post.author.id, post.id)))
 
@@ -527,13 +541,26 @@ def share_remote_post(request):
         try:
             friends = Friend.objects.get(user=author)
             for friend in friends.friends:
-                print(friend)
-                fri_obj = User.objects.get(id=friend['uuid'])
-                inbox, status = Inbox.objects.get_or_create(author=fri_obj)
-                print(inbox.items)
-                inbox.items.append(PostSerializer(post).data)
-                inbox.save()
-        except:
+                if friend['host'] == author.host:
+                    fri_obj = User.objects.get(id=friend['uuid'])
+                    inbox, status = Inbox.objects.get_or_create(author=fri_obj)
+                    print(inbox.items)
+                    inbox.items.append(PostSerializer(post).data)
+                    inbox.save()
+                else:
+                    # author_serilized = UserSerializer(author).data
+                    data = PostSerializer(post).data
+                    inbox_url = ''
+                    try:
+                        remote_author_api_url = friend["url"]
+                    except Exception:
+                        remote_author_api_url = friend["id"]
+                    if remote_author_api_url[-1] == '/':
+                        inbox_url = remote_author_api_url + 'inbox'
+                    else:
+                        inbox_url = remote_author_api_url + '/inbox'
+                    request = requests.post(inbox_url, json.dumps(data), auth=HTTPBasicAuth("team11", "secret11"))
+        except Exception:
             pass
     post.save()
 
