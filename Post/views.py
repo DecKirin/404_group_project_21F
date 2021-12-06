@@ -804,11 +804,12 @@ class Remote_Specific_Post_View(View):
         elif team_flag == 4:
             current_author = request.user
             post_author_url = post["author"]["url"]
+            actor_author = User.objects.get(id=current_author.id)
             data = {
                 "@contex": "https://www.w3.org/ns/activitystreams",
                 "summary": "%s commented on your post" % current_author.username,
                 "type": "comment",
-                "author": UserSerializer(current_author).data,
+                "author": UserSerializer(actor_author).data,
                 "comment":comment_content,
                 "commentType": comment_type,
                 "object": post["id"],
