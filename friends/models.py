@@ -73,8 +73,8 @@ class FriendRequest(models.Model):
     def accept_request(self, sender_friend, receiver_friend):
         # sender_friend, create_sender = Friend.objects.get_or_create(user=self.sender)
         # receiver_friend, create_receiver = Friend.objects.get_or_create(user=self.receiver)
-        receiver_friend.add_friend(self.sender)
-        sender_friend.add_friend(self.receiver)
+        receiver_friend.add_friend(self.receiver)
+        sender_friend.add_friend(self.sender)
         self.respond_status = True
         self.save()
 

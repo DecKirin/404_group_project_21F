@@ -145,16 +145,24 @@ def my_list(request, relationship):
         else:
             friend_list = friend.friends#.all()  #
             context['friends'] = friend_list
-        authors = get_remote_authors()
-        for author in authors:
-            if author not in friend_list:
-                api_url = author.get('url')
-                if api_url[-1] != '/':
-                    api_url += '/'
-                api_url += 'followers/' + user.uuid
-                exists = make_api_get_request(api_url).json()
-                if exists['if_follow']:
-                    friend.add_friend(author)
+
+        follow, create = Follow.objects.get_or_create(user=user)
+        if not create:
+            for author in follow.follows:
+                if author not in friend_list:
+                    api_url = author.get('url')
+                    if api_url[-1] != '/':
+                        api_url += '/'
+                    api_url += 'followers/' + str(user.id)
+                    print(api_url)
+                    if author.get('host') == "https://social-distribution-fall2021.herokuapp.com/api/":
+                        response = requests.get(api_url, auth=HTTPBasicAuth("team11", "secret11"), verify=True)
+                        if response.status_code == 200:
+                            friend.add_friend(author)
+                    elif author.get('host') == "http://cmput404-team13-socialapp.herokuapp.com":
+                        make_api_get_request(api_url).json()
+                        if exists['if_follow']:
+                            friend.add_friend(author)
 
         context['delete'] = 'Un-befriend'
         context['type'] = 'Friend'

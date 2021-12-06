@@ -367,6 +367,8 @@ class SpecificPostView(View):
         return render(request, 'post_legal.html', context=context)
 
 
+
+
 def like_post(request, author_id, post_id):
     post = Post.objects.get(id=post_id)
     who_like = request.user
@@ -382,7 +384,7 @@ def share_local_post(request, author_id, post_id):
     source_post = Post.objects.get(id=post_id)
     visibility = source_post.visibility
     if visibility != 1 and visibility != 2:
-        return
+        return redirect(reverse('Author:specific_post', args=(author_id, post_id)))
     title = source_post.title
     post_id = uuid.uuid4().hex
     post_id = str(post_id)
@@ -421,8 +423,104 @@ def share_local_post(request, author_id, post_id):
     return redirect(reverse('Author:index'))
 
 
-def share_remote_post(request, post_author_id, post_id):
-    ...
+def share_remote_post(request):
+    postAPIURL = request.GET.get("post_url")
+    postAPIURL = urllib.parse.unquote(postAPIURL)
+    postRequest = make_api_get_request(postAPIURL)
+    post = postRequest.json()
+    print(post)
+
+    team_flag = 0
+
+    try:
+        author_413 = post["author"]
+        host_413 = author_413["host"]
+        if host_413 == "http://cmput404-team13-socialapp.herokuapp.com":
+            team_flag = 13
+            source = post["url"]
+        elif host_413 == "https://social-distribution-fall2021.herokuapp.com/api/":
+            team_flag = 4
+            source = post["id"]
+    except Exception:  # TODO
+        print("Wrong")
+        '''
+        all_info = post["items"]
+        author_17 = all_info["author"]
+        host_17 = author_17["host"]
+        if host_17 == "https://cmput404f21t17.herokuapp.com/":
+            team_flag = 17 '''
+
+    if team_flag == 0:
+        print("The host is not in our connected group")
+        return redirect(reverse('Author:remote_specific_post') + "?post_url=%s" % postAPIURL)
+
+    #image = post['contentType'] + post['content']
+
+    isPublic = False
+    isFriend = False
+    try:
+        if str(post.visibility).lower() == "pb" or str(post.visibility).lower() == "public":
+            isPublic = True
+        if str(post.visibility).lower() == "fr" or str(post.visibility).lower() == "friends only":
+            # T13: FRIENDS
+            isFriend = True
+    except Exception:
+        if str(post["visibility"]).lower() == "pb" or str(post["visibility"]).lower() == "public":
+            isPublic = True
+        if str(post["visibility"]).lower() == "fr" or str(post["visibility"]).lower() == "friends only":
+            isFriend = True
+
+    if isPublic:
+        visibility = 1
+    elif isFriend:
+        visibility = 2
+    else:
+        # It will be a private post and we can't share it, do nothing
+        return redirect(reverse('Author:remote_specific_post') + "?post_url=%s" % postAPIURL)
+
+    title = post["title"]
+    post_id = uuid.uuid4().hex
+    post_id = str(post_id)
+
+    origin = post["origin"]
+    description = post["description"]
+    content_type = post["contentType"]
+    content = post["content"]
+    try:
+        categories = post["categories"]
+    except Exception:
+        categories = ''
+    try:
+        image = post["image"]
+    except Exception:
+        image = ''
+    post = Post.objects.create(visibility=visibility, title=title, id=post_id, source=source,
+                               origin=origin, description=description, contentType=content_type,
+                               content=content, author=request.user, categories=categories,
+                               image=image)
+    if post.author.url != "":
+        post.url = post.author.url + "posts/" + post.id + "/"
+        post.api_url = post.author.api_url + "posts/" + post.id + "/"
+    else:
+        post.url = request.scheme + "://" + request.META['HTTP_HOST'] + "/author/" + str(
+            post.author.id) + "/posts/" + post.id + "/"
+        post.api_url = request.scheme + "://" + request.META['HTTP_HOST'] + "/api/author/" + str(
+            post.author.id) + "/posts/" + post.id + "/"
+    if visibility == 2:
+        try:
+            friends = Friend.objects.get(user=author)
+            for friend in friends.friends:
+                print(friend)
+                fri_obj = User.objects.get(id=friend['uuid'])
+                inbox, status = Inbox.objects.get_or_create(author=fri_obj)
+                print(inbox.items)
+                inbox.items.append(PostSerializer(post).data)
+                inbox.save()
+        except:
+            pass
+    post.save()
+
+    return redirect(reverse('Author:index'))
 
 
 class like_remote_post_view(View):
@@ -631,21 +729,42 @@ class Remote_Specific_Post_View(View):
         return render(request, 'remote_public_post.html', context=context)
 
     def post(self, request):
+        json_data = []
+        error_msg_dic = {
+            "data": "",
+            "msg": "",
+            "code": ""
+        }
         author_for_comment = request.user
-        comment_content = request.POST.get('newcomment', '')
+        comment_content = request.POST.get('newcommentremote', '')
+        comment_type = request.POST.get('typeremote', '')
+        comment_id = uuid.uuid4().hex
         data = {
             "type": "comment",
             "author": UserSerializer(author_for_comment).data,
             "comment": comment_content,
-            "contentType": "text/plain"  # TODO: add markdown option
+            "contentType": comment_type,  # TODO: add markdown option
+
         }
 
-        postAPIURL = request.GET.get("post_url")
-        commentAPIURL = urllib.parse.unquote(postAPIURL) + "comments/"
-        print(commentAPIURL, "\n\n\n")
-        request = make_api_post_request(commentAPIURL, json.dumps(data))
-        print('\n',data,'\n')
-        print("comment request:!!!!!", request)
-        return redirect(reverse('Author:remote_specific_post') + "?post_url=%s" % postAPIURL)
+        if data:
+            error_msg_dic["code"] = "200"
+            error_msg_dic["msg"] = "Successfully comment the post"
+            json_data.append(error_msg_dic)
+            #print("message OK")
+            postAPIURL = request.GET.get("post_url")
+            commentAPIURL = urllib.parse.unquote(postAPIURL) + "comments/"
+            #print(commentAPIURL, "\n\n\n")
+            request = make_api_post_request(commentAPIURL, json.dumps(data))
+            #return redirect(reverse('Author:remote_specific_post') + "?post_url=%s" % postAPIURL )
+
+        else:
+            error_msg_dic["code"] = "400"
+            error_msg_dic["msg"] = "Fail to comment the post, please try  again"
+            json_data.append(error_msg_dic)
+            print("fail to comment")
+
+        return redirect(reverse('Author:remote_specific_post') + "?post_url=%s" % postAPIURL )
+
 
 
